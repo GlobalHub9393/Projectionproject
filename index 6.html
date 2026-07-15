@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>StorePulse</title>
+<style>
+:root{
+  --navy:#082f49; --blue:#0ea5e9; --blue2:#2563eb; --sky:#e0f2fe;
+  --green:#15803d; --green2:#22c55e; --green-bg:#dcfce7;
+  --amber:#a16207; --amber-bg:#fef3c7; --red:#b91c1c; --red-bg:#fee2e2;
+  --ink:#172033; --muted:#64748b; --line:#dbe4ee; --panel:#fff; --page:#f3f7fb;
+  --yellow:#fff4bf; --purple:#7c3aed; --teal:#0f766e; --orange:#c2410c;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,Arial,Helvetica,sans-serif;background:var(--page);color:var(--ink)}
+button,input,select{font:inherit}
+.topbar{position:sticky;top:0;z-index:50;background:linear-gradient(90deg,var(--navy),#0c4a6e);color:#fff;padding:13px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 3px 16px #082f4930}
+.brand{font-weight:900;font-size:21px;white-space:nowrap}
+.tabs{display:flex;gap:7px;overflow:auto;flex:1;padding:2px}
+.tab{border:0;background:#ffffff17;color:#fff;padding:9px 12px;border-radius:10px;font-weight:800;white-space:nowrap;cursor:pointer}
+.tab:hover{background:#ffffff2b}.tab.active{background:#fff;color:var(--navy)}
+.actions{display:flex;gap:7px}
+.btn{border:1px solid #ffffff45;background:#ffffff16;color:#fff;padding:9px 11px;border-radius:9px;font-weight:800;cursor:pointer;white-space:nowrap}
+.btn.light{background:#fff;color:var(--navy)} .btn.dark{background:var(--navy);color:#fff;border-color:var(--navy)}
+.btn.secondary{background:#fff;color:var(--navy);border-color:var(--line)}
+.content{max-width:1500px;margin:auto;padding:18px}
+.page{display:none}.page.active{display:block}
+.hero,.rep-banner{border-radius:20px;padding:22px;color:#fff;margin-bottom:16px;box-shadow:0 12px 32px #0b2e4f20}
+.hero{background:linear-gradient(135deg,var(--navy),#075985)}
+.hero h1,.rep-banner h1{margin:0 0 6px;font-size:28px}.hero p,.rep-banner p{margin:0;color:#e6f5ff}
+.rep-banner{display:flex;align-items:center;justify-content:space-between;gap:18px;transition:box-shadow .3s,transform .3s}
+.grid{display:grid;gap:14px}.grid.kpis{grid-template-columns:repeat(5,minmax(0,1fr))}
+.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.grid.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:17px;box-shadow:0 6px 20px #0f29400d;overflow:hidden}
+.card-head{padding:12px 14px;background:var(--sky);font-weight:900;color:var(--navy);border-bottom:1px solid var(--line)}
+.card-body{padding:14px}.kpi{text-align:center;padding:16px}.kpi .label{font-size:12px;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.kpi .value{font-size:28px;font-weight:950;margin-top:5px;color:var(--navy)}.kpi .sub{font-size:12px;color:var(--muted);margin-top:4px}
+.section-title{font-size:18px;font-weight:950;color:var(--navy);margin:21px 0 10px}
+table{width:100%;border-collapse:collapse}th,td{border-bottom:1px solid var(--line);padding:10px 9px;text-align:left;vertical-align:top}
+th{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;background:#f8fafc}.num{text-align:right}tr:last-child td{border-bottom:0}
+.status{display:inline-block;border-radius:999px;padding:5px 9px;font-size:11px;font-weight:950;white-space:nowrap}
+.roll,.activeBonus{background:var(--green-bg);color:var(--green)}.course{background:var(--sky);color:var(--blue2)}
+.momentum{background:var(--amber-bg);color:var(--amber)}.seek,.risk{background:var(--red-bg);color:var(--red)}
+.callout{border-radius:15px;padding:14px;border:1px solid var(--line);line-height:1.48}.callout.win{background:var(--green-bg);border-color:#a7dbb5;color:#245d28}
+.callout.focus{background:var(--red-bg);border-color:#efb9b9;color:#7f1d1d}.callout.note{background:var(--amber-bg);border-color:#ead292;color:#6e4a00}
+.hp-wrap{min-width:270px}.hp-shell{height:31px;background:#d8dee6;border:3px solid #26313b;border-radius:5px;overflow:hidden;position:relative;box-shadow:inset 0 0 0 1px #fff9,0 2px 5px #0003}
+.hp-fill{height:100%;width:100%;transition:width 1.35s cubic-bezier(.16,.84,.26,1),background .4s;transform-origin:left}
+.hp-text{position:absolute;inset:0;display:grid;place-items:center;font-weight:950;color:#101820;text-shadow:0 1px #fff}
+.hp-hit{animation:hitShake .45s ease .75s both}.qualified-glow{animation:qualifiedGlow 1.7s ease both}
+@keyframes hitShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-5px)}40%{transform:translateX(5px)}60%{transform:translateX(-3px)}80%{transform:translateX(2px)}}
+@keyframes qualifiedGlow{0%{box-shadow:0 12px 32px #0b2e4f20}30%{box-shadow:0 0 0 5px #86efac,0 0 38px 14px #22c55eaa;transform:scale(1.01)}100%{box-shadow:0 12px 32px #0b2e4f20;transform:scale(1)}}
+.money-animate{font-variant-numeric:tabular-nums}
+.badges{display:flex;flex-wrap:wrap;gap:8px}.badge{border-radius:999px;padding:7px 10px;background:#eef5fb;border:1px solid #cce0f1;color:var(--navy);font-size:12px;font-weight:850}
+.form-grid{display:grid;grid-template-columns:repeat(4,minmax(150px,1fr));gap:12px}.field{display:flex;flex-direction:column;gap:5px}.field label{font-size:12px;font-weight:850;color:var(--muted)}
+.field input,.field select{width:100%;border:1px solid #c8d3de;border-radius:9px;padding:10px;background:var(--yellow);color:var(--ink)}.field input:focus{outline:3px solid #0ea5e933;border-color:var(--blue)}
+.edit-section{margin-bottom:18px}.edit-section h3{margin:0 0 10px;color:var(--navy)}
+details{background:#fff;border:1px solid var(--line);border-radius:13px;margin:10px 0}summary{cursor:pointer;padding:13px 14px;font-weight:900;color:var(--navy)}
+.detail-body{padding:0 14px 14px}code.formula{display:block;background:#0f172a;color:#e2e8f0;border-radius:9px;padding:10px;white-space:normal;line-height:1.45}
+.mini{font-size:12px;color:var(--muted)}.positive{color:var(--green);font-weight:850}.negative{color:var(--red);font-weight:850}.neutral{color:var(--muted);font-weight:850}
+.screen-only{display:block}.footer-note{text-align:center;color:var(--muted);font-size:12px;margin:22px 0}
+@media(max-width:1100px){.grid.kpis{grid-template-columns:repeat(3,1fr)}.grid.four{grid-template-columns:repeat(2,1fr)}.form-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:720px){.topbar{flex-wrap:wrap;align-items:flex-start}.tabs{order:3;width:100%}.actions{margin-left:auto}.content{padding:10px}.grid.kpis,.grid.two,.grid.three,.grid.four{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}.rep-banner{align-items:flex-start;flex-direction:column}.hp-wrap{width:100%;min-width:0}.hero h1,.rep-banner h1{font-size:23px}th:nth-child(4),td:nth-child(4){display:none}}
+@media print{body{background:#fff}.topbar,.screen-only{display:none!important}.content{max-width:none;padding:0}.page{display:none!important}.page.active{display:block!important}.card,.hero,.rep-banner{box-shadow:none;break-inside:avoid}.hero,.rep-banner,.hp-fill{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+
+.huddle-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.rep-huddle{display:grid;grid-template-columns:150px 1fr 1fr;gap:12px;padding:13px 14px;border-bottom:1px solid var(--line);align-items:start}
+.rep-huddle:last-child{border-bottom:0}
+.rep-huddle .name{font-weight:950;color:var(--navy)}
+.sample{display:inline-block;margin-top:4px;border-radius:999px;padding:3px 7px;font-size:10px;font-weight:900;background:#eef2f7;color:#475569}
+.share-mode .manager-only{display:none!important}
+.share-mode .screen-only-edit{display:none!important}
+.share-mode .content{max-width:1200px}
+.share-banner{display:none}
+.share-mode .share-banner{display:block;background:var(--navy);color:#fff;padding:10px 14px;border-radius:12px;margin-bottom:12px;font-weight:800}
+.metric-gap{font-size:12px;color:var(--muted);margin-top:4px}
+@media(max-width:720px){.huddle-grid{grid-template-columns:1fr}.rep-huddle{grid-template-columns:1fr}}
+
+
+.vault-card{position:relative;min-height:132px;display:grid;place-items:center;background:linear-gradient(145deg,#0f172a,#1e293b);color:#fff;border:1px solid #334155;border-radius:16px;overflow:hidden}
+.vault-card.unlocked{background:linear-gradient(145deg,#f8fff9,#e9f8ed);color:var(--ink);border-color:#9bd6aa}
+.vault-door{display:grid;place-items:center;gap:8px;text-align:center;padding:18px;cursor:pointer;width:100%;height:100%}
+.vault-door .icon{font-size:34px}.vault-door .lock-title{font-weight:950;font-size:15px}.vault-door .lock-sub{font-size:12px;color:#cbd5e1}
+.vault-content{display:none;width:100%;padding:14px}.vault-card.unlocked .vault-door{display:none}.vault-card.unlocked .vault-content{display:block}
+.vault-open{animation:vaultOpen .7s ease both}@keyframes vaultOpen{0%{transform:scale(.94);filter:brightness(.75)}55%{transform:scale(1.03);filter:brightness(1.2)}100%{transform:scale(1);filter:none}}
+.vault-hide{border:0;background:transparent;color:var(--muted);font-weight:800;cursor:pointer;font-size:12px;margin-top:8px}
+.modal-backdrop{position:fixed;inset:0;background:#020617aa;display:none;align-items:center;justify-content:center;z-index:200;padding:18px}.modal-backdrop.show{display:flex}
+.modal{width:min(420px,100%);background:#fff;border-radius:18px;box-shadow:0 25px 80px #0008;overflow:hidden}.modal-head{background:linear-gradient(90deg,var(--navy),#0c4a6e);color:#fff;padding:17px 18px;font-weight:950;font-size:18px}
+.modal-body{padding:18px}.modal-body label{font-size:12px;font-weight:900;color:var(--muted);display:block;margin-bottom:6px}.modal-body input{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:10px;font-size:16px}
+.modal-actions{display:flex;gap:9px;justify-content:flex-end;margin-top:14px}.modal-error{display:none;color:var(--red);font-weight:850;font-size:12px;margin-top:8px}.modal-error.show{display:block}
+
+</style>
+</head>
+<body>
+<div class="topbar screen-only">
+  <div class="brand">StorePulse</div>
+  <div class="tabs" id="tabs"></div>
+  <div class="actions">
+    <button class="btn" onclick="saveSnapshot()">Save Snapshot</button>
+    <button class="btn" onclick="showPage('edit')">Edit</button>
+    <button class="btn" onclick="window.print()">Print</button>
+    <button class="btn" onclick="toggleShareMode()"><span class="share-toggle-label">Share View</span></button>
+    <button class="btn" onclick="shareCurrentPage()">Share</button>
+    <button class="btn light" onclick="exportShareableHTML()">Export HTML</button>
+  </div>
+</div>
+<main class="content" id="content"></main>
+
+<div class="modal-backdrop" id="vaultModal" onclick="if(event.target===this)closeVaultModal()">
+  <div class="modal">
+    <div class="modal-head">🔐 Unlock Compensation Vault</div>
+    <div class="modal-body">
+      <label id="vaultLabel">Password</label>
+      <input id="vaultPassword" type="password" autocomplete="off" onkeydown="if(event.key==='Enter')submitVaultPassword()" />
+      <div class="modal-error" id="vaultError">Incorrect password.</div>
+      <div class="modal-actions">
+        <button class="btn secondary" onclick="closeVaultModal()">Cancel</button>
+        <button class="btn dark" onclick="submitVaultPassword()">Unlock</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const DEFAULT_STATE = {
+ meta:{month:'July 2026',daysInMonth:31,daysElapsed:14,storeName:'Cinnaminson',updatedThrough:'EOD July 14'},
+ comp:{startingBase:17.5,ppvMultiplier:1,aiaPostedMultiplier:1.6,upgradeAdd:.15,dataAdd:.30,aiaSubmitSpiff:10,pre2postSpiff:10,csatQual:.88,aiaSubmitQual:4,htpQual:2,insuranceMin:.50,accMin:50,insuranceBonus:.60,accBonus:60,aiaCloseQual:.075},
+ storeGoals:{traffic:779,ppv:38,aiaPosted:19,upgrades:60,data:12,managerAtRisk:612,manager60s:306},
+ repGoals:{ppv:10,aiaPosted:5,aiaSubmits:4,upgrades:15,data:3,htp:2,pre2post:2,tradeRate:.50,insurance:.60,accPerOpp:60,csat:.88,aiaClose:.065,htpRate:.05,nextUp:.60},
+ store:{traffic:460,ppv:9,ppvClose:.0196,aiaPosted:4,aiaSubmits:6,aiaClose:.054,htp:1,htpEligible:41,htpClose:.0244,upgrades:34,data:8,cru:0,accessoryRevenue:3062,accPerOpp:55.67,insurance:.5455,nextUp:.2564,csat:1,pre2post:0,pa4:6,oppCount:51,tradeRate:.55},
+ reps:[
+  {name:'Noelle',color:'#6a4c93',ppv:4,aiaPosted:1,aiaSubmits:1,aiaClose:.04,htp:1,htpEligible:14,upgrades:10,data:0,cru:0,accessoryRevenue:1020,accPerOpp:67.98,insurance:.8571,nextUp:.2308,csat:1,pre2post:0,pa4:3,oppCount:15,tradeRate:.214,ple:true},
+  {name:'Derick',color:'#0f8b8d',ppv:3,aiaPosted:1,aiaSubmits:1,aiaClose:.036,htp:0,htpEligible:12,upgrades:8,data:1,cru:1,accessoryRevenue:307,accPerOpp:27.86,insurance:.25,nextUp:.3333,csat:1,pre2post:0,pa4:1,oppCount:12,tradeRate:.667,ple:true},
+  {name:'Jamie',color:'#d97706',ppv:0,aiaPosted:1,aiaSubmits:3,aiaClose:.094,htp:0,htpEligible:20,upgrades:13,data:7,cru:0,accessoryRevenue:1380,accPerOpp:106.15,insurance:.7143,nextUp:.3077,csat:1,pre2post:0,pa4:2,oppCount:20,tradeRate:.50,ple:true},
+  {name:'TJ',color:'#1473e6',ppv:2,aiaPosted:1,aiaSubmits:1,aiaClose:.036,htp:0,htpEligible:5,upgrades:3,data:0,cru:0,accessoryRevenue:350,accPerOpp:69.99,insurance:.50,nextUp:0,csat:1,pre2post:0,pa4:0,oppCount:5,tradeRate:1.25,ple:true}
+ ],
+ previous:null
+};
+const EMBEDDED_STATE = null;
+let state=loadState(), currentPage='store';
+
+const VAULT_PASSWORDS={manager:'WM8K3',reps:['Glenn','Hook','McGloan','Schreiner']};
+const unlockedVaults={manager:false,reps:[false,false,false,false],comp:[false,false,false,false]};
+let pendingVault=null;
+function openVaultModal(type,index=null){
+ pendingVault={type,index};
+ document.getElementById('vaultLabel').textContent=type==='manager'?'Manager Compensation Password':`${state.reps[index].name} Compensation Password`;
+ const input=document.getElementById('vaultPassword');input.value='';
+ document.getElementById('vaultError').classList.remove('show');
+ document.getElementById('vaultModal').classList.add('show');setTimeout(()=>input.focus(),60);
+}
+function closeVaultModal(){document.getElementById('vaultModal').classList.remove('show');pendingVault=null}
+function submitVaultPassword(){
+ if(!pendingVault)return;
+ const entered=document.getElementById('vaultPassword').value;
+ const expected=pendingVault.type==='manager'?VAULT_PASSWORDS.manager:VAULT_PASSWORDS.reps[pendingVault.index];
+ if(entered!==expected){document.getElementById('vaultError').classList.add('show');document.getElementById('vaultPassword').select();return}
+ if(pendingVault.type==='manager')unlockedVaults.manager=true;
+ else unlockedVaults[pendingVault.type][pendingVault.index]=true;
+ const id=pendingVault.type==='manager'?'vault-manager':`vault-${pendingVault.type}-${pendingVault.index}`;
+ closeVaultModal();renderAll();setTimeout(()=>{const el=document.getElementById(id);if(el){el.classList.add('vault-open');setTimeout(()=>el.classList.remove('vault-open'),800)}animateActivePage()},50);
+}
+function hideVault(type,index=null){if(type==='manager')unlockedVaults.manager=false;else unlockedVaults[type][index]=false;renderAll()}
+function managerVault(content){
+ if(unlockedVaults.manager)return `<div class="vault-card unlocked" id="vault-manager"><div class="vault-content">${content}<button class="vault-hide" onclick="hideVault('manager')">🔒 Hide compensation</button></div></div>`;
+ return `<div class="vault-card" id="vault-manager"><div class="vault-door" onclick="openVaultModal('manager')"><div class="icon">🔒</div><div class="lock-title">Manager Compensation Vault</div><div class="lock-sub">Tap to unlock</div></div></div>`;
+}
+function repVault(index,content){
+ if(unlockedVaults.reps[index])return `<div class="vault-card unlocked" id="vault-rep-${index}"><div class="vault-content">${content}<button class="vault-hide" onclick="hideVault('reps',${index})">🔒 Hide compensation</button></div></div>`;
+ return `<div class="vault-card" id="vault-rep-${index}"><div class="vault-door" onclick="openVaultModal('reps',${index})"><div class="icon">🔒</div><div class="lock-title">Projected Commission Vault</div><div class="lock-sub">Tap to unlock</div></div></div>`;
+}
+function compVault(index,content){
+ if(unlockedVaults.comp[index])return `<div class="vault-card unlocked" id="vault-comp-${index}"><div class="vault-content">${content}<button class="vault-hide" onclick="hideVault('comp',${index})">🔒 Hide compensation math</button></div></div>`;
+ return `<div class="vault-card" id="vault-comp-${index}"><div class="vault-door" onclick="openVaultModal('comp',${index})"><div class="icon">🧮</div><div class="lock-title">${escapeHtml(state.reps[index].name)} Compensation Math</div><div class="lock-sub">Tap to unlock</div></div></div>`;
+}
+
+
+function loadState(){if(EMBEDDED_STATE)return structuredClone(EMBEDDED_STATE);try{return JSON.parse(localStorage.getItem('storepulse-state-v2'))||structuredClone(DEFAULT_STATE)}catch(e){return structuredClone(DEFAULT_STATE)}}
+function saveState(){localStorage.setItem('storepulse-state-v2',JSON.stringify(state));renderAll()}
+function resetState(){if(confirm('Reset to sample July data?')){state=structuredClone(DEFAULT_STATE);saveState()}}
+const n=v=>Number(v)||0, clamp=(v,min=0,max=1)=>Math.min(max,Math.max(min,v)), ceil=v=>Math.ceil(n(v));
+const projected=v=>n(v)*n(state.meta.daysInMonth)/Math.max(1,n(state.meta.daysElapsed));
+const pct=v=>`${(n(v)*100).toFixed(1)}%`;
+const money=v=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(n(v));
+const money2=v=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',minimumFractionDigits:2,maximumFractionDigits:2}).format(n(v));
+const escapeHtml=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+
+function trafficFactor(){return Math.max(1,projected(state.store.traffic)/Math.max(1,state.storeGoals.traffic))}
+function adjustedStoreGoal(key){const base=n(state.storeGoals[key]);return ['ppv','upgrades'].includes(key)?Math.ceil(base*trafficFactor()):base}
+function adjustedRepGoal(key){const base=n(state.repGoals[key]);return ['ppv','upgrades'].includes(key)?Math.ceil(base*trafficFactor()):base}
+function trafficNote(){const delta=trafficFactor()-1;return delta>0?`Traffic is pacing ${(delta*100).toFixed(1)}% above plan, so PPV and upgrade goals increased by the same percentage.`:'Traffic is not above plan, so PPV and upgrade goals remain at baseline.'}
+
+function coachStatus(projectedValue,goal,isRate=false){
+ const ratio=n(projectedValue)/Math.max(.00001,n(goal));
+ if(ratio>=1.2)return ['Keep It Rolling','roll'];
+ if(ratio>=1)return ['Stay the Course','course'];
+ if(ratio>=.75)return ['Build Momentum','momentum'];
+ return ['Seek Opportunities','seek'];
+}
+function trend(path,current){
+ const prev=state.previous?.[path.split('.')[0]]; if(!prev)return ['No prior snapshot','neutral'];
+ let old=prev; for(const p of path.split('.').slice(1))old=old?.[p];
+ if(old===undefined||old===null)return ['No prior snapshot','neutral'];
+ const d=n(current)-n(old); if(Math.abs(d)<.000001)return ['No change','neutral'];
+ const rateKeys=['insurance','accPerOpp','aiaClose','nextUp','csat','tradeRate'];
+ const key=path.split('.').at(-1), text=rateKeys.includes(key)?`${d>0?'▲':'▼'} ${key==='accPerOpp'?money2(Math.abs(d)):pct(Math.abs(d))}`:`${d>0?'▲':'▼'} ${Math.abs(d)}`;
+ return [text,d>0?'positive':'negative'];
+}
+function saveSnapshot(){state.previous={store:structuredClone(state.store),reps:structuredClone(state.reps),savedAt:new Date().toISOString()};saveState();alert('Snapshot saved. Future changes will show trend arrows against this snapshot.')}
+function repQualification(rep){
+ const reasons=[];
+ const aiaEither=n(rep.aiaSubmits)>=n(state.comp.aiaSubmitQual)||n(rep.aiaClose)>=n(state.comp.aiaCloseQual);
+ if(!aiaEither)reasons.push(`AIA: ${state.comp.aiaSubmitQual} submits OR ${pct(state.comp.aiaCloseQual)} close rate`);
+ if(n(rep.htp)<n(state.comp.htpQual))reasons.push(`HTP ${state.comp.htpQual}`);
+ if(n(rep.insurance)<n(state.comp.insuranceMin))reasons.push(`Insurance ${pct(state.comp.insuranceMin)}`);
+ if(n(rep.accPerOpp)<n(state.comp.accMin))reasons.push(`ACC/Opp ${money2(state.comp.accMin)}`);
+ if(Math.max(n(rep.csat),n(state.store.csat))<n(state.comp.csatQual))reasons.push(`CSAT ${pct(state.comp.csatQual)}`);
+ if(!rep.ple)reasons.push('PLE complete');
+ return {qualified:reasons.length===0,reasons,aiaEither};
+}
+function repComp(rep,forceMax=false){
+ const pUpg=projected(rep.upgrades),pData=projected(rep.data),pPPV=projected(rep.ppv),pAIA=projected(rep.aiaPosted);
+ const adjusted=n(state.comp.startingBase)+pUpg*n(state.comp.upgradeAdd)+pData*n(state.comp.dataAdd);
+ const accMult=forceMax||n(rep.accPerOpp)>=n(state.comp.accBonus)?1.25:1;
+ const insMult=forceMax||n(rep.insurance)>=n(state.comp.insuranceBonus)?1.25:1;
+ const finalBase=adjusted*accMult*insMult;
+ const ppvPay=pPPV*finalBase*n(state.comp.ppvMultiplier);
+ const aiaPay=pAIA*finalBase*n(state.comp.aiaPostedMultiplier);
+ const spiffs=projected(rep.aiaSubmits)*n(state.comp.aiaSubmitSpiff)+projected(rep.pre2post)*n(state.comp.pre2postSpiff);
+ return {pUpg,pData,pPPV,pAIA,adjusted,accMult,insMult,finalBase,ppvPay,aiaPay,spiffs,total:ppvPay+aiaPay+spiffs}
+}
+function moneyLeft(rep){return Math.max(0,repComp(rep,true).total-repComp(rep,false).total)}
+function repHealth(rep){
+ const g=state.repGoals, ppvGoal=adjustedRepGoal('ppv'),upgGoal=adjustedRepGoal('upgrades');
+ return Math.round(100*(.25*clamp(projected(rep.ppv)/ppvGoal)+.20*clamp(projected(rep.aiaPosted)/g.aiaPosted)+.15*clamp(Math.max(projected(rep.aiaSubmits)/g.aiaSubmits,rep.aiaClose/state.comp.aiaCloseQual))+.12*clamp(rep.insurance/g.insurance)+.12*clamp(rep.accPerOpp/g.accPerOpp)+.06*clamp(projected(rep.htp)/g.htp)+.04*clamp(projected(rep.pre2post)/g.pre2post)+.03*clamp(projected(rep.upgrades)/upgGoal)+.03*clamp(projected(rep.data)/g.data)))
+}
+function storeHealth(){return Math.round(100*(.40*clamp(projected(state.store.ppv)/adjustedStoreGoal('ppv'))+.35*clamp(projected(state.store.aiaPosted)/adjustedStoreGoal('aiaPosted'))+.15*clamp(projected(state.store.upgrades)/adjustedStoreGoal('upgrades'))+.10*clamp(projected(state.store.data)/adjustedStoreGoal('data'))))}
+function managerEstimate(){
+ const s=state.store,g=state.storeGoals;
+ const base=(.40*clamp(s.ppv/adjustedStoreGoal('ppv'))+.35*clamp(s.aiaPosted/g.aiaPosted)+.15*clamp(s.upgrades/adjustedStoreGoal('upgrades'))+.10*clamp(s.data/g.data))*g.managerAtRisk;
+ const sixty=(clamp(s.insurance/state.comp.insuranceBonus)+clamp(s.accPerOpp/state.comp.accBonus))/2*g.manager60s;
+ return (base+sixty)*(s.insurance>=state.comp.insuranceBonus?1.25:1)*(s.accPerOpp>=state.comp.accBonus?1.25:1)
+}
+function hpColor(v){return v>=70?'linear-gradient(90deg,#16a34a,#4ade80)':v>=40?'linear-gradient(90deg,#d97706,#facc15)':'linear-gradient(90deg,#b91c1c,#ef4444)'}
+
+function sampleConfidence(opps){
+ const o=n(opps); if(o>=15)return ['Reliable sample','roll']; if(o>=8)return ['Developing sample','momentum']; return ['Small sample','seek'];
+}
+function rateRecovery(currentCount,denominator,targetRate){
+ const needed=Math.max(0,Math.ceil(n(denominator)*n(targetRate)-n(currentCount)));
+ return needed;
+}
+function storeShoutout(rep){
+ const c=coaching(rep); return c.wins[0]||'Create one standout metric today.';
+}
+function storeOpportunity(rep){
+ const c=coaching(rep); return c.focus[0]||'Stay the course and create separation.';
+}
+let shareMode=false;
+function toggleShareMode(){
+ shareMode=!shareMode;
+ document.body.classList.toggle('share-mode',shareMode);
+ document.querySelectorAll('.share-toggle-label').forEach(x=>x.textContent=shareMode?'Exit Share View':'Share View');
+}
+async function shareCurrentPage(){
+ const source=document.documentElement.outerHTML;
+ const embedded=`const EMBEDDED_STATE = ${JSON.stringify(state)};`;
+ const modified='<!DOCTYPE html>\n'+source.replace('const EMBEDDED_STATE = null;',embedded);
+ const fileName=`StorePulse_${state.meta.month.replaceAll(' ','_')}_Share.html`;
+ try{
+   const file=new File([modified],fileName,{type:'text/html'});
+   if(navigator.canShare && navigator.canShare({files:[file]})){
+     await navigator.share({title:`StorePulse ${state.meta.month}`,text:`Updated through ${state.meta.updatedThrough}`,files:[file]});
+     return;
+   }
+   if(navigator.share){
+     await navigator.share({title:`StorePulse ${state.meta.month}`,text:`Updated through ${state.meta.updatedThrough}`,url:location.href});
+     return;
+   }
+ }catch(e){
+   if(e?.name==='AbortError')return;
+ }
+ exportShareableHTML();
+ alert('Your browser could not open the share sheet, so a shareable HTML file was downloaded instead.');
+}
+
+function hpBar(value,id){return `<div class="hp-shell hp-hit" data-hp="${value}" id="hp-${id}"><div class="hp-fill" style="background:${hpColor(value)}"></div><div class="hp-text">${value} HP</div></div>`}
+function animateActivePage(){
+ const page=document.querySelector('.page.active'); if(!page)return;
+ page.querySelectorAll('.hp-shell').forEach(shell=>{const v=clamp(n(shell.dataset.hp)/100)*100,fill=shell.querySelector('.hp-fill');fill.style.transition='none';fill.style.width='100%';shell.classList.remove('hp-hit');void shell.offsetWidth;requestAnimationFrame(()=>{fill.style.transition='width 1.35s cubic-bezier(.16,.84,.26,1)';fill.style.width=v+'%';shell.classList.add('hp-hit')})});
+ page.querySelectorAll('[data-money]').forEach(el=>{const target=n(el.dataset.money),start=performance.now(),dur=1050;const step=t=>{const p=Math.min(1,(t-start)/dur),e=1-Math.pow(1-p,3);el.textContent=money(target*e);if(p<1)requestAnimationFrame(step)};requestAnimationFrame(step)});
+ const glow=page.querySelector('.rep-banner[data-qualified="true"]');if(glow){glow.classList.remove('qualified-glow');void glow.offsetWidth;glow.classList.add('qualified-glow')}
+}
+function badges(rep){
+ const list=[];if(projected(rep.ppv)>=adjustedRepGoal('ppv')*1.2)list.push('🏆 PPV Machine');
+ if(rep.insurance>=state.comp.insuranceBonus)list.push('🛡️ Insurance Multiplier');
+ if(rep.accPerOpp>=80)list.push('💰 Basket Builder');
+ if(rep.csat>=1)list.push('⭐ Customer Favorite');
+ if(rep.aiaClose>=.09)list.push('🎯 AIA Expert');
+ if(rep.nextUp>=state.repGoals.nextUp)list.push('⚡ Next Up Strong');
+ return list;
+}
+function coaching(rep){
+ const wins=[],focus=[],g=state.repGoals, ppvGoal=adjustedRepGoal('ppv'),upgGoal=adjustedRepGoal('upgrades');
+ const tests=[['PPV',projected(rep.ppv),ppvGoal],['AIA Posted',projected(rep.aiaPosted),g.aiaPosted],['AIA Submits',Math.max(projected(rep.aiaSubmits),rep.aiaClose/state.comp.aiaCloseQual*g.aiaSubmits),g.aiaSubmits]];
+ tests.forEach(([label,val,goal])=>{const [s]=coachStatus(val,goal);if(s==='Keep It Rolling')wins.push(`${label}: keep it rolling — projected ${val.toFixed(1)} vs goal ${goal}.`);else if(s==='Stay the Course')wins.push(`${label}: stay the course — projected ${val.toFixed(1)}.`);else if(label==='PPV')focus.push(`Seek quality new-line opportunities; one PPV each shift changes the pace quickly.`);else if(label==='AIA Posted')focus.push(`Convert AIA activity into posted sales and tighten follow-through.`);else focus.push(`Reach ${state.comp.aiaSubmitQual} submits or ${pct(state.comp.aiaCloseQual)} close rate.`)});
+ if(rep.insurance>=state.comp.insuranceBonus)wins.push('Insurance multiplier is active.');else if(rep.insurance<state.comp.insuranceMin)focus.push('Lead with protection on every eligible sale.');else focus.push('Insurance qualifies; close the gap to the 60% multiplier.');
+ if(rep.accPerOpp>=state.comp.accBonus)wins.push('Accessory multiplier is active.');else if(rep.accPerOpp<state.comp.accMin)focus.push('Build complete solutions to get accessories above $50 per opportunity.');else focus.push('Accessories qualify; build each basket toward $60 per opportunity.');
+ if(rep.nextUp>=g.nextUp)wins.push('Next Up is strong.');else focus.push('Make Next Up part of every eligible upgrade conversation.');
+ if(projected(rep.upgrades)<upgGoal*.75)focus.push('Use account reviews to uncover upgrade opportunities.');if(rep.csat>=1)wins.push('CSAT is perfect.');
+ return {wins,focus}
+}
+function metricRow(label,current,goal,{rate=false,project=true,path=''}={}){
+ const proj=rate?n(current):(project?projected(current):n(current));const [txt,cls]=coachStatus(proj,goal,rate);const [tr,trCls]=path?trend(path,current):['',''];
+ const display=v=>rate?(label.includes('ACC')?money2(v):pct(v)):Number(v).toFixed(project?1:0);
+ return `<tr><td><strong>${label}</strong>${tr?`<div class="mini ${trCls}">${tr}</div>`:''}</td><td class="num">${rate?(label.includes('ACC')?money2(current):pct(current)):current}</td><td class="num">${rate?(label.includes('ACC')?money2(goal):pct(goal)):goal}</td><td class="num">${display(proj)}</td><td><span class="status ${cls}">${txt}</span></td></tr>`
+}
+function renderTabs(){const items=[['store','Store'],...state.reps.map((r,i)=>[`rep${i}`,r.name]),['comp','Comp Math'],['edit','Edit Data']];document.getElementById('tabs').innerHTML=items.map(([id,label])=>`<button class="tab ${currentPage===id?'active':''}" onclick="showPage('${id}')">${escapeHtml(label)}</button>`).join('')}
+function showPage(id){currentPage=id;document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById('page-'+id)?.classList.add('active');renderTabs();window.scrollTo({top:0,behavior:'smooth'});setTimeout(animateActivePage,50)}
+function morningHuddle(){
+ const sorted=state.reps.map((r,i)=>({r,i,h:repHealth(r),c:coaching(r)})).sort((a,b)=>a.h-b.h);
+ const best=[...sorted].sort((a,b)=>b.h-a.h)[0],priority=sorted[0];
+ const storeWins=[],storeFocus=[];
+ if(state.store.insurance>=state.comp.insuranceBonus)storeWins.push('Insurance multiplier is active.');if(state.store.accPerOpp>=state.comp.accBonus)storeWins.push('Accessory multiplier is active.');if(state.store.csat>=state.comp.csatQual)storeWins.push('Store CSAT qualifies the team.');
+ if(projected(state.store.ppv)<adjustedStoreGoal('ppv'))storeFocus.push('PPV is the first store priority.');if(projected(state.store.aiaPosted)<state.storeGoals.aiaPosted)storeFocus.push('AIA Posted needs immediate follow-through.');
+ return {best,priority,storeWins,storeFocus}
+}
+function renderStore(){
+ const s=state.store,h=storeHealth(),mh=morningHuddle(),queue=state.reps.map((r,i)=>({r,i,h:repHealth(r),c:coaching(r)})).sort((a,b)=>a.h-b.h);
+ const rows=[
+  metricRow('PPV',s.ppv,adjustedStoreGoal('ppv'),{path:'store.ppv'}),
+  metricRow('AIA Posted',s.aiaPosted,state.storeGoals.aiaPosted,{path:'store.aiaPosted'}),
+  metricRow('Upgrades',s.upgrades,adjustedStoreGoal('upgrades'),{path:'store.upgrades'}),
+  metricRow('Data',s.data,state.storeGoals.data,{path:'store.data'})
+ ].join('');
+ return `<section class="page" id="page-store"><div class="share-banner">Staff Share View • Updated through ${escapeHtml(state.meta.updatedThrough)}</div><div class="hero"><h1>${escapeHtml(state.meta.storeName)} — Manager Command Center</h1><p>${escapeHtml(state.meta.month)} • Updated through ${escapeHtml(state.meta.updatedThrough)} • ${trafficNote()}</p><div class="screen-only" style="margin-top:12px"><button class="btn" onclick="toggleShareMode()"><span class="share-toggle-label">Share View</span></button></div></div>
+ <div class="grid kpis">
+  <div class="card kpi"><div class="label">Store Health</div><div class="value">${h} HP</div><div style="margin-top:10px">${hpBar(h,'store')}</div></div>
+  ${managerVault(`<div class="kpi"><div class="label">Est. Manager Pay</div><div class="value money-animate" data-money="${managerEstimate()}">$0</div><div class="sub">Planning estimate</div></div>`)}
+  <div class="card kpi"><div class="label">Traffic Pace</div><div class="value">${pct(trafficFactor())}</div><div class="sub">Baseline 100%</div></div>
+  <div class="card kpi"><div class="label">Adjusted PPV Goal</div><div class="value">${adjustedStoreGoal('ppv')}</div><div class="sub">Base ${state.storeGoals.ppv}</div></div>
+  <div class="card kpi"><div class="label">Adjusted Upgrade Goal</div><div class="value">${adjustedStoreGoal('upgrades')}</div><div class="sub">Base ${state.storeGoals.upgrades}</div></div>
+ </div>
+ <div class="section-title">Expanded Morning Huddle</div>
+ <div class="huddle-grid">
+  <div class="callout win"><strong>Store Win</strong><p>${state.store.tradeRate>=.50?`Store trade rate is ${pct(state.store.tradeRate)} — above the 50% goal.`:(mh.storeWins[0]||'Create a store win today.')}</p></div>
+  <div class="callout focus"><strong>Revenue Priority</strong><p>PPV close rate is ${pct(state.store.ppvClose)} against a ${pct(.035)} target. ${rateRecovery(state.store.ppv,state.store.traffic,.035)} additional PPV at current traffic would reach the target.</p></div>
+  <div class="callout focus"><strong>Service Priority</strong><p>HTP close rate is ${pct(state.store.htpClose)} against a ${pct(.05)} target. ${rateRecovery(state.store.htp,state.store.htpEligible,.05)} additional HTP would reach the target at the current eligible-opportunity count.</p></div>
+  <div class="callout note"><strong>Today’s Team Challenge</strong><p>${projected(state.store.ppv)<adjustedStoreGoal('ppv')?'One quality PPV opportunity per rep shift.':''} ${state.store.htpClose<.05?'Ask every eligible household about HTP.':''}</p></div>
+ </div>
+ <div class="section-title">Everyone’s Shoutout & Opportunity</div>
+ <div class="card"><div class="card-body" style="padding:0">${state.reps.map((r,i)=>`<div class="rep-huddle"><div class="name">${escapeHtml(r.name)}<div class="mini">${repHealth(r)} HP</div></div><div><strong>Shoutout</strong><div>${storeShoutout(r)}</div></div><div><strong>Opportunity</strong><div>${storeOpportunity(r)}</div></div></div>`).join('')}</div></div>
+ <div class="section-title">Store Pace</div><div class="card"><div class="card-body"><table><thead><tr><th>Metric</th><th class="num">Current</th><th class="num">Goal</th><th class="num">Projected</th><th>Coaching</th></tr></thead><tbody>${rows}</tbody></table></div></div>
+ 
+ <div class="section-title">Close Rates & Sample Context</div>
+ <div class="grid three">
+   <div class="card kpi"><div class="label">PPV Close Rate</div><div class="value">${pct(state.store.ppvClose)}</div><div class="sub">Goal ${pct(.035)} • ${state.store.ppv} PPV / ${state.store.traffic} traffic</div><div class="metric-gap">${rateRecovery(state.store.ppv,state.store.traffic,.035)} more PPV to reach target at current traffic</div></div>
+   <div class="card kpi"><div class="label">HTP Close Rate</div><div class="value">${pct(state.store.htpClose)}</div><div class="sub">Goal ${pct(.05)} • ${state.store.htp} HTP / ${state.store.htpEligible} eligible</div><div class="metric-gap">${rateRecovery(state.store.htp,state.store.htpEligible,.05)} more HTP to reach target</div></div>
+   <div class="card kpi"><div class="label">Store Trade Rate</div><div class="value">${pct(state.store.tradeRate)}</div><div class="sub">Goal 50%</div></div>
+ </div>
+
+ <div class="section-title">Team Coaching Queue</div><div class="grid four">${queue.map(({r,i,h,c},rank)=>`<div class="card"><div class="card-head">${rank+1}. ${escapeHtml(r.name)}</div><div class="card-body">${hpBar(h,'queue'+i)}<p><strong>Shoutout:</strong> ${c.wins[0]||'Create a standout metric today.'}</p><p><strong>First focus:</strong> ${c.focus[0]||'Stay the course.'}</p></div></div>`).join('')}</div>
+ <div class="footer-note">Manager pay is an estimate. PPV and AIA Posted carry the most weight.</div></section>`
+}
+function renderRep(rep,i){
+ const comp=repComp(rep),q=repQualification(rep),h=repHealth(rep),c=coaching(rep),b=badges(rep),left=moneyLeft(rep),ppvGoal=adjustedRepGoal('ppv'),upgGoal=adjustedRepGoal('upgrades');
+ return `<section class="page" id="page-rep${i}">
+ <div class="rep-banner" data-qualified="${q.qualified}" style="background:${rep.color}"><div><h1>${escapeHtml(rep.name)} — Rep Performance</h1><p>${escapeHtml(state.meta.month)} • goals adjust upward when store traffic is pacing above plan.</p></div><div class="hp-wrap">${hpBar(h,'rep'+i)}</div></div>
+ <div class="grid kpis">
+  ${repVault(i,`<div class="grid two"><div class="kpi"><div class="label">Projected Pay</div><div class="value money-animate" data-money="${comp.total}">$0</div><div class="sub">Gross estimate if qualified</div></div><div class="kpi"><div class="label">Money Left on Table</div><div class="value money-animate" data-money="${left}">$0</div><div class="sub">${left>0?'Potential multiplier upside':'Both multipliers reflected'}</div></div></div>`)}
+  <div class="card kpi"><div class="label">Qualification</div><div class="value" style="font-size:18px;color:${q.qualified?'var(--green)':'var(--red)'}">${q.qualified?'Qualified':'At Risk'}</div><div class="sub">${q.qualified?'All current requirements met':'Needs '+q.reasons.join(' • ')}</div></div>
+  <div class="card kpi"><div class="label">PPV</div><div class="value">${rep.ppv}</div><div class="sub">Proj ${projected(rep.ppv).toFixed(1)} / Goal ${ppvGoal}</div></div>
+  <div class="card kpi"><div class="label">AIA Posted</div><div class="value">${rep.aiaPosted}</div><div class="sub">Proj ${projected(rep.aiaPosted).toFixed(1)} / Goal ${state.repGoals.aiaPosted}</div></div>
+ </div>
+ <div class="section-title">Achievements</div><div class="badges">${(b.length?b:['🎮 Build Your First Badge']).map(x=>`<span class="badge">${x}</span>`).join('')}</div>
+ <div class="section-title">What Gets You Paid</div><div class="card"><div class="card-body"><table><thead><tr><th>Metric</th><th class="num">Current</th><th class="num">Goal</th><th class="num">Projected</th><th>Coaching</th></tr></thead><tbody>
+ ${metricRow('PPV',rep.ppv,ppvGoal,{path:`reps.${i}.ppv`})}
+ ${metricRow('AIA Posted',rep.aiaPosted,state.repGoals.aiaPosted,{path:`reps.${i}.aiaPosted`})}
+ ${metricRow('AIA Submits',rep.aiaSubmits,state.repGoals.aiaSubmits,{path:`reps.${i}.aiaSubmits`})}
+ ${metricRow('Upgrades',rep.upgrades,upgGoal,{path:`reps.${i}.upgrades`})}
+ ${metricRow('Data',rep.data,state.repGoals.data,{path:`reps.${i}.data`})}
+ </tbody></table></div></div>
+ <div class="section-title">What Qualifies You</div><div class="card"><div class="card-body"><table><thead><tr><th>Requirement</th><th class="num">Current</th><th class="num">Target</th><th>Result</th></tr></thead><tbody>
+ <tr><td><strong>AIA Either/Or</strong></td><td class="num">${rep.aiaSubmits} submits / ${pct(rep.aiaClose)}</td><td class="num">${state.comp.aiaSubmitQual} submits OR ${pct(state.comp.aiaCloseQual)}</td><td><span class="status ${q.aiaEither?'roll':'seek'}">${q.aiaEither?'Requirement Met':'Seek Opportunities'}</span></td></tr>
+ ${metricRow('HTP',rep.htp,state.comp.htpQual,{project:false,path:`reps.${i}.htp`})}
+ ${metricRow('Insurance',rep.insurance,state.comp.insuranceMin,{rate:true,path:`reps.${i}.insurance`})}
+ ${metricRow('ACC / Opp',rep.accPerOpp,state.comp.accMin,{rate:true,path:`reps.${i}.accPerOpp`})}
+ ${metricRow('CSAT',Math.max(rep.csat,state.store.csat),state.comp.csatQual,{rate:true,path:`reps.${i}.csat`})}
+ </tbody></table></div></div>
+ <div class="section-title">Other Worth-Noting Metrics</div><div class="card"><div class="card-body"><table><tbody>
+ ${metricRow('AIA Close Rate',rep.aiaClose,state.repGoals.aiaClose,{rate:true,path:`reps.${i}.aiaClose`})}
+ ${metricRow('Next Up',rep.nextUp,state.repGoals.nextUp,{rate:true,path:`reps.${i}.nextUp`})}
+ <tr><td><strong>Trade-in Rate</strong><div class="sample ${sampleConfidence(rep.oppCount)[1]}">${sampleConfidence(rep.oppCount)[0]} • ${rep.oppCount} opps</div></td><td class="num">${pct(rep.tradeRate)}</td><td class="num">${pct(state.repGoals.tradeRate)}</td><td class="num">${pct(rep.tradeRate)}</td><td><span class="status ${coachStatus(rep.tradeRate,state.repGoals.tradeRate,true)[1]}">${coachStatus(rep.tradeRate,state.repGoals.tradeRate,true)[0]}</span></td></tr>
+ ${metricRow('Pre→Post',rep.pre2post,state.repGoals.pre2post,{path:`reps.${i}.pre2post`})}
+ ${metricRow('HTP Attach Rate',rep.htp/Math.max(1,rep.htpEligible),state.repGoals.htpRate,{rate:true})}
+ </tbody></table></div></div>
+ <div class="grid two" style="margin-top:14px"><div class="callout win"><strong>Shoutouts</strong><ul>${(c.wins.length?c.wins:['Create a standout metric today.']).map(x=>`<li>${x}</li>`).join('')}</ul></div><div class="callout focus"><strong>Today to Win</strong><ul>${(c.focus.length?c.focus:['Stay the course and create separation.']).slice(0,4).map(x=>`<li>${x}</li>`).join('')}</ul></div></div>
+ </section>`
+}
+function renderComp(){return `<section class="page" id="page-comp"><div class="hero"><h1>Clear Compensation Math</h1><p>Protected by each person’s vault password. Planning estimates, not official payroll.</p></div>${state.reps.map((r,i)=>{const c=repComp(r),q=repQualification(r),max=repComp(r,true);return `<details ${i===0?'open':''}><summary>${escapeHtml(r.name)} — Compensation Math</summary><div class="detail-body">${compVault(i,`<div class="grid four">
+ <div class="card kpi"><div class="label">Adjusted Base</div><div class="value">${money2(c.adjusted)}</div></div>
+ <div class="card kpi"><div class="label">Final Base</div><div class="value">${money2(c.finalBase)}</div></div>
+ <div class="card kpi"><div class="label">PPV Pay</div><div class="value">${money(c.ppvPay)}</div></div>
+ <div class="card kpi"><div class="label">AIA Posted Pay</div><div class="value">${money(c.aiaPay)}</div></div></div>
+ <p><code class="formula">Projected Units = Current MTD × ${state.meta.daysInMonth} ÷ ${state.meta.daysElapsed}</code></p>
+ <p><code class="formula">Adjusted Base = ${money2(state.comp.startingBase)} + (${money2(state.comp.upgradeAdd)} × projected upgrades) + (${money2(state.comp.dataAdd)} × projected data)</code></p>
+ <p><code class="formula">Final Base = Adjusted Base × ${c.accMult.toFixed(2)} accessory multiplier × ${c.insMult.toFixed(2)} insurance multiplier</code></p>
+ <p><code class="formula">PPV Pay = ${c.pPPV.toFixed(1)} × ${money2(c.finalBase)} = ${money2(c.ppvPay)}</code></p>
+ <p><code class="formula">AIA Posted Pay = ${c.pAIA.toFixed(1)} × ${money2(c.finalBase)} × ${state.comp.aiaPostedMultiplier} = ${money2(c.aiaPay)}</code></p>
+ <p><code class="formula">Instant Spiffs = projected AIA submits × ${money(state.comp.aiaSubmitSpiff)} + projected Pre→Post × ${money(state.comp.pre2postSpiff)} = ${money2(c.spiffs)}</code></p>
+ <p><strong>Projected Total:</strong> ${money2(c.total)} &nbsp;•&nbsp; <strong>Potential with both multipliers:</strong> ${money2(max.total)} &nbsp;•&nbsp; <strong>Upside:</strong> ${money2(max.total-c.total)}</p>`)}
+ </div></details>`}).join('')}<div class="callout note"><strong>AIA qualification:</strong> ${state.comp.aiaSubmitQual} submits OR ${pct(state.comp.aiaCloseQual)} close rate. The pay estimate remains visible after unlocking even when qualification is at risk.</div></section>`}
+function inputField(path,label,value,type='number',step='1',help=''){const id=path.replaceAll('.','__');return `<div class="field"><label for="${id}">${label}</label><input id="${id}" type="${type}" value="${value}" step="${step}" onchange="setPath('${path}',this.type==='checkbox'?this.checked:(this.type==='number'?Number(this.value):this.value))" ${type==='checkbox'&&value?'checked':''}/>${help?`<small>${help}</small>`:''}</div>`}
+function labelize(k){return k.replace(/([A-Z])/g,' $1').replace(/^./,x=>x.toUpperCase()).replaceAll('Aia','AIA').replaceAll('Ppv','PPV').replaceAll('Htp','HTP').replaceAll('Cusat','CSAT')}
+function isRateKey(k){return ['insurance','csat','aiaClose','tradeRate','nextUp','htpRate','csatQual','insuranceMin','insuranceBonus','aiaCloseQual'].some(x=>k.toLowerCase().includes(x.toLowerCase()))}
+function renderEdit(){return `<section class="page" id="page-edit"><div class="hero"><h1>Edit Data & Goals</h1><p>Changes save locally. Export HTML to create a shareable copy with current data built in.</p></div>
+ <div class="callout note"><strong>Dynamic goals:</strong> store and rep PPV/upgrade goals rise automatically when projected traffic is above the store traffic goal. AIA qualification is ${state.comp.aiaSubmitQual} submits OR ${pct(state.comp.aiaCloseQual)} close rate.</div>
+ <div class="edit-section"><h3>Month & Store</h3><div class="form-grid">${inputField('meta.month','Month',state.meta.month,'text')}${inputField('meta.daysInMonth','Days in Month',state.meta.daysInMonth)}${inputField('meta.daysElapsed','Days Elapsed',state.meta.daysElapsed)}${inputField('meta.storeName','Store Name',state.meta.storeName,'text')}${inputField('meta.updatedThrough','Updated Through',state.meta.updatedThrough,'text')}</div></div>
+ <div class="edit-section"><h3>Store Goals & Manager Estimate</h3><div class="form-grid">${Object.entries(state.storeGoals).map(([k,v])=>inputField(`storeGoals.${k}`,labelize(k),v)).join('')}</div></div>
+ <div class="edit-section"><h3>Individual Goals</h3><div class="form-grid">${Object.entries(state.repGoals).map(([k,v])=>inputField(`repGoals.${k}`,labelize(k),v,'number',isRateKey(k)?'.001':'1')).join('')}</div></div>
+ <div class="edit-section"><h3>Comp & Qualification Rules</h3><div class="form-grid">${Object.entries(state.comp).map(([k,v])=>inputField(`comp.${k}`,labelize(k),v,'number',isRateKey(k)?'.001':'.01')).join('')}</div></div>
+ <div class="edit-section"><h3>Store Current MTD</h3><div class="form-grid">${Object.entries(state.store).map(([k,v])=>inputField(`store.${k}`,labelize(k),v,'number',isRateKey(k)?'.0001':'1')).join('')}</div></div>
+ ${state.reps.map((r,i)=>`<div class="edit-section card"><div class="card-head">${escapeHtml(r.name)}</div><div class="card-body"><div class="form-grid">${Object.entries(r).filter(([k])=>k!=='color').map(([k,v])=>inputField(`reps.${i}.${k}`,labelize(k),v,typeof v==='boolean'?'checkbox':typeof v==='string'?'text':'number',isRateKey(k)?'.0001':'1')).join('')}</div></div></div>`).join('')}
+ <div class="grid two"><button class="btn dark" onclick="downloadJSON()">Download JSON Backup</button><button class="btn secondary" onclick="resetState()">Reset Sample Data</button></div></section>`}
+function setPath(path,value){const parts=path.split('.');let o=state;for(let i=0;i<parts.length-1;i++)o=o[parts[i]];o[parts.at(-1)]=value;saveState()}
+function renderAll(){document.getElementById('content').innerHTML=renderStore()+state.reps.map(renderRep).join('')+renderComp()+renderEdit();renderTabs();showPage(currentPage)}
+function downloadJSON(){downloadBlob(new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),`StorePulse_${state.meta.month.replaceAll(' ','_')}.json`)}
+function downloadBlob(blob,name){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1200)}
+function exportShareableHTML(){const source=document.documentElement.outerHTML,embedded=`const EMBEDDED_STATE = ${JSON.stringify(state)};`,modified=source.replace('const EMBEDDED_STATE = null;',embedded);downloadBlob(new Blob(['<!DOCTYPE html>\n'+modified],{type:'text/html'}),`StorePulse_${state.meta.month.replaceAll(' ','_')}_Share.html`)}
+renderAll();
+</script>
+</body>
+</html>
