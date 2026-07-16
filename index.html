@@ -111,6 +111,15 @@ details{background:#fff;border:1px solid var(--line);border-radius:13px;margin:1
 .money-move .coin{font-size:19px;line-height:1}
 .rep-huddle .paid-line{margin-top:7px;padding-top:7px;border-top:1px dashed #cbd5e1;color:#166534;font-weight:800}
 
+
+.money-toggle{margin-top:12px;border:0;background:linear-gradient(90deg,#14532d,#16a34a);color:#fff;padding:10px 14px;border-radius:999px;font-weight:900;cursor:pointer;box-shadow:0 6px 18px #16653433}
+.money-toggle:hover{filter:brightness(1.05)}
+.money-toggle-wrap{display:flex;justify-content:flex-start}
+.money-drop-layer{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:180}
+.money-drop{position:absolute;top:-60px;font-size:28px;animation:moneyFall linear forwards;filter:drop-shadow(0 4px 6px rgba(0,0,0,.25))}
+@keyframes moneyFall{0%{transform:translateY(-80px) rotate(0deg);opacity:0}10%{opacity:1}100%{transform:translateY(120vh) rotate(360deg);opacity:.95}}
+.money-hidden{display:none}
+
 </style>
 </head>
 <body>
@@ -143,6 +152,7 @@ details{background:#fff;border:1px solid var(--line);border-radius:13px;margin:1
   </div>
 </div>
 
+<div class="money-drop-layer" id="moneyRain"></div>
 <script>
 const DEFAULT_STATE = {
  meta:{month:'July 2026',daysInMonth:31,daysElapsed:15,storeName:'Cinnaminson',updatedThrough:'July 15 test update'},
@@ -348,21 +358,32 @@ function paidMovesForRep(rep){
  const aiaPostedNeed=unitsNeededForPace(rep.aiaPosted,aiaGoal);
  const aiaSubmitNeed=Math.max(0,n(state.comp.aiaSubmitQual)-n(rep.aiaSubmits));
  const htpNeed=Math.max(0,n(state.comp.htpQual)-n(rep.htp));
+ const notAiaQualified = !(n(rep.aiaSubmits)>=n(state.comp.aiaSubmitQual) || n(rep.aiaClose)>=n(state.comp.aiaCloseQual));
 
- if(aiaPostedNeed===1){
-   moves.push('One more AIA Posted puts you slightly ahead of pace. Ask everyone and team-sell live opportunities.');
- }else if(aiaPostedNeed>1){
-   moves.push(`${aiaPostedNeed} more AIA Posted gets you back to pace. Ask every customer and team-sell live opportunities.`);
+ if(notAiaQualified){
+   if(rep.aiaClose>=state.comp.aiaCloseQual){
+     moves.push(`AIA close rate already qualifies at ${pct(rep.aiaClose)}. Keep asking every customer and team-sell so posted AIA can turn into money.`);
+   }else if(aiaSubmitNeed===1){
+     moves.push('Only 1 more AIA submit gets you to qualification. Ask everyone and do not forget to team-sell live opportunities.');
+   }else if(aiaSubmitNeed>1){
+     moves.push(`Need ${aiaSubmitNeed} more AIA submits or a ${pct(state.comp.aiaCloseQual)} close rate. Ask everyone and team-sell live opportunities.`);
+   }else{
+     moves.push(`AIA needs attention until you qualify. Work toward ${state.comp.aiaSubmitQual} submits or a ${pct(state.comp.aiaCloseQual)} close rate.`);
+   }
+ } else {
+   if(aiaPostedNeed===1){
+     moves.push('Only 1 more AIA Posted puts you slightly ahead of pace. Ask everyone and team-sell live opportunities.');
+   }else if(aiaPostedNeed>1){
+     moves.push(`${aiaPostedNeed} more AIA Posted gets you back to pace. Ask every customer and team-sell live opportunities.`);
+   }else{
+     moves.push('AIA is qualified. Keep converting those conversations into posted AIA because that is where the money shows up.');
+   }
  }
 
  if(ppvNeed===1){
    moves.push('One quality PPV puts you back on pace. Slow down, complete the account review, and find the right fit.');
  }else if(ppvNeed>1){
    moves.push(`${ppvNeed} quality PPVs gets you back to pace. Use every account review to uncover a fit.`);
- }
-
- if(aiaSubmitNeed>0 && rep.aiaClose<state.comp.aiaCloseQual){
-   moves.push(`Need ${aiaSubmitNeed} more AIA submit${aiaSubmitNeed===1?'':'s'} or a ${pct(state.comp.aiaCloseQual)} close rate. Ask everyone and do not forget to team-sell.`);
  }
 
  if(htpNeed>0){
@@ -388,17 +409,39 @@ function paidMovesForRep(rep){
 }
 function primaryPaidMove(rep){
  const moves=paidMovesForRep(rep);
- // Prioritize AIA Posted, PPV, qualification, insurance, then accessories.
  const ordered=[
-   moves.find(x=>x.includes('AIA Posted')),
+   moves.find(x=>x.includes('AIA')||x.includes('submit')||x.includes('close rate')),
    moves.find(x=>x.includes('PPV')),
-   moves.find(x=>x.includes('AIA submit')),
    moves.find(x=>x.includes('HTP')),
    moves.find(x=>x.includes('PA1')||x.includes('Insurance')),
    moves.find(x=>x.includes('accessory')||x.includes('Accessories')),
    moves[0]
  ].filter(Boolean);
  return ordered[0];
+}
+function triggerMoneyRain(count=18){
+ const layer=document.getElementById('moneyRain');
+ if(!layer)return;
+ for(let i=0;i<count;i++){
+   const el=document.createElement('div');
+   el.className='money-drop';
+   el.textContent='💵';
+   el.style.left = Math.random()*100 + 'vw';
+   el.style.animationDuration = (2.8 + Math.random()*1.8) + 's';
+   el.style.animationDelay = (Math.random()*0.5) + 's';
+   el.style.transform = `rotate(${Math.random()*60-30}deg)`;
+   layer.appendChild(el);
+   setTimeout(()=>el.remove(), 5000);
+ }
+}
+function toggleMoneyMoves(index){
+ const panel=document.getElementById(`money-panel-${index}`);
+ const btn=document.getElementById(`money-btn-${index}`);
+ if(!panel || !btn)return;
+ const opening=panel.classList.contains('money-hidden');
+ panel.classList.toggle('money-hidden');
+ btn.textContent = panel.classList.contains('money-hidden') ? 'Show Money Moves' : 'Hide Money Moves';
+ if(opening) triggerMoneyRain(20);
 }
 function storePaidPriorities(){
  const moves=[];
@@ -457,8 +500,6 @@ function renderStore(){
   <div class="callout focus"><strong>Service Priority</strong><p>HTP close rate is ${pct(state.store.htpClose)} against a ${pct(.05)} target. ${rateRecovery(state.store.htp,state.store.htpEligible,.05)} additional HTP would reach the target at the current eligible-opportunity count.</p></div>
   <div class="callout note"><strong>Today’s Team Challenge</strong><p>${projected(state.store.ppv)<adjustedStoreGoal('ppv')?'One quality PPV opportunity per rep shift.':''} ${state.store.htpClose<.05?'Ask every eligible household about HTP.':''}</p></div>
  </div>
- <div class="section-title">What Gets Us Paid Today</div>
- <div class="paid-priority"><strong>Paid Priorities</strong><div class="money-moves" style="margin-top:10px">${storePaidPriorities().map(x=>`<div class="money-move"><span class="coin">💵</span><span>${x}</span></div>`).join('')}</div></div>
  <div class="section-title">Everyone’s Shoutout & Opportunity</div>
  <div class="card"><div class="card-body" style="padding:0">${state.reps.map((r,i)=>`<div class="rep-huddle"><div class="name">${escapeHtml(r.name)}<div class="mini">${repHealth(r)} HP</div></div><div><strong>Shoutout</strong><div>${storeShoutout(r)}</div></div><div><strong>Opportunity</strong><div>${storeOpportunity(r)}</div><div class="paid-line">💵 ${primaryPaidMove(r)}</div></div></div>`).join('')}</div></div>
  <div class="section-title">Store Pace</div><div class="card"><div class="card-body"><table><thead><tr><th>Metric</th><th class="num">Current</th><th class="num">Goal</th><th class="num">Projected</th><th>Coaching</th></tr></thead><tbody>${rows}</tbody></table></div></div>
@@ -505,7 +546,8 @@ function renderRep(rep,i){
  ${metricRow('Pre→Post',rep.pre2post,state.repGoals.pre2post,{path:`reps.${i}.pre2post`})}
  ${metricRow('HTP Attach Rate',rep.htp/Math.max(1,rep.htpEligible),state.repGoals.htpRate,{rate:true})}
  </tbody></table></div></div>
- <div class="section-title">Money Moves</div><div class="paid-priority"><div class="money-moves">${paidMovesForRep(rep).slice(0,3).map(x=>`<div class="money-move"><span class="coin">💵</span><span>${x}</span></div>`).join('')}</div></div>
+ <div class="money-toggle-wrap"><button class="money-toggle" id="money-btn-${i}" onclick="toggleMoneyMoves(${i})">Show Money Moves</button></div>
+ <div class="paid-priority money-hidden" id="money-panel-${i}" style="margin-top:12px"><div class="money-moves">${paidMovesForRep(rep).slice(0,3).map(x=>`<div class="money-move"><span class="coin">💵</span><span>${x}</span></div>`).join('')}</div></div>
  <div class="grid two" style="margin-top:14px"><div class="callout win"><strong>Shoutouts</strong><ul>${(c.wins.length?c.wins:['Create a standout metric today.']).map(x=>`<li>${x}</li>`).join('')}</ul></div><div class="callout focus"><strong>Today to Win</strong><ul>${(c.focus.length?c.focus:['Stay the course and create separation.']).slice(0,4).map(x=>`<li>${x}</li>`).join('')}</ul></div></div>
  </section>`
 }
