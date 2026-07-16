@@ -47,9 +47,9 @@ th{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.4p
 .callout{border-radius:15px;padding:14px;border:1px solid var(--line);line-height:1.48}.callout.win{background:var(--green-bg);border-color:#a7dbb5;color:#245d28}
 .callout.focus{background:var(--red-bg);border-color:#efb9b9;color:#7f1d1d}.callout.note{background:var(--amber-bg);border-color:#ead292;color:#6e4a00}
 .hp-wrap{min-width:270px}.hp-shell{height:31px;background:#d8dee6;border:3px solid #26313b;border-radius:5px;overflow:hidden;position:relative;box-shadow:inset 0 0 0 1px #fff9,0 2px 5px #0003}
-.hp-fill{height:100%;width:100%;transition:width 1.35s cubic-bezier(.16,.84,.26,1),background .4s;transform-origin:left}
+.hp-fill{height:100%;width:100%;transition:width 3.6s cubic-bezier(.12,.78,.18,1),background .6s;transform-origin:left}
 .hp-text{position:absolute;inset:0;display:grid;place-items:center;font-weight:950;color:#101820;text-shadow:0 1px #fff}
-.hp-hit{animation:hitShake .45s ease .75s both}.qualified-glow{animation:qualifiedGlow 1.7s ease both}
+.hp-hit{animation:hitShake .55s ease 2.9s both}.qualified-glow{animation:qualifiedGlow 1.7s ease both}
 @keyframes hitShake{0%,100%{transform:translateX(0)}20%{transform:translateX(-5px)}40%{transform:translateX(5px)}60%{transform:translateX(-3px)}80%{transform:translateX(2px)}}
 @keyframes qualifiedGlow{0%{box-shadow:0 12px 32px #0b2e4f20}30%{box-shadow:0 0 0 5px #86efac,0 0 38px 14px #22c55eaa;transform:scale(1.01)}100%{box-shadow:0 12px 32px #0b2e4f20;transform:scale(1)}}
 .money-animate{font-variant-numeric:tabular-nums}
@@ -102,6 +102,14 @@ details{background:#fff;border:1px solid var(--line);border-radius:13px;margin:1
 .quick-success{display:none;color:var(--green);font-weight:900;font-size:12px}.quick-success.show{display:inline}
 .advanced-editor summary{font-size:16px}
 @media(max-width:800px){.quick-update-grid{grid-template-columns:1fr}}
+
+
+.paid-priority{border-left:5px solid #16a34a;background:linear-gradient(90deg,#f0fdf4,#ffffff);border-radius:13px;padding:13px 14px;line-height:1.5}
+.paid-priority strong{color:#166534}
+.money-moves{display:grid;gap:9px}
+.money-move{display:flex;gap:10px;align-items:flex-start;background:#f8fafc;border:1px solid var(--line);border-radius:11px;padding:10px 11px}
+.money-move .coin{font-size:19px;line-height:1}
+.rep-huddle .paid-line{margin-top:7px;padding-top:7px;border-top:1px dashed #cbd5e1;color:#166534;font-weight:800}
 
 </style>
 </head>
@@ -301,7 +309,7 @@ async function shareCurrentPage(){
 function hpBar(value,id){return `<div class="hp-shell hp-hit" data-hp="${value}" id="hp-${id}"><div class="hp-fill" style="background:${hpColor(value)}"></div><div class="hp-text">${value} HP</div></div>`}
 function animateActivePage(){
  const page=document.querySelector('.page.active'); if(!page)return;
- page.querySelectorAll('.hp-shell').forEach(shell=>{const v=clamp(n(shell.dataset.hp)/100)*100,fill=shell.querySelector('.hp-fill');fill.style.transition='none';fill.style.width='100%';shell.classList.remove('hp-hit');void shell.offsetWidth;requestAnimationFrame(()=>{fill.style.transition='width 1.35s cubic-bezier(.16,.84,.26,1)';fill.style.width=v+'%';shell.classList.add('hp-hit')})});
+ page.querySelectorAll('.hp-shell').forEach(shell=>{const v=clamp(n(shell.dataset.hp)/100)*100,fill=shell.querySelector('.hp-fill');fill.style.transition='none';fill.style.width='100%';shell.classList.remove('hp-hit');void shell.offsetWidth;requestAnimationFrame(()=>{fill.style.transition='width 3.6s cubic-bezier(.12,.78,.18,1)';fill.style.width=v+'%';shell.classList.add('hp-hit')})});
  page.querySelectorAll('[data-money]').forEach(el=>{const target=n(el.dataset.money),start=performance.now(),dur=1050;const step=t=>{const p=Math.min(1,(t-start)/dur),e=1-Math.pow(1-p,3);el.textContent=money(target*e);if(p<1)requestAnimationFrame(step)};requestAnimationFrame(step)});
  const glow=page.querySelector('.rep-banner[data-qualified="true"]');if(glow){glow.classList.remove('qualified-glow');void glow.offsetWidth;glow.classList.add('qualified-glow')}
 }
@@ -324,6 +332,93 @@ function coaching(rep){
  if(projected(rep.upgrades)<upgGoal*.75)focus.push('Use account reviews to uncover upgrade opportunities.');if(rep.csat>=1)wins.push('CSAT is perfect.');
  return {wins,focus}
 }
+
+function unitsNeededForPace(current,goal){
+ const paceTarget=n(goal)*n(state.meta.daysElapsed)/Math.max(1,n(state.meta.daysInMonth));
+ return Math.max(0,Math.ceil(paceTarget-n(current)));
+}
+function dollarsToThreshold(current,threshold){
+ return Math.max(0,n(threshold)-n(current));
+}
+function paidMovesForRep(rep){
+ const moves=[];
+ const ppvGoal=adjustedRepGoal('ppv');
+ const aiaGoal=n(state.repGoals.aiaPosted);
+ const ppvNeed=unitsNeededForPace(rep.ppv,ppvGoal);
+ const aiaPostedNeed=unitsNeededForPace(rep.aiaPosted,aiaGoal);
+ const aiaSubmitNeed=Math.max(0,n(state.comp.aiaSubmitQual)-n(rep.aiaSubmits));
+ const htpNeed=Math.max(0,n(state.comp.htpQual)-n(rep.htp));
+
+ if(aiaPostedNeed===1){
+   moves.push('One more AIA Posted puts you slightly ahead of pace. Ask everyone and team-sell live opportunities.');
+ }else if(aiaPostedNeed>1){
+   moves.push(`${aiaPostedNeed} more AIA Posted gets you back to pace. Ask every customer and team-sell live opportunities.`);
+ }
+
+ if(ppvNeed===1){
+   moves.push('One quality PPV puts you back on pace. Slow down, complete the account review, and find the right fit.');
+ }else if(ppvNeed>1){
+   moves.push(`${ppvNeed} quality PPVs gets you back to pace. Use every account review to uncover a fit.`);
+ }
+
+ if(aiaSubmitNeed>0 && rep.aiaClose<state.comp.aiaCloseQual){
+   moves.push(`Need ${aiaSubmitNeed} more AIA submit${aiaSubmitNeed===1?'':'s'} or a ${pct(state.comp.aiaCloseQual)} close rate. Ask everyone and do not forget to team-sell.`);
+ }
+
+ if(htpNeed>0){
+   moves.push(`Need ${htpNeed} more HTP to qualify. Ask every eligible household about protection.`);
+ }
+
+ if(rep.insurance<state.comp.insuranceMin){
+   moves.push('Look for opportunities to add PA1 on every eligible sale to protect qualification.');
+ }else if(rep.insurance<state.comp.insuranceBonus){
+   moves.push(`Insurance qualifies, but you are ${((state.comp.insuranceBonus-rep.insurance)*100).toFixed(1)} points from the 1.25× multiplier. Offer PA1 on every eligible sale.`);
+ }
+
+ if(rep.accPerOpp<state.comp.accMin){
+   moves.push(`Look for oppless accessory sales and complete solutions. You need ${money2(dollarsToThreshold(rep.accPerOpp,state.comp.accMin))} more per opportunity to qualify.`);
+ }else if(rep.accPerOpp<state.comp.accBonus){
+   moves.push(`Accessories qualify. Look for oppless accessory sales to gain ${money2(dollarsToThreshold(rep.accPerOpp,state.comp.accBonus))} per opportunity and activate the 1.25× multiplier.`);
+ }
+
+ if(!moves.length){
+   moves.push('All major paid metrics are healthy. Keep asking, protect the multipliers, and create separation above pace.');
+ }
+ return moves;
+}
+function primaryPaidMove(rep){
+ const moves=paidMovesForRep(rep);
+ // Prioritize AIA Posted, PPV, qualification, insurance, then accessories.
+ const ordered=[
+   moves.find(x=>x.includes('AIA Posted')),
+   moves.find(x=>x.includes('PPV')),
+   moves.find(x=>x.includes('AIA submit')),
+   moves.find(x=>x.includes('HTP')),
+   moves.find(x=>x.includes('PA1')||x.includes('Insurance')),
+   moves.find(x=>x.includes('accessory')||x.includes('Accessories')),
+   moves[0]
+ ].filter(Boolean);
+ return ordered[0];
+}
+function storePaidPriorities(){
+ const moves=[];
+ const ppvNeed=unitsNeededForPace(state.store.ppv,adjustedStoreGoal('ppv'));
+ const aiaNeed=unitsNeededForPace(state.store.aiaPosted,state.storeGoals.aiaPosted);
+ if(aiaNeed===1)moves.push('Only 1 more AIA Posted puts the store slightly ahead of pace—ask everyone and team-sell live opportunities.');
+ else if(aiaNeed>1)moves.push(`${aiaNeed} more AIA Posted gets the store back to pace—ask everyone and team-sell live opportunities.`);
+ if(ppvNeed===1)moves.push('One quality PPV puts the store back on pace. Slow down and uncover the right new-line fit.');
+ else if(ppvNeed>1)moves.push(`${ppvNeed} quality PPVs gets the store back to pace. Use every account review to uncover opportunities.`);
+ if(state.store.insurance<state.comp.insuranceBonus){
+   const gap=((state.comp.insuranceBonus-state.store.insurance)*100).toFixed(1);
+   moves.push(`Store insurance is ${gap} points from the 1.25× multiplier. Look for PA1 on every eligible sale.`);
+ }
+ if(state.store.accPerOpp<state.comp.accBonus){
+   moves.push(`Store accessories are ${money2(state.comp.accBonus-state.store.accPerOpp)} per opportunity from the 1.25× multiplier. Look for oppless accessory sales.`);
+ }
+ if(state.store.htpClose<.05)moves.push('HTP is below target. Ask every eligible household and team-sell when another rep has the stronger protection conversation.');
+ return moves.slice(0,4);
+}
+
 function metricRow(label,current,goal,{rate=false,project=true,path=''}={}){
  const proj=rate?n(current):(project?projected(current):n(current));const [txt,cls]=coachStatus(proj,goal,rate);const [tr,trCls]=path?trend(path,current):['',''];
  const display=v=>rate?(label.includes('ACC')?money2(v):pct(v)):Number(v).toFixed(project?1:0);
@@ -362,8 +457,10 @@ function renderStore(){
   <div class="callout focus"><strong>Service Priority</strong><p>HTP close rate is ${pct(state.store.htpClose)} against a ${pct(.05)} target. ${rateRecovery(state.store.htp,state.store.htpEligible,.05)} additional HTP would reach the target at the current eligible-opportunity count.</p></div>
   <div class="callout note"><strong>Today’s Team Challenge</strong><p>${projected(state.store.ppv)<adjustedStoreGoal('ppv')?'One quality PPV opportunity per rep shift.':''} ${state.store.htpClose<.05?'Ask every eligible household about HTP.':''}</p></div>
  </div>
+ <div class="section-title">What Gets Us Paid Today</div>
+ <div class="paid-priority"><strong>Paid Priorities</strong><div class="money-moves" style="margin-top:10px">${storePaidPriorities().map(x=>`<div class="money-move"><span class="coin">💵</span><span>${x}</span></div>`).join('')}</div></div>
  <div class="section-title">Everyone’s Shoutout & Opportunity</div>
- <div class="card"><div class="card-body" style="padding:0">${state.reps.map((r,i)=>`<div class="rep-huddle"><div class="name">${escapeHtml(r.name)}<div class="mini">${repHealth(r)} HP</div></div><div><strong>Shoutout</strong><div>${storeShoutout(r)}</div></div><div><strong>Opportunity</strong><div>${storeOpportunity(r)}</div></div></div>`).join('')}</div></div>
+ <div class="card"><div class="card-body" style="padding:0">${state.reps.map((r,i)=>`<div class="rep-huddle"><div class="name">${escapeHtml(r.name)}<div class="mini">${repHealth(r)} HP</div></div><div><strong>Shoutout</strong><div>${storeShoutout(r)}</div></div><div><strong>Opportunity</strong><div>${storeOpportunity(r)}</div><div class="paid-line">💵 ${primaryPaidMove(r)}</div></div></div>`).join('')}</div></div>
  <div class="section-title">Store Pace</div><div class="card"><div class="card-body"><table><thead><tr><th>Metric</th><th class="num">Current</th><th class="num">Goal</th><th class="num">Projected</th><th>Coaching</th></tr></thead><tbody>${rows}</tbody></table></div></div>
  
  <div class="section-title">Close Rates & Sample Context</div>
@@ -408,6 +505,7 @@ function renderRep(rep,i){
  ${metricRow('Pre→Post',rep.pre2post,state.repGoals.pre2post,{path:`reps.${i}.pre2post`})}
  ${metricRow('HTP Attach Rate',rep.htp/Math.max(1,rep.htpEligible),state.repGoals.htpRate,{rate:true})}
  </tbody></table></div></div>
+ <div class="section-title">Money Moves</div><div class="paid-priority"><div class="money-moves">${paidMovesForRep(rep).slice(0,3).map(x=>`<div class="money-move"><span class="coin">💵</span><span>${x}</span></div>`).join('')}</div></div>
  <div class="grid two" style="margin-top:14px"><div class="callout win"><strong>Shoutouts</strong><ul>${(c.wins.length?c.wins:['Create a standout metric today.']).map(x=>`<li>${x}</li>`).join('')}</ul></div><div class="callout focus"><strong>Today to Win</strong><ul>${(c.focus.length?c.focus:['Stay the course and create separation.']).slice(0,4).map(x=>`<li>${x}</li>`).join('')}</ul></div></div>
  </section>`
 }
