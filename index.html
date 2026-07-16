@@ -91,6 +91,18 @@ details{background:#fff;border:1px solid var(--line);border-radius:13px;margin:1
 .modal-body{padding:18px}.modal-body label{font-size:12px;font-weight:900;color:var(--muted);display:block;margin-bottom:6px}.modal-body input{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:10px;font-size:16px}
 .modal-actions{display:flex;gap:9px;justify-content:flex-end;margin-top:14px}.modal-error{display:none;color:var(--red);font-weight:850;font-size:12px;margin-top:8px}.modal-error.show{display:block}
 
+
+.quick-update-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-bottom:18px}
+.quick-card{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.quick-head{padding:12px 14px;background:linear-gradient(90deg,var(--navy),#0c4a6e);color:#fff;font-weight:950}
+.quick-body{padding:14px}
+.quick-body textarea{width:100%;min-height:265px;border:1px solid #cbd5e1;border-radius:10px;padding:12px;background:var(--yellow);font:600 14px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace;resize:vertical}
+.quick-order{font-size:12px;line-height:1.55;color:var(--muted);background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:10px;margin:10px 0}
+.quick-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.quick-success{display:none;color:var(--green);font-weight:900;font-size:12px}.quick-success.show{display:inline}
+.advanced-editor summary{font-size:16px}
+@media(max-width:800px){.quick-update-grid{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -125,16 +137,16 @@ details{background:#fff;border:1px solid var(--line);border-radius:13px;margin:1
 
 <script>
 const DEFAULT_STATE = {
- meta:{month:'July 2026',daysInMonth:31,daysElapsed:14,storeName:'Cinnaminson',updatedThrough:'EOD July 14'},
+ meta:{month:'July 2026',daysInMonth:31,daysElapsed:15,storeName:'Cinnaminson',updatedThrough:'July 15 test update'},
  comp:{startingBase:17.5,ppvMultiplier:1,aiaPostedMultiplier:1.6,upgradeAdd:.15,dataAdd:.30,aiaSubmitSpiff:10,pre2postSpiff:10,csatQual:.88,aiaSubmitQual:4,htpQual:2,insuranceMin:.50,accMin:50,insuranceBonus:.60,accBonus:60,aiaCloseQual:.075},
  storeGoals:{traffic:779,ppv:38,aiaPosted:19,upgrades:60,data:12,managerAtRisk:612,manager60s:306},
  repGoals:{ppv:10,aiaPosted:5,aiaSubmits:4,upgrades:15,data:3,htp:2,pre2post:2,tradeRate:.50,insurance:.60,accPerOpp:60,csat:.88,aiaClose:.065,htpRate:.05,nextUp:.60},
- store:{traffic:460,ppv:9,ppvClose:.0196,aiaPosted:4,aiaSubmits:6,aiaClose:.054,htp:1,htpEligible:41,htpClose:.0244,upgrades:34,data:8,cru:0,accessoryRevenue:3062,accPerOpp:55.67,insurance:.5455,nextUp:.2564,csat:1,pre2post:0,pa4:6,oppCount:51,tradeRate:.55},
+ store:{traffic:492,ppv:10,ppvClose:.0203,aiaPosted:6,aiaSubmits:6,aiaClose:.044,htp:1,htpEligible:44,htpClose:.0227,upgrades:39,data:9,cru:1,accessoryRevenue:3286,accPerOpp:67.06,insurance:.6571,nextUp:.2667,csat:1,pre2post:0,pa4:6,oppCount:51,tradeRate:.558},
  reps:[
-  {name:'Noelle',color:'#6a4c93',ppv:4,aiaPosted:1,aiaSubmits:1,aiaClose:.04,htp:1,htpEligible:14,upgrades:10,data:0,cru:0,accessoryRevenue:1020,accPerOpp:67.98,insurance:.8571,nextUp:.2308,csat:1,pre2post:0,pa4:3,oppCount:15,tradeRate:.214,ple:true},
-  {name:'Derick',color:'#0f8b8d',ppv:3,aiaPosted:1,aiaSubmits:1,aiaClose:.036,htp:0,htpEligible:12,upgrades:8,data:1,cru:1,accessoryRevenue:307,accPerOpp:27.86,insurance:.25,nextUp:.3333,csat:1,pre2post:0,pa4:1,oppCount:12,tradeRate:.667,ple:true},
-  {name:'Jamie',color:'#d97706',ppv:0,aiaPosted:1,aiaSubmits:3,aiaClose:.094,htp:0,htpEligible:20,upgrades:13,data:7,cru:0,accessoryRevenue:1380,accPerOpp:106.15,insurance:.7143,nextUp:.3077,csat:1,pre2post:0,pa4:2,oppCount:20,tradeRate:.50,ple:true},
-  {name:'TJ',color:'#1473e6',ppv:2,aiaPosted:1,aiaSubmits:1,aiaClose:.036,htp:0,htpEligible:5,upgrades:3,data:0,cru:0,accessoryRevenue:350,accPerOpp:69.99,insurance:.50,nextUp:0,csat:1,pre2post:0,pa4:0,oppCount:5,tradeRate:1.25,ple:true}
+  {name:'Noelle',color:'#6a4c93',ppv:5,aiaPosted:1,aiaSubmits:1,aiaClose:.028,htp:1,htpEligible:14,upgrades:11,data:0,cru:0,accessoryRevenue:1148,accPerOpp:71.55,insurance:1,nextUp:.2667,csat:1,pre2post:0,pa4:3,oppCount:15,tradeRate:.333,ple:true},
+  {name:'Derick',color:'#0f8b8d',ppv:3,aiaPosted:1,aiaSubmits:1,aiaClose:.033,htp:0,htpEligible:12,upgrades:8,data:2,cru:1,accessoryRevenue:307,accPerOpp:27.86,insurance:.2222,nextUp:.3333,csat:1,pre2post:0,pa4:1,oppCount:12,tradeRate:.667,ple:true},
+  {name:'Jamie',color:'#d97706',ppv:0,aiaPosted:2,aiaSubmits:3,aiaClose:.094,htp:0,htpEligible:20,upgrades:13,data:7,cru:0,accessoryRevenue:1380,accPerOpp:106.15,insurance:.7143,nextUp:.3077,csat:1,pre2post:0,pa4:2,oppCount:20,tradeRate:.50,ple:true},
+  {name:'TJ',color:'#1473e6',ppv:2,aiaPosted:2,aiaSubmits:1,aiaClose:.031,htp:0,htpEligible:5,upgrades:5,data:0,cru:0,accessoryRevenue:350,accPerOpp:50,insurance:.75,nextUp:0,csat:1,pre2post:0,pa4:0,oppCount:5,tradeRate:.8333,ple:true}
  ],
  previous:null
 };
@@ -177,8 +189,8 @@ function compVault(index,content){
 }
 
 
-function loadState(){if(EMBEDDED_STATE)return structuredClone(EMBEDDED_STATE);try{return JSON.parse(localStorage.getItem('storepulse-state-v2'))||structuredClone(DEFAULT_STATE)}catch(e){return structuredClone(DEFAULT_STATE)}}
-function saveState(){localStorage.setItem('storepulse-state-v2',JSON.stringify(state));renderAll()}
+function loadState(){if(EMBEDDED_STATE)return structuredClone(EMBEDDED_STATE);try{return JSON.parse(localStorage.getItem('storepulse-state-v5'))||structuredClone(DEFAULT_STATE)}catch(e){return structuredClone(DEFAULT_STATE)}}
+function saveState(){localStorage.setItem('storepulse-state-v5',JSON.stringify(state));renderAll()}
 function resetState(){if(confirm('Reset to sample July data?')){state=structuredClone(DEFAULT_STATE);saveState()}}
 const n=v=>Number(v)||0, clamp=(v,min=0,max=1)=>Math.min(max,Math.max(min,v)), ceil=v=>Math.ceil(n(v));
 const projected=v=>n(v)*n(state.meta.daysInMonth)/Math.max(1,n(state.meta.daysElapsed));
@@ -412,18 +424,103 @@ function renderComp(){return `<section class="page" id="page-comp"><div class="h
  <p><code class="formula">Instant Spiffs = projected AIA submits × ${money(state.comp.aiaSubmitSpiff)} + projected Pre→Post × ${money(state.comp.pre2postSpiff)} = ${money2(c.spiffs)}</code></p>
  <p><strong>Projected Total:</strong> ${money2(c.total)} &nbsp;•&nbsp; <strong>Potential with both multipliers:</strong> ${money2(max.total)} &nbsp;•&nbsp; <strong>Upside:</strong> ${money2(max.total-c.total)}</p>`)}
  </div></details>`}).join('')}<div class="callout note"><strong>AIA qualification:</strong> ${state.comp.aiaSubmitQual} submits OR ${pct(state.comp.aiaCloseQual)} close rate. The pay estimate remains visible after unlocking even when qualification is at risk.</div></section>`}
+
+const QUICK_METRICS=[
+ ['ppv','PPV',false],
+ ['aiaPosted','Posted',false],
+ ['aiaSubmits','Submit',false],
+ ['aiaClose','AIA Close',true],
+ ['htp','HTP',false],
+ ['upgrades','Upgrades',false],
+ ['data','Data',false],
+ ['cru','CRU',false],
+ ['accessoryRevenue','Accessory Rev',false],
+ ['accPerOpp','Acc Rev / Opp',false],
+ ['insurance','Insurance %',true],
+ ['nextUp','Next Up %',true],
+ ['csat','CSAT',true],
+ ['pre2post','Prepaid to Postpaid',false],
+ ['tradeRate','Trade-in Rate',true]
+];
+function parseQuickNumber(raw,isRate=false){
+ let s=String(raw??'').trim().replaceAll(',','').replaceAll('$','');
+ if(!s||s==='-'||s==='—')return 0;
+ const hadPercent=s.includes('%'); s=s.replace('%','');
+ let value=Number(s);
+ if(!Number.isFinite(value))return 0;
+ if(isRate && (hadPercent||value>1))value=value/100;
+ return value;
+}
+function quickLinesFor(obj,includeStoreExtras=false){
+ const lines=QUICK_METRICS.map(([key])=>{
+   const value=n(obj[key]);
+   const isRate=QUICK_METRICS.find(x=>x[0]===key)[2];
+   return isRate?(value*100).toFixed(value*100%1?2:0)+'%':String(value);
+ });
+ if(includeStoreExtras){
+   lines.push((n(obj.ppvClose)*100).toFixed(2)+'%');
+   lines.push((n(obj.htpClose)*100).toFixed(2)+'%');
+   lines.push(String(n(obj.traffic)));
+ }
+ return lines.join('\n');
+}
+function applyQuickUpdate(target,index=null){
+ const id=target==='store'?'quick-store':`quick-rep-${index}`;
+ const lines=document.getElementById(id).value.split(/\r?\n/).map(x=>x.trim()).filter(x=>x.length);
+ const required=target==='store'?18:15;
+ if(lines.length<required){
+   alert(`Please paste ${required} values. I found ${lines.length}.`);
+   return;
+ }
+ const obj=target==='store'?state.store:state.reps[index];
+ QUICK_METRICS.forEach(([key,label,isRate],i)=>obj[key]=parseQuickNumber(lines[i],isRate));
+ if(target==='store'){
+   obj.ppvClose=parseQuickNumber(lines[15],true);
+   obj.htpClose=parseQuickNumber(lines[16],true);
+   obj.traffic=parseQuickNumber(lines[17],false);
+   // Estimate eligible count when a direct HTP close rate was supplied.
+   if(obj.htpClose>0)obj.htpEligible=Math.max(obj.htp,Math.round(obj.htp/obj.htpClose));
+ }
+ state.meta.daysElapsed=Math.max(1,state.meta.daysElapsed);
+ localStorage.setItem('storepulse-state-v5',JSON.stringify(state));
+ renderAll();
+ currentPage='edit';showPage('edit');
+ setTimeout(()=>{const msg=document.getElementById(`quick-ok-${target==='store'?'store':index}`);if(msg){msg.classList.add('show');setTimeout(()=>msg.classList.remove('show'),1800)}},50);
+}
+function quickOrder(includeStoreExtras=false){
+ const base=QUICK_METRICS.map((x,i)=>`${i+1}. ${x[1]}`);
+ if(includeStoreExtras)base.push('16. PPV Close Rate','17. HTP Close Rate','18. Traffic');
+ return base.join(' • ');
+}
+function renderQuickEditor(title,target,index=null){
+ const obj=target==='store'?state.store:state.reps[index];
+ const includeStore=target==='store';
+ const id=includeStore?'quick-store':`quick-rep-${index}`;
+ const okId=includeStore?'quick-ok-store':`quick-ok-${index}`;
+ return `<div class="quick-card"><div class="quick-head">${escapeHtml(title)}</div><div class="quick-body">
+   <div class="mini">Paste one value per line in this exact order:</div>
+   <div class="quick-order">${quickOrder(includeStore)}</div>
+   <textarea id="${id}" spellcheck="false">${quickLinesFor(obj,includeStore)}</textarea>
+   <div class="quick-actions"><button class="btn dark" onclick="applyQuickUpdate('${target}',${index===null?'null':index})">Apply ${includeStore?'Store':escapeHtml(obj.name)} Update</button><span class="quick-success" id="${okId}">✓ Updated</span></div>
+ </div></div>`;
+}
+
 function inputField(path,label,value,type='number',step='1',help=''){const id=path.replaceAll('.','__');return `<div class="field"><label for="${id}">${label}</label><input id="${id}" type="${type}" value="${value}" step="${step}" onchange="setPath('${path}',this.type==='checkbox'?this.checked:(this.type==='number'?Number(this.value):this.value))" ${type==='checkbox'&&value?'checked':''}/>${help?`<small>${help}</small>`:''}</div>`}
 function labelize(k){return k.replace(/([A-Z])/g,' $1').replace(/^./,x=>x.toUpperCase()).replaceAll('Aia','AIA').replaceAll('Ppv','PPV').replaceAll('Htp','HTP').replaceAll('Cusat','CSAT')}
 function isRateKey(k){return ['insurance','csat','aiaClose','tradeRate','nextUp','htpRate','csatQual','insuranceMin','insuranceBonus','aiaCloseQual'].some(x=>k.toLowerCase().includes(x.toLowerCase()))}
-function renderEdit(){return `<section class="page" id="page-edit"><div class="hero"><h1>Edit Data & Goals</h1><p>Changes save locally. Export HTML to create a shareable copy with current data built in.</p></div>
- <div class="callout note"><strong>Dynamic goals:</strong> store and rep PPV/upgrade goals rise automatically when projected traffic is above the store traffic goal. AIA qualification is ${state.comp.aiaSubmitQual} submits OR ${pct(state.comp.aiaCloseQual)} close rate.</div>
+function renderEdit(){return `<section class="page" id="page-edit"><div class="hero"><h1>Quick Update</h1><p>Paste the MySuccess numbers in the same order every time, then tap Apply. Advanced goals and settings are below.</p></div>
+ <div class="callout note"><strong>Fastest workflow:</strong> paste one value per line. Percentages can be entered as 65.71 or 65.71%. The app converts them automatically.</div>
+ <div class="section-title">Store & Rep Quick Update</div>
+ <div class="quick-update-grid">${renderQuickEditor('Store','store')}${state.reps.map((r,i)=>renderQuickEditor(r.name,'rep',i)).join('')}</div>
+ <details class="advanced-editor"><summary>Advanced Goals, Compensation Rules & Individual Fields</summary><div class="detail-body">
  <div class="edit-section"><h3>Month & Store</h3><div class="form-grid">${inputField('meta.month','Month',state.meta.month,'text')}${inputField('meta.daysInMonth','Days in Month',state.meta.daysInMonth)}${inputField('meta.daysElapsed','Days Elapsed',state.meta.daysElapsed)}${inputField('meta.storeName','Store Name',state.meta.storeName,'text')}${inputField('meta.updatedThrough','Updated Through',state.meta.updatedThrough,'text')}</div></div>
  <div class="edit-section"><h3>Store Goals & Manager Estimate</h3><div class="form-grid">${Object.entries(state.storeGoals).map(([k,v])=>inputField(`storeGoals.${k}`,labelize(k),v)).join('')}</div></div>
  <div class="edit-section"><h3>Individual Goals</h3><div class="form-grid">${Object.entries(state.repGoals).map(([k,v])=>inputField(`repGoals.${k}`,labelize(k),v,'number',isRateKey(k)?'.001':'1')).join('')}</div></div>
  <div class="edit-section"><h3>Comp & Qualification Rules</h3><div class="form-grid">${Object.entries(state.comp).map(([k,v])=>inputField(`comp.${k}`,labelize(k),v,'number',isRateKey(k)?'.001':'.01')).join('')}</div></div>
- <div class="edit-section"><h3>Store Current MTD</h3><div class="form-grid">${Object.entries(state.store).map(([k,v])=>inputField(`store.${k}`,labelize(k),v,'number',isRateKey(k)?'.0001':'1')).join('')}</div></div>
+ <div class="edit-section"><h3>Store Individual Fields</h3><div class="form-grid">${Object.entries(state.store).map(([k,v])=>inputField(`store.${k}`,labelize(k),v,'number',isRateKey(k)?'.0001':'1')).join('')}</div></div>
  ${state.reps.map((r,i)=>`<div class="edit-section card"><div class="card-head">${escapeHtml(r.name)}</div><div class="card-body"><div class="form-grid">${Object.entries(r).filter(([k])=>k!=='color').map(([k,v])=>inputField(`reps.${i}.${k}`,labelize(k),v,typeof v==='boolean'?'checkbox':typeof v==='string'?'text':'number',isRateKey(k)?'.0001':'1')).join('')}</div></div></div>`).join('')}
- <div class="grid two"><button class="btn dark" onclick="downloadJSON()">Download JSON Backup</button><button class="btn secondary" onclick="resetState()">Reset Sample Data</button></div></section>`}
+ </div></details>
+ <div class="grid two" style="margin-top:16px"><button class="btn dark" onclick="downloadJSON()">Download JSON Backup</button><button class="btn secondary" onclick="resetState()">Reset Test Data</button></div></section>`}
 function setPath(path,value){const parts=path.split('.');let o=state;for(let i=0;i<parts.length-1;i++)o=o[parts[i]];o[parts.at(-1)]=value;saveState()}
 function renderAll(){document.getElementById('content').innerHTML=renderStore()+state.reps.map(renderRep).join('')+renderComp()+renderEdit();renderTabs();showPage(currentPage)}
 function downloadJSON(){downloadBlob(new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),`StorePulse_${state.meta.month.replaceAll(' ','_')}.json`)}
