@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>StorePulse</title>
+<title>StorePulse — July Closing Window</title>
 <style>
 :root{
   --navy:#082f49; --blue:#0ea5e9; --blue2:#2563eb; --sky:#e0f2fe;
@@ -120,6 +120,26 @@ details{background:#fff;border:1px solid var(--line);border-radius:13px;margin:1
 @keyframes moneyFall{0%{transform:translateY(-80px) rotate(0deg);opacity:0}10%{opacity:1}100%{transform:translateY(120vh) rotate(360deg);opacity:.95}}
 .money-hidden{display:none}
 
+
+.urgency-strip{margin-top:15px;background:#fff3;border:1px solid #ffffff66;border-radius:14px;padding:12px 14px;backdrop-filter:blur(3px)}
+.urgency-top{display:flex;justify-content:space-between;gap:12px;align-items:center;font-weight:950}
+.urgency-days{font-size:22px;letter-spacing:.4px}.urgency-copy{font-size:12px;color:#e0f2fe;text-align:right}
+.month-track{height:10px;background:#ffffff30;border-radius:999px;overflow:hidden;margin-top:9px;border:1px solid #ffffff40}
+.month-fill{height:100%;background:linear-gradient(90deg,#facc15,#fb923c,#ef4444);border-radius:999px;box-shadow:0 0 14px #fb923c99}
+.deadline-card{position:relative;overflow:hidden;border:2px solid #f59e0b;background:linear-gradient(145deg,#fffbeb,#fff7ed)}
+.deadline-card:before{content:'';position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,#fff7 48%,transparent 66%);transform:translateX(-120%);animation:deadlineSweep 4.5s ease-in-out infinite}
+.deadline-card .value{color:#b45309!important}.urgent-pulse{animation:urgentPulse 2.2s ease-in-out infinite}
+@keyframes deadlineSweep{0%,55%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
+@keyframes urgentPulse{0%,100%{box-shadow:0 6px 20px #0f29400d}50%{box-shadow:0 0 0 4px #f59e0b22,0 8px 28px #f59e0b33}}
+.closing-window{border-left:6px solid #f59e0b;background:linear-gradient(90deg,#fffbeb,#fff);padding:15px 16px;border-radius:15px;display:grid;grid-template-columns:auto 1fr;gap:13px;align-items:center}
+.closing-window .clock{font-size:34px}.closing-window h3{margin:0 0 3px;color:#92400e}.closing-window p{margin:0;color:#78350f;line-height:1.45}
+.runway-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:12px}
+.runway-item{border:1px solid #fed7aa;background:#fff;border-radius:12px;padding:11px;text-align:center}.runway-item strong{display:block;font-size:20px;color:#9a3412}.runway-item span{font-size:11px;color:#7c2d12;font-weight:800;text-transform:uppercase}
+.deadline-tag{display:inline-flex;align-items:center;gap:6px;background:#7f1d1d;color:#fff;border-radius:999px;padding:6px 10px;font-size:11px;font-weight:950;letter-spacing:.3px;margin-top:9px}
+.rep-deadline{margin:0 0 14px;border:1px solid #fdba74;background:#fff7ed;border-radius:14px;padding:12px 14px;color:#7c2d12;font-weight:800;display:flex;justify-content:space-between;gap:12px;align-items:center}
+.rep-deadline strong{color:#9a3412;font-size:17px}.pace-per-day{font-size:11px;color:#9a3412;font-weight:900;margin-top:5px}
+@media(max-width:720px){.urgency-top,.rep-deadline{align-items:flex-start;flex-direction:column}.urgency-copy{text-align:left}.runway-grid{grid-template-columns:repeat(2,1fr)}}
+
 </style>
 </head>
 <body>
@@ -127,12 +147,8 @@ details{background:#fff;border:1px solid var(--line);border-radius:13px;margin:1
   <div class="brand">StorePulse</div>
   <div class="tabs" id="tabs"></div>
   <div class="actions">
-    <button class="btn" onclick="saveSnapshot()">Save Snapshot</button>
-    <button class="btn" onclick="showPage('edit')">Edit</button>
     <button class="btn" onclick="window.print()">Print</button>
-    <button class="btn" onclick="toggleShareMode()"><span class="share-toggle-label">Share View</span></button>
-    <button class="btn" onclick="shareCurrentPage()">Share</button>
-    <button class="btn light" onclick="exportShareableHTML()">Export HTML</button>
+    <button class="btn light" onclick="shareCurrentPage()">Share</button>
   </div>
 </div>
 <main class="content" id="content"></main>
@@ -155,16 +171,16 @@ details{background:#fff;border:1px solid var(--line);border-radius:13px;margin:1
 <div class="money-drop-layer" id="moneyRain"></div>
 <script>
 const DEFAULT_STATE = {
- meta:{month:'July 2026',daysInMonth:31,daysElapsed:15,storeName:'Cinnaminson',updatedThrough:'July 15 test update'},
+ meta:{month:'July 2026',daysInMonth:31,daysElapsed:20,storeName:'Cinnaminson',updatedThrough:'EOD July 20'},
  comp:{startingBase:17.5,ppvMultiplier:1,aiaPostedMultiplier:1.6,upgradeAdd:.15,dataAdd:.30,aiaSubmitSpiff:10,pre2postSpiff:10,csatQual:.88,aiaSubmitQual:4,htpQual:2,insuranceMin:.50,accMin:50,insuranceBonus:.60,accBonus:60,aiaCloseQual:.075},
  storeGoals:{traffic:779,ppv:38,aiaPosted:19,upgrades:60,data:12,managerAtRisk:612,manager60s:306},
  repGoals:{ppv:10,aiaPosted:5,aiaSubmits:4,upgrades:15,data:3,htp:2,pre2post:2,tradeRate:.50,insurance:.60,accPerOpp:60,csat:.88,aiaClose:.065,htpRate:.05,nextUp:.60},
- store:{traffic:492,ppv:10,ppvClose:.0203,aiaPosted:6,aiaSubmits:6,aiaClose:.044,htp:1,htpEligible:44,htpClose:.0227,upgrades:39,data:9,cru:1,accessoryRevenue:3286,accPerOpp:67.06,insurance:.6571,nextUp:.2667,csat:1,pre2post:0,pa4:6,oppCount:51,tradeRate:.558},
+ store:{traffic:567,ppv:16,ppvClose:.0265,aiaPosted:8,aiaSubmits:8,aiaClose:.049,htp:2,htpEligible:55,htpClose:.0367,upgrades:46,data:11,cru:1,accessoryRevenue:3657,accPerOpp:59.95,insurance:.6522,nextUp:.2364,csat:1,pre2post:1,pa4:0,oppCount:0,tradeRate:.528},
  reps:[
-  {name:'Noelle',color:'#6a4c93',ppv:5,aiaPosted:1,aiaSubmits:1,aiaClose:.028,htp:1,htpEligible:14,upgrades:11,data:0,cru:0,accessoryRevenue:1148,accPerOpp:71.55,insurance:1,nextUp:.2667,csat:1,pre2post:0,pa4:3,oppCount:15,tradeRate:.333,ple:true},
-  {name:'Derick',color:'#0f8b8d',ppv:3,aiaPosted:1,aiaSubmits:1,aiaClose:.033,htp:0,htpEligible:12,upgrades:8,data:2,cru:1,accessoryRevenue:307,accPerOpp:27.86,insurance:.2222,nextUp:.3333,csat:1,pre2post:0,pa4:1,oppCount:12,tradeRate:.667,ple:true},
-  {name:'Jamie',color:'#d97706',ppv:0,aiaPosted:2,aiaSubmits:3,aiaClose:.094,htp:0,htpEligible:20,upgrades:13,data:7,cru:0,accessoryRevenue:1380,accPerOpp:106.15,insurance:.7143,nextUp:.3077,csat:1,pre2post:0,pa4:2,oppCount:20,tradeRate:.50,ple:true},
-  {name:'TJ',color:'#1473e6',ppv:2,aiaPosted:2,aiaSubmits:1,aiaClose:.031,htp:0,htpEligible:5,upgrades:5,data:0,cru:0,accessoryRevenue:350,accPerOpp:50,insurance:.75,nextUp:0,csat:1,pre2post:0,pa4:0,oppCount:5,tradeRate:.8333,ple:true}
+  {name:'Noelle',color:'#6a4c93',ppv:5,aiaPosted:1,aiaSubmits:1,aiaClose:.024,htp:1,htpEligible:0,upgrades:11,data:0,cru:0,accessoryRevenue:1085,accPerOpp:67.80,insurance:1,nextUp:.2667,csat:1,pre2post:0,pa4:0,oppCount:0,tradeRate:0,ple:true},
+  {name:'Derick',color:'#0f8b8d',ppv:3,aiaPosted:2,aiaSubmits:2,aiaClose:.063,htp:0,htpEligible:0,upgrades:9,data:2,cru:1,accessoryRevenue:387,accPerOpp:32.21,insurance:.2222,nextUp:.30,csat:1,pre2post:0,pa4:0,oppCount:0,tradeRate:0,ple:true},
+  {name:'Jamie',color:'#d97706',ppv:4,aiaPosted:3,aiaSubmits:4,aiaClose:.095,htp:1,htpEligible:0,upgrades:16,data:8,cru:0,accessoryRevenue:1578,accPerOpp:82.63,insurance:.7363,nextUp:.2941,csat:1,pre2post:1,pa4:0,oppCount:0,tradeRate:0,ple:true},
+  {name:'TJ',color:'#1473e6',ppv:4,aiaPosted:2,aiaSubmits:1,aiaClose:.025,htp:0,htpEligible:0,upgrades:7,data:1,cru:0,accessoryRevenue:431,accPerOpp:39.18,insurance:.5556,nextUp:0,csat:1,pre2post:0,pa4:0,oppCount:0,tradeRate:0,ple:true}
  ],
  previous:null
 };
@@ -207,14 +223,21 @@ function compVault(index,content){
 }
 
 
-function loadState(){if(EMBEDDED_STATE)return structuredClone(EMBEDDED_STATE);try{return JSON.parse(localStorage.getItem('storepulse-state-v5'))||structuredClone(DEFAULT_STATE)}catch(e){return structuredClone(DEFAULT_STATE)}}
-function saveState(){localStorage.setItem('storepulse-state-v5',JSON.stringify(state));renderAll()}
-function resetState(){if(confirm('Reset to sample July data?')){state=structuredClone(DEFAULT_STATE);saveState()}}
+function loadState(){return structuredClone(DEFAULT_STATE)}
+function saveState(){renderAll()}
+function resetState(){state=structuredClone(DEFAULT_STATE);renderAll()}
 const n=v=>Number(v)||0, clamp=(v,min=0,max=1)=>Math.min(max,Math.max(min,v)), ceil=v=>Math.ceil(n(v));
 const projected=v=>n(v)*n(state.meta.daysInMonth)/Math.max(1,n(state.meta.daysElapsed));
 const pct=v=>`${(n(v)*100).toFixed(1)}%`;
 const money=v=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',maximumFractionDigits:0}).format(n(v));
 const money2=v=>new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',minimumFractionDigits:2,maximumFractionDigits:2}).format(n(v));
+const daysLeft=()=>Math.max(0,n(state.meta.daysInMonth)-n(state.meta.daysElapsed));
+const monthComplete=()=>clamp(n(state.meta.daysElapsed)/Math.max(1,n(state.meta.daysInMonth)));
+const remainingToGoal=(current,goal)=>Math.max(0,n(goal)-n(current));
+const perRemainingDay=(current,goal)=>daysLeft()>0?remainingToGoal(current,goal)/daysLeft():remainingToGoal(current,goal);
+const paceText=(current,goal,label)=>{const left=remainingToGoal(current,goal),per=perRemainingDay(current,goal);return left<=0?`${label} goal reached`:`${left.toFixed(left%1?1:0)} left • ${per.toFixed(per<1?2:1)}/day needed`;};
+function urgencyBanner(){const left=daysLeft(),done=monthComplete()*100;return `<div class="urgency-strip"><div class="urgency-top"><div class="urgency-days">⏳ ${left} DAYS LEFT</div><div class="urgency-copy">${done.toFixed(1)}% of the month is gone • every remaining day matters more</div></div><div class="month-track"><div class="month-fill" style="width:${done}%"></div></div></div>`}
+
 const escapeHtml=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
 
 function trafficFactor(){return Math.max(1,projected(state.store.traffic)/Math.max(1,state.storeGoals.traffic))}
@@ -295,25 +318,12 @@ function toggleShareMode(){
  document.querySelectorAll('.share-toggle-label').forEach(x=>x.textContent=shareMode?'Exit Share View':'Share View');
 }
 async function shareCurrentPage(){
- const source=document.documentElement.outerHTML;
- const embedded=`const EMBEDDED_STATE = ${JSON.stringify(state)};`;
- const modified='<!DOCTYPE html>\n'+source.replace('const EMBEDDED_STATE = null;',embedded);
- const fileName=`StorePulse_${state.meta.month.replaceAll(' ','_')}_Share.html`;
+ const shareData={title:`StorePulse ${state.meta.month}`,text:`Updated through ${state.meta.updatedThrough}`,url:location.href};
  try{
-   const file=new File([modified],fileName,{type:'text/html'});
-   if(navigator.canShare && navigator.canShare({files:[file]})){
-     await navigator.share({title:`StorePulse ${state.meta.month}`,text:`Updated through ${state.meta.updatedThrough}`,files:[file]});
-     return;
-   }
-   if(navigator.share){
-     await navigator.share({title:`StorePulse ${state.meta.month}`,text:`Updated through ${state.meta.updatedThrough}`,url:location.href});
-     return;
-   }
- }catch(e){
-   if(e?.name==='AbortError')return;
- }
- exportShareableHTML();
- alert('Your browser could not open the share sheet, so a shareable HTML file was downloaded instead.');
+   if(navigator.share){await navigator.share(shareData);return;}
+   await navigator.clipboard.writeText(location.href);
+   alert('Live StorePulse link copied.');
+ }catch(e){if(e?.name!=='AbortError')prompt('Copy this live StorePulse link:',location.href)}
 }
 
 function hpBar(value,id){return `<div class="hp-shell hp-hit" data-hp="${value}" id="hp-${id}"><div class="hp-fill" style="background:${hpColor(value)}"></div><div class="hp-text">${value} HP</div></div>`}
@@ -440,7 +450,7 @@ function toggleMoneyMoves(index){
  if(!panel || !btn)return;
  const opening=panel.classList.contains('money-hidden');
  panel.classList.toggle('money-hidden');
- btn.textContent = panel.classList.contains('money-hidden') ? 'Show Money Moves' : 'Hide Money Moves';
+ btn.textContent = panel.classList.contains('money-hidden') ? '💰 Reveal Money Moves' : 'Hide Money Moves';
  if(opening) triggerMoneyRain(20);
 }
 function storePaidPriorities(){
@@ -467,7 +477,7 @@ function metricRow(label,current,goal,{rate=false,project=true,path=''}={}){
  const display=v=>rate?(label.includes('ACC')?money2(v):pct(v)):Number(v).toFixed(project?1:0);
  return `<tr><td><strong>${label}</strong>${tr?`<div class="mini ${trCls}">${tr}</div>`:''}</td><td class="num">${rate?(label.includes('ACC')?money2(current):pct(current)):current}</td><td class="num">${rate?(label.includes('ACC')?money2(goal):pct(goal)):goal}</td><td class="num">${display(proj)}</td><td><span class="status ${cls}">${txt}</span></td></tr>`
 }
-function renderTabs(){const items=[['store','Store'],...state.reps.map((r,i)=>[`rep${i}`,r.name]),['comp','Comp Math'],['edit','Edit Data']];document.getElementById('tabs').innerHTML=items.map(([id,label])=>`<button class="tab ${currentPage===id?'active':''}" onclick="showPage('${id}')">${escapeHtml(label)}</button>`).join('')}
+function renderTabs(){const items=[['store','Store'],...state.reps.map((r,i)=>[`rep${i}`,r.name])];document.getElementById('tabs').innerHTML=items.map(([id,label])=>`<button class="tab ${currentPage===id?'active':''}" onclick="showPage('${id}')">${escapeHtml(label)}</button>`).join('')}
 function showPage(id){currentPage=id;document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById('page-'+id)?.classList.add('active');renderTabs();window.scrollTo({top:0,behavior:'smooth'});setTimeout(animateActivePage,50)}
 function morningHuddle(){
  const sorted=state.reps.map((r,i)=>({r,i,h:repHealth(r),c:coaching(r)})).sort((a,b)=>a.h-b.h);
@@ -485,46 +495,46 @@ function renderStore(){
   metricRow('Upgrades',s.upgrades,adjustedStoreGoal('upgrades'),{path:'store.upgrades'}),
   metricRow('Data',s.data,state.storeGoals.data,{path:'store.data'})
  ].join('');
- return `<section class="page" id="page-store"><div class="share-banner">Staff Share View • Updated through ${escapeHtml(state.meta.updatedThrough)}</div><div class="hero"><h1>${escapeHtml(state.meta.storeName)} — Manager Command Center</h1><p>${escapeHtml(state.meta.month)} • Updated through ${escapeHtml(state.meta.updatedThrough)} • ${trafficNote()}</p><div class="screen-only" style="margin-top:12px"><button class="btn" onclick="toggleShareMode()"><span class="share-toggle-label">Share View</span></button></div></div>
+ return `<section class="page" id="page-store"><div class="share-banner">Staff Share View • Updated through ${escapeHtml(state.meta.updatedThrough)}</div><div class="hero"><h1>${escapeHtml(state.meta.storeName)} — Manager Command Center</h1><p>${escapeHtml(state.meta.month)} • Updated through ${escapeHtml(state.meta.updatedThrough)} • ${trafficNote()}</p>${urgencyBanner()}</div>
  <div class="grid kpis">
   <div class="card kpi"><div class="label">Store Health</div><div class="value">${h} HP</div><div style="margin-top:10px">${hpBar(h,'store')}</div></div>
   ${managerVault(`<div class="kpi"><div class="label">Est. Manager Pay</div><div class="value money-animate" data-money="${managerEstimate()}">$0</div><div class="sub">Planning estimate</div></div>`)}
-  <div class="card kpi"><div class="label">Traffic Pace</div><div class="value">${pct(trafficFactor())}</div><div class="sub">Baseline 100%</div></div>
-  <div class="card kpi"><div class="label">Adjusted PPV Goal</div><div class="value">${adjustedStoreGoal('ppv')}</div><div class="sub">Base ${state.storeGoals.ppv}</div></div>
-  <div class="card kpi"><div class="label">Adjusted Upgrade Goal</div><div class="value">${adjustedStoreGoal('upgrades')}</div><div class="sub">Base ${state.storeGoals.upgrades}</div></div>
+  <div class="card kpi deadline-card urgent-pulse"><div class="label">Days Remaining</div><div class="value">${daysLeft()}</div><div class="sub">Closing window</div></div>
+  <div class="card kpi"><div class="label">Adjusted PPV Goal</div><div class="value">${adjustedStoreGoal('ppv')}</div><div class="sub">${paceText(s.ppv,adjustedStoreGoal('ppv'),'PPV')}</div></div>
+  <div class="card kpi"><div class="label">Adjusted Upgrade Goal</div><div class="value">${adjustedStoreGoal('upgrades')}</div><div class="sub">${paceText(s.upgrades,adjustedStoreGoal('upgrades'),'Upgrades')}</div></div>
  </div>
- <div class="section-title">Expanded Morning Huddle</div>
+ <div class="closing-window urgent-pulse" style="margin-top:14px"><div class="clock">⏰</div><div><h3>The runway is getting shorter</h3><p>There are ${daysLeft()} selling days left on the calendar. The goal now is not “eventually” — it is creating enough activity every day to avoid needing a miracle in the final week.</p><div class="runway-grid"><div class="runway-item"><strong>${perRemainingDay(s.ppv,adjustedStoreGoal('ppv')).toFixed(1)}</strong><span>PPV per day</span></div><div class="runway-item"><strong>${perRemainingDay(s.aiaPosted,state.storeGoals.aiaPosted).toFixed(1)}</strong><span>AIA Posted/day</span></div><div class="runway-item"><strong>${perRemainingDay(s.upgrades,adjustedStoreGoal('upgrades')).toFixed(1)}</strong><span>Upgrades/day</span></div><div class="runway-item"><strong>${perRemainingDay(s.data,state.storeGoals.data).toFixed(2)}</strong><span>Data/day</span></div></div></div></div>
+ <div class="section-title">Closing-Window Morning Huddle</div>
  <div class="huddle-grid">
   <div class="callout win"><strong>Store Win</strong><p>${state.store.tradeRate>=.50?`Store trade rate is ${pct(state.store.tradeRate)} — above the 50% goal.`:(mh.storeWins[0]||'Create a store win today.')}</p></div>
   <div class="callout focus"><strong>Revenue Priority</strong><p>PPV close rate is ${pct(state.store.ppvClose)} against a ${pct(.035)} target. ${rateRecovery(state.store.ppv,state.store.traffic,.035)} additional PPV at current traffic would reach the target.</p></div>
   <div class="callout focus"><strong>Service Priority</strong><p>HTP close rate is ${pct(state.store.htpClose)} against a ${pct(.05)} target. ${rateRecovery(state.store.htp,state.store.htpEligible,.05)} additional HTP would reach the target at the current eligible-opportunity count.</p></div>
-  <div class="callout note"><strong>Today’s Team Challenge</strong><p>${projected(state.store.ppv)<adjustedStoreGoal('ppv')?'One quality PPV opportunity per rep shift.':''} ${state.store.htpClose<.05?'Ask every eligible household about HTP.':''}</p></div>
+  <div class="callout note"><strong>Today’s Team Challenge</strong><p>Do not leave today’s pace for tomorrow. ${remainingToGoal(s.ppv,adjustedStoreGoal('ppv'))>0?`The store needs ${perRemainingDay(s.ppv,adjustedStoreGoal('ppv')).toFixed(1)} PPV per remaining day.`:''} ${state.store.htpClose<.05?'Ask every eligible household about HTP and team-sell the conversation.':''}</p></div>
  </div>
  <div class="section-title">Everyone’s Shoutout & Opportunity</div>
  <div class="card"><div class="card-body" style="padding:0">${state.reps.map((r,i)=>`<div class="rep-huddle"><div class="name">${escapeHtml(r.name)}<div class="mini">${repHealth(r)} HP</div></div><div><strong>Shoutout</strong><div>${storeShoutout(r)}</div></div><div><strong>Opportunity</strong><div>${storeOpportunity(r)}</div><div class="paid-line">💵 ${primaryPaidMove(r)}</div></div></div>`).join('')}</div></div>
  <div class="section-title">Store Pace</div><div class="card"><div class="card-body"><table><thead><tr><th>Metric</th><th class="num">Current</th><th class="num">Goal</th><th class="num">Projected</th><th>Coaching</th></tr></thead><tbody>${rows}</tbody></table></div></div>
  
- <div class="section-title">Close Rates & Sample Context</div>
- <div class="grid three">
-   <div class="card kpi"><div class="label">PPV Close Rate</div><div class="value">${pct(state.store.ppvClose)}</div><div class="sub">Goal ${pct(.035)} • ${state.store.ppv} PPV / ${state.store.traffic} traffic</div><div class="metric-gap">${rateRecovery(state.store.ppv,state.store.traffic,.035)} more PPV to reach target at current traffic</div></div>
-   <div class="card kpi"><div class="label">HTP Close Rate</div><div class="value">${pct(state.store.htpClose)}</div><div class="sub">Goal ${pct(.05)} • ${state.store.htp} HTP / ${state.store.htpEligible} eligible</div><div class="metric-gap">${rateRecovery(state.store.htp,state.store.htpEligible,.05)} more HTP to reach target</div></div>
+ <div class="section-title">Store Close Rates</div>
+ <div class="grid four">
+   <div class="card kpi"><div class="label">PPV Close Rate</div><div class="value">${pct(state.store.ppvClose)}</div><div class="sub">Goal ${pct(.035)}</div><div class="metric-gap">${rateRecovery(state.store.ppv,state.store.traffic,.035)} more PPV at current traffic reaches target</div></div>
+   <div class="card kpi"><div class="label">AIA Close Rate</div><div class="value">${pct(state.store.aiaClose)}</div><div class="sub">Qualification target ${pct(state.comp.aiaCloseQual)}</div></div>
+   <div class="card kpi"><div class="label">HTP Close Rate</div><div class="value">${pct(state.store.htpClose)}</div><div class="sub">Goal ${pct(.05)} • keep asking every eligible household</div></div>
    <div class="card kpi"><div class="label">Store Trade Rate</div><div class="value">${pct(state.store.tradeRate)}</div><div class="sub">Goal 50%</div></div>
  </div>
-
- <div class="section-title">Team Coaching Queue</div><div class="grid four">${queue.map(({r,i,h,c},rank)=>`<div class="card"><div class="card-head">${rank+1}. ${escapeHtml(r.name)}</div><div class="card-body">${hpBar(h,'queue'+i)}<p><strong>Shoutout:</strong> ${c.wins[0]||'Create a standout metric today.'}</p><p><strong>First focus:</strong> ${c.focus[0]||'Stay the course.'}</p></div></div>`).join('')}</div>
  <div class="footer-note">Manager pay is an estimate. PPV and AIA Posted carry the most weight.</div></section>`
 }
 function renderRep(rep,i){
  const comp=repComp(rep),q=repQualification(rep),h=repHealth(rep),c=coaching(rep),b=badges(rep),left=moneyLeft(rep),ppvGoal=adjustedRepGoal('ppv'),upgGoal=adjustedRepGoal('upgrades');
  return `<section class="page" id="page-rep${i}">
- <div class="rep-banner" data-qualified="${q.qualified}" style="background:${rep.color}"><div><h1>${escapeHtml(rep.name)} — Rep Performance</h1><p>${escapeHtml(state.meta.month)} • goals adjust upward when store traffic is pacing above plan.</p></div><div class="hp-wrap">${hpBar(h,'rep'+i)}</div></div>
+ <div class="rep-banner" data-qualified="${q.qualified}" style="background:${rep.color}"><div><h1>${escapeHtml(rep.name)} — Rep Performance</h1><p>${escapeHtml(state.meta.month)} • ${daysLeft()} days remain • goals adjust upward with store traffic.</p><span class="deadline-tag">⏳ CLOSING WINDOW</span></div><div class="hp-wrap">${hpBar(h,'rep'+i)}</div></div><div class="rep-deadline"><div><strong>${daysLeft()} days left to finish the month</strong><div>Small misses now become large daily requirements later.</div></div><div>${q.aiaEither?'✅ AIA qualified — turn activity into posted pay':'🚨 AIA not qualified — submits or close rate comes first'}</div></div>
  <div class="grid kpis">
-  ${repVault(i,`<div class="grid two"><div class="kpi"><div class="label">Projected Pay</div><div class="value money-animate" data-money="${comp.total}">$0</div><div class="sub">Gross estimate if qualified</div></div><div class="kpi"><div class="label">Money Left on Table</div><div class="value money-animate" data-money="${left}">$0</div><div class="sub">${left>0?'Potential multiplier upside':'Both multipliers reflected'}</div></div></div>`)}
+  ${repVault(i,`<div class="grid two"><div class="kpi"><div class="label">Projected Pay</div><div class="value money-animate" data-money="${comp.total}">$0</div><div class="sub">Gross estimate if qualified</div></div><div class="kpi"><div class="label">Money Left on Table</div><div class="value money-animate" data-money="${left}">$0</div><div class="sub">${left>0?'Potential multiplier upside':'Both multipliers reflected'}</div></div></div><details style="margin-top:12px"><summary>See pay breakdown</summary><div class="detail-body"><div class="grid four"><div class="card kpi"><div class="label">Adjusted Base</div><div class="value">${money2(comp.adjusted)}</div></div><div class="card kpi"><div class="label">Final Base</div><div class="value">${money2(comp.finalBase)}</div></div><div class="card kpi"><div class="label">PPV Pay</div><div class="value">${money(comp.ppvPay)}</div></div><div class="card kpi"><div class="label">AIA Posted Pay</div><div class="value">${money(comp.aiaPay)}</div></div></div><p class="mini"><strong>Multipliers:</strong> Accessories ${comp.accMult.toFixed(2)}× • Insurance ${comp.insMult.toFixed(2)}×</p><p class="mini"><strong>Instant spiffs:</strong> ${money2(comp.spiffs)} projected from AIA submits and Pre→Post.</p><p class="mini">AIA must qualify through ${state.comp.aiaSubmitQual} submits or ${pct(state.comp.aiaCloseQual)} close rate. This is a planning estimate, not official payroll.</p></div></details>`)}
   <div class="card kpi"><div class="label">Qualification</div><div class="value" style="font-size:18px;color:${q.qualified?'var(--green)':'var(--red)'}">${q.qualified?'Qualified':'At Risk'}</div><div class="sub">${q.qualified?'All current requirements met':'Needs '+q.reasons.join(' • ')}</div></div>
-  <div class="card kpi"><div class="label">PPV</div><div class="value">${rep.ppv}</div><div class="sub">Proj ${projected(rep.ppv).toFixed(1)} / Goal ${ppvGoal}</div></div>
-  <div class="card kpi"><div class="label">AIA Posted</div><div class="value">${rep.aiaPosted}</div><div class="sub">Proj ${projected(rep.aiaPosted).toFixed(1)} / Goal ${state.repGoals.aiaPosted}</div></div>
+  <div class="card kpi"><div class="label">PPV</div><div class="value">${rep.ppv}</div><div class="sub">Proj ${projected(rep.ppv).toFixed(1)} / Goal ${ppvGoal}</div><div class="pace-per-day">${paceText(rep.ppv,ppvGoal,"PPV")}</div></div>
+  <div class="card kpi"><div class="label">AIA Posted</div><div class="value">${rep.aiaPosted}</div><div class="sub">Proj ${projected(rep.aiaPosted).toFixed(1)} / Goal ${state.repGoals.aiaPosted}</div><div class="pace-per-day">${q.aiaEither?paceText(rep.aiaPosted,state.repGoals.aiaPosted,"AIA Posted"):`Qualify first: ${Math.max(0,state.comp.aiaSubmitQual-rep.aiaSubmits)} submits left OR reach ${pct(state.comp.aiaCloseQual)}`}</div></div>
  </div>
- <div class="section-title">Achievements</div><div class="badges">${(b.length?b:['🎮 Build Your First Badge']).map(x=>`<span class="badge">${x}</span>`).join('')}</div>
+ <div class="section-title">Achievements</div><div class="badges">${(b.length?b:['🎯 Closing Stretch — Earn the Next Badge']).map(x=>`<span class="badge">${x}</span>`).join('')}</div>
  <div class="section-title">What Gets You Paid</div><div class="card"><div class="card-body"><table><thead><tr><th>Metric</th><th class="num">Current</th><th class="num">Goal</th><th class="num">Projected</th><th>Coaching</th></tr></thead><tbody>
  ${metricRow('PPV',rep.ppv,ppvGoal,{path:`reps.${i}.ppv`})}
  ${metricRow('AIA Posted',rep.aiaPosted,state.repGoals.aiaPosted,{path:`reps.${i}.aiaPosted`})}
@@ -542,11 +552,9 @@ function renderRep(rep,i){
  <div class="section-title">Other Worth-Noting Metrics</div><div class="card"><div class="card-body"><table><tbody>
  ${metricRow('AIA Close Rate',rep.aiaClose,state.repGoals.aiaClose,{rate:true,path:`reps.${i}.aiaClose`})}
  ${metricRow('Next Up',rep.nextUp,state.repGoals.nextUp,{rate:true,path:`reps.${i}.nextUp`})}
- <tr><td><strong>Trade-in Rate</strong><div class="sample ${sampleConfidence(rep.oppCount)[1]}">${sampleConfidence(rep.oppCount)[0]} • ${rep.oppCount} opps</div></td><td class="num">${pct(rep.tradeRate)}</td><td class="num">${pct(state.repGoals.tradeRate)}</td><td class="num">${pct(rep.tradeRate)}</td><td><span class="status ${coachStatus(rep.tradeRate,state.repGoals.tradeRate,true)[1]}">${coachStatus(rep.tradeRate,state.repGoals.tradeRate,true)[0]}</span></td></tr>
  ${metricRow('Pre→Post',rep.pre2post,state.repGoals.pre2post,{path:`reps.${i}.pre2post`})}
- ${metricRow('HTP Attach Rate',rep.htp/Math.max(1,rep.htpEligible),state.repGoals.htpRate,{rate:true})}
  </tbody></table></div></div>
- <div class="money-toggle-wrap"><button class="money-toggle" id="money-btn-${i}" onclick="toggleMoneyMoves(${i})">Show Money Moves</button></div>
+ <div class="money-toggle-wrap"><button class="money-toggle" id="money-btn-${i}" onclick="toggleMoneyMoves(${i})">💰 Reveal Money Moves</button></div>
  <div class="paid-priority money-hidden" id="money-panel-${i}" style="margin-top:12px"><div class="money-moves">${paidMovesForRep(rep).slice(0,3).map(x=>`<div class="money-move"><span class="coin">💵</span><span>${x}</span></div>`).join('')}</div></div>
  <div class="grid two" style="margin-top:14px"><div class="callout win"><strong>Shoutouts</strong><ul>${(c.wins.length?c.wins:['Create a standout metric today.']).map(x=>`<li>${x}</li>`).join('')}</ul></div><div class="callout focus"><strong>Today to Win</strong><ul>${(c.focus.length?c.focus:['Stay the course and create separation.']).slice(0,4).map(x=>`<li>${x}</li>`).join('')}</ul></div></div>
  </section>`
@@ -580,7 +588,6 @@ const QUICK_METRICS=[
  ['nextUp','Next Up %',true],
  ['csat','CSAT',true],
  ['pre2post','Prepaid to Postpaid',false],
- ['tradeRate','Trade-in Rate',true]
 ];
 function parseQuickNumber(raw,isRate=false){
  let s=String(raw??'').trim().replaceAll(',','').replaceAll('$','');
@@ -662,7 +669,7 @@ function renderEdit(){return `<section class="page" id="page-edit"><div class="h
  </div></details>
  <div class="grid two" style="margin-top:16px"><button class="btn dark" onclick="downloadJSON()">Download JSON Backup</button><button class="btn secondary" onclick="resetState()">Reset Test Data</button></div></section>`}
 function setPath(path,value){const parts=path.split('.');let o=state;for(let i=0;i<parts.length-1;i++)o=o[parts[i]];o[parts.at(-1)]=value;saveState()}
-function renderAll(){document.getElementById('content').innerHTML=renderStore()+state.reps.map(renderRep).join('')+renderComp()+renderEdit();renderTabs();showPage(currentPage)}
+function renderAll(){document.getElementById('content').innerHTML=renderStore()+state.reps.map(renderRep).join('');renderTabs();showPage(currentPage)}
 function downloadJSON(){downloadBlob(new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),`StorePulse_${state.meta.month.replaceAll(' ','_')}.json`)}
 function downloadBlob(blob,name){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1200)}
 function exportShareableHTML(){const source=document.documentElement.outerHTML,embedded=`const EMBEDDED_STATE = ${JSON.stringify(state)};`,modified=source.replace('const EMBEDDED_STATE = null;',embedded);downloadBlob(new Blob(['<!DOCTYPE html>\n'+modified],{type:'text/html'}),`StorePulse_${state.meta.month.replaceAll(' ','_')}_Share.html`)}
