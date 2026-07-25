@@ -171,16 +171,16 @@ details{background:#fff;border:1px solid var(--line);border-radius:13px;margin:1
 <div class="money-drop-layer" id="moneyRain"></div>
 <script>
 const DEFAULT_STATE = {
- meta:{month:'July 2026',daysInMonth:31,daysElapsed:20,storeName:'Cinnaminson',updatedThrough:'EOD July 20'},
+ meta:{month:'July 2026',daysInMonth:31,daysElapsed:23,storeName:'Cinnaminson',updatedThrough:'EOD July 23'},
  comp:{startingBase:17.5,ppvMultiplier:1,aiaPostedMultiplier:1.6,upgradeAdd:.15,dataAdd:.30,aiaSubmitSpiff:10,pre2postSpiff:10,csatQual:.88,aiaSubmitQual:4,htpQual:2,insuranceMin:.50,accMin:50,insuranceBonus:.60,accBonus:60,aiaCloseQual:.075},
  storeGoals:{traffic:779,ppv:38,aiaPosted:19,upgrades:60,data:12,managerAtRisk:612,manager60s:306},
  repGoals:{ppv:10,aiaPosted:5,aiaSubmits:4,upgrades:15,data:3,htp:2,pre2post:2,tradeRate:.50,insurance:.60,accPerOpp:60,csat:.88,aiaClose:.065,htpRate:.05,nextUp:.60},
- store:{traffic:567,ppv:16,ppvClose:.0265,aiaPosted:8,aiaSubmits:8,aiaClose:.049,htp:2,htpEligible:55,htpClose:.0367,upgrades:46,data:11,cru:1,accessoryRevenue:3657,accPerOpp:59.95,insurance:.6522,nextUp:.2364,csat:1,pre2post:1,pa4:0,oppCount:0,tradeRate:.528},
+ store:{traffic:0,ppv:20,ppvClose:0,aiaPosted:9,aiaSubmits:10,aiaClose:.051,htp:4,htpEligible:0,htpClose:0,upgrades:53,data:13,cru:1,accessoryRevenue:4279,accPerOpp:60.27,insurance:.6481,nextUp:.2581,csat:.9063,pre2post:1,pa4:0,oppCount:0,tradeRate:0},
  reps:[
-  {name:'Noelle',color:'#6a4c93',ppv:5,aiaPosted:1,aiaSubmits:1,aiaClose:.024,htp:1,htpEligible:0,upgrades:11,data:0,cru:0,accessoryRevenue:1085,accPerOpp:67.80,insurance:1,nextUp:.2667,csat:1,pre2post:0,pa4:0,oppCount:0,tradeRate:0,ple:true},
-  {name:'Derick',color:'#0f8b8d',ppv:3,aiaPosted:2,aiaSubmits:2,aiaClose:.063,htp:0,htpEligible:0,upgrades:9,data:2,cru:1,accessoryRevenue:387,accPerOpp:32.21,insurance:.2222,nextUp:.30,csat:1,pre2post:0,pa4:0,oppCount:0,tradeRate:0,ple:true},
-  {name:'Jamie',color:'#d97706',ppv:4,aiaPosted:3,aiaSubmits:4,aiaClose:.095,htp:1,htpEligible:0,upgrades:16,data:8,cru:0,accessoryRevenue:1578,accPerOpp:82.63,insurance:.7363,nextUp:.2941,csat:1,pre2post:1,pa4:0,oppCount:0,tradeRate:0,ple:true},
-  {name:'TJ',color:'#1473e6',ppv:4,aiaPosted:2,aiaSubmits:1,aiaClose:.025,htp:0,htpEligible:0,upgrades:7,data:1,cru:0,accessoryRevenue:431,accPerOpp:39.18,insurance:.5556,nextUp:0,csat:1,pre2post:0,pa4:0,oppCount:0,tradeRate:0,ple:true}
+  {name:'Noelle',color:'#6a4c93',ppv:5,aiaPosted:1,aiaSubmits:1,aiaClose:.021,htp:1,htpEligible:0,upgrades:12,data:0,cru:0,accessoryRevenue:1104,accPerOpp:64.94,insurance:1,nextUp:.3125,csat:1,pre2post:0,pa4:0,oppCount:0,tradeRate:0,ple:true},
+  {name:'Derick',color:'#0f8b8d',ppv:3,aiaPosted:2,aiaSubmits:2,aiaClose:.044,htp:1,htpEligible:0,upgrades:12,data:2,cru:1,accessoryRevenue:479,accPerOpp:34.21,insurance:.30,nextUp:.3333,csat:.70,pre2post:0,pa4:0,oppCount:0,tradeRate:0,ple:true},
+  {name:'Jamie',color:'#d97706',ppv:7,aiaPosted:4,aiaSubmits:5,aiaClose:.102,htp:1,htpEligible:0,upgrades:18,data:10,cru:0,accessoryRevenue:2010,accPerOpp:83.75,insurance:.75,nextUp:.2857,csat:1,pre2post:1,pa4:0,oppCount:0,tradeRate:0,ple:true},
+  {name:'TJ',color:'#1473e6',ppv:5,aiaPosted:2,aiaSubmits:2,aiaClose:.044,htp:1,htpEligible:0,upgrades:8,data:1,cru:0,accessoryRevenue:501,accPerOpp:38.53,insurance:.4545,nextUp:0,csat:1,pre2post:0,pa4:0,oppCount:0,tradeRate:0,ple:true}
  ],
  previous:null
 };
@@ -240,10 +240,10 @@ function urgencyBanner(){const left=daysLeft(),done=monthComplete()*100;return `
 
 const escapeHtml=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
 
-function trafficFactor(){return Math.max(1,projected(state.store.traffic)/Math.max(1,state.storeGoals.traffic))}
+function trafficFactor(){return 1}
 function adjustedStoreGoal(key){const base=n(state.storeGoals[key]);return ['ppv','upgrades'].includes(key)?Math.ceil(base*trafficFactor()):base}
 function adjustedRepGoal(key){const base=n(state.repGoals[key]);return ['ppv','upgrades'].includes(key)?Math.ceil(base*trafficFactor()):base}
-function trafficNote(){const delta=trafficFactor()-1;return delta>0?`Traffic is pacing ${(delta*100).toFixed(1)}% above plan, so PPV and upgrade goals increased by the same percentage.`:'Traffic is not above plan, so PPV and upgrade goals remain at baseline.'}
+function trafficNote(){return 'Monthly goals are locked for the closing stretch.'}
 
 function coachStatus(projectedValue,goal,isRate=false){
  const ratio=n(projectedValue)/Math.max(.00001,n(goal));
@@ -500,34 +500,34 @@ function renderStore(){
   <div class="card kpi"><div class="label">Store Health</div><div class="value">${h} HP</div><div style="margin-top:10px">${hpBar(h,'store')}</div></div>
   ${managerVault(`<div class="kpi"><div class="label">Est. Manager Pay</div><div class="value money-animate" data-money="${managerEstimate()}">$0</div><div class="sub">Planning estimate</div></div>`)}
   <div class="card kpi deadline-card urgent-pulse"><div class="label">Days Remaining</div><div class="value">${daysLeft()}</div><div class="sub">Closing window</div></div>
-  <div class="card kpi"><div class="label">Adjusted PPV Goal</div><div class="value">${adjustedStoreGoal('ppv')}</div><div class="sub">${paceText(s.ppv,adjustedStoreGoal('ppv'),'PPV')}</div></div>
-  <div class="card kpi"><div class="label">Adjusted Upgrade Goal</div><div class="value">${adjustedStoreGoal('upgrades')}</div><div class="sub">${paceText(s.upgrades,adjustedStoreGoal('upgrades'),'Upgrades')}</div></div>
+  <div class="card kpi"><div class="label">Monthly PPV Goal</div><div class="value">${adjustedStoreGoal('ppv')}</div><div class="sub">${paceText(s.ppv,adjustedStoreGoal('ppv'),'PPV')}</div></div>
+  <div class="card kpi"><div class="label">Monthly Upgrade Goal</div><div class="value">${adjustedStoreGoal('upgrades')}</div><div class="sub">${paceText(s.upgrades,adjustedStoreGoal('upgrades'),'Upgrades')}</div></div>
  </div>
- <div class="closing-window urgent-pulse" style="margin-top:14px"><div class="clock">⏰</div><div><h3>The runway is getting shorter</h3><p>There are ${daysLeft()} selling days left on the calendar. The goal now is not “eventually” — it is creating enough activity every day to avoid needing a miracle in the final week.</p><div class="runway-grid"><div class="runway-item"><strong>${perRemainingDay(s.ppv,adjustedStoreGoal('ppv')).toFixed(1)}</strong><span>PPV per day</span></div><div class="runway-item"><strong>${perRemainingDay(s.aiaPosted,state.storeGoals.aiaPosted).toFixed(1)}</strong><span>AIA Posted/day</span></div><div class="runway-item"><strong>${perRemainingDay(s.upgrades,adjustedStoreGoal('upgrades')).toFixed(1)}</strong><span>Upgrades/day</span></div><div class="runway-item"><strong>${perRemainingDay(s.data,state.storeGoals.data).toFixed(2)}</strong><span>Data/day</span></div></div></div></div>
+ <div class="closing-window urgent-pulse" style="margin-top:14px"><div class="clock">⏰</div><div><h3>Eight days. No wasted shifts.</h3><p>There are ${daysLeft()} calendar days left. Every missed ask now increases what the team must produce tomorrow. Win the day before the final week turns into recovery mode.</p><div class="runway-grid"><div class="runway-item"><strong>${perRemainingDay(s.ppv,adjustedStoreGoal('ppv')).toFixed(1)}</strong><span>PPV per day</span></div><div class="runway-item"><strong>${perRemainingDay(s.aiaPosted,state.storeGoals.aiaPosted).toFixed(1)}</strong><span>AIA Posted/day</span></div><div class="runway-item"><strong>${perRemainingDay(s.upgrades,adjustedStoreGoal('upgrades')).toFixed(1)}</strong><span>Upgrades/day</span></div><div class="runway-item"><strong>${perRemainingDay(s.data,state.storeGoals.data).toFixed(2)}</strong><span>Data/day</span></div></div></div></div>
  <div class="section-title">Closing-Window Morning Huddle</div>
  <div class="huddle-grid">
-  <div class="callout win"><strong>Store Win</strong><p>${state.store.tradeRate>=.50?`Store trade rate is ${pct(state.store.tradeRate)} — above the 50% goal.`:(mh.storeWins[0]||'Create a store win today.')}</p></div>
-  <div class="callout focus"><strong>Revenue Priority</strong><p>PPV close rate is ${pct(state.store.ppvClose)} against a ${pct(.035)} target. ${rateRecovery(state.store.ppv,state.store.traffic,.035)} additional PPV at current traffic would reach the target.</p></div>
-  <div class="callout focus"><strong>Service Priority</strong><p>HTP close rate is ${pct(state.store.htpClose)} against a ${pct(.05)} target. ${rateRecovery(state.store.htp,state.store.htpEligible,.05)} additional HTP would reach the target at the current eligible-opportunity count.</p></div>
-  <div class="callout note"><strong>Today’s Team Challenge</strong><p>Do not leave today’s pace for tomorrow. ${remainingToGoal(s.ppv,adjustedStoreGoal('ppv'))>0?`The store needs ${perRemainingDay(s.ppv,adjustedStoreGoal('ppv')).toFixed(1)} PPV per remaining day.`:''} ${state.store.htpClose<.05?'Ask every eligible household about HTP and team-sell the conversation.':''}</p></div>
+  <div class="callout win"><strong>Store Win</strong><p>Data is already above goal, AIA is qualified through 10 submits, and both the accessory and insurance multipliers are active.</p></div>
+  <div class="callout focus"><strong>Revenue Priority</strong><p>PPV needs ${remainingToGoal(s.ppv,adjustedStoreGoal('ppv'))} more this month — ${perRemainingDay(s.ppv,adjustedStoreGoal('ppv')).toFixed(1)} per remaining day. Treat every account review like it matters, because it does.</p></div>
+  <div class="callout focus"><strong>AIA Priority</strong><p>Qualification is handled. Now convert activity into posted money: ${remainingToGoal(s.aiaPosted,state.storeGoals.aiaPosted)} more AIA Posted, or ${perRemainingDay(s.aiaPosted,state.storeGoals.aiaPosted).toFixed(2)} per day.</p></div>
+  <div class="callout note"><strong>Today’s Team Challenge</strong><p>Target ${Math.ceil(perRemainingDay(s.ppv,adjustedStoreGoal('ppv')))} PPV and ${Math.ceil(perRemainingDay(s.aiaPosted,state.storeGoals.aiaPosted))} AIA Posted today. Ask everyone, team-sell live opportunities, and do not push today’s gap into tomorrow.</p></div>
  </div>
  <div class="section-title">Everyone’s Shoutout & Opportunity</div>
  <div class="card"><div class="card-body" style="padding:0">${state.reps.map((r,i)=>`<div class="rep-huddle"><div class="name">${escapeHtml(r.name)}<div class="mini">${repHealth(r)} HP</div></div><div><strong>Shoutout</strong><div>${storeShoutout(r)}</div></div><div><strong>Opportunity</strong><div>${storeOpportunity(r)}</div><div class="paid-line">💵 ${primaryPaidMove(r)}</div></div></div>`).join('')}</div></div>
  <div class="section-title">Store Pace</div><div class="card"><div class="card-body"><table><thead><tr><th>Metric</th><th class="num">Current</th><th class="num">Goal</th><th class="num">Projected</th><th>Coaching</th></tr></thead><tbody>${rows}</tbody></table></div></div>
  
- <div class="section-title">Store Close Rates</div>
+ <div class="section-title">Store Qualification & Multipliers</div>
  <div class="grid four">
-   <div class="card kpi"><div class="label">PPV Close Rate</div><div class="value">${pct(state.store.ppvClose)}</div><div class="sub">Goal ${pct(.035)}</div><div class="metric-gap">${rateRecovery(state.store.ppv,state.store.traffic,.035)} more PPV at current traffic reaches target</div></div>
-   <div class="card kpi"><div class="label">AIA Close Rate</div><div class="value">${pct(state.store.aiaClose)}</div><div class="sub">Qualification target ${pct(state.comp.aiaCloseQual)}</div></div>
-   <div class="card kpi"><div class="label">HTP Close Rate</div><div class="value">${pct(state.store.htpClose)}</div><div class="sub">Goal ${pct(.05)} • keep asking every eligible household</div></div>
-   <div class="card kpi"><div class="label">Store Trade Rate</div><div class="value">${pct(state.store.tradeRate)}</div><div class="sub">Goal 50%</div></div>
+   <div class="card kpi"><div class="label">AIA Qualification</div><div class="value" style="color:var(--green)">Qualified</div><div class="sub">${state.store.aiaSubmits} submits • ${pct(state.store.aiaClose)} close rate</div></div>
+   <div class="card kpi"><div class="label">Accessory / Opp</div><div class="value">${money2(state.store.accPerOpp)}</div><div class="sub">1.25× multiplier active</div></div>
+   <div class="card kpi"><div class="label">Insurance</div><div class="value">${pct(state.store.insurance)}</div><div class="sub">1.25× multiplier active</div></div>
+   <div class="card kpi"><div class="label">Store CSAT</div><div class="value">${pct(state.store.csat)}</div><div class="sub">Above the ${pct(state.comp.csatQual)} qualifier</div></div>
  </div>
  <div class="footer-note">Manager pay is an estimate. PPV and AIA Posted carry the most weight.</div></section>`
 }
 function renderRep(rep,i){
  const comp=repComp(rep),q=repQualification(rep),h=repHealth(rep),c=coaching(rep),b=badges(rep),left=moneyLeft(rep),ppvGoal=adjustedRepGoal('ppv'),upgGoal=adjustedRepGoal('upgrades');
  return `<section class="page" id="page-rep${i}">
- <div class="rep-banner" data-qualified="${q.qualified}" style="background:${rep.color}"><div><h1>${escapeHtml(rep.name)} — Rep Performance</h1><p>${escapeHtml(state.meta.month)} • ${daysLeft()} days remain • goals adjust upward with store traffic.</p><span class="deadline-tag">⏳ CLOSING WINDOW</span></div><div class="hp-wrap">${hpBar(h,'rep'+i)}</div></div><div class="rep-deadline"><div><strong>${daysLeft()} days left to finish the month</strong><div>Small misses now become large daily requirements later.</div></div><div>${q.aiaEither?'✅ AIA qualified — turn activity into posted pay':'🚨 AIA not qualified — submits or close rate comes first'}</div></div>
+ <div class="rep-banner" data-qualified="${q.qualified}" style="background:${rep.color}"><div><h1>${escapeHtml(rep.name)} — Rep Performance</h1><p>${escapeHtml(state.meta.month)} • ${daysLeft()} days remain • every remaining day carries more weight.</p><span class="deadline-tag">⏳ CLOSING WINDOW</span></div><div class="hp-wrap">${hpBar(h,'rep'+i)}</div></div><div class="rep-deadline"><div><strong>${daysLeft()} days left to finish the month</strong><div>Small misses now become large daily requirements later.</div></div><div>${q.aiaEither?'✅ AIA qualified — turn activity into posted pay':'🚨 AIA not qualified — submits or close rate comes first'}</div></div>
  <div class="grid kpis">
   ${repVault(i,`<div class="grid two"><div class="kpi"><div class="label">Projected Pay</div><div class="value money-animate" data-money="${comp.total}">$0</div><div class="sub">Gross estimate if qualified</div></div><div class="kpi"><div class="label">Money Left on Table</div><div class="value money-animate" data-money="${left}">$0</div><div class="sub">${left>0?'Potential multiplier upside':'Both multipliers reflected'}</div></div></div><details style="margin-top:12px"><summary>See pay breakdown</summary><div class="detail-body"><div class="grid four"><div class="card kpi"><div class="label">Adjusted Base</div><div class="value">${money2(comp.adjusted)}</div></div><div class="card kpi"><div class="label">Final Base</div><div class="value">${money2(comp.finalBase)}</div></div><div class="card kpi"><div class="label">PPV Pay</div><div class="value">${money(comp.ppvPay)}</div></div><div class="card kpi"><div class="label">AIA Posted Pay</div><div class="value">${money(comp.aiaPay)}</div></div></div><p class="mini"><strong>Multipliers:</strong> Accessories ${comp.accMult.toFixed(2)}× • Insurance ${comp.insMult.toFixed(2)}×</p><p class="mini"><strong>Instant spiffs:</strong> ${money2(comp.spiffs)} projected from AIA submits and Pre→Post.</p><p class="mini">AIA must qualify through ${state.comp.aiaSubmitQual} submits or ${pct(state.comp.aiaCloseQual)} close rate. This is a planning estimate, not official payroll.</p></div></details>`)}
   <div class="card kpi"><div class="label">Qualification</div><div class="value" style="font-size:18px;color:${q.qualified?'var(--green)':'var(--red)'}">${q.qualified?'Qualified':'At Risk'}</div><div class="sub">${q.qualified?'All current requirements met':'Needs '+q.reasons.join(' • ')}</div></div>
