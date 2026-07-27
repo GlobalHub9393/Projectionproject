@@ -140,6 +140,11 @@ details{background:#fff;border:1px solid var(--line);border-radius:13px;margin:1
 .rep-deadline strong{color:#9a3412;font-size:17px}.pace-per-day{font-size:11px;color:#9a3412;font-weight:900;margin-top:5px}
 @media(max-width:720px){.urgency-top,.rep-deadline{align-items:flex-start;flex-direction:column}.urgency-copy{text-align:left}.runway-grid{grid-template-columns:repeat(2,1fr)}}
 
+
+@keyframes urgentPulse{0%,100%{box-shadow:0 0 0 rgba(220,38,38,0)}50%{box-shadow:0 0 28px rgba(220,38,38,.28)}}
+.urgency-strip{animation:urgentPulse 2.8s ease-in-out infinite}
+.urgency-days{letter-spacing:.5px}
+
 </style>
 </head>
 <body>
@@ -171,16 +176,16 @@ details{background:#fff;border:1px solid var(--line);border-radius:13px;margin:1
 <div class="money-drop-layer" id="moneyRain"></div>
 <script>
 const DEFAULT_STATE = {
- meta:{month:'July 2026',daysInMonth:31,daysElapsed:23,storeName:'Cinnaminson',updatedThrough:'EOD July 23'},
+ meta:{month:'July 2026',daysInMonth:31,daysElapsed:26,storeName:'Cinnaminson',updatedThrough:'EOD July 26'},
  comp:{startingBase:17.5,ppvMultiplier:1,aiaPostedMultiplier:1.6,upgradeAdd:.15,dataAdd:.30,aiaSubmitSpiff:10,pre2postSpiff:10,csatQual:.88,aiaSubmitQual:4,htpQual:2,insuranceMin:.50,accMin:50,insuranceBonus:.60,accBonus:60,aiaCloseQual:.075},
  storeGoals:{traffic:779,ppv:38,aiaPosted:19,upgrades:60,data:12,managerAtRisk:612,manager60s:306},
  repGoals:{ppv:10,aiaPosted:5,aiaSubmits:4,upgrades:15,data:3,htp:2,pre2post:2,tradeRate:.50,insurance:.60,accPerOpp:60,csat:.88,aiaClose:.065,htpRate:.05,nextUp:.60},
- store:{traffic:0,ppv:20,ppvClose:0,aiaPosted:9,aiaSubmits:10,aiaClose:.051,htp:4,htpEligible:0,htpClose:0,upgrades:53,data:13,cru:1,accessoryRevenue:4279,accPerOpp:60.27,insurance:.6481,nextUp:.2581,csat:.9063,pre2post:1,pa4:0,oppCount:0,tradeRate:0},
+ store:{traffic:805,ppv:22,ppvClose:.0261,aiaPosted:10,aiaSubmits:18,aiaClose:.08,htp:4,htpEligible:70,htpClose:.0571,upgrades:65,data:14,cru:1,accessoryRevenue:4914,accPerOpp:57.81,insurance:.6102,nextUp:.2667,csat:.9211,pre2post:1,pa4:0,oppCount:0,tradeRate:0},
  reps:[
-  {name:'Noelle',color:'#6a4c93',ppv:5,aiaPosted:1,aiaSubmits:1,aiaClose:.021,htp:1,htpEligible:0,upgrades:12,data:0,cru:0,accessoryRevenue:1104,accPerOpp:64.94,insurance:1,nextUp:.3125,csat:1,pre2post:0,pa4:0,oppCount:0,tradeRate:0,ple:true},
-  {name:'Derick',color:'#0f8b8d',ppv:3,aiaPosted:2,aiaSubmits:2,aiaClose:.044,htp:1,htpEligible:0,upgrades:12,data:2,cru:1,accessoryRevenue:479,accPerOpp:34.21,insurance:.30,nextUp:.3333,csat:.70,pre2post:0,pa4:0,oppCount:0,tradeRate:0,ple:true},
-  {name:'Jamie',color:'#d97706',ppv:7,aiaPosted:4,aiaSubmits:5,aiaClose:.102,htp:1,htpEligible:0,upgrades:18,data:10,cru:0,accessoryRevenue:2010,accPerOpp:83.75,insurance:.75,nextUp:.2857,csat:1,pre2post:1,pa4:0,oppCount:0,tradeRate:0,ple:true},
-  {name:'TJ',color:'#1473e6',ppv:5,aiaPosted:2,aiaSubmits:2,aiaClose:.044,htp:1,htpEligible:0,upgrades:8,data:1,cru:0,accessoryRevenue:501,accPerOpp:38.53,insurance:.4545,nextUp:0,csat:1,pre2post:0,pa4:0,oppCount:0,tradeRate:0,ple:true}
+  {name:'Noelle',color:'#6a4c93',ppv:6,aiaPosted:1,aiaSubmits:4,aiaClose:.067,htp:1,htpEligible:0,upgrades:19,data:0,cru:0,accessoryRevenue:1446,accPerOpp:58.66,insurance:.80,nextUp:.375,csat:1,pre2post:0,pa4:0,oppCount:0,tradeRate:0,ple:true},
+  {name:'Derick',color:'#0f8b8d',ppv:3,aiaPosted:2,aiaSubmits:2,aiaClose:.042,htp:1,htpEligible:0,upgrades:14,data:2,cru:1,accessoryRevenue:479,accPerOpp:29.94,insurance:.30,nextUp:.2857,csat:.70,pre2post:0,pa4:0,oppCount:0,tradeRate:0,ple:true},
+  {name:'Jamie',color:'#d97706',ppv:8,aiaPosted:4,aiaSubmits:10,aiaClose:.159,htp:1,htpEligible:0,upgrades:21,data:11,cru:0,accessoryRevenue:2293,accPerOpp:81.53,insurance:.7037,nextUp:.25,csat:1,pre2post:1,pa4:0,oppCount:0,tradeRate:0,ple:true},
+  {name:'TJ',color:'#1473e6',ppv:5,aiaPosted:3,aiaSubmits:2,aiaClose:.044,htp:1,htpEligible:0,upgrades:8,data:1,cru:0,accessoryRevenue:501,accPerOpp:38.53,insurance:.4545,nextUp:0,csat:1,pre2post:0,pa4:0,oppCount:0,tradeRate:0,ple:true}
  ],
  previous:null
 };
@@ -236,7 +241,10 @@ const monthComplete=()=>clamp(n(state.meta.daysElapsed)/Math.max(1,n(state.meta.
 const remainingToGoal=(current,goal)=>Math.max(0,n(goal)-n(current));
 const perRemainingDay=(current,goal)=>daysLeft()>0?remainingToGoal(current,goal)/daysLeft():remainingToGoal(current,goal);
 const paceText=(current,goal,label)=>{const left=remainingToGoal(current,goal),per=perRemainingDay(current,goal);return left<=0?`${label} goal reached`:`${left.toFixed(left%1?1:0)} left • ${per.toFixed(per<1?2:1)}/day needed`;};
-function urgencyBanner(){const left=daysLeft(),done=monthComplete()*100;return `<div class="urgency-strip"><div class="urgency-top"><div class="urgency-days">⏳ ${left} DAYS LEFT</div><div class="urgency-copy">${done.toFixed(1)}% of the month is gone • every remaining day matters more</div></div><div class="month-track"><div class="month-fill" style="width:${done}%"></div></div></div>`}
+function urgencyBanner(){const left=daysLeft(),done=monthComplete()*100;
+ const label=left<=5?`🚨 FINAL ${left} DAYS`:`⏳ ${left} DAYS LEFT`;
+ const copy=left<=5?`${done.toFixed(1)}% of July is gone • the closing window is here • every conversation counts`:`${done.toFixed(1)}% of the month is gone • every remaining day matters more`;
+ return `<div class="urgency-strip"><div class="urgency-top"><div class="urgency-days">${label}</div><div class="urgency-copy">${copy}</div></div><div class="month-track"><div class="month-fill" style="width:${done}%"></div></div></div>`}
 
 const escapeHtml=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
 
