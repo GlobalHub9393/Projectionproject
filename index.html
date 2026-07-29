@@ -156,6 +156,24 @@ details{background:#fff;border:1px solid var(--line);border-radius:13px;margin:1
 .volume-delta.win{background:#dcfce7;color:#166534}
 .volume-delta.risk{background:#fee2e2;color:#991b1b}
 
+
+.change-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+.change-card{background:#fff;border:1px solid var(--line);border-radius:13px;padding:12px}
+.change-value{font-size:20px;font-weight:1000;margin-top:4px}
+.change-value.up{color:#15803d}.change-value.down{color:#b91c1c}.change-value.neutral{color:var(--muted)}
+.change-note{font-size:11px;color:#b45309;font-weight:800;margin-top:4px}
+.coach-win-list{display:grid;gap:10px}
+.coach-win{display:flex;gap:12px;align-items:flex-start;background:linear-gradient(90deg,#eff6ff,#fff);border:1px solid #bfdbfe;border-radius:14px;padding:13px 14px;line-height:1.45}
+.coach-win>span{display:grid;place-items:center;flex:0 0 28px;height:28px;border-radius:50%;background:var(--navy);color:#fff;font-weight:1000}
+.coach-win strong{color:var(--navy)}
+.timeline{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px}
+.timeline-point{display:flex;align-items:center;gap:9px;min-width:0}.timeline-point.current{flex:1}
+.timeline-dot{width:15px;height:15px;border-radius:50%;background:#16a34a;box-shadow:0 0 0 5px #dcfce7}
+.timeline-dot.old{background:#64748b;box-shadow:0 0 0 5px #e2e8f0}
+.timeline-line{height:3px;background:linear-gradient(90deg,#64748b,#16a34a);flex:1;min-width:40px}
+@media(max-width:900px){.change-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:600px){.change-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.timeline{align-items:flex-start}.timeline-line{margin-top:7px}}
+
 </style>
 </head>
 <body>
@@ -187,24 +205,32 @@ details{background:#fff;border:1px solid var(--line);border-radius:13px;margin:1
 <div class="money-drop-layer" id="moneyRain"></div>
 <script>
 const DEFAULT_STATE = {
- meta:{month:'July 2026',daysInMonth:31,daysElapsed:26,storeName:'Cinnaminson',updatedThrough:'EOD July 26'},
+ meta:{month:'July 2026',daysInMonth:31,daysElapsed:29,storeName:'Cinnaminson',updatedThrough:'EOD July 29'},
  comp:{startingBase:17.5,ppvMultiplier:1,aiaPostedMultiplier:1.6,upgradeAdd:.15,dataAdd:.30,aiaSubmitSpiff:10,pre2postSpiff:10,csatQual:.88,aiaSubmitQual:4,htpQual:2,insuranceMin:.50,accMin:50,insuranceBonus:.60,accBonus:60,aiaCloseQual:.075},
  storeGoals:{expectedTraffic:779,expectedOpps:115,traffic:779,ppv:38,aiaPosted:19,upgrades:60,data:12,managerAtRisk:612,manager60s:306,managerActual:444,managerActualDay:26,managerActualLabel:'Morning of July 27'},
- repGoals:{ppv:10,aiaPosted:5,aiaSubmits:4,upgrades:15,data:3,htp:2,pre2post:2,tradeRate:.50,insurance:.60,accPerOpp:60,csat:.88,aiaClose:.065,htpRate:.05,nextUp:.60},
- store:{traffic:805,ppv:22,ppvClose:.0261,aiaPosted:10,aiaSubmits:18,aiaClose:.08,htp:4,htpEligible:70,htpClose:.0571,upgrades:65,data:14,cru:1,accessoryRevenue:4914,accPerOpp:57.81,insurance:.6102,nextUp:.2667,csat:.9211,pre2post:1,pa4:0,oppCount:100,tradeRate:0},
+ repGoals:{ppv:10,aiaPosted:5,aiaSubmits:4,upgrades:15,data:3,htp:2,pre2post:2,tradeRate:.50,insurance:.60,accPerOpp:60,csat:.88,aiaClose:.075,htpRate:.05,nextUp:.60},
+ store:{traffic:866,ppv:23,ppvClose:.0254,aiaPosted:11,aiaSubmits:18,aiaClose:.075,htp:5,htpEligible:76,htpClose:.0658,upgrades:70,data:14,cru:1,accessoryRevenue:5116,accPerOpp:56.22,insurance:.6129,nextUp:.2840,csat:.9286,pre2post:1,pa4:8,oppCount:107,tradeRate:.507},
  reps:[
-  {name:'Noelle',color:'#6a4c93',ppv:6,aiaPosted:1,aiaSubmits:4,aiaClose:.067,htp:1,htpEligible:0,upgrades:19,data:0,cru:0,accessoryRevenue:1446,accPerOpp:58.66,insurance:.80,nextUp:.375,csat:1,pre2post:0,pa4:0,oppCount:0,tradeRate:0,ple:true},
-  {name:'Derick',color:'#0f8b8d',ppv:3,aiaPosted:2,aiaSubmits:2,aiaClose:.042,htp:1,htpEligible:0,upgrades:14,data:2,cru:1,accessoryRevenue:479,accPerOpp:29.94,insurance:.30,nextUp:.2857,csat:.70,pre2post:0,pa4:0,oppCount:0,tradeRate:0,ple:true},
-  {name:'Jamie',color:'#d97706',ppv:8,aiaPosted:4,aiaSubmits:10,aiaClose:.159,htp:1,htpEligible:0,upgrades:21,data:11,cru:0,accessoryRevenue:2293,accPerOpp:81.53,insurance:.7037,nextUp:.25,csat:1,pre2post:1,pa4:0,oppCount:0,tradeRate:0,ple:true},
-  {name:'TJ',color:'#1473e6',ppv:5,aiaPosted:3,aiaSubmits:2,aiaClose:.044,htp:1,htpEligible:0,upgrades:8,data:1,cru:0,accessoryRevenue:501,accPerOpp:38.53,insurance:.4545,nextUp:0,csat:1,pre2post:0,pa4:0,oppCount:0,tradeRate:0,ple:true}
+  {name:'Noelle',color:'#6a4c93',ppv:7,aiaPosted:1,aiaSubmits:4,aiaClose:.056,htp:2,htpEligible:0,upgrades:22,data:0,cru:0,accessoryRevenue:1634,accPerOpp:56.33,insurance:.8333,nextUp:.3929,csat:1,pre2post:0,pa4:3,oppCount:30,tradeRate:0,ple:true},
+  {name:'Jamie',color:'#d97706',ppv:8,aiaPosted:5,aiaSubmits:10,aiaClose:.159,htp:1,htpEligible:0,upgrades:21,data:11,cru:0,accessoryRevenue:2248,accPerOpp:80.29,insurance:.7037,nextUp:.2917,csat:1,pre2post:1,pa4:2,oppCount:39,tradeRate:0,ple:true},
+  {name:'TJ',color:'#1473e6',ppv:5,aiaPosted:3,aiaSubmits:2,aiaClose:.039,htp:1,htpEligible:0,upgrades:10,data:1,cru:0,accessoryRevenue:571,accPerOpp:38.06,insurance:.4167,nextUp:0,csat:1,pre2post:0,pa4:1,oppCount:16,tradeRate:0,ple:true}
  ],
- previous:null
+ previous:{
+  label:'EOD July 26',
+  store:{traffic:805,ppv:22,ppvClose:.0261,aiaPosted:10,aiaSubmits:18,aiaClose:.08,htp:4,htpEligible:70,htpClose:.0571,upgrades:65,data:14,cru:1,accessoryRevenue:4914,accPerOpp:57.81,insurance:.6102,nextUp:.2667,csat:.9211,pre2post:1,pa4:0,oppCount:100,tradeRate:0},
+  reps:[
+   {name:'Noelle',ppv:6,aiaPosted:1,aiaSubmits:4,aiaClose:.067,htp:1,upgrades:19,data:0,cru:0,accessoryRevenue:1446,accPerOpp:58.66,insurance:.80,nextUp:.375,csat:1,pre2post:0,oppCount:0},
+   {name:'Jamie',ppv:8,aiaPosted:4,aiaSubmits:10,aiaClose:.159,htp:1,upgrades:21,data:11,cru:0,accessoryRevenue:2293,accPerOpp:81.53,insurance:.7037,nextUp:.25,csat:1,pre2post:1,oppCount:0},
+   {name:'TJ',ppv:5,aiaPosted:3,aiaSubmits:2,aiaClose:.044,htp:1,upgrades:8,data:1,cru:0,accessoryRevenue:501,accPerOpp:38.53,insurance:.4545,nextUp:0,csat:1,pre2post:0,oppCount:0}
+  ],
+  savedAt:'2026-07-26T20:00:00-04:00'
+ }
 };
 const EMBEDDED_STATE = null;
 let state=loadState(), currentPage='store';
 
-const VAULT_PASSWORDS={manager:'WM8K3',reps:['Glenn','Hook','McGloan','Schreiner']};
-const unlockedVaults={manager:false,reps:[false,false,false,false],comp:[false,false,false,false]};
+const VAULT_PASSWORDS={manager:'WM8K3',reps:['Glenn','McGloan','Schreiner']};
+const unlockedVaults={manager:false,reps:[false,false,false],comp:[false,false,false]};
 let pendingVault=null;
 function openVaultModal(type,index=null){
  pendingVault={type,index};
@@ -253,9 +279,144 @@ const remainingToGoal=(current,goal)=>Math.max(0,n(goal)-n(current));
 const perRemainingDay=(current,goal)=>daysLeft()>0?remainingToGoal(current,goal)/daysLeft():remainingToGoal(current,goal);
 const paceText=(current,goal,label)=>{const left=remainingToGoal(current,goal),per=perRemainingDay(current,goal);return left<=0?`${label} goal reached`:`${left.toFixed(left%1?1:0)} left • ${per.toFixed(per<1?2:1)}/day needed`;};
 function urgencyBanner(){const left=daysLeft(),done=monthComplete()*100;
- const label=left<=5?`🚨 FINAL ${left} DAYS`:`⏳ ${left} DAYS LEFT`;
- const copy=left<=5?`${done.toFixed(1)}% of July is gone • the closing window is here • every conversation counts`:`${done.toFixed(1)}% of the month is gone • every remaining day matters more`;
+ const label=left<=2?`🚨 FINAL ${left} DAYS`:left<=5?`🚨 FINAL ${left} DAYS`:`⏳ ${left} DAYS LEFT`;
+ const copy=left<=2?`${done.toFixed(1)}% of July is gone • qualify first • then finish every new-line and AIA opportunity`:left<=5?`${done.toFixed(1)}% of July is gone • the closing window is here • every conversation counts`:`${done.toFixed(1)}% of the month is gone • every remaining day matters more`;
  return `<div class="urgency-strip"><div class="urgency-top"><div class="urgency-days">${label}</div><div class="urgency-copy">${copy}</div></div><div class="month-track"><div class="month-fill" style="width:${done}%"></div></div></div>`}
+
+
+function deltaText(current,previous,{rate=false,money=false}={}){
+ const d=n(current)-n(previous);
+ if(Math.abs(d)<.000001)return {text:'No change',cls:'neutral',value:d};
+ const arrow=d>0?'▲':'▼';
+ const abs=Math.abs(d);
+ let shown=money?money2(abs):rate?`${(abs*100).toFixed(1)} pts`:Number.isInteger(abs)?abs.toFixed(0):abs.toFixed(1);
+ return {text:`${arrow} ${shown}`,cls:d>0?'up':'down',value:d};
+}
+function sinceLastCard(){
+ const p=state.previous;
+ if(!p)return '';
+ const metrics=[
+  ['PPV',state.store.ppv,p.store.ppv,{}],
+  ['AIA Posted',state.store.aiaPosted,p.store.aiaPosted,{}],
+  ['HTP',state.store.htp,p.store.htp,{}],
+  ['Upgrades',state.store.upgrades,p.store.upgrades,{}],
+  ['Accessory Revenue',state.store.accessoryRevenue,p.store.accessoryRevenue,{money:true}],
+  ['ACC / Opp',state.store.accPerOpp,p.store.accPerOpp,{money:true}],
+  ['Insurance',state.store.insurance,p.store.insurance,{rate:true}],
+  ['Traffic',state.store.traffic,p.store.traffic,{}],
+  ['Opportunities',state.store.oppCount,p.store.oppCount,{}]
+ ];
+ return `<div class="section-title">Since ${escapeHtml(p.label||'Last Update')}</div>
+ <div class="change-grid">${metrics.map(([label,cur,old,opts])=>{
+   const d=deltaText(cur,old,opts);
+   const pressure=label==='Traffic'&&d.value>0?'Goal pressure increased':label==='Opportunities'&&d.value>0?'More selling chances':'';
+   return `<div class="change-card"><div class="mini">${label}</div><div class="change-value ${d.cls}">${d.text}</div>${pressure?`<div class="change-note">${pressure}</div>`:''}</div>`;
+ }).join('')}</div>`;
+}
+function repChangeSummary(rep,index){
+ const prev=state.previous?.reps?.[index];
+ if(!prev)return '';
+ const items=[
+  ['PPV',rep.ppv,prev.ppv,{}],
+  ['Posted',rep.aiaPosted,prev.aiaPosted,{}],
+  ['HTP',rep.htp,prev.htp,{}],
+  ['Upgrades',rep.upgrades,prev.upgrades,{}],
+  ['Accessories',rep.accessoryRevenue,prev.accessoryRevenue,{money:true}],
+  ['ACC / Opp',rep.accPerOpp,prev.accPerOpp,{money:true}],
+  ['Insurance',rep.insurance,prev.insurance,{rate:true}]
+ ];
+ const changed=items.map(([label,cur,old,opts])=>({label,...deltaText(cur,old,opts)}))
+   .filter(x=>Math.abs(x.value)>.000001);
+ if(!changed.length)return `<div class="callout note"><strong>Since ${escapeHtml(state.previous.label)}</strong><div>No meaningful metric movement.</div></div>`;
+ return `<div class="section-title">Since ${escapeHtml(state.previous.label)}</div><div class="change-grid rep-changes">${changed.map(x=>`<div class="change-card"><div class="mini">${x.label}</div><div class="change-value ${x.cls}">${x.text}</div></div>`).join('')}</div>`;
+}
+function coachingWins(rep){
+ const wins=[];
+ const aiaQualified=n(rep.aiaSubmits)>=n(state.comp.aiaSubmitQual)||n(rep.aiaClose)>=n(state.comp.aiaCloseQual);
+ const htpQualified=n(rep.htp)>=n(state.comp.htpQual);
+ const insuranceQualified=n(rep.insurance)>=n(state.comp.insuranceMin);
+ const accessoryQualified=n(rep.accPerOpp)>=n(state.comp.accMin);
+ const csatQualified=n(rep.csat)>=n(state.comp.csatQual)||n(state.store.csat)>=n(state.comp.csatQual);
+
+ if(!aiaQualified){
+   const submitNeed=Math.max(0,n(state.comp.aiaSubmitQual)-n(rep.aiaSubmits));
+   wins.push({
+     title:'Get AIA Qualified',
+     text:submitNeed>0
+       ?`Find ${submitNeed} more AIA submit${submitNeed===1?'':'s'} or lift close rate to ${pct(state.comp.aiaCloseQual)}. Ask every customer and team-sell live AIA opportunities.`
+       :`AIA qualification is the first priority. Improve close rate to ${pct(state.comp.aiaCloseQual)}.`
+   });
+ }
+ if(!htpQualified){
+   wins.push({title:'Get HTP Qualified',text:`Need ${state.comp.htpQual-rep.htp} more HTP. Look for protection conversations with every eligible household.`});
+ }
+ if(!insuranceQualified){
+   wins.push({title:'Protect Qualification',text:'Offer PA1 on every eligible sale. Insurance qualification comes before chasing bonus revenue.'});
+ }
+ if(!accessoryQualified){
+   wins.push({title:'Find Accessory Wins',text:`You are ${money2(state.comp.accMin-rep.accPerOpp)} per opportunity from qualification. Look for oppless accessory sales and complete every solution.`});
+ }
+ if(!csatQualified){
+   wins.push({title:'Protect CSAT',text:'Slow down the handoff, confirm expectations, and finish with a clear recap.'});
+ }
+
+ if(aiaQualified){
+   const postedNeed=Math.max(0,n(state.repGoals.aiaPosted)-n(rep.aiaPosted));
+   wins.push({
+     title:'Turn AIA Into Revenue',
+     text:postedNeed>0
+       ?`AIA is qualified. Find ${postedNeed} more Posted AIA to reach goal—keep asking and team-sell every live opportunity.`
+       :'AIA is qualified and Posted is at goal. Keep converting because every additional Posted AIA adds revenue.'
+   });
+ }
+ const ppvNeed=Math.max(0,adjustedRepGoal('ppv')-n(rep.ppv));
+ if(ppvNeed>0){
+   wins.push({title:'Find New-Line Revenue',text:`Need ${ppvNeed} more PPV against the traffic-adjusted goal. Use every account review to uncover new lines, migrations, and connected-device needs.`});
+ }else{
+   wins.push({title:'Keep New Lines Moving',text:'PPV pace is healthy. Keep using full account reviews to create separation above goal.'});
+ }
+
+ if(n(rep.data)<n(state.repGoals.data)){
+   wins.push({title:'Add Data Revenue',text:`Need ${state.repGoals.data-rep.data} more data add${state.repGoals.data-rep.data===1?'':'s'}. Ask about watches, tablets, hotspots, and connected-device needs.`});
+ }
+ if(n(rep.pre2post)<n(state.repGoals.pre2post)){
+   wins.push({title:'Look for Migration Wins',text:'Check prepaid customers for postpaid eligibility and value before finishing the transaction.'});
+ }
+
+ if(n(rep.insurance)>=n(state.comp.insuranceBonus)&&n(rep.accPerOpp)>=n(state.comp.accBonus)){
+   wins.push({title:'Protect the 1.50× Bonus',text:'Both 60 metrics are active. Do not give back the multiplier—keep PA1 and accessories in every solution.'});
+ }else if(n(rep.insurance)>=n(state.comp.insuranceBonus)||n(rep.accPerOpp)>=n(state.comp.accBonus)){
+   const missing=n(rep.insurance)<n(state.comp.insuranceBonus)?'insurance above 60%':'accessories above $60 per opportunity';
+   wins.push({title:'Unlock the 1.50× Bonus',text:`One 60 metric is active. Raise ${missing} to activate the full 1.50× bonus.`});
+ }
+ return wins;
+}
+function primaryWin(rep){
+ return coachingWins(rep)[0]||{title:'Keep Building',text:'Protect qualification and keep finding new-line and Posted AIA revenue.'};
+}
+function storeCoachingWins(){
+ const out=[];
+ const allAiaQualified=state.reps.every(r=>n(r.aiaSubmits)>=n(state.comp.aiaSubmitQual)||n(r.aiaClose)>=n(state.comp.aiaCloseQual));
+ if(!allAiaQualified)out.push('First priority: get every rep AIA-qualified through submits or close rate. Team-sell live opportunities.');
+ else out.push('AIA qualification is covered. Shift the team toward more Posted AIA revenue.');
+ const unqualifiedHtp=state.reps.filter(r=>n(r.htp)<n(state.comp.htpQual));
+ if(unqualifiedHtp.length)out.push(`${unqualifiedHtp.map(r=>r.name).join(' and ')} still need HTP qualification. Look for protection conversations.`);
+ const adjustedPpv=adjustedStoreGoal('ppv');
+ if(state.store.ppv<adjustedPpv)out.push(`Need ${adjustedPpv-state.store.ppv} more PPV against the traffic-adjusted goal. New lines are the biggest revenue lever.`);
+ if(state.store.aiaPosted<state.storeGoals.aiaPosted)out.push(`Need ${state.storeGoals.aiaPosted-state.store.aiaPosted} more Posted AIA to reach store goal.`);
+ if(state.store.accPerOpp<state.comp.accBonus)out.push(`Accessories are ${money2(state.comp.accBonus-state.store.accPerOpp)} per opportunity from the 60 metric. Look for oppless accessory wins.`);
+ if(state.store.insurance>=state.comp.insuranceBonus&&state.store.accPerOpp>=state.comp.accBonus)out.push('Both 60 metrics are active. Protect the 1.50× manager bonus.');
+ else if(state.store.insurance>=state.comp.insuranceBonus||state.store.accPerOpp>=state.comp.accBonus)out.push('One 60 metric is active. Get the second above 60 to unlock the 1.50× manager bonus.');
+ return out.slice(0,5);
+}
+function updateTimeline(){
+ const previousLabel=state.previous?.label||'Previous update';
+ return `<div class="section-title">Month Timeline</div><div class="timeline">
+   <div class="timeline-point"><div class="timeline-dot old"></div><div><strong>${escapeHtml(previousLabel)}</strong><div class="mini">${state.previous?.store?.ppv??'—'} PPV • ${state.previous?.store?.aiaPosted??'—'} Posted • ${money2(state.previous?.store?.accessoryRevenue??0)} accessories</div></div></div>
+   <div class="timeline-line"></div>
+   <div class="timeline-point current"><div class="timeline-dot"></div><div><strong>${escapeHtml(state.meta.updatedThrough)}</strong><div class="mini">${state.store.ppv} PPV • ${state.store.aiaPosted} Posted • ${money2(state.store.accessoryRevenue)} accessories</div></div></div>
+ </div>`;
+}
 
 function projectedMonthEnd(value){
  return Math.round(n(value)/Math.max(1,n(state.meta.daysElapsed))*n(state.meta.daysInMonth));
@@ -280,14 +441,14 @@ function volumeProjectionCard(){
  return `<div class="section-title">Volume Projection</div>
  <div class="grid two">
    <div class="card volume-card">
-     <div class="card-head">Traffic vs Expected</div>
+     <div class="card-head">Traffic Goal Pressure</div>
      <div class="card-body">
        <div class="volume-big">${trafficProjected.toLocaleString()}</div>
        <div class="mini">Projected month-end traffic</div>
        <div class="volume-row"><span>Expected traffic</span><strong>${trafficGoal.toLocaleString()}</strong></div>
        <div class="volume-row"><span>Actual through ${escapeHtml(state.meta.updatedThrough)}</span><strong>${trafficActual.toLocaleString()}</strong></div>
        <div class="volume-delta ${statusClass(trafficChange)}">${signedPct(trafficChange)} vs expected</div>
-       <div class="mini">This projected traffic percentage adjusts PPV and upgrade goals.</div>
+       <div class="mini">Higher traffic raises PPV and upgrade goals. This is goal pressure—not a performance win.</div>
      </div>
    </div>
    <div class="card volume-card">
@@ -579,7 +740,7 @@ function renderStore(){
   metricRow('Upgrades',s.upgrades,adjustedStoreGoal('upgrades'),{path:'store.upgrades'}),
   metricRow('Data',s.data,state.storeGoals.data,{path:'store.data'})
  ].join('');
- return `<section class="page" id="page-store"><div class="share-banner">Staff Share View • Updated through ${escapeHtml(state.meta.updatedThrough)}</div><div class="hero"><h1>${escapeHtml(state.meta.storeName)} — Manager Command Center</h1><p>${escapeHtml(state.meta.month)} • Updated through ${escapeHtml(state.meta.updatedThrough)} • ${trafficNote()}</p>${urgencyBanner()}${volumeProjectionCard()}</div>
+ return `<section class="page" id="page-store"><div class="share-banner">Staff Share View • Updated through ${escapeHtml(state.meta.updatedThrough)}</div><div class="hero"><h1>${escapeHtml(state.meta.storeName)} — Manager Command Center</h1><p>${escapeHtml(state.meta.month)} • Updated through ${escapeHtml(state.meta.updatedThrough)} • ${trafficNote()}</p>${urgencyBanner()}${volumeProjectionCard()}</div>${sinceLastCard()}<div class="section-title">Where to Find the Wins</div><div class="coach-win-list">${storeCoachingWins().map((x,i)=>`<div class="coach-win"><span>${i+1}</span><div>${x}</div></div>`).join('')}</div>
  <div class="grid kpis">
   <div class="card kpi"><div class="label">Store Health</div><div class="value">${h} HP</div><div style="margin-top:10px">${hpBar(h,'store')}</div></div>
   ${(()=>{const m=managerPayModel();return managerVault(`<div class="grid three"><div class="kpi"><div class="label">Actual Manager Pay</div><div class="value">${money2(m.actual)}</div><div class="sub">${escapeHtml(state.storeGoals.managerActualLabel)}</div></div><div class="kpi"><div class="label">Current-Pace Estimate</div><div class="value money-animate" data-money="${m.pace}">$0</div><div class="sub">Using actual pay through day ${m.actualDay}</div></div><div class="kpi"><div class="label">Both-Metric Potential</div><div class="value money-animate" data-money="${m.bothPotential}">$0</div><div class="sub">If ACC/Opp and insurance both finish at 60+</div></div></div><div class="bonus-rule"><strong>Bonus rule:</strong> one 60 metric = 1.25× • both 60 metrics = 1.50×</div>`)})()}
@@ -596,7 +757,7 @@ function renderStore(){
   <div class="callout note"><strong>Today’s Team Challenge</strong><p>Target ${Math.ceil(perRemainingDay(s.ppv,adjustedStoreGoal('ppv')))} PPV and ${Math.ceil(perRemainingDay(s.aiaPosted,state.storeGoals.aiaPosted))} AIA Posted today. Ask everyone, team-sell live opportunities, and do not push today’s gap into tomorrow.</p></div>
  </div>
  <div class="section-title">Everyone’s Shoutout & Opportunity</div>
- <div class="card"><div class="card-body" style="padding:0">${state.reps.map((r,i)=>`<div class="rep-huddle"><div class="name">${escapeHtml(r.name)}<div class="mini">${repHealth(r)} HP</div></div><div><strong>Shoutout</strong><div>${storeShoutout(r)}</div></div><div><strong>Opportunity</strong><div>${storeOpportunity(r)}</div><div class="paid-line">💵 ${primaryPaidMove(r)}</div></div></div>`).join('')}</div></div>
+ <div class="card"><div class="card-body" style="padding:0">${state.reps.map((r,i)=>`<div class="rep-huddle"><div class="name">${escapeHtml(r.name)}<div class="mini">${repHealth(r)} HP</div></div><div><strong>Shoutout</strong><div>${storeShoutout(r)}</div></div><div><strong>Opportunity</strong><div>${storeOpportunity(r)}</div><div class="paid-line"><strong>${primaryWin(r).title}</strong><div>${primaryWin(r).text}</div></div></div></div>`).join('')}</div></div>
  <div class="section-title">Store Pace</div><div class="card"><div class="card-body"><table><thead><tr><th>Metric</th><th class="num">Current</th><th class="num">Goal</th><th class="num">Projected</th><th>Coaching</th></tr></thead><tbody>${rows}</tbody></table></div></div>
  
  <div class="section-title">Store Qualification & Multipliers</div>
@@ -606,12 +767,15 @@ function renderStore(){
    <div class="card kpi"><div class="label">Insurance</div><div class="value">${pct(state.store.insurance)}</div><div class="sub">${state.store.insurance>=state.comp.insuranceBonus?'60 metric achieved':'Needs '+pct(state.comp.insuranceBonus-state.store.insurance)+' more'}</div></div>
    <div class="card kpi"><div class="label">Store CSAT</div><div class="value">${pct(state.store.csat)}</div><div class="sub">Above the ${pct(state.comp.csatQual)} qualifier</div></div>
  </div>
- <div class="footer-note">Manager pay is an estimate. PPV and AIA Posted carry the most weight.</div></section>`
+ ${updateTimeline()}<div class="footer-note">Manager pay is an estimate. PPV and AIA Posted carry the most weight.</div></section>`
 }
 function renderRep(rep,i){
  const comp=repComp(rep),q=repQualification(rep),h=repHealth(rep),c=coaching(rep),b=badges(rep),left=moneyLeft(rep),ppvGoal=adjustedRepGoal('ppv'),upgGoal=adjustedRepGoal('upgrades');
  return `<section class="page" id="page-rep${i}">
  <div class="rep-banner" data-qualified="${q.qualified}" style="background:${rep.color}"><div><h1>${escapeHtml(rep.name)} — Rep Performance</h1><p>${escapeHtml(state.meta.month)} • ${daysLeft()} days remain • every remaining day carries more weight.</p><span class="deadline-tag">⏳ CLOSING WINDOW</span></div><div class="hp-wrap">${hpBar(h,'rep'+i)}</div></div><div class="rep-deadline"><div><strong>${daysLeft()} days left to finish the month</strong><div>Small misses now become large daily requirements later.</div></div><div>${q.aiaEither?'✅ AIA qualified — turn activity into posted pay':'🚨 AIA not qualified — submits or close rate comes first'}</div></div>
+ ${repChangeSummary(rep,i)}
+ <div class="section-title">Where to Find the Wins</div>
+ <div class="coach-win-list">${coachingWins(rep).slice(0,4).map((w,idx)=>`<div class="coach-win"><span>${idx+1}</span><div><strong>${w.title}</strong><div>${w.text}</div></div></div>`).join('')}</div>
  <div class="grid kpis">
   ${repVault(i,`<div class="grid two"><div class="kpi"><div class="label">Projected Pay</div><div class="value money-animate" data-money="${comp.total}">$0</div><div class="sub">Gross estimate if qualified</div></div><div class="kpi"><div class="label">Money Left on Table</div><div class="value money-animate" data-money="${left}">$0</div><div class="sub">${left>0?'Potential 60-metric bonus upside':'Full 1.50× bonus reflected'}</div></div></div><details style="margin-top:12px"><summary>See pay breakdown</summary><div class="detail-body"><div class="grid four"><div class="card kpi"><div class="label">Adjusted Base</div><div class="value">${money2(comp.adjusted)}</div></div><div class="card kpi"><div class="label">Final Base</div><div class="value">${money2(comp.finalBase)}</div></div><div class="card kpi"><div class="label">PPV Pay</div><div class="value">${money(comp.ppvPay)}</div></div><div class="card kpi"><div class="label">AIA Posted Pay</div><div class="value">${money(comp.aiaPay)}</div></div></div><p class="mini"><strong>60-metric bonus:</strong> ${comp.totalMult.toFixed(2)}× total • Accessories ${comp.accHit?'met':'not met'} • Insurance ${comp.insHit?'met':'not met'}</p><p class="mini"><strong>Instant spiffs:</strong> ${money2(comp.spiffs)} projected from AIA submits and Pre→Post.</p><p class="mini">AIA must qualify through ${state.comp.aiaSubmitQual} submits or ${pct(state.comp.aiaCloseQual)} close rate. This is a planning estimate, not official payroll.</p></div></details>`)}
   <div class="card kpi"><div class="label">Qualification</div><div class="value" style="font-size:18px;color:${q.qualified?'var(--green)':'var(--red)'}">${q.qualified?'Qualified':'At Risk'}</div><div class="sub">${q.qualified?'All current requirements met':'Needs '+q.reasons.join(' • ')}</div></div>
