@@ -183,6 +183,12 @@ details{background:#fff;border:1px solid var(--line);border-radius:13px;margin:1
 .important-updates{display:grid;gap:9px}.important-update{display:flex;gap:10px;align-items:center;background:#fff7ed;border:1px solid #fed7aa;border-radius:12px;padding:11px 13px;font-weight:800;color:#9a3412}.important-update>span{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:#f97316;color:#fff;font-weight:1000}
 @media(max-width:600px){.manager-pay-summary{grid-template-columns:1fr}.manager-pay-button{min-height:72px}}
 
+
+.promo-toolbar{display:grid;gap:10px;margin-bottom:16px}.promo-search{width:100%;border:1px solid var(--line);border-radius:13px;padding:13px 14px;font-size:16px;background:#fff}.promo-filters{display:flex;gap:8px;flex-wrap:wrap}.promo-filter{border:1px solid #bfdbfe;background:#fff;color:var(--navy);border-radius:999px;padding:8px 12px;font-weight:900;cursor:pointer}.promo-filter.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.promo-list{display:grid;gap:12px}.promo-card{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}.promo-summary{padding:14px 15px;display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center;cursor:pointer}.promo-title{font-size:17px;font-weight:1000;color:var(--navy)}.promo-sub{font-size:12px;color:var(--muted);margin-top:4px}.promo-best{font-size:18px;font-weight:1000;color:#166534;text-align:right}.promo-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}.promo-tag{font-size:10px;font-weight:950;text-transform:uppercase;letter-spacing:.04em;padding:4px 7px;border-radius:999px;background:#e0f2fe;color:#075985}.promo-tag.new{background:#dcfce7;color:#166534}.promo-tag.change{background:#fef3c7;color:#92400e}.promo-tag.private{background:#ede9fe;color:#5b21b6}.promo-tag.ends{background:#fee2e2;color:#991b1b}
+.promo-body{display:none;padding:0 15px 15px;border-top:1px solid var(--line)}.promo-card.open .promo-body{display:block}.promo-chevron{font-size:20px;transition:transform .2s}.promo-card.open .promo-chevron{transform:rotate(180deg)}.promo-quick{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:12px 0}.promo-quick div{background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:9px}.promo-quick span{display:block;font-size:10px;text-transform:uppercase;color:var(--muted);font-weight:900}.promo-quick strong{display:block;margin-top:3px}.promo-details{line-height:1.55}.promo-details ul{margin:8px 0 0;padding-left:20px}.sell-tip{margin-top:12px;background:#eff6ff;border-left:4px solid #2563eb;border-radius:10px;padding:10px 12px}.promo-empty{padding:24px;text-align:center;color:var(--muted);background:#fff;border:1px solid var(--line);border-radius:14px}.promo-price-table{width:100%;border-collapse:collapse;margin-top:8px}.promo-price-table td,.promo-price-table th{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}.promo-price-table th{font-size:11px;color:var(--muted);text-transform:uppercase}.promo-callout{background:linear-gradient(135deg,#082f49,#0c4a6e);color:#fff;border-radius:16px;padding:16px;margin-bottom:14px}.promo-callout h2{margin:0 0 5px}.promo-callout p{margin:0;color:#dbeafe}
+@media(max-width:650px){.promo-summary{grid-template-columns:1fr}.promo-best{text-align:left}.promo-quick{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -214,26 +220,17 @@ details{background:#fff;border:1px solid var(--line);border-radius:13px;margin:1
 <div class="money-drop-layer" id="moneyRain"></div>
 <script>
 const DEFAULT_STATE = {
- meta:{month:'July 2026',daysInMonth:31,daysElapsed:29,storeName:'Cinnaminson',updatedThrough:'EOD July 29'},
+ meta:{month:'July 2026',daysInMonth:31,daysElapsed:30,storeName:'Cinnaminson',updatedThrough:'EOD July 30'},
  comp:{startingBase:17.5,ppvMultiplier:1,aiaPostedMultiplier:1.6,upgradeAdd:.15,dataAdd:.30,aiaSubmitSpiff:10,pre2postSpiff:10,csatQual:.88,aiaSubmitQual:4,htpQual:2,insuranceMin:.50,accMin:50,insuranceBonus:.60,accBonus:60,aiaCloseQual:.075},
  storeGoals:{expectedTraffic:779,expectedOpps:115,traffic:779,ppv:38,aiaPosted:19,upgrades:60,data:12,managerAtRisk:612,manager60s:306,managerActual:444,managerActualDay:26,managerActualLabel:'Morning of July 27'},
  repGoals:{ppv:10,aiaPosted:5,aiaSubmits:4,upgrades:15,data:3,htp:2,pre2post:2,tradeRate:.50,insurance:.60,accPerOpp:60,csat:.88,aiaClose:.075,htpRate:.05,nextUp:.60},
- store:{traffic:866,ppv:23,ppvClose:.0254,aiaPosted:11,aiaSubmits:18,aiaClose:.075,htp:5,htpEligible:76,htpClose:.0658,upgrades:70,data:14,cru:1,accessoryRevenue:5116,accPerOpp:56.22,insurance:.6129,nextUp:.2840,csat:.9286,pre2post:1,pa4:8,oppCount:107,tradeRate:.507},
+ store:{traffic:903,ppv:25,ppvClose:.0266,aiaPosted:11,aiaSubmits:18,aiaClose:.071,htp:5,htpEligible:81,htpClose:.0617,upgrades:75,data:14,cru:1,accessoryRevenue:5528,accPerOpp:56.41,insurance:.5821,nextUp:.2614,csat:.9318,pre2post:1,pa4:8,oppCount:115,tradeRate:.50},
  reps:[
   {name:'Noelle',color:'#6a4c93',ppv:7,aiaPosted:1,aiaSubmits:4,aiaClose:.056,htp:2,htpEligible:0,upgrades:22,data:0,cru:0,accessoryRevenue:1634,accPerOpp:56.33,insurance:.8333,nextUp:.3929,csat:1,pre2post:0,pa4:3,oppCount:30,tradeRate:0,ple:true},
-  {name:'Jamie',color:'#d97706',ppv:8,aiaPosted:5,aiaSubmits:10,aiaClose:.159,htp:1,htpEligible:0,upgrades:21,data:11,cru:0,accessoryRevenue:2248,accPerOpp:80.29,insurance:.7037,nextUp:.2917,csat:1,pre2post:1,pa4:2,oppCount:39,tradeRate:0,ple:true},
-  {name:'TJ',color:'#1473e6',ppv:5,aiaPosted:3,aiaSubmits:2,aiaClose:.039,htp:1,htpEligible:0,upgrades:10,data:1,cru:0,accessoryRevenue:571,accPerOpp:38.06,insurance:.4167,nextUp:0,csat:1,pre2post:0,pa4:1,oppCount:16,tradeRate:0,ple:true}
+  {name:'Jamie',color:'#d97706',ppv:8,aiaPosted:5,aiaSubmits:10,aiaClose:.159,htp:1,htpEligible:0,upgrades:21,data:11,cru:0,accessoryRevenue:2248,accPerOpp:80.28,insurance:.7037,nextUp:.25,csat:1,pre2post:1,pa4:2,oppCount:39,tradeRate:0,ple:true},
+  {name:'TJ',color:'#1473e6',ppv:7,aiaPosted:3,aiaSubmits:2,aiaClose:.032,htp:1,htpEligible:0,upgrades:15,data:1,cru:0,accessoryRevenue:982,accPerOpp:41.66,insurance:.3529,nextUp:.0526,csat:1,pre2post:0,pa4:1,oppCount:24,tradeRate:0,ple:true}
  ],
- previous:{
-  label:'EOD July 26',
-  store:{traffic:805,ppv:22,ppvClose:.0261,aiaPosted:10,aiaSubmits:18,aiaClose:.08,htp:4,htpEligible:70,htpClose:.0571,upgrades:65,data:14,cru:1,accessoryRevenue:4914,accPerOpp:57.81,insurance:.6102,nextUp:.2667,csat:.9211,pre2post:1,pa4:0,oppCount:100,tradeRate:0},
-  reps:[
-   {name:'Noelle',ppv:6,aiaPosted:1,aiaSubmits:4,aiaClose:.067,htp:1,upgrades:19,data:0,cru:0,accessoryRevenue:1446,accPerOpp:58.66,insurance:.80,nextUp:.375,csat:1,pre2post:0,oppCount:0},
-   {name:'Jamie',ppv:8,aiaPosted:4,aiaSubmits:10,aiaClose:.159,htp:1,upgrades:21,data:11,cru:0,accessoryRevenue:2293,accPerOpp:81.53,insurance:.7037,nextUp:.25,csat:1,pre2post:1,oppCount:0},
-   {name:'TJ',ppv:5,aiaPosted:3,aiaSubmits:2,aiaClose:.044,htp:1,upgrades:8,data:1,cru:0,accessoryRevenue:501,accPerOpp:38.53,insurance:.4545,nextUp:0,csat:1,pre2post:0,oppCount:0}
-  ],
-  savedAt:'2026-07-26T20:00:00-04:00'
- }
+ previous:null
 };
 const EMBEDDED_STATE = null;
 let state=loadState(), currentPage='store';
@@ -373,62 +370,18 @@ function importantUpdatesBlock(items,label='Important Updates'){
 function coachingWins(rep){
  const wins=[];
  const aiaQualified=n(rep.aiaSubmits)>=n(state.comp.aiaSubmitQual)||n(rep.aiaClose)>=n(state.comp.aiaCloseQual);
- const htpQualified=n(rep.htp)>=n(state.comp.htpQual);
- const insuranceQualified=n(rep.insurance)>=n(state.comp.insuranceMin);
- const accessoryQualified=n(rep.accPerOpp)>=n(state.comp.accMin);
- const csatQualified=n(rep.csat)>=n(state.comp.csatQual)||n(state.store.csat)>=n(state.comp.csatQual);
-
- if(!aiaQualified){
-   const submitNeed=Math.max(0,n(state.comp.aiaSubmitQual)-n(rep.aiaSubmits));
-   wins.push({
-     title:'Get AIA Qualified',
-     text:submitNeed>0
-       ?`Find ${submitNeed} more AIA submit${submitNeed===1?'':'s'} or lift close rate to ${pct(state.comp.aiaCloseQual)}. Ask every customer and team-sell live AIA opportunities.`
-       :`AIA qualification is the first priority. Improve close rate to ${pct(state.comp.aiaCloseQual)}.`
-   });
- }
- if(!htpQualified){
-   wins.push({title:'Get HTP Qualified',text:`Need ${state.comp.htpQual-rep.htp} more HTP. Look for protection conversations with every eligible household.`});
- }
- if(!insuranceQualified){
-   wins.push({title:'Protect Qualification',text:'Offer PA1 on every eligible sale. Insurance qualification comes before chasing bonus revenue.'});
- }
- if(!accessoryQualified){
-   wins.push({title:'Find Accessory Wins',text:`You are ${money2(state.comp.accMin-rep.accPerOpp)} per opportunity from qualification. Look for oppless accessory sales and complete every solution.`});
- }
- if(!csatQualified){
-   wins.push({title:'Protect CSAT',text:'Slow down the handoff, confirm expectations, and finish with a clear recap.'});
- }
-
- if(aiaQualified){
-   const postedNeed=Math.max(0,n(state.repGoals.aiaPosted)-n(rep.aiaPosted));
-   wins.push({
-     title:'Turn AIA Into Revenue',
-     text:postedNeed>0
-       ?`AIA is qualified. Find ${postedNeed} more Posted AIA to reach goal—keep asking and team-sell every live opportunity.`
-       :'AIA is qualified and Posted is at goal. Keep converting because every additional Posted AIA adds revenue.'
-   });
- }
+ if(!aiaQualified){const need=Math.max(0,state.comp.aiaSubmitQual-rep.aiaSubmits);wins.push({title:'Get AIA Qualified',text:`Need ${need} more submit${need===1?'':'s'} or a ${pct(state.comp.aiaCloseQual)} close rate. Ask everyone and team-sell today.`});}
+ if(n(rep.htp)<n(state.comp.htpQual))wins.push({title:'Get HTP Qualified',text:`Need ${state.comp.htpQual-rep.htp} more HTP. Check every eligible household for a protection win.`});
+ if(n(rep.insurance)<n(state.comp.insuranceMin))wins.push({title:'Protect Qualification',text:'Use Open Enrollment and offer PA1 on every eligible account.'});
+ else if(n(rep.insurance)<n(state.comp.insuranceBonus))wins.push({title:'Reach the 60 Insurance Metric',text:`Need ${((state.comp.insuranceBonus-rep.insurance)*100).toFixed(1)} percentage points. Open Enrollment is the best final-day path.`});
+ if(n(rep.accPerOpp)<n(state.comp.accMin))wins.push({title:'Find Accessory Qualification',text:`Need ${money2(state.comp.accMin-rep.accPerOpp)} per opportunity. Use Buy 2 Get 1 and look for oppless accessory sales.`});
+ else if(n(rep.accPerOpp)<n(state.comp.accBonus))wins.push({title:'Reach the 60 Accessory Metric',text:`Need ${money2(state.comp.accBonus-rep.accPerOpp)} per opportunity. Complete every solution and use Buy 2 Get 1.`});
  const ppvNeed=Math.max(0,adjustedRepGoal('ppv')-n(rep.ppv));
- if(ppvNeed>0){
-   wins.push({title:'Find New-Line Revenue',text:`Need ${ppvNeed} more PPV against the traffic-adjusted goal. Use every account review to uncover new lines, migrations, and connected-device needs.`});
- }else{
-   wins.push({title:'Keep New Lines Moving',text:'PPV pace is healthy. Keep using full account reviews to create separation above goal.'});
- }
-
- if(n(rep.data)<n(state.repGoals.data)){
-   wins.push({title:'Add Data Revenue',text:`Need ${state.repGoals.data-rep.data} more data add${state.repGoals.data-rep.data===1?'':'s'}. Ask about watches, tablets, hotspots, and connected-device needs.`});
- }
- if(n(rep.pre2post)<n(state.repGoals.pre2post)){
-   wins.push({title:'Look for Migration Wins',text:'Check prepaid customers for postpaid eligibility and value before finishing the transaction.'});
- }
-
- if(n(rep.insurance)>=n(state.comp.insuranceBonus)&&n(rep.accPerOpp)>=n(state.comp.accBonus)){
-   wins.push({title:'Protect the 1.50× Bonus',text:'Both 60 metrics are active. Do not give back the multiplier—keep PA1 and accessories in every solution.'});
- }else if(n(rep.insurance)>=n(state.comp.insuranceBonus)||n(rep.accPerOpp)>=n(state.comp.accBonus)){
-   const missing=n(rep.insurance)<n(state.comp.insuranceBonus)?'insurance above 60%':'accessories above $60 per opportunity';
-   wins.push({title:'Unlock the 1.50× Bonus',text:`One 60 metric is active. Raise ${missing} to activate the full 1.50× bonus.`});
- }
+ if(ppvNeed>0)wins.push({title:'Find New-Line Revenue',text:`Need ${ppvNeed} PPV against the traffic-adjusted goal. Run a full account review and uncover new lines, migrations, or connected devices.`});
+ if(n(rep.data)<n(state.repGoals.data))wins.push({title:'Add Data Revenue',text:`Need ${state.repGoals.data-rep.data} more data add${state.repGoals.data-rep.data===1?'':'s'}. Ask about watches, tablets, hotspots, and trackers.`});
+ if(n(rep.pre2post)<n(state.repGoals.pre2post))wins.push({title:'Look for Migration Wins',text:'Check prepaid customers for postpaid eligibility before closing the transaction.'});
+ if(aiaQualified)wins.push({title:'AIA Status',text:`Qualified with ${rep.aiaSubmits} submits / ${pct(rep.aiaClose)} close. Posted activations are largely outside your control this late—do not make that the main coaching ask.`});
+ if(!wins.length)wins.push({title:'Finish Strong',text:'Protect the metrics already earned and keep looking for controllable new-line, accessory, insurance, and data wins.'});
  return wins;
 }
 function primaryWin(rep){
@@ -436,17 +389,14 @@ function primaryWin(rep){
 }
 function storeCoachingWins(){
  const out=[];
- const allAiaQualified=state.reps.every(r=>n(r.aiaSubmits)>=n(state.comp.aiaSubmitQual)||n(r.aiaClose)>=n(state.comp.aiaCloseQual));
- if(!allAiaQualified)out.push('First priority: get every rep AIA-qualified through submits or close rate. Team-sell live opportunities.');
- else out.push('AIA qualification is covered. Shift the team toward more Posted AIA revenue.');
- const unqualifiedHtp=state.reps.filter(r=>n(r.htp)<n(state.comp.htpQual));
- if(unqualifiedHtp.length)out.push(`${unqualifiedHtp.map(r=>r.name).join(' and ')} still need HTP qualification. Look for protection conversations.`);
- const adjustedPpv=adjustedStoreGoal('ppv');
- if(state.store.ppv<adjustedPpv)out.push(`Need ${adjustedPpv-state.store.ppv} more PPV against the traffic-adjusted goal. New lines are the biggest revenue lever.`);
- if(state.store.aiaPosted<state.storeGoals.aiaPosted)out.push(`Need ${state.storeGoals.aiaPosted-state.store.aiaPosted} more Posted AIA to reach store goal.`);
- if(state.store.accPerOpp<state.comp.accBonus)out.push(`Accessories are ${money2(state.comp.accBonus-state.store.accPerOpp)} per opportunity from the 60 metric. Look for oppless accessory wins.`);
- if(state.store.insurance>=state.comp.insuranceBonus&&state.store.accPerOpp>=state.comp.accBonus)out.push('Both 60 metrics are active. Protect the 1.50× manager bonus.');
- else if(state.store.insurance>=state.comp.insuranceBonus||state.store.accPerOpp>=state.comp.accBonus)out.push('One 60 metric is active. Get the second above 60 to unlock the 1.50× manager bonus.');
+ const aiaUnqualified=state.reps.filter(r=>!(n(r.aiaSubmits)>=n(state.comp.aiaSubmitQual)||n(r.aiaClose)>=n(state.comp.aiaCloseQual)));
+ const htpUnqualified=state.reps.filter(r=>n(r.htp)<n(state.comp.htpQual));
+ if(aiaUnqualified.length)out.push(`${aiaUnqualified.map(r=>r.name).join(' and ')} still need AIA qualification. Ask every customer and team-sell submits today.`);
+ if(htpUnqualified.length)out.push(`${htpUnqualified.map(r=>r.name).join(' and ')} still need HTP qualification. Jamie's clearest win is one HTP.`);
+ out.push(`Accessories are ${money2(state.comp.accBonus-state.store.accPerOpp)} per opportunity below 60. Use Buy 2 Get 1, oppless accessories, and complete solutions on every transaction.`);
+ out.push(`Insurance is ${((state.comp.insuranceBonus-state.store.insurance)*100).toFixed(1)} points below 60%. Open Enrollment gives the team a controllable PA1 opportunity on existing accounts.`);
+ const ppvNeed=Math.max(0,adjustedStoreGoal('ppv')-state.store.ppv);
+ if(ppvNeed>0)out.push(`Need ${ppvNeed} PPV against the traffic-adjusted goal. Full account reviews and new-line discovery are the biggest controllable revenue wins.`);
  return out.slice(0,5);
 }
 function updateTimeline(){
@@ -757,12 +707,36 @@ function storePaidPriorities(){
  return moves.slice(0,4);
 }
 
+
+const PROMOTIONS=[
+ {id:'accessory-b2g1',title:'Buy 2, Get 1 Free Accessories',category:'Accessories',best:'3rd qualifying item free',start:'7/24/26',status:'new',tags:['Everyone','No phone required'],quick:{Action:'New & existing',Trade:'No',Plan:'No requirement'},details:`<ul><li>Purchase 2 or more qualifying accessories at full suggested retail price.</li><li>The third qualifying accessory is free.</li><li>Apple accessories and Do Not Discount items are excluded.</li><li>No device or rate-plan purchase is required.</li></ul>`,tip:'Use this to raise accessory revenue today: build a case + charger solution, then let the customer choose the qualifying free item.'},
+ {id:'open-enrollment',title:'Protect Advantage Open Enrollment',category:'Protection',best:'Add protection through Aug. 31',start:'7/15/26',status:'new',tags:['Ends 8/31','PA1 opportunity'],quick:{Action:'Eligible unprotected devices',Condition:'Undamaged / working',Plan:'Verify eligibility'},details:`<ul><li>Customers with eligible unprotected devices can add AT&T Protect Advantage.</li><li>The device must be undamaged and in good working order.</li><li>Open enrollment runs through August 31, 2026.</li></ul>`,tip:'This is the cleanest final-day insurance win. Check every account for eligible unprotected devices—not just new sales.'},
+ {id:'internet-air',title:'AT&T Home Internet / Internet Air Pricing',category:'Internet',best:'As low as $20/mo in Tri-State',start:'Current',status:'new',tags:['Ask everyone','Wireless bundle'],quick:{Standard:'$65','Bank AutoPay':'$55','AT&T customer':'$35'},details:`<table class="promo-price-table"><tr><th>Situation</th><th>Price</th></tr><tr><td>Standard</td><td>$65/mo</td></tr><tr><td>AutoPay using bank account</td><td>$55/mo</td></tr><tr><td>Eligible AT&T wireless customer</td><td>$35/mo</td></tr><tr><td>Eligible Tri-State customer</td><td>$20/mo</td></tr></table><p>Confirm address and exact pricing in the approved sales flow before quoting.</p>`,tip:'Ask every wireless customer who they use for home internet. The $35 and Tri-State $20 price points create an easy second sale.'},
+ {id:'tiered-devices',title:'Tiered Monthly Smartphone Offers',category:'Phones',best:'Phones from $0/mo',start:'7/24/26',status:'new',tags:['New lines','Upgrades','No trade required'],quick:{Trade:'No',Installments:'Required',Plan:'Eligible wireless plan'},details:`<table class="promo-price-table"><tr><th>Monthly</th><th>Eligible devices</th></tr><tr><td>$0</td><td>Galaxy A17 5G (new), moto G 2026 (new)</td></tr><tr><td>$2.99</td><td>Galaxy A37 (new), amiGO Jr (new)</td></tr><tr><td>$4.99</td><td>moto G 2026 (upgrade)</td></tr><tr><td>$5.99</td><td>iPhone 17e 256GB, Pixel 10a, moto edge 2026 (new)</td></tr><tr><td>$7.99</td><td>iPhone 16 128GB, Galaxy A37 (upgrade)</td></tr><tr><td>$8.99</td><td>moto edge 2026 (upgrade)</td></tr><tr><td>$9.99</td><td>iPhone Air 256GB, razr+ 2026 (new)</td></tr><tr><td>$10.99</td><td>Pixel 10 128GB</td></tr><tr><td>$11.99</td><td>iPhone 17e 512GB</td></tr><tr><td>$12.99</td><td>iPhone 16 256GB, Galaxy S26 256GB, razr+ upgrade</td></tr><tr><td>$13.99</td><td>Galaxy S25 FE (new)</td></tr><tr><td>$14.99</td><td>iPhone Air 512GB</td></tr><tr><td>$15.99+</td><td>S25 Edge, iPhone 16 512GB, iPhone Air 1TB, S26 512GB</td></tr></table>`,tip:'Use the monthly price—not retail price—to open the new-line conversation. Confirm whether the exact SKU is new-line only, upgrade only, or both.'},
+ {id:'apple-change',title:'Apple Premium Trade-In — Changes 7/31',category:'Apple',best:'Up to $1,100 / updated tiers',start:'7/31/26',status:'change',tags:['Changes tomorrow','Trade required'],quick:{'Top tier':'$1,100',Credits:'36 months',Verify:'CCKM / OPUS'},details:`<ul><li>Premium device trade-in and Next Up Anytime premium upgrade tiers change on 7/31.</li><li>The iPhone 17 / 17 Pro / 17 Pro Max tier changes to up to $700 with a $130+ trade on Extra 2.0 and above.</li><li>Last day for the prior $830 tier with a $130+ trade is 7/30.</li><li>Unlimited Starter / Starter SL customers can receive up to $830 with a $290+ trade.</li><li>Top $1,100 eligibility remains plan/device/trade dependent—verify before quoting.</li></ul>`,tip:'Today, verify whether the customer benefits from completing before the 7/31 tier change. Tomorrow, use the updated ladder only.'},
+ {id:'samsung-change',title:'Samsung Galaxy S26 Offer Changes — 7/31',category:'Samsung',best:'Up to $900 any-condition path',start:'7/31/26',status:'change',tags:['Changes tomorrow','Any condition'],quick:{'Premium path':'Up to $900','Value path':'Up to $500','Next Up':'Up to $350'},details:`<ul><li>S26 joins the Android premium trade-in and Next Up Anytime premium upgrade offers.</li><li>Up to $900 with qualifying any-condition Galaxy S10 / Note10 / Z Flip3 or newer, or a qualifying $35–$94 trade, on Unlimited Starter / Starter SL / Extra 2.0 and above.</li><li>Up to $500 with qualifying any-condition Galaxy or $35+ trade on Value 2.0.</li><li>Next Up upgrade offer adds Galaxy S26 at up to $350 off.</li><li>Galaxy S26 leaves the tiered new-line/upgrade and CRU tiered offers after 7/30.</li></ul>`,tip:'Do not quote the old S26 tiered price after 7/30. Starting 7/31, lead with the trade-in path and verify the exact Galaxy qualifier.'},
+ {id:'fold-flip',title:'Galaxy Fold8 / Flip8 Trade-In',category:'Samsung',best:'Fold8 up to $1,900',start:'7/22/26',status:'new',tags:['Trade-in','Any condition'],quick:{Fold8:'Up to $1,900',Flip8:'Up to $1,000',Value:'Up to $500'},details:`<ul><li>Fold8 / Fold8 Ultra: $290+ trade can reach up to $1,900 on Premium / Elite; Extra / Starter may receive up to $1,000.</li><li>$95–$289 or qualifying newer any-condition Galaxy can receive up to $1,000 on eligible plans.</li><li>$35–$94 or qualifying older any-condition Galaxy can receive up to $500.</li><li>Flip8: up to $1,000 with qualifying $95+ trade or newer any-condition Galaxy; Value 2.0 up to $500.</li></ul>`,tip:'Ask Samsung customers what old Galaxy is in the drawer. The any-condition path can rescue deals that look impossible at first.'},
+ {id:'samsung-bundle',title:'Samsung Phone + Watch + Tablet Bundle',category:'Bundles',best:'Up to $616.72 in credits',start:'7/22/26',status:'new',tags:['New watch line','New tablet line'],quick:{Devices:'3 purchases',Timing:'Within 14 days',Credits:'Up to $17.14/mo'},details:`<ul><li>Buy an eligible Samsung smartphone, add an eligible Galaxy Watch line, and add an eligible Samsung tablet line.</li><li>All devices must be purchased within 14 days of one another.</li><li>Eligible phones include S26 series, Fold8 / Fold8 Ultra, and Flip8.</li><li>Eligible watches include Watch9, Watch8 Classic, and Watch Ultra2.</li><li>Eligible tablets include Tab A11+ 5G, S10 FE 5G, and S10+ 5G.</li><li>Consumer, CRU, EMO/IMO, and qualifying FirstNet customers may be eligible.</li></ul>`,tip:'Before closing any eligible Samsung phone, ask about both a watch and tablet. One phone can unlock both bundle-credit paths.'},
+ {id:'watch-trade',title:'Samsung Watch Trade-In',category:'Wearables',best:'Up to $100 off',start:'7/22/26',status:'new',tags:['Upgrade only','$5+ watch trade'],quick:{Action:'Watch upgrade',Trade:'Any smartwatch $5+',Credits:'$2.78/mo × 36'},details:`<ul><li>Upgrade an existing watch line; new watch lines do not qualify.</li><li>Purchase an eligible Galaxy Watch on installments.</li><li>Trade an eligible smartwatch with at least $5 trade-in value.</li><li>Eligible watches include Watch8 Classic, Watch9 40mm/44mm, and Watch Ultra2.</li></ul>`,tip:'When a customer already has a watch line, inspect the old watch before assuming there is no upgrade value.'},
+ {id:'private-event',title:'Private New-Line Event Offer',category:'Private',best:'$200 port / $100 non-port',start:'7/24/26',status:'private',tags:['Qualifying events only','Private'],quick:{Port:'$200 credits','Non-port':'$100 credits',Term:'36 months'},details:`<ul><li>Available only at qualifying AT&T Retail and Authorized Retail sales events in eligible markets.</li><li>Add a new line, purchase any smartphone on installments, and activate an eligible unlimited plan.</li><li>Port-in new line: $200 in bill credits.</li><li>Non-port new line: $100 in bill credits.</li></ul>`,tip:'Use only when the event/customer is confirmed eligible. Do not position this as a general storewide offer.'},
+ {id:'reward-card',title:'Private $100 New-Line Reward Card',category:'Private',best:'$100 reward card',start:'7/24/26',status:'private',tags:['Limited allocation','Submission required'],quick:{Action:'New line',Plan:'Eligible unlimited $55+',Device:'Any new smartphone'},details:`<ul><li>Add a new line on an eligible unlimited plan and purchase any new smartphone on installments.</li><li>Seller must submit through Exclusive Rewards in OPUS or the Exclusive Reward Tool.</li><li>Limited allocation while supplies last.</li><li>Stackable with national offers and qualifying private switcher offers.</li><li>FirstNet Subscriber Paid becomes eligible effective 7/31 in participating channels.</li></ul>`,tip:'Confirm allocation and submit immediately. This is easy value to forget after the phone transaction is finished.'},
+ {id:'next-up',title:'Next Up / Next Up Anytime Quick Guide',category:'Upgrades',best:'Know the payoff path',start:'Current',status:'',tags:['Upgrade','Turn-in'],quick:{Anytime:'33% paid',Legacy:'50% paid',Condition:'Must qualify'},details:`<ul><li>Next Up Anytime: at 33%+ paid, the normal eligible promo path can apply.</li><li>Under 33%, AT&T may pay off the remaining installments for the upgrade path, but a new phone promo generally does not apply.</li><li>Legacy Next Up: customer generally needs 50% paid before upgrading.</li><li>Verify the feature, payoff, condition, and current promotion in OPUS/CCKM.</li></ul>`,tip:'Check the bill feature before promising a promo. The $10 and legacy $6 paths behave differently.'}
+];
+let promoCategory='All';
+function promoCategories(){return ['All','Featured','Phones','Apple','Samsung','Internet','Accessories','Protection','Bundles','Wearables','Private','Upgrades']}
+function promoMatches(p,q){q=q.trim().toLowerCase();const featured=['accessory-b2g1','open-enrollment','internet-air','apple-change','samsung-change','tiered-devices'];const catOk=promoCategory==='All'||(promoCategory==='Featured'&&featured.includes(p.id))||p.category===promoCategory;const hay=[p.title,p.category,p.best,p.tags.join(' '),p.details,p.tip].join(' ').toLowerCase();return catOk&&(!q||hay.includes(q))}
+function renderPromotions(){return `<section class="page" id="page-promos"><div class="promo-callout"><h2>Promotions Hub</h2><p>Fast sales reference. Search or filter, then expand only the offer you need. Verify final eligibility in OPUS/CCKM.</p></div><div class="promo-toolbar"><input class="promo-search" id="promoSearch" placeholder="Search iPhone, S26, watch, Internet, accessory..." oninput="refreshPromos()"><div class="promo-filters">${promoCategories().map(c=>`<button class="promo-filter ${promoCategory===c?'active':''}" onclick="setPromoCategory('${c}')">${c}</button>`).join('')}</div></div><div class="promo-list" id="promoList">${promoCards('')}</div></section>`}
+function promoCards(q){const list=PROMOTIONS.filter(p=>promoMatches(p,q));if(!list.length)return `<div class="promo-empty">No promotions match that search.</div>`;return list.map(p=>`<article class="promo-card" id="promo-${p.id}"><div class="promo-summary" onclick="togglePromo('${p.id}')"><div><div class="promo-title">${p.title}</div><div class="promo-sub">Effective ${p.start} • ${p.category}</div><div class="promo-tags">${p.tags.map(t=>`<span class="promo-tag">${t}</span>`).join('')}${p.status?`<span class="promo-tag ${p.status}">${p.status==='change'?'Updated':p.status==='private'?'Private Offer':'New'}</span>`:''}</div></div><div><div class="promo-best">${p.best}</div><div class="promo-chevron">⌄</div></div></div><div class="promo-body"><div class="promo-quick">${Object.entries(p.quick).map(([k,v])=>`<div><span>${k}</span><strong>${v}</strong></div>`).join('')}</div><div class="promo-details">${p.details}</div><div class="sell-tip"><strong>How I sell it:</strong> ${p.tip}</div></div></article>`).join('')}
+function setPromoCategory(c){promoCategory=c;renderAll();currentPage='promos';showPage('promos')}
+function refreshPromos(){const q=document.getElementById('promoSearch')?.value||'';const list=document.getElementById('promoList');if(list)list.innerHTML=promoCards(q)}
+function togglePromo(id){document.getElementById('promo-'+id)?.classList.toggle('open')}
+
 function metricRow(label,current,goal,{rate=false,project=true,path=''}={}){
  const proj=rate?n(current):(project?projected(current):n(current));const [txt,cls]=coachStatus(proj,goal,rate);const [tr,trCls]=path?trend(path,current):['',''];
  const display=v=>rate?(label.includes('ACC')?money2(v):pct(v)):Number(v).toFixed(project?1:0);
  return `<tr><td><strong>${label}</strong>${tr?`<div class="mini ${trCls}">${tr}</div>`:''}</td><td class="num">${rate?(label.includes('ACC')?money2(current):pct(current)):current}</td><td class="num">${rate?(label.includes('ACC')?money2(goal):pct(goal)):goal}</td><td class="num">${display(proj)}</td><td><span class="status ${cls}">${txt}</span></td></tr>`
 }
-function renderTabs(){const items=[['store','Store'],...state.reps.map((r,i)=>[`rep${i}`,r.name])];document.getElementById('tabs').innerHTML=items.map(([id,label])=>`<button class="tab ${currentPage===id?'active':''}" onclick="showPage('${id}')">${escapeHtml(label)}</button>`).join('')}
+function renderTabs(){const items=[['store','Store'],...state.reps.map((r,i)=>[`rep${i}`,r.name]),['promos','Promotions']];document.getElementById('tabs').innerHTML=items.map(([id,label])=>`<button class="tab ${currentPage===id?'active':''}" onclick="showPage('${id}')">${escapeHtml(label)}</button>`).join('')}
 function showPage(id){currentPage=id;document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById('page-'+id)?.classList.add('active');renderTabs();window.scrollTo({top:0,behavior:'smooth'});setTimeout(animateActivePage,50)}
 function morningHuddle(){
  const sorted=state.reps.map((r,i)=>({r,i,h:repHealth(r),c:coaching(r)})).sort((a,b)=>a.h-b.h);
@@ -788,13 +762,13 @@ function renderStore(){
   <div class="card kpi"><div class="label">Monthly PPV Goal</div><div class="value">${adjustedStoreGoal('ppv')}</div><div class="sub">${paceText(s.ppv,adjustedStoreGoal('ppv'),'PPV')}</div></div>
   <div class="card kpi"><div class="label">Monthly Upgrade Goal</div><div class="value">${adjustedStoreGoal('upgrades')}</div><div class="sub">${paceText(s.upgrades,adjustedStoreGoal('upgrades'),'Upgrades')}</div></div>
  </div>
- <div class="closing-window urgent-pulse" style="margin-top:14px"><div class="clock">⏰</div><div><h3>${daysLeft()} days. No wasted shifts.</h3><p>There are ${daysLeft()} calendar days left. Every missed ask now has nowhere to hide. Qualify first, then finish every new-line and Posted AIA opportunity.</p><div class="runway-grid"><div class="runway-item"><strong>${perRemainingDay(s.ppv,adjustedStoreGoal('ppv')).toFixed(1)}</strong><span>PPV per day</span></div><div class="runway-item"><strong>${perRemainingDay(s.aiaPosted,state.storeGoals.aiaPosted).toFixed(1)}</strong><span>AIA Posted/day</span></div><div class="runway-item"><strong>${perRemainingDay(s.upgrades,adjustedStoreGoal('upgrades')).toFixed(1)}</strong><span>Upgrades/day</span></div><div class="runway-item"><strong>${perRemainingDay(s.data,state.storeGoals.data).toFixed(2)}</strong><span>Data/day</span></div></div></div></div>
+ <div class="closing-window urgent-pulse" style="margin-top:14px"><div class="clock">⏰</div><div><h3>${daysLeft()} days. No wasted shifts.</h3><p>There are ${daysLeft()} calendar days left. Every missed ask now has nowhere to hide. Qualify first, then finish every controllable new-line, accessory, insurance, and data opportunity.</p><div class="runway-grid"><div class="runway-item"><strong>${perRemainingDay(s.ppv,adjustedStoreGoal('ppv')).toFixed(1)}</strong><span>PPV per day</span></div><div class="runway-item"><strong>${perRemainingDay(s.aiaPosted,state.storeGoals.aiaPosted).toFixed(1)}</strong><span>AIA Posted/day</span></div><div class="runway-item"><strong>${perRemainingDay(s.upgrades,adjustedStoreGoal('upgrades')).toFixed(1)}</strong><span>Upgrades/day</span></div><div class="runway-item"><strong>${perRemainingDay(s.data,state.storeGoals.data).toFixed(2)}</strong><span>Data/day</span></div></div></div></div>
  <div class="section-title">Closing-Window Morning Huddle</div>
  <div class="huddle-grid">
   <div class="callout win"><strong>Store Win</strong><p>Data is already above goal, AIA is qualified through ${state.store.aiaSubmits} submits, and insurance is currently activating the 1.25× bonus. Accessories are ${money2(Math.max(0,state.comp.accBonus-state.store.accPerOpp))} per opportunity away from unlocking the combined 1.50× bonus.</p></div>
   <div class="callout focus"><strong>Revenue Priority</strong><p>PPV needs ${remainingToGoal(s.ppv,adjustedStoreGoal('ppv'))} more this month — ${perRemainingDay(s.ppv,adjustedStoreGoal('ppv')).toFixed(1)} per remaining day. Treat every account review like it matters, because it does.</p></div>
-  <div class="callout focus"><strong>AIA Priority</strong><p>Qualification is handled. Now convert activity into posted money: ${remainingToGoal(s.aiaPosted,state.storeGoals.aiaPosted)} more AIA Posted, or ${perRemainingDay(s.aiaPosted,state.storeGoals.aiaPosted).toFixed(2)} per day.</p></div>
-  <div class="callout note"><strong>Today’s Team Challenge</strong><p>Target ${Math.ceil(perRemainingDay(s.ppv,adjustedStoreGoal('ppv')))} PPV and ${Math.ceil(perRemainingDay(s.aiaPosted,state.storeGoals.aiaPosted))} AIA Posted today. Ask everyone, team-sell live opportunities, and do not push today’s gap into tomorrow.</p></div>
+  <div class="callout focus"><strong>Multiplier Priority</strong><p>Accessories need ${money2(state.comp.accBonus-state.store.accPerOpp)} per opportunity and insurance needs ${((state.comp.insuranceBonus-state.store.insurance)*100).toFixed(1)} points. Those are controllable today.</p></div>
+  <div class="callout note"><strong>Today’s Team Challenge</strong><p>Target ${Math.ceil(perRemainingDay(s.ppv,adjustedStoreGoal('ppv')))} PPV, push accessories above $60/opp, and use Open Enrollment to get insurance above 60%. Ask everyone and team-sell controllable opportunities.</p></div>
  </div>
  <div class="section-title">Everyone’s Shoutout & Opportunity</div>
  <div class="card"><div class="card-body" style="padding:0">${state.reps.map((r,i)=>`<div class="rep-huddle"><div class="name">${escapeHtml(r.name)}<div class="mini">${repHealth(r)} HP</div></div><div><strong>Shoutout</strong><div>${storeShoutout(r)}</div></div><div><strong>Opportunity</strong><div>${storeOpportunity(r)}</div><div class="paid-line"><strong>${primaryWin(r).title}</strong><div>${primaryWin(r).text}</div></div></div></div>`).join('')}</div></div>
@@ -957,7 +931,7 @@ function renderEdit(){return `<section class="page" id="page-edit"><div class="h
  </div></details>
  <div class="grid two" style="margin-top:16px"><button class="btn dark" onclick="downloadJSON()">Download JSON Backup</button><button class="btn secondary" onclick="resetState()">Reset Test Data</button></div></section>`}
 function setPath(path,value){const parts=path.split('.');let o=state;for(let i=0;i<parts.length-1;i++)o=o[parts[i]];o[parts.at(-1)]=value;saveState()}
-function renderAll(){document.getElementById('content').innerHTML=renderStore()+state.reps.map(renderRep).join('');renderTabs();showPage(currentPage)}
+function renderAll(){document.getElementById('content').innerHTML=renderStore()+state.reps.map(renderRep).join('')+renderPromotions();renderTabs();showPage(currentPage)}
 function downloadJSON(){downloadBlob(new Blob([JSON.stringify(state,null,2)],{type:'application/json'}),`StorePulse_${state.meta.month.replaceAll(' ','_')}.json`)}
 function downloadBlob(blob,name){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1200)}
 function exportShareableHTML(){const source=document.documentElement.outerHTML,embedded=`const EMBEDDED_STATE = ${JSON.stringify(state)};`,modified=source.replace('const EMBEDDED_STATE = null;',embedded);downloadBlob(new Blob(['<!DOCTYPE html>\n'+modified],{type:'text/html'}),`StorePulse_${state.meta.month.replaceAll(' ','_')}_Share.html`)}
