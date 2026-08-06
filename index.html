@@ -29,8 +29,8 @@ details.panel{background:#fff;border:1px solid var(--line);border-radius:14px;ma
    <div class="example">Example: “I’m committing to starting more Home Internet conversations.”</div>
    <div class="small">Your commitment can be a metric, a behavior, or something you want to improve.</div>
    <div class="modalactions" style="margin-top:14px">
-    <button class="textbtn" id="textTJ">📱 Text TJ</button>
-    <button class="enterbtn" id="enterHuddle">Enter Team Huddle</button>
+    <button type="button" class="textbtn" id="textTJ">📱 Text TJ</button>
+    <button type="button" class="enterbtn" id="enterHuddle">Enter Team Huddle</button>
    </div>
   </div>
  </div>
@@ -76,7 +76,30 @@ function promosPage(){return `<section class="page" id="promos"><div class="hero
 function awardsPage(){return `<section class="page" id="awards"><div class="awardstage"><div class="eyebrow" style="text-align:center">July 2026</div><h1>Team Awards</h1>${[['🎯','The Closer','Jamie McGloan','Most opportunities worked'],['📈','Most Improved','Noelle Glenn','Consistency, growth, and confidence'],['🤝','Support Player','Noelle Glenn','83% Insurance · 100% CSAT'],['⚔️','Offensive Player','Jamie McGloan','Revenue production across PPV, AIA, data, and accessories'],['🏆','MVP','Jamie McGloan',"TJ’s selection"]].map(a=>`<div class="award"><div class="icon">${a[0]}</div><div><h3>${a[1]} — ${a[2]}</h3><p>${a[3]}</p></div></div>`).join('')}</div></section>`}
 function render(){app.innerHTML=huddlePage()+storePage()+teamPage()+developmentPage()+promosPage()+awardsPage()+`<div class="footer">Team Huddle #2 · Q3 Final Month · Updated ${DATA.updated}</div>`;nav();document.querySelectorAll('.repselect button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.repselect button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.rep').forEach(x=>x.classList.remove('active'));document.getElementById('rep-'+b.dataset.rep).classList.add('active')});let filter='All';const apply=()=>{const q=(document.getElementById('promoSearch').value||'').toLowerCase();document.querySelectorAll('.promo').forEach(p=>p.style.display=((filter==='All'||p.dataset.cat===filter)&&p.dataset.text.includes(q))?'block':'none')};document.getElementById('promoSearch').oninput=apply;document.querySelectorAll('.filter').forEach(b=>b.onclick=()=>{filter=b.dataset.filter;document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));b.classList.add('active');apply()})}
 render();
-textTJ.onclick=()=>{location.href='sms:?&body=My%20commitment%20before%20the%20next%20huddle%20is%3A%20'};enterHuddle.onclick=()=>challengeOverlay.classList.add('hidden');
+const challengeOverlayEl = document.getElementById('challengeOverlay');
+const textTJBtn = document.getElementById('textTJ');
+const enterHuddleBtn = document.getElementById('enterHuddle');
+
+function closeChallenge(){
+  challengeOverlayEl.classList.add('hidden');
+  document.body.style.overflow = '';
+}
+
+textTJBtn.addEventListener('click', () => {
+  const message = encodeURIComponent('My commitment before the next huddle is: ');
+  closeChallenge();
+  // iPhone/iPad Messages supports this format without requiring a saved number.
+  window.location.href = `sms:&body=${message}`;
+});
+
+enterHuddleBtn.addEventListener('click', closeChallenge);
+challengeOverlayEl.addEventListener('click', (event) => {
+  if(event.target === challengeOverlayEl) closeChallenge();
+});
+document.addEventListener('keydown', (event) => {
+  if(event.key === 'Escape') closeChallenge();
+});
+document.body.style.overflow = 'hidden';
 </script>
 </body>
 </html>
