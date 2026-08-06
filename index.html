@@ -49,10 +49,12 @@ const DATA={
  ]
 };
 const pages=[['huddle','Huddle'],['store','Store'],['team','Team'],['development','Development'],['promos','Promotions'],['awards','July Awards']];
+const navEl=document.getElementById('nav');
+const appEl=document.getElementById('app');
 const pct=v=>v==null?'—':`${(v*100).toFixed(v*100%1?1:0)}%`; const money=v=>`$${Number(v).toLocaleString(undefined,{maximumFractionDigits:2})}`;
 function pace(actual,goal){const expected=goal*(6/31);return actual>=expected?'good':actual>=expected*.7?'build':'focuspill'}
 function statusLabel(cls){return cls==='good'?'Strong':cls==='build'?'Building':'Focus'}
-function nav(){nav.innerHTML=pages.map(([id,n],i)=>`<button data-page="${id}" class="${i===0?'active':''}">${n}</button>`).join('');nav.querySelectorAll('button').forEach(b=>b.onclick=()=>show(b.dataset.page,b))}
+function renderNav(){navEl.innerHTML=pages.map(([id,n],i)=>`<button data-page="${id}" class="${i===0?'active':''}">${n}</button>`).join('');navEl.querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>show(b.dataset.page,b)))}
 function show(id,btn){document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.nav button').forEach(x=>x.classList.remove('active'));(btn||document.querySelector(`[data-page="${id}"]`)).classList.add('active');window.scrollTo({top:0,behavior:'smooth'})}
 function metricCard(label,value,sub=''){return `<div class="card metric"><div class="label">${label}</div><div class="value">${value}</div><div class="sub">${sub}</div></div>`}
 const coaching={
@@ -74,26 +76,26 @@ function developmentPage(){return `<section class="page" id="development"><div c
 const promos=[['Protection','Open Enrollment','Protect Advantage open enrollment continues through August 31.','Use account reviews to protect eligible unprotected devices.'],['Accessories','Buy 2, Get 1 Free','Purchase two qualifying accessories at full price and receive the third qualifying accessory free.','Bring the bundle first and let the customer decide.'],['Internet','Home Internet Pricing','$65 standard · $55 bank AutoPay · $35 wireless customer · as low as $20 Tri-State eligible.','The sale starts with a conversation.'],['Phones','Tiered Device Offers','Current new-line and upgrade monthly device offers.','Confirm action type and plan eligibility before quoting.'],['Samsung','Samsung Bundles','Eligible phone, watch, and tablet bundles can create additional credits.','Ask about connected devices before finishing the phone sale.']];
 function promosPage(){return `<section class="page" id="promos"><div class="hero"><div class="eyebrow">Knowledge Base</div><h1>Current Promotions</h1><p>Compact cards first. Expand only when the details are needed.</p></div><div class="promo-controls"><input id="promoSearch" placeholder="Search promotions…"><button class="filter active" data-filter="All">All</button>${[...new Set(promos.map(x=>x[0]))].map(x=>`<button class="filter" data-filter="${x}">${x}</button>`).join('')}</div><div id="promoList">${promos.map(p=>`<details class="panel promo" data-cat="${p[0]}" data-text="${p.join(' ').toLowerCase()}"><summary><span>${p[1]}</span><span class="summary-main"><span class="summary-sub">${p[0]}</span></span><span class="chev">⌄</span></summary><div class="inside conference"><div><strong>Quick Read</strong>${p[2]}</div><div class="talk"><strong>How to Use It</strong>${p[3]}</div></div></details>`).join('')}</div></section>`}
 function awardsPage(){return `<section class="page" id="awards"><div class="awardstage"><div class="eyebrow" style="text-align:center">July 2026</div><h1>Team Awards</h1>${[['🎯','The Closer','Jamie McGloan','Most opportunities worked'],['📈','Most Improved','Noelle Glenn','Consistency, growth, and confidence'],['🤝','Support Player','Noelle Glenn','83% Insurance · 100% CSAT'],['⚔️','Offensive Player','Jamie McGloan','Revenue production across PPV, AIA, data, and accessories'],['🏆','MVP','Jamie McGloan',"TJ’s selection"]].map(a=>`<div class="award"><div class="icon">${a[0]}</div><div><h3>${a[1]} — ${a[2]}</h3><p>${a[3]}</p></div></div>`).join('')}</div></section>`}
-function render(){app.innerHTML=huddlePage()+storePage()+teamPage()+developmentPage()+promosPage()+awardsPage()+`<div class="footer">Team Huddle #2 · Q3 Final Month · Updated ${DATA.updated}</div>`;nav();document.querySelectorAll('.repselect button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.repselect button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.rep').forEach(x=>x.classList.remove('active'));document.getElementById('rep-'+b.dataset.rep).classList.add('active')});let filter='All';const apply=()=>{const q=(document.getElementById('promoSearch').value||'').toLowerCase();document.querySelectorAll('.promo').forEach(p=>p.style.display=((filter==='All'||p.dataset.cat===filter)&&p.dataset.text.includes(q))?'block':'none')};document.getElementById('promoSearch').oninput=apply;document.querySelectorAll('.filter').forEach(b=>b.onclick=()=>{filter=b.dataset.filter;document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));b.classList.add('active');apply()})}
+function render(){appEl.innerHTML=huddlePage()+storePage()+teamPage()+developmentPage()+promosPage()+awardsPage()+`<div class="footer">Team Huddle #2 · Q3 Final Month · Updated ${DATA.updated}</div>`;renderNav();document.querySelectorAll('.repselect button').forEach(b=>b.onclick=()=>{document.querySelectorAll('.repselect button').forEach(x=>x.classList.remove('active'));b.classList.add('active');document.querySelectorAll('.rep').forEach(x=>x.classList.remove('active'));document.getElementById('rep-'+b.dataset.rep).classList.add('active')});let filter='All';const apply=()=>{const q=(document.getElementById('promoSearch').value||'').toLowerCase();document.querySelectorAll('.promo').forEach(p=>p.style.display=((filter==='All'||p.dataset.cat===filter)&&p.dataset.text.includes(q))?'block':'none')};document.getElementById('promoSearch').oninput=apply;document.querySelectorAll('.filter').forEach(b=>b.onclick=()=>{filter=b.dataset.filter;document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));b.classList.add('active');apply()})}
 render();
 const challengeOverlayEl = document.getElementById('challengeOverlay');
 const textTJBtn = document.getElementById('textTJ');
 const enterHuddleBtn = document.getElementById('enterHuddle');
 
 function closeChallenge(){
-  challengeOverlayEl.classList.add('hidden');
+  if(challengeOverlayEl) challengeOverlayEl.classList.add('hidden');
   document.body.style.overflow = '';
 }
 
-textTJBtn.addEventListener('click', () => {
+if(textTJBtn) textTJBtn.addEventListener('click', () => {
   const message = encodeURIComponent('My commitment before the next huddle is: ');
   closeChallenge();
   // iPhone/iPad Messages supports this format without requiring a saved number.
-  window.location.href = `sms:&body=${message}`;
+  window.location.href = `sms:?&body=${message}`;
 });
 
-enterHuddleBtn.addEventListener('click', closeChallenge);
-challengeOverlayEl.addEventListener('click', (event) => {
+if(enterHuddleBtn) enterHuddleBtn.addEventListener('click', closeChallenge);
+if(challengeOverlayEl) challengeOverlayEl.addEventListener('click', (event) => {
   if(event.target === challengeOverlayEl) closeChallenge();
 });
 document.addEventListener('keydown', (event) => {
