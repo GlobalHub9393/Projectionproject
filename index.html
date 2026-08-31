@@ -1,7 +1,47 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#082f49"><title>Team Huddle — September</title>
 <style>
-:root{--navy:#082f49;--blue:#0284c7;--sky:#e0f2fe;--ink:#172033;--muted:#64748b;--line:#dbe4ee;--page:#f4f7fb;--card:#fff;--green:#15803d;--greenbg:#dcfce7;--amber:#a16207;--amberbg:#fef3c7;--red:#b91c1c;--redbg:#fee2e2}*{box-sizing:border-box}body{margin:0;background:var(--page);color:var(--ink);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}button,input,textarea,select{font:inherit}.top{position:sticky;top:0;z-index:50;background:linear-gradient(100deg,var(--navy),#075985);color:#fff;padding:10px;box-shadow:0 3px 18px #082f4930}.toprow{max-width:1180px;margin:auto;display:flex;align-items:center;gap:8px}.brand{font-weight:950}.nav{display:flex;gap:6px;overflow:auto;flex:1}.nav button{border:0;background:#ffffff16;color:#fff;padding:9px 11px;border-radius:10px;font-weight:850;white-space:nowrap}.nav button.active{background:#fff;color:var(--navy)}main{max-width:1180px;margin:auto;padding:12px}.page{display:none}.page.active{display:block}.hero{background:linear-gradient(135deg,var(--navy),#0369a1);color:#fff;border-radius:18px;padding:18px;margin-bottom:12px}.hero h1{margin:2px 0 6px;font-size:clamp(26px,6vw,40px)}.hero p{margin:0;color:#dbeafe}.eyebrow{font-size:11px;font-weight:950;letter-spacing:.14em;text-transform:uppercase;color:#7dd3fc}.section{font-size:18px;color:var(--navy);font-weight:1000;margin:18px 0 9px}.card{background:#fff;border:1px solid var(--line);border-radius:15px;overflow:hidden}.body{padding:13px}.grid{display:grid;gap:10px}.metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.metric{background:#fff;border:1px solid var(--line);border-top:4px solid var(--navy);border-radius:13px;padding:11px}.metric .label{font-size:10px;text-transform:uppercase;color:var(--muted);font-weight:950}.metric .value{font-size:23px;font-weight:1000;color:var(--navy);margin:3px 0}.metric.adminEditable{cursor:pointer;position:relative}.metric.adminEditable:hover{outline:2px solid #38bdf8;outline-offset:1px}.inlineEdit{width:100%;font-size:22px;font-weight:1000;color:var(--navy);border:2px solid #38bdf8;border-radius:8px;padding:3px 6px;background:#fff}.adminModeBar{display:flex;align-items:center;justify-content:space-between;gap:8px;background:#ecfeff;border:1px solid #67e8f9;color:#0c4a6e;border-radius:12px;padding:9px 11px;margin-bottom:10px;font-size:12px;font-weight:850}.adminModeBar button{border:0;background:#0c4a6e;color:#fff;border-radius:8px;padding:7px 10px;font-weight:900}.saveFlash{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:99;background:#0f172a;color:#fff;padding:9px 14px;border-radius:999px;font-size:12px;font-weight:850;box-shadow:0 8px 30px #0003}.goalGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.goalGrid .field{margin:0}.metric .sub{font-size:10px;color:var(--muted)}.good{border-top-color:var(--green)!important}.warn{border-top-color:var(--amber)!important}.bad{border-top-color:var(--red)!important}.progress{height:7px;background:#e5e7eb;border-radius:999px;overflow:hidden;margin-top:8px}.progress span{display:block;height:100%;background:var(--blue)}.context{padding:12px;border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:12px;background:#fff}.context h3{margin:0 0 5px;color:var(--navy);font-size:14px}.context p{margin:0;line-height:1.45;font-size:13px}.tabs{display:flex;gap:7px;overflow:auto;margin-bottom:12px}.tabs button{border:1px solid var(--line);background:#fff;color:var(--navy);padding:9px 13px;border-radius:999px;font-weight:900;white-space:nowrap}.tabs button.active{background:var(--navy);color:#fff}.repPane{display:none}.repPane.active{display:block}.repbanner{background:linear-gradient(135deg,#0c4a6e,#0284c7);color:#fff;border-radius:17px;padding:16px;margin-bottom:10px}.repbanner h2{margin:0}.repbanner p{margin:5px 0 0;color:#dbeafe}.calc{display:grid;gap:8px}.calcrow{display:grid;grid-template-columns:1.2fr .8fr .8fr;gap:6px;align-items:center}.calcrow input{width:100%;padding:8px;border:1px solid var(--line);border-radius:9px}.result{padding:10px;border-radius:10px;background:#f8fafc;border:1px solid var(--line);font-size:13px}.sbs{border:1px solid var(--line);border-radius:12px;background:#fff;margin:8px 0;overflow:hidden}.sbs summary{padding:11px;font-weight:900;color:var(--navy);cursor:pointer}.sbs .inside{border-top:1px solid var(--line);padding:11px;font-size:13px;line-height:1.5}.scores{display:flex;gap:5px;flex-wrap:wrap;margin:6px 0}.chip{background:#eef2f6;border-radius:999px;padding:4px 7px;font-size:10px;font-weight:850}.adminGate{max-width:420px;margin:30px auto}.field{display:grid;gap:5px;margin-bottom:10px}.field label{font-size:11px;font-weight:900;color:var(--muted);text-transform:uppercase}.field input,.field textarea,.field select{width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:#fff}.field textarea{min-height:90px}.btn{border:0;background:var(--navy);color:#fff;padding:10px 13px;border-radius:10px;font-weight:900}.btn.alt{background:#fff;color:var(--navy);border:1px solid var(--line)}.btn.danger{background:#991b1b}.adminSection{margin-bottom:12px}.adminGrid{display:grid;gap:10px}.status{font-size:12px;color:var(--muted);margin-top:8px}.small{font-size:11px;color:var(--muted)}
+:root{--navy:#082f49;--blue:#0284c7;--sky:#e0f2fe;--ink:#172033;--muted:#64748b;--line:#dbe4ee;--page:#f4f7fb;--card:#fff;--green:#15803d;--greenbg:#dcfce7;--amber:#a16207;--amberbg:#fef3c7;--red:#b91c1c;--redbg:#fee2e2}*{box-sizing:border-box}body{margin:0;background:var(--page);color:var(--ink);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}button,input,textarea,select{font:inherit}.top{position:sticky;top:0;z-index:50;background:linear-gradient(100deg,var(--navy),#075985);color:#fff;padding:10px;box-shadow:0 3px 18px #082f4930}.toprow{max-width:1180px;margin:auto;display:flex;align-items:center;gap:8px}.brand{font-weight:950}.nav{display:flex;gap:6px;overflow:auto;flex:1}.nav button{border:0;background:#ffffff16;color:#fff;padding:9px 11px;border-radius:10px;font-weight:850;white-space:nowrap}.nav button.active{background:#fff;color:var(--navy)}main{max-width:1180px;margin:auto;padding:12px}.page{display:none}.page.active{display:block}.hero{background:linear-gradient(135deg,var(--navy),#0369a1);color:#fff;border-radius:18px;padding:18px;margin-bottom:12px}.hero h1{margin:2px 0 6px;font-size:clamp(26px,6vw,40px)}.hero p{margin:0;color:#dbeafe}.eyebrow{font-size:11px;font-weight:950;letter-spacing:.14em;text-transform:uppercase;color:#7dd3fc}.section{font-size:18px;color:var(--navy);font-weight:1000;margin:18px 0 9px}.card{background:#fff;border:1px solid var(--line);border-radius:15px;overflow:hidden}.body{padding:13px}.grid{display:grid;gap:10px}.metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.metric{background:#fff;border:1px solid var(--line);border-top:4px solid var(--navy);border-radius:13px;padding:11px}.metric .label{font-size:10px;text-transform:uppercase;color:var(--muted);font-weight:950}.metric .value{font-size:23px;font-weight:1000;color:var(--navy);margin:3px 0}.metric.adminEditable{cursor:pointer;position:relative}.metric.adminEditable:hover{outline:2px solid #38bdf8;outline-offset:1px}.inlineEdit{width:100%;font-size:22px;font-weight:1000;color:var(--navy);border:2px solid #38bdf8;border-radius:8px;padding:3px 6px;background:#fff}.adminModeBar{display:flex;align-items:center;justify-content:space-between;gap:8px;background:#ecfeff;border:1px solid #67e8f9;color:#0c4a6e;border-radius:12px;padding:9px 11px;margin-bottom:10px;font-size:12px;font-weight:850}.adminModeBar button{border:0;background:#0c4a6e;color:#fff;border-radius:8px;padding:7px 10px;font-weight:900}.saveFlash{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:99;background:#0f172a;color:#fff;padding:9px 14px;border-radius:999px;font-size:12px;font-weight:850;box-shadow:0 8px 30px #0003}.goalGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.goalGrid .field{margin:0}.metric .sub{font-size:10px;color:var(--muted)}.good{border-top-color:var(--green)!important}.warn{border-top-color:var(--amber)!important}.bad{border-top-color:var(--red)!important}.progress{height:7px;background:#e5e7eb;border-radius:999px;overflow:hidden;margin-top:8px}.progress span{display:block;height:100%;background:var(--blue)}.context{padding:12px;border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:12px;background:#fff}.context h3{margin:0 0 5px;color:var(--navy);font-size:14px}.context p{margin:0;line-height:1.45;font-size:13px}.tabs{display:flex;gap:7px;overflow:auto;margin-bottom:12px}.tabs button{border:1px solid var(--line);background:#fff;color:var(--navy);padding:9px 13px;border-radius:999px;font-weight:900;white-space:nowrap}.tabs button.active{background:var(--navy);color:#fff}.repPane{display:none}.repPane.active{display:block}.repbanner{background:linear-gradient(135deg,#0c4a6e,#0284c7);color:#fff;border-radius:17px;padding:16px;margin-bottom:10px}.repbanner h2{margin:0}.repbanner p{margin:5px 0 0;color:#dbeafe}.calc{display:grid;gap:8px}.calcrow{display:grid;grid-template-columns:1.2fr .8fr .8fr;gap:6px;align-items:center}.calcrow input{width:100%;padding:8px;border:1px solid var(--line);border-radius:9px}.result{padding:10px;border-radius:10px;background:#f8fafc;border:1px solid var(--line);font-size:13px}
+.compCalc{display:grid;gap:12px}
+.moneyHero{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.moneyBox{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fff}
+.moneyBox .k{font-size:10px;font-weight:900;text-transform:uppercase;color:var(--muted);letter-spacing:.06em}
+.moneyBox .v{font-size:25px;font-weight:950;color:var(--navy);margin-top:4px}
+.moneyBox.risk{background:#fff7ed;border-color:#fdba74}
+.moneyBox.lost{background:#fef2f2;border-color:#fca5a5}
+.moneyBox.safe{background:#f0fdf4;border-color:#86efac}
+.qualGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.qualCard{border:1px solid var(--line);border-radius:12px;padding:10px;background:#fff}
+.qualCard.good{border-color:#86efac;background:#f0fdf4}
+.qualCard.warn{border-color:#fdba74;background:#fff7ed}
+.qualCard.bad{border-color:#fca5a5;background:#fef2f2}
+.qualTop{display:flex;justify-content:space-between;gap:8px;align-items:center}
+.qualName{font-weight:950;color:var(--navy)}
+.qualStatus{font-size:11px;font-weight:950}
+.qualDetail{font-size:12px;color:var(--muted);margin-top:5px;line-height:1.35}
+.sandboxTitle{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.resetBtn{border:1px solid var(--line);background:#fff;color:var(--navy);padding:8px 10px;border-radius:10px;font-weight:900}
+.sandboxGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.sbox{border:1px solid var(--line);border-radius:12px;padding:10px;background:#fff}
+.sbox label{display:block;font-size:11px;font-weight:900;color:var(--muted);text-transform:uppercase;margin-bottom:5px}
+.stepper{display:grid;grid-template-columns:34px 1fr 34px;gap:5px;align-items:center}
+.stepper button{height:34px;border:1px solid var(--line);border-radius:9px;background:#f8fafc;font-size:20px;font-weight:900;color:var(--navy)}
+.stepper input,.sbox input,.sbox select{width:100%;padding:8px;border:1px solid var(--line);border-radius:9px;background:#fff}
+.liveToScenario{font-size:12px;color:var(--muted);margin-top:6px}
+.breakdown{display:grid;gap:7px}
+.breakRow{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid #eef2f6}
+.breakRow:last-child{border-bottom:0}
+.breakRow b{color:var(--navy)}
+.bigResult{border-radius:14px;padding:13px;border:1px solid var(--line);background:#f8fafc}
+.bigResult.good{background:#f0fdf4;border-color:#86efac}
+.bigResult.bad{background:#fef2f2;border-color:#fca5a5}
+.bigResult .headline{font-size:18px;font-weight:950;color:var(--navy)}
+.bigResult .sub{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.4}
+.moveList{display:grid;gap:7px}
+.move{padding:10px;border-radius:11px;border:1px solid var(--line);background:#fff;font-size:12px;line-height:1.4}
+.move b{color:var(--navy)}
+@media(max-width:640px){.moneyHero{grid-template-columns:1fr}.qualGrid,.sandboxGrid{grid-template-columns:1fr}}
+.sbs{border:1px solid var(--line);border-radius:12px;background:#fff;margin:8px 0;overflow:hidden}.sbs summary{padding:11px;font-weight:900;color:var(--navy);cursor:pointer}.sbs .inside{border-top:1px solid var(--line);padding:11px;font-size:13px;line-height:1.5}.scores{display:flex;gap:5px;flex-wrap:wrap;margin:6px 0}.chip{background:#eef2f6;border-radius:999px;padding:4px 7px;font-size:10px;font-weight:850}.adminGate{max-width:420px;margin:30px auto}.field{display:grid;gap:5px;margin-bottom:10px}.field label{font-size:11px;font-weight:900;color:var(--muted);text-transform:uppercase}.field input,.field textarea,.field select{width:100%;padding:10px;border:1px solid var(--line);border-radius:10px;background:#fff}.field textarea{min-height:90px}.btn{border:0;background:var(--navy);color:#fff;padding:10px 13px;border-radius:10px;font-weight:900}.btn.alt{background:#fff;color:var(--navy);border:1px solid var(--line)}.btn.danger{background:#991b1b}.adminSection{margin-bottom:12px}.adminGrid{display:grid;gap:10px}.status{font-size:12px;color:var(--muted);margin-top:8px}.small{font-size:11px;color:var(--muted)}
 /* Manager Mode */
 .metric.adminEditable{cursor:pointer;position:relative;padding-right:34px;transition:.15s ease}
 .metric.adminEditable:hover,.metric.adminEditable:active{outline:2px solid #38bdf8;outline-offset:1px;transform:translateY(-1px)}
@@ -34,6 +74,24 @@
 @media(min-width:760px){.sheetBackdrop{align-items:center;padding:24px}.sheet{border-radius:22px;max-height:90vh}.editRows{grid-template-columns:repeat(3,minmax(0,1fr))}}
 
 @media(min-width:760px){.metrics{grid-template-columns:repeat(4,minmax(0,1fr))}.grid.two{grid-template-columns:1fr 1fr}.adminGrid{grid-template-columns:1fr 1fr}.calcrow{grid-template-columns:1.6fr .7fr .7fr}.toprow{gap:12px}}
+
+.repActions{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}
+.repActions button{border:1px solid #bae6fd;background:#fff;color:#075985;border-radius:10px;padding:8px 11px;font-weight:900}
+.repActions button.goal{background:#ecfeff}
+.managerSnapshot{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:10px 0}
+.snap{border:1px solid var(--line);border-radius:13px;padding:10px;background:#fbfdff}
+.snap .k{font-size:10px;text-transform:uppercase;color:var(--muted);font-weight:950}.snap .v{font-size:15px;font-weight:950;color:var(--navy);margin-top:3px}
+.trendGrid{display:grid;gap:8px}.trendRow{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:9px;background:#fff}
+.trendRow b{font-size:12px}.trendRow span{font-size:11px;color:var(--muted)}
+.trendBadge{border-radius:999px;padding:5px 8px;font-size:10px;font-weight:950}
+.trendBadge.strength{background:#dcfce7;color:#166534}.trendBadge.improving{background:#e0f2fe;color:#075985}.trendBadge.watch{background:#fef3c7;color:#92400e}.trendBadge.recurring{background:#fee2e2;color:#991b1b}
+.coachCard{border:1px solid var(--line);border-radius:13px;padding:11px;background:#fff}.coachHead{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}.coachStatus{border-radius:999px;padding:5px 8px;font-size:9px;font-weight:950;text-transform:uppercase}
+.coachStatus.new{background:#e0f2fe;color:#075985}.coachStatus.working{background:#fef3c7;color:#92400e}.coachStatus.improved{background:#dcfce7;color:#166534}
+.coachActions{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}.coachActions button{border:1px solid var(--line);background:#f8fafc;border-radius:8px;padding:5px 7px;font-size:10px;font-weight:850}
+.sbsBehavior{display:grid;grid-template-columns:90px 30px 1fr;gap:7px;align-items:start;padding:7px 0;border-bottom:1px solid #eef2f7}.sbsBehavior:last-child{border-bottom:0}.sbsBehavior .score{font-weight:1000;color:var(--navy)}.sbsBehavior .note{font-size:11px;color:#475569;line-height:1.4}
+.goalHint{font-size:11px;color:var(--muted);margin:0 0 10px}.inheritNote{background:#f8fafc;border:1px dashed #cbd5e1;border-radius:10px;padding:8px;font-size:11px;color:#475569}
+@media(min-width:760px){.managerSnapshot{grid-template-columns:repeat(4,minmax(0,1fr))}.trendGrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
 </style></head><body><header class="top"><div class="toprow"><div class="brand">Team Huddle</div><nav class="nav" id="nav"><button class="active" data-page="home">Coaching</button><button data-page="store">Store</button><button data-page="team">Rep Pages</button><button data-page="sbs">SBS</button><button data-page="archives">Awards / Archives</button><button data-page="admin">Edit</button></nav></div></header><main id="app"><div class="hero"><div class="eyebrow">Loading</div><h1>Team Huddle</h1><p>Connecting to September data…</p></div></main>
 <script>
 let DATA=null,adminPhrase=sessionStorage.getItem('huddleAdmin')||'';const app=document.getElementById('app'),nav=document.getElementById('nav');
@@ -45,19 +103,109 @@ function metric(label,value,goal,fmt='num',edit=null){const f=fmt==='money'?mone
 function coachingCards(repSlug=null){const rows=DATA.coaching.filter(c=>repSlug?c.rep_slug===repSlug:!c.rep_slug);return rows.map(c=>`<div class="context"><h3>${c.title||c.kind}</h3><p>${c.body}</p></div>`).join('')||`<div class="context"><h3>Fresh board</h3><p>No coaching point added yet.</p></div>`}
 function homePage(){const c=DATA.config;return `<section class="page active" id="home"><div class="hero"><div class="eyebrow">${c.month_label} · Fresh Start</div><h1>${c.headline}</h1><p>${c.opening_prompt}</p></div><div class="section">Coaching Board</div><div class="grid">${coachingCards()}</div><div class="section">Team Message</div><div class="context"><p>${c.team_message}</p></div></section>`}
 function storePage(){const s=DATA.store,g=DATA.goals;return `<section class="page" id="store">${adminModeBar()}<div class="hero"><div class="eyebrow">Store Scoreboard</div><h1>September</h1><p>Live store numbers vs goal.${adminPhrase?' Manager Mode is on — tap any card with a pencil to edit.':''}</p></div><div class="metrics">${metric('PPV',s.ppv,g.ppv,'num',{scope:'store',field:'ppv'})}${metric('AIA Posted',s.aia_posted,g.aia_posted,'num',{scope:'store',field:'aia_posted'})}${metric('AIA Submits',s.aia_submits,g.aia_submits,'num',{scope:'store',field:'aia_submits'})}${metric('HTP',s.htp,g.htp,'num',{scope:'store',field:'htp'})}${metric('Upgrades',s.upgrades,g.upgrades,'num',{scope:'store',field:'upgrades'})}${metric('Data',s.data,g.data,'num',{scope:'store',field:'data'})}${metric('Accessories / OPP',s.acc_per_opp,g.accessory_target,'money',{scope:'store',field:'acc_per_opp'})}${metric('Insurance',s.insurance_rate,g.insurance_target,'pct',{scope:'store',field:'insurance_rate'})}${metric('Trade',s.trade_rate,g.trade_target,'pct',{scope:'store',field:'trade_rate'})}${metric('CSAT',s.csat,g.csat_target,'pct',{scope:'store',field:'csat'})}${metric('OPPs',s.opps,g.opportunities,'num',{scope:'store',field:'opps'})}${metric('Traffic',s.traffic,g.traffic,'num',{scope:'store',field:'traffic'})}</div></section>`}
+
+function defaultRepGoals(r){const g=DATA.goals,n=Math.max(DATA.reps.length,1);return {ppv:Math.round(Number(g.ppv||0)/n),aia_posted:Math.round(Number(g.aia_posted||0)/n),aia_submits:Number(g.rep_aia_qualifier||0),aia_close:Number(g.aia_close||0),htp:Number(g.rep_htp_qualifier||0),upgrades:Math.round(Number(g.upgrades||0)/n),data:Math.round(Number(g.data||0)/n),accessory_target:Number(g.accessory_target||0),insurance_target:Number(g.insurance_target||0),trade_target:Number(g.trade_target||0),csat_target:Number(g.csat_target||0)}}
+function repGoals(r){const d=defaultRepGoals(r),o=r.goal_overrides||{};Object.keys(d).forEach(k=>{if(o[k]!==null&&o[k]!==undefined)d[k]=Number(o[k])});return d}
+function sbsStats(slug){const rows=DATA.sbs.filter(s=>s.rep_slug===slug).slice().sort((a,b)=>String(a.observed_on).localeCompare(String(b.observed_on))),names=['greet','understand','recommend','confirm','educate','thank'],labels={greet:'Greet',understand:'Understand',recommend:'Recommend',confirm:'Confirm',educate:'Educate',thank:'Thank'};const trends=names.map(k=>{const vals=rows.map(x=>x[k]).filter(v=>v!=null).map(Number),misses=vals.filter(v=>v===1).length,avg=vals.length?vals.reduce((a,b)=>a+b,0)/vals.length:0,last=vals.at(-1),prev=vals.at(-2);let status='watch',text='Not enough data';if(vals.length){if(avg>=2.15)status='strength',text=`Avg ${avg.toFixed(1)}`;else if(last>prev&&prev!=null)status='improving',text='Improving';else if(misses>=2&&misses/vals.length>=.5)status='recurring',text=`Missed ${misses}/${vals.length}`;else status='watch',text=`Avg ${avg.toFixed(1)}`}return {key:k,label:labels[k],status,text,avg,misses,count:vals.length}});return {rows,trends}}
+function coachingSnapshot(r){const x=sbsStats(r.slug),latest=x.rows.at(-1),rec=x.trends.filter(t=>t.status==='recurring').sort((a,b)=>b.misses-a.misses),best=x.trends.filter(t=>t.count).sort((a,b)=>b.avg-a.avg),improving=x.trends.filter(t=>t.status==='improving');return {count:x.rows.length,last:latest?.observed_on?.slice(0,10)||'None',focus:rec[0]?.label||'Build the pattern',win:improving[0]?.label||best[0]?.label||'No trend yet',trends:x.trends}}
+function coachingTrendHtml(r){const c=coachingSnapshot(r);if(!c.count)return `<div class="context"><p>No SBS history yet. The coaching trend card will build automatically after the first observation.</p></div>`;return `<div class="managerSnapshot"><div class="snap"><div class="k">SBS History</div><div class="v">${c.count} observations</div></div><div class="snap"><div class="k">Last SBS</div><div class="v">${c.last}</div></div><div class="snap"><div class="k">Current Focus</div><div class="v">${c.focus}</div></div><div class="snap"><div class="k">Best / Improving</div><div class="v">${c.win}</div></div></div><div class="trendGrid">${c.trends.filter(t=>t.count).map(t=>`<div class="trendRow"><div><b>${t.label}</b><span>${t.text}</span></div><span class="trendBadge ${t.status}">${t.status}</span></div>`).join('')}</div>`}
+
 function repMetrics(r){const m=r.metrics||{},g=DATA.goals,e=(field,fmt='num')=>({scope:'rep',field,rep:r.slug});return `${metric('PPV',m.ppv,Math.round(g.ppv/Math.max(DATA.reps.length,1)),'num',e('ppv'))}${metric('AIA Submits',m.aia_submits,g.rep_aia_qualifier,'num',e('aia_submits'))}${metric('HTP',m.htp,g.rep_htp_qualifier,'num',e('htp'))}${metric('Upgrades',m.upgrades,null,'num',e('upgrades'))}${metric('Accessories / OPP',m.acc_per_opp,g.accessory_target,'money',e('acc_per_opp'))}${metric('Insurance',m.insurance_rate,g.insurance_target,'pct',e('insurance_rate'))}${metric('Trade',m.trade_rate,g.trade_target,'pct',e('trade_rate'))}${metric('CSAT',m.csat,g.csat_target,'pct',e('csat'))}`}
 function needInsured(adds,elig,target){if(!elig)return null;if(adds/elig>=target)return 0;return Math.max(0,Math.ceil((target*elig-adds)/(1-target)-1e-9))}
 function needOE(adds,elig,target){if(!elig)return null;return Math.max(0,Math.ceil(target*elig-adds-1e-9))}
-function calcHtml(r){const m=r.metrics||{},den=Math.max(0,Number(m.opps||0)-Number(m.data||0));return `<div class="card"><div class="body"><b>Finish-the-Month Calculator</b> <span class="chip">Sandbox — does not save</span><div class="small">Starts with the live rep numbers. Reps can change anything below without affecting Neon.</div><div class="calc" data-calc="${r.slug}" data-base='${JSON.stringify(m).replaceAll("'","&#39;")}'><div class="calcrow"><b>Accessory $ / OPP</b><input type="number" step=".01" data-c="accavg" value="${Number(m.acc_per_opp||0)}"><div class="result" data-r="acc50">—</div></div><div class="calcrow"><b>Eligible OPPs</b><input type="number" data-c="accden" value="${den}"><div class="result" data-r="acc60">—</div></div><div class="calcrow"><b>Insurance %</b><input type="number" step=".01" data-c="insrate" value="${(Number(m.insurance_rate||0)*100).toFixed(2)}"><div class="result" data-r="ins50">—</div></div><div class="calcrow"><b>Total OPPs</b><input type="number" data-c="insopps" value="${Number(m.opps||0)}"><div class="result" data-r="ins60">—</div></div><div class="calcrow"><b>Known Insurance Adds</b><input type="number" data-c="insadds" value="${m.insurance_adds??''}" placeholder="optional"><div class="result" data-r="insnote">—</div></div><div class="calcrow"><b>Known Eligible Insurance OPPs</b><input type="number" data-c="inselig" value="${m.insurance_eligible_opps??''}" placeholder="optional"><div class="result">Exact if known</div></div><div class="section" style="margin:8px 0 4px;font-size:14px">Pay Projection</div><div class="small">I left PPV/AIA payout rates editable until we lock the exact comp formula. Upgrade/Data defaults use the rates we already have.</div><div class="calcrow"><b>PPV payout each</b><input type="number" step=".01" data-c="payppv" value="0"><div class="result" data-r="pay">$0.00</div></div><div class="calcrow"><b>AIA payout each</b><input type="number" step=".01" data-c="payaia" value="0"><div class="result">Editable</div></div><div class="calcrow"><b>Upgrade payout each</b><input type="number" step=".01" data-c="payupg" value="0.10"><div class="result">Current assumption</div></div><div class="calcrow"><b>Data payout each</b><input type="number" step=".01" data-c="paydata" value="0.20"><div class="result">Current assumption</div></div><div class="calcrow"><b>Add PPV / AIA / Upg / Data</b><input type="text" data-c="adds" value="0,0,0,0"><div class="result" data-r="paydetail">0 added</div></div></div></div></div>`}
+function calcHtml(r){
+  const m=r.metrics||{};
+  const baseAccessoryRevenue=Number(m.accessory_revenue||0)>0
+    ? Number(m.accessory_revenue||0)
+    : Number(m.acc_per_opp||0)*Math.max(0,Number(m.opps||0)-Number(m.data||0));
+  const payload={
+    ...m,
+    _base_accessory_revenue:baseAccessoryRevenue,
+    _aia_qualifier:Number(DATA.goals.rep_aia_qualifier||4),
+    _aia_close_qualifier:Number(DATA.goals.aia_close||.075),
+    _htp_qualifier:Number(DATA.goals.rep_htp_qualifier||2),
+    _acc_qualifier:Number(DATA.goals.accessory_qualifier||50),
+    _acc_target:Number(DATA.goals.accessory_target||60),
+    _ins_qualifier:Number(DATA.goals.insurance_qualifier||.50),
+    _ins_target:Number(DATA.goals.insurance_target||.60),
+    _csat_qualifier:Number(DATA.goals.csat_target||.88)
+  };
+  return `<div class="card"><div class="body">
+    <div class="sandboxTitle">
+      <div><b>Comp Sandbox</b> <span class="chip">Does not save</span><div class="small">Starts from the live rep page. Change the scenario and the full comp picture recalculates instantly.</div></div>
+      <button class="resetBtn" type="button" data-reset-calc>Reset to Live</button>
+    </div>
+
+    <div class="compCalc" data-calc="${r.slug}" data-base='${JSON.stringify(payload).replaceAll("'","&#39;")}'>
+      <div class="moneyHero">
+        <div class="moneyBox" data-box="qualified"><div class="k">Qualified Comp Generated</div><div class="v" data-r="grossComp">$0</div><div class="small" data-r="grossNote">—</div></div>
+        <div class="moneyBox risk" data-box="risk"><div class="k" data-r="riskLabel">Money At Risk</div><div class="v" data-r="riskMoney">$0</div><div class="small" data-r="riskNote">—</div></div>
+        <div class="moneyBox safe"><div class="k">Guaranteed Instant Spiffs</div><div class="v" data-r="spiffs">$0</div><div class="small">AIA submits $10 · Prepaid $5</div></div>
+      </div>
+
+      <div class="section" style="margin:2px 0 0;font-size:14px">Qualification</div>
+      <div class="qualGrid">
+        <div class="qualCard" data-q="aia"><div class="qualTop"><span class="qualName">AIA</span><span class="qualStatus" data-r="qaia">—</span></div><div class="qualDetail" data-r="qaiaDetail">—</div></div>
+        <div class="qualCard" data-q="htp"><div class="qualTop"><span class="qualName">HTP</span><span class="qualStatus" data-r="qhtp">—</span></div><div class="qualDetail" data-r="qhtpDetail">—</div></div>
+        <div class="qualCard" data-q="acc"><div class="qualTop"><span class="qualName">Accessories / OPP</span><span class="qualStatus" data-r="qacc">—</span></div><div class="qualDetail" data-r="qaccDetail">—</div></div>
+        <div class="qualCard" data-q="ins"><div class="qualTop"><span class="qualName">Insurance</span><span class="qualStatus" data-r="qins">—</span></div><div class="qualDetail" data-r="qinsDetail">—</div></div>
+        <div class="qualCard" data-q="csat"><div class="qualTop"><span class="qualName">CSAT</span><span class="qualStatus" data-r="qcsat">—</span></div><div class="qualDetail" data-r="qcsatDetail">—</div></div>
+      </div>
+
+      <div class="section" style="margin:2px 0 0;font-size:14px">Sandbox — Add Production</div>
+      <div class="sandboxGrid">
+        ${[['PPV','addPpv'],['AIA Posted','addAia'],['Upgrades','addUpg'],['Data','addData'],['AIA Submits','addAiaSub'],['HTP','addHtp'],['Prepaid','addPrepaid']].map(([label,key])=>`
+          <div class="sbox"><label>${label}</label><div class="stepper"><button type="button" data-step="${key}" data-d="-1">−</button><input type="number" step="1" min="0" value="0" data-c="${key}"><button type="button" data-step="${key}" data-d="1">+</button></div><div class="liveToScenario" data-r="${key}Line">—</div></div>
+        `).join('')}
+        <div class="sbox"><label>Accessory Revenue Added</label><input type="number" min="0" step="1" value="0" data-c="addAcc"><div class="liveToScenario" data-r="addAccLine">—</div></div>
+        <div class="sbox"><label>Insurance Adds On New Device OPPs</label><input type="number" min="0" step="1" value="0" data-c="addIns"><div class="liveToScenario" data-r="addInsLine">Only affects new PPV + Upgrade opportunities.</div></div>
+      </div>
+
+      <div class="section" style="margin:2px 0 0;font-size:14px">Scenario Breakdown</div>
+      <div class="breakdown">
+        <div class="breakRow"><span>PPV</span><b data-r="ppvNow">—</b></div>
+        <div class="breakRow"><span>AIA Posted</span><b data-r="aiaNow">—</b></div>
+        <div class="breakRow"><span>AIA Close</span><b data-r="aiaCloseNow">—</b></div>
+        <div class="breakRow"><span>Upgrades</span><b data-r="upgNow">—</b></div>
+        <div class="breakRow"><span>Data</span><b data-r="dataNow">—</b></div>
+        <div class="breakRow"><span>Eligible Accessory OPPs</span><b data-r="eligNow">—</b></div>
+        <div class="breakRow"><span>Accessories / OPP</span><b data-r="accNow">—</b></div>
+        <div class="breakRow"><span>Insurance</span><b data-r="insNow">—</b></div>
+        <div class="breakRow"><span>HTP</span><b data-r="htpNow">—</b></div>
+      </div>
+
+      <div class="section" style="margin:2px 0 0;font-size:14px">Comp Math</div>
+      <div class="breakdown">
+        <div class="breakRow"><span>Starting Base</span><b>$15.00</b></div>
+        <div class="breakRow"><span>Upgrade Adjustment</span><b data-r="upgAdj">—</b></div>
+        <div class="breakRow"><span>Data Adjustment</span><b data-r="dataAdj">—</b></div>
+        <div class="breakRow"><span>Volume Adjusted Base</span><b data-r="adjustedBase">—</b></div>
+        <div class="breakRow"><span>Accessory Accelerator</span><b data-r="accBonus">—</b></div>
+        <div class="breakRow"><span>Insurance Accelerator</span><b data-r="insBonus">—</b></div>
+        <div class="breakRow"><span>Final Updated Base</span><b data-r="finalBase">—</b></div>
+        <div class="breakRow"><span>PPV Comp</span><b data-r="ppvComp">—</b></div>
+        <div class="breakRow"><span>AIA Comp</span><b data-r="aiaComp">—</b></div>
+      </div>
+
+      <div class="bigResult" data-r="finalCard">
+        <div class="headline" data-r="finalHeadline">—</div>
+        <div class="sub" data-r="finalSub">—</div>
+      </div>
+
+      <div class="section" style="margin:2px 0 0;font-size:14px">What Protects The Money?</div>
+      <div class="moveList" data-r="moves"></div>
+    </div>
+  </div></div>`}
+
 function repsPage(){return `<section class="page" id="team">${adminModeBar()}<div class="hero"><div class="eyebrow">Rep Pages</div><h1>Individual Pages</h1><p>Numbers, coaching, SBS and the sandbox calculator are open to the team.</p></div><div class="tabs">${DATA.reps.map((r,i)=>`<button class="${i?'':'active'}" data-rep="${r.slug}">${r.display_name}</button>`).join('')}</div>${DATA.reps.map((r,i)=>`<article class="repPane ${i?'':'active'}" id="rep-${r.slug}"><div class="repbanner"><h2>${r.display_name}</h2><p>September live scorecard</p>${adminPhrase?`<button class="editRepBtn" data-edit-rep-sheet="${r.slug}">Edit ${r.display_name}</button>`:''}</div><div class="metrics">${repMetrics(r)}</div><div class="section">Coaching</div><div class="grid">${coachingCards(r.slug)}</div><div class="section">Calculator</div>${calcHtml(r)}<div class="section">Recent SBS</div>${sbsFor(r.slug)}</article>`).join('')}</section>`}
 function sbsFor(slug){const rows=DATA.sbs.filter(s=>s.rep_slug===slug);return rows.map(s=>`<details class="sbs"><summary>${s.observed_on?.slice(0,10)||''} · ${s.title||'Side-by-Side'}</summary><div class="inside"><div class="scores">${[['Greet',s.greet],['Understand',s.understand],['Recommend',s.recommend],['Confirm',s.confirm],['Educate',s.educate],['Thank',s.thank]].filter(x=>x[1]!=null).map(x=>`<span class="chip">${x[0]} ${x[1]}</span>`).join('')}</div>${s.coaching_summary?`<b>Coaching:</b> ${s.coaching_summary}<br><br>`:''}${s.notes||''}</div></details>`).join('')||'<div class="context"><p>No SBS entered yet.</p></div>'}
 function sbsPage(){return `<section class="page" id="sbs"><div class="hero"><div class="eyebrow">Open SBS</div><h1>Side-by-Sides</h1><p>Visible to the team. Keep adding them and the history grows.</p></div>${DATA.reps.map(r=>`<div class="section">${r.display_name}</div>${sbsFor(r.slug)}`).join('')}</section>`}
 function adminModeBar(){return adminPhrase?`<div class="managerBar"><span class="mode">MANAGER MODE</span><button data-manager-go="store">Store</button><button data-manager-go="goals">Goals</button><button data-manager-go="reps">Reps</button><button data-manager-go="coaching">Coaching</button><button data-manager-go="sbs">SBS</button><button class="lock" data-lock-admin>Lock</button></div>`:''}
-function adminPage(){if(!adminPhrase)return `<section class="page" id="admin"><div class="adminGate card"><div class="body"><h2 style="margin-top:0">Manager Mode</h2><p class="small">Enter the admin phrase once to unlock editing controls.</p><div class="field"><label>Admin Phrase</label><input id="adminPhrase" type="password" placeholder="Enter phrase" autocomplete="current-password"></div><button class="btn" id="unlockAdmin">Unlock Manager Mode</button><div class="status" id="unlockStatus"></div></div></div></section>`;return `<section class="page" id="admin">${adminModeBar()}<div class="hero"><div class="eyebrow">Manager Mode</div><h1>Quick Edit</h1><p>Keep the regular pages clean. Use these shortcuts when you want to make bigger changes.</p></div><div class="managerHub"><button data-open-store-sheet>Store Numbers<span>Edit the full store scorecard</span></button><button data-open-goals-sheet>September Goals<span>Update them when GM sends the official targets</span></button>${DATA.reps.map(r=>`<button data-edit-rep-sheet="${r.slug}">${r.display_name}<span>Edit the full rep scorecard</span></button>`).join('')}<button data-manager-go="coaching">Coaching<span>Add or update huddle talking points</span></button><button data-manager-go="sbs">SBS<span>Add a side-by-side observation</span></button></div><div class="section" id="manager-coaching">Front Page & Coaching</div><div class="adminGrid"><div class="card"><div class="body"><h3>Front Page</h3>${field('Headline','headline',DATA.config.headline)}${field('Opening Prompt','opening_prompt',DATA.config.opening_prompt,'textarea')}${field('Team Message','team_message',DATA.config.team_message,'textarea')}<button class="btn" data-save-config>Save Front Page</button></div></div><div class="card"><div class="body"><h3>Add Coaching Point</h3><div class="adminGrid">${field('Title','coach_title','')}${selectField('Who','coach_rep',[['','Store'],...DATA.reps.map(r=>[r.slug,r.display_name])])}${selectField('Type','coach_kind',[['coach','Coach'],['shoutout','Shoutout'],['focus','Focus'],['finish','Finish']])}</div>${field('Body','coach_body','','textarea')}<button class="btn" data-add-coach>Add Coaching</button></div></div></div><div class="section" id="manager-sbs">Add SBS</div><div class="card"><div class="body"><div class="adminGrid">${selectField('Rep','sbs_rep',DATA.reps.map(r=>[r.slug,r.display_name]))}${field('Date','sbs_date',new Date().toISOString().slice(0,10),'date')}${field('Title','sbs_title','Side-by-Side')}</div><div class="adminGrid">${['greet','understand','recommend','confirm','educate','thank'].map(x=>field(x[0].toUpperCase()+x.slice(1),`sbs_${x}`,'','number')).join('')}</div>${field('Coaching Summary','sbs_summary','','textarea')}${field('Notes','sbs_notes','','textarea')}<button class="btn" data-add-sbs>Add SBS</button></div></div><div class="status" id="adminStatus"></div></section>`}
+function adminPage(){if(!adminPhrase)return `<section class="page" id="admin"><div class="adminGate card"><div class="body"><h2 style="margin-top:0">Manager Mode</h2><p class="small">Enter the admin phrase once to unlock editing controls.</p><div class="field"><label>Admin Phrase</label><input id="adminPhrase" type="password" placeholder="Enter phrase" autocomplete="current-password"></div><button class="btn" id="unlockAdmin">Unlock Manager Mode</button><div class="status" id="unlockStatus"></div></div></div></section>`;return `<section class="page" id="admin">${adminModeBar()}<div class="hero"><div class="eyebrow">Manager Mode</div><h1>Quick Edit</h1><p>Keep the regular pages clean. Use these shortcuts when you want to make bigger changes.</p></div><div class="managerHub"><button data-open-store-sheet>Store Numbers<span>Edit the full store scorecard</span></button><button data-open-goals-sheet>September Goals<span>Update them when GM sends the official targets</span></button>${DATA.reps.map(r=>`<button data-edit-rep-sheet="${r.slug}">${r.display_name} Actuals<span>Edit the live scorecard</span></button><button data-edit-rep-goals="${r.slug}">${r.display_name} Goals<span>Override inherited goals</span></button>`).join('')}<button data-manager-go="coaching">Coaching<span>Add or update huddle talking points</span></button><button data-manager-go="sbs">SBS<span>Add a side-by-side observation</span></button></div><div class="section" id="manager-coaching">Front Page & Coaching</div><div class="adminGrid"><div class="card"><div class="body"><h3>Front Page</h3>${field('Headline','headline',DATA.config.headline)}${field('Opening Prompt','opening_prompt',DATA.config.opening_prompt,'textarea')}${field('Team Message','team_message',DATA.config.team_message,'textarea')}<button class="btn" data-save-config>Save Front Page</button></div></div><div class="card"><div class="body"><h3>Add Coaching Point</h3><div class="adminGrid">${field('Title','coach_title','')}${selectField('Who','coach_rep',[['','Store'],...DATA.reps.map(r=>[r.slug,r.display_name])])}${selectField('Type','coach_kind',[['coach','Coach'],['shoutout','Shoutout'],['focus','Focus'],['finish','Finish']])}${selectField('Status','coach_status',[['new','New'],['working','Working On It'],['improved','Improved']])}</div>${field('Body','coach_body','','textarea')}<button class="btn" data-add-coach>Add Coaching</button></div></div></div><div class="section" id="manager-sbs">Add SBS</div><div class="card"><div class="body"><div class="adminGrid">${selectField('Rep','sbs_rep',DATA.reps.map(r=>[r.slug,r.display_name]))}${field('Date','sbs_date',new Date().toISOString().slice(0,10),'date')}${field('Title','sbs_title','Side-by-Side')}</div><div class="adminGrid">${['greet','understand','recommend','confirm','educate','thank'].map(x=>field(x[0].toUpperCase()+x.slice(1),`sbs_${x}`,'','number')).join('')}</div><div class="section" style="margin:10px 0 5px">Behavior Notes</div><div class="adminGrid">${['greet','understand','recommend','confirm','educate','thank'].map(x=>field(x[0].toUpperCase()+x.slice(1)+' Note',`sbs_note_${x}`,'','textarea')).join('')}</div>${field('Coaching Summary','sbs_summary','','textarea')}${field('Overall Notes','sbs_notes','','textarea')}<button class="btn" data-add-sbs>Add SBS</button></div></div><div class="status" id="adminStatus"></div></section>`}
 function goalInputs(g){const rows=[['Traffic','traffic','num'],['Opportunities','opportunities','num'],['PPV','ppv','num'],['PPV Close %','ppv_close','pct'],['AIA Posted','aia_posted','num'],['AIA Submits','aia_submits','num'],['AIA Close %','aia_close','pct'],['HTP','htp','num'],['HTP Close %','htp_close','pct'],['Upgrades','upgrades','num'],['Data','data','num'],['Accessory Target $/OPP','accessory_target','num'],['Accessory Qualifier $/OPP','accessory_qualifier','num'],['Insurance Target %','insurance_target','pct'],['Insurance Qualifier %','insurance_qualifier','pct'],['Trade Target %','trade_target','pct'],['CSAT Target %','csat_target','pct'],['Rep AIA Qualifier','rep_aia_qualifier','num'],['Rep HTP Qualifier','rep_htp_qualifier','num']];return `<div class="goalGrid">${rows.map(([l,k,t])=>field(l,'goal_'+k,t==='pct'?(Number(g[k]||0)*100):g[k],'number')).join('')}</div>`}
 
 function field(label,id,val,type='text'){return `<div class="field"><label>${label}</label>${type==='textarea'?`<textarea id="${id}">${val??''}</textarea>`:`<input id="${id}" type="${type}" value="${val??''}">`}</div>`}function selectField(label,id,opts){return `<div class="field"><label>${label}</label><select id="${id}">${opts.map(o=>`<option value="${o[0]}">${o[1]}</option>`).join('')}</select></div>`}
-function metricInputs(m={},rep=false){const arr=[['PPV','ppv'],['AIA Posted','aia_posted'],['AIA Submits','aia_submits'],['AIA Close','aia_close'],['HTP','htp'],['Upgrades','upgrades'],['Data','data'],['CRU','cru'],['Accessory Revenue','accessory_revenue'],['ACC/OPP','acc_per_opp'],['Insurance Rate','insurance_rate'],['Insurance Adds','insurance_adds'],['Insurance Eligible OPPs','insurance_eligible_opps'],['Next Up','nextup_rate'],['CSAT','csat'],['PA4','pa4'],['OPPs','opps'],['Trade','trade_rate'],['Prepaid','prepaid'],['Open Enrollment','open_enrollment']];if(!rep)arr.unshift(['Traffic','traffic'],['PPV Close','ppv_close'],['HTP Close','htp_close']);return `<div class="adminGrid">${arr.map(([l,k])=>field(l,k+(rep?'_'+(m.rep_id||'rep'):''),m[k]??0,'number')).join('')}</div>`}
+function metricInputs(m={},rep=false){const arr=[['PPV','ppv'],['AIA Posted','aia_posted'],['AIA Submits','aia_submits'],['AIA Close','aia_close'],['HTP','htp'],['Upgrades','upgrades'],['Data','data'],['CRU','cru'],['Accessory Revenue','accessory_revenue'],['ACC/OPP','acc_per_opp'],['Insurance Rate','insurance_rate'],['Next Up','nextup_rate'],['CSAT','csat'],['PA4','pa4'],['OPPs','opps'],['Trade','trade_rate'],['Prepaid','prepaid'],['Open Enrollment','open_enrollment']];if(!rep)arr.unshift(['Traffic','traffic'],['PPV Close','ppv_close'],['HTP Close','htp_close']);return `<div class="adminGrid">${arr.map(([l,k])=>field(l,k+(rep?'_'+(m.rep_id||'rep'):''),m[k]??0,'number')).join('')}</div>`}
 function archivesPage(){return `<section class="page" id="archives"><div class="hero"><div class="eyebrow">Coming Next</div><h1>Awards & Archives</h1><p>Monthly wins and history without cluttering the daily huddle.</p></div><div class="grid two"><div class="context"><h3>September Awards</h3><p>Top PPV · Top AIA · Accessory Leader · Protection Leader · Biggest Improvement · Huddle MVP</p></div><div class="context"><h3>Monthly Archives</h3><p>Store scorecard + rep snapshots + SBS history. We can start saving month-end snapshots here.</p></div></div></section>`}
 function render(){app.innerHTML=homePage()+storePage()+repsPage()+sbsPage()+archivesPage()+adminPage();bind();show('home')}
 function show(id){document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));document.querySelectorAll('[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===id))}
@@ -74,16 +222,241 @@ function openMetricSheet(card){const scope=card.dataset.editScope,field=card.dat
 const pctFields=new Set(['ppv_close','aia_close','htp_close','insurance_rate','nextup_rate','csat','trade_rate','insurance_target','insurance_qualifier','trade_target','csat_target']);
 function editInput(label,key,value,kind='num'){const shown=kind==='pct'?Number(value||0)*100:(value??0);return `<div class="editRow"><label>${label}${kind==='pct'?' %':''}</label><input type="number" step="any" data-field="${key}" data-kind="${kind}" value="${shown}"></div>`}
 function openGoalsSheet(){const g=DATA.goals,groups=[['Volume',[['Traffic','traffic'],['Opportunities','opportunities'],['PPV','ppv'],['Upgrades','upgrades'],['Data','data']]],['AIA & HTP',[['PPV Close','ppv_close','pct'],['AIA Posted','aia_posted'],['AIA Submits','aia_submits'],['AIA Close','aia_close','pct'],['HTP','htp'],['HTP Close','htp_close','pct']]],['Quality',[['Accessory Target $/OPP','accessory_target'],['Accessory Qualifier $/OPP','accessory_qualifier'],['Insurance Target','insurance_target','pct'],['Insurance Qualifier','insurance_qualifier','pct'],['Trade Target','trade_target','pct'],['CSAT Target','csat_target','pct']]],['Rep Qualifiers',[['AIA Submit Qualifier','rep_aia_qualifier'],['HTP Qualifier','rep_htp_qualifier']]]];const body=`<div class="editGroups">${groups.map(([title,rows])=>`<div class="editGroup"><h3>${title}</h3><div class="editRows">${rows.map(([l,k,t])=>editInput(l,k,g[k],t||'num')).join('')}</div></div>`).join('')}</div>`;const wrap=openSheet('September Goals','Placeholder goals are fine until the official targets arrive.',body,`<div class="sheetActions"><button class="btn alt" type="button" data-cancel>Cancel</button><button class="btn" type="button" data-save>Save All Goals</button></div>`);wrap.querySelector('[data-cancel]').onclick=closeSheet;wrap.querySelector('[data-save]').onclick=async()=>{const fields={},old={};wrap.querySelectorAll('[data-field]').forEach(el=>{const k=el.dataset.field;let v=Number(el.value||0);if(el.dataset.kind==='pct')v/=100;fields[k]=v;old[k]=g[k]});try{await api('POST',{action:'save_goals',fields});showSaved('Goals',()=>api('POST',{action:'save_goals',fields:old}));closeSheet();const page=document.querySelector('.page.active')?.id||'admin';await load();show(page)}catch(e){flash(e.message)}}}
-function fullEditGroups(scope,obj){const groups=scope==='store'?[['Core',[['Traffic','traffic'],['PPV','ppv'],['PPV Close','ppv_close','pct'],['AIA Posted','aia_posted'],['AIA Submits','aia_submits'],['AIA Close','aia_close','pct'],['HTP','htp'],['HTP Close','htp_close','pct']]],['Sales',[['Upgrades','upgrades'],['Data','data'],['CRU','cru'],['OPPs','opps'],['PA4','pa4'],['Prepaid','prepaid'],['Open Enrollment','open_enrollment']]],['Quality',[['Accessory Revenue','accessory_revenue'],['ACC / OPP','acc_per_opp'],['Insurance','insurance_rate','pct'],['Next Up','nextup_rate','pct'],['Trade','trade_rate','pct'],['CSAT','csat','pct']]]]:[['Sales',[['PPV','ppv'],['AIA Posted','aia_posted'],['AIA Submits','aia_submits'],['AIA Close','aia_close','pct'],['HTP','htp'],['Upgrades','upgrades'],['Data','data'],['CRU','cru'],['OPPs','opps']]],['Quality',[['Accessory Revenue','accessory_revenue'],['ACC / OPP','acc_per_opp'],['Insurance','insurance_rate','pct'],['Insurance Adds','insurance_adds'],['Eligible Insurance OPPs','insurance_eligible_opps'],['Next Up','nextup_rate','pct'],['Trade','trade_rate','pct'],['CSAT','csat','pct']]],['Other',[['PA4','pa4'],['Prepaid','prepaid'],['Open Enrollment','open_enrollment']]]];return groups.map(([title,rows])=>`<div class="editGroup"><h3>${title}</h3><div class="editRows">${rows.map(([l,k,t])=>editInput(l,k,obj[k],t||'num')).join('')}</div></div>`).join('')}
+function fullEditGroups(scope,obj){const groups=scope==='store'?[['Core',[['Traffic','traffic'],['PPV','ppv'],['PPV Close','ppv_close','pct'],['AIA Posted','aia_posted'],['AIA Submits','aia_submits'],['AIA Close','aia_close','pct'],['HTP','htp'],['HTP Close','htp_close','pct']]],['Sales',[['Upgrades','upgrades'],['Data','data'],['CRU','cru'],['OPPs','opps'],['PA4','pa4'],['Prepaid','prepaid'],['Open Enrollment','open_enrollment']]],['Quality',[['Accessory Revenue','accessory_revenue'],['ACC / OPP','acc_per_opp'],['Insurance','insurance_rate','pct'],['Next Up','nextup_rate','pct'],['Trade','trade_rate','pct'],['CSAT','csat','pct']]]]:[['Sales',[['PPV','ppv'],['AIA Posted','aia_posted'],['AIA Submits','aia_submits'],['AIA Close','aia_close','pct'],['HTP','htp'],['Upgrades','upgrades'],['Data','data'],['CRU','cru'],['OPPs','opps']]],['Quality',[['Accessory Revenue','accessory_revenue'],['ACC / OPP','acc_per_opp'],['Insurance','insurance_rate','pct'],['Next Up','nextup_rate','pct'],['Trade','trade_rate','pct'],['CSAT','csat','pct']]],['Other',[['PA4','pa4'],['Prepaid','prepaid'],['Open Enrollment','open_enrollment']]]];return groups.map(([title,rows])=>`<div class="editGroup"><h3>${title}</h3><div class="editRows">${rows.map(([l,k,t])=>editInput(l,k,obj[k],t||'num')).join('')}</div></div>`).join('')}
+
+function openRepGoalsSheet(slug){const r=DATA.reps.find(x=>x.slug===slug);if(!r)return;const defaults=defaultRepGoals(r),over=r.goal_overrides||{},effective=repGoals(r);const rows=[['PPV','ppv','num'],['AIA Posted','aia_posted','num'],['AIA Submits','aia_submits','num'],['AIA Close','aia_close','pct'],['HTP','htp','num'],['Upgrades','upgrades','num'],['Data','data','num'],['Accessory $ / OPP','accessory_target','num'],['Insurance','insurance_target','pct'],['Trade','trade_target','pct'],['CSAT','csat_target','pct']];const body=`<p class="goalHint">These goals are specific to ${r.display_name}. Blank fields inherit the store/default rep goal automatically.</p><div class="inheritNote">Inherited values right now: ${rows.map(([l,k,t])=>`${l} ${t==='pct'?(defaults[k]*100).toFixed(1)+'%':defaults[k]}`).join(' · ')}</div><div class="editGroup" style="margin-top:10px"><div class="editRows">${rows.map(([l,k,t])=>{const raw=over[k];const shown=raw===null||raw===undefined?'':(t==='pct'?Number(raw)*100:raw);return `<div class="editRow"><label>${l}${t==='pct'?' %':''}</label><input type="number" step="any" data-field="${k}" data-kind="${t}" value="${shown}" placeholder="Inherit: ${t==='pct'?(defaults[k]*100).toFixed(1):defaults[k]}"></div>`}).join('')}</div></div>`;const wrap=openSheet(`${r.display_name} Goals`,'Rep-specific September goals.',body,`<div class="sheetActions"><button class="btn alt" type="button" data-reset>Use Store Defaults</button><button class="btn" type="button" data-save>Save Rep Goals</button></div>`);wrap.querySelector('[data-reset]').onclick=async()=>{if(!confirm(`Reset ${r.display_name} to inherited goals?`))return;try{await api('POST',{action:'reset_rep_goals',rep_slug:slug});showSaved(`${r.display_name} goals`);closeSheet();await load();show('team');setTimeout(()=>document.querySelector(`[data-rep="${slug}"]`)?.click(),0)}catch(e){flash(e.message)}};wrap.querySelector('[data-save]').onclick=async()=>{const fields={},old={...over};wrap.querySelectorAll('[data-field]').forEach(el=>{let v=el.value.trim()===''?null:Number(el.value);if(v!==null&&el.dataset.kind==='pct')v/=100;fields[el.dataset.field]=v});try{await api('POST',{action:'save_rep_goals',rep_slug:slug,fields});showSaved(`${r.display_name} goals`,()=>api('POST',{action:'save_rep_goals',rep_slug:slug,fields:old}));closeSheet();await load();show('team');setTimeout(()=>document.querySelector(`[data-rep="${slug}"]`)?.click(),0)}catch(e){flash(e.message)}}}
+
 function openStoreSheet(){const old={...DATA.store};const wrap=openSheet('Edit Store Numbers','Full September store scorecard.',`<div class="editGroups">${fullEditGroups('store',DATA.store)}</div>`,`<div class="sheetActions"><button class="btn alt" type="button" data-cancel>Cancel</button><button class="btn" type="button" data-save>Save Store</button></div>`);wrap.querySelector('[data-cancel]').onclick=closeSheet;wrap.querySelector('[data-save]').onclick=async()=>{const fields={},undo={};wrap.querySelectorAll('[data-field]').forEach(el=>{const k=el.dataset.field;let v=el.value===''?null:Number(el.value);if(el.dataset.kind==='pct'&&v!==null)v/=100;fields[k]=v;undo[k]=old[k]});try{await api('POST',{action:'save_store',fields});showSaved('Store',()=>api('POST',{action:'save_store',fields:undo}));closeSheet();const page=document.querySelector('.page.active')?.id||'store';await load();show(page)}catch(e){flash(e.message)}}}
 function openRepSheet(slug){const r=DATA.reps.find(x=>x.slug===slug);if(!r)return;const old={...(r.metrics||{})};const wrap=openSheet(`Edit ${r.display_name}`,'Full September rep scorecard.',`<div class="editGroups">${fullEditGroups('rep',r.metrics||{})}</div>`,`<div class="sheetActions"><button class="btn alt" type="button" data-cancel>Cancel</button><button class="btn" type="button" data-save>Save ${r.display_name}</button></div>`);wrap.querySelector('[data-cancel]').onclick=closeSheet;wrap.querySelector('[data-save]').onclick=async()=>{const fields={},undo={};wrap.querySelectorAll('[data-field]').forEach(el=>{const k=el.dataset.field;let v=el.value===''?null:Number(el.value);if(el.dataset.kind==='pct'&&v!==null)v/=100;fields[k]=v;undo[k]=old[k]});try{await api('POST',{action:'save_rep',rep_slug:slug,fields});showSaved(r.display_name,()=>api('POST',{action:'save_rep',rep_slug:slug,fields:undo}));closeSheet();const page=document.querySelector('.page.active')?.id||'team';await load();show(page);const tab=document.querySelector(`[data-rep="${slug}"]`);if(tab)tab.click()}catch(e){flash(e.message)}}}
-function bindManagerMode(){document.querySelectorAll('.metric.adminEditable').forEach(card=>card.onclick=()=>openMetricSheet(card));document.querySelectorAll('[data-open-goals-sheet]').forEach(b=>b.onclick=openGoalsSheet);document.querySelectorAll('[data-open-store-sheet]').forEach(b=>b.onclick=openStoreSheet);document.querySelectorAll('[data-edit-rep-sheet]').forEach(b=>b.onclick=()=>openRepSheet(b.dataset.editRepSheet));document.querySelectorAll('[data-manager-go]').forEach(b=>b.onclick=()=>{const go=b.dataset.managerGo;if(go==='store')show('store');else if(go==='goals')openGoalsSheet();else if(go==='reps')show('team');else if(go==='coaching'){show('admin');setTimeout(()=>document.getElementById('manager-coaching')?.scrollIntoView({behavior:'smooth'}),20)}else if(go==='sbs'){show('admin');setTimeout(()=>document.getElementById('manager-sbs')?.scrollIntoView({behavior:'smooth'}),20)}})}
+function bindManagerMode(){document.querySelectorAll('.metric.adminEditable').forEach(card=>card.onclick=()=>openMetricSheet(card));document.querySelectorAll('[data-open-goals-sheet]').forEach(b=>b.onclick=openGoalsSheet);document.querySelectorAll('[data-open-store-sheet]').forEach(b=>b.onclick=openStoreSheet);document.querySelectorAll('[data-edit-rep-sheet]').forEach(b=>b.onclick=()=>openRepSheet(b.dataset.editRepSheet));document.querySelectorAll('[data-edit-rep-goals]').forEach(b=>b.onclick=()=>openRepGoalsSheet(b.dataset.editRepGoals));document.querySelectorAll('[data-manager-go]').forEach(b=>b.onclick=()=>{const go=b.dataset.managerGo;if(go==='store')show('store');else if(go==='goals')openGoalsSheet();else if(go==='reps')show('team');else if(go==='coaching'){show('admin');setTimeout(()=>document.getElementById('manager-coaching')?.scrollIntoView({behavior:'smooth'}),20)}else if(go==='sbs'){show('admin');setTimeout(()=>document.getElementById('manager-sbs')?.scrollIntoView({behavior:'smooth'}),20)}})}
 function lockAdmin(){adminPhrase='';sessionStorage.removeItem('huddleAdmin');render();show('admin')}
-function bind(){nav.onclick=e=>{const b=e.target.closest('[data-page]');if(b)show(b.dataset.page)};document.querySelectorAll('[data-rep]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-rep]').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.repPane').forEach(p=>p.classList.toggle('active',p.id==='rep-'+b.dataset.rep))});document.querySelectorAll('[data-lock-admin]').forEach(b=>b.onclick=lockAdmin);bindManagerMode();document.querySelectorAll('[data-calc]').forEach(calc=>{const base=JSON.parse(calc.dataset.base||'{}');const q=s=>calc.querySelector(s),v=k=>Number(q(`[data-c="${k}"]`)?.value||0);const upd=()=>{const avg=v('accavg'),den=Math.max(0,v('accden')),rev=avg*den;const n50=Math.max(0,50*(den+1)-rev),n60=Math.max(0,60*(den+1)-rev);q('[data-r="acc50"]').textContent=`Next OPP: $${n50.toFixed(2)} → $50`;q('[data-r="acc60"]').textContent=`Next OPP: $${n60.toFixed(2)} → $60`;const rate=v('insrate')/100,opps=Math.max(0,Math.round(v('insopps'))),addsEl=q('[data-c="insadds"]'),eligEl=q('[data-c="inselig"]');if(addsEl.value!==''&&eligEl.value!==''){const a=+addsEl.value,e=+eligEl.value;q('[data-r="ins50"]').textContent=`50%: ${needInsured(a,e,.5)} insured or ${needOE(a,e,.5)} OE`;q('[data-r="ins60"]').textContent=`60%: ${needInsured(a,e,.6)} insured or ${needOE(a,e,.6)} OE`;q('[data-r="insnote"]').textContent=`${a}/${e} exact`}else{const cand=[];for(let e=1;e<=opps;e++)for(let a=0;a<=e;a++)if(Math.abs(a/e-rate)<=.0055)cand.push([a,e]);if(cand.length){const range=arr=>{const lo=Math.min(...arr),hi=Math.max(...arr);return lo===hi?`${lo}`:`${lo}-${hi}`};q('[data-r="ins50"]').textContent=`50%: ${range(cand.map(x=>needInsured(x[0],x[1],.5)))} insured`;q('[data-r="ins60"]').textContent=`60%: ${range(cand.map(x=>needInsured(x[0],x[1],.6)))} insured`;q('[data-r="insnote"]').textContent=`Best effort · ${cand.length} possible fractions`}else{q('[data-r="ins50"]').textContent='Need counts';q('[data-r="ins60"]').textContent='Need counts';q('[data-r="insnote"]').textContent='Add exact counts if known'}}const parts=(q('[data-c="adds"]').value||'0,0,0,0').split(',').map(x=>Number(x.trim())||0);const ppv=Number(base.ppv||0)+parts[0],aia=Number(base.aia_posted||0)+parts[1],upg=Number(base.upgrades||0)+parts[2],data=Number(base.data||0)+parts[3],pay=ppv*v('payppv')+aia*v('payaia')+upg*v('payupg')+data*v('paydata');q('[data-r="pay"]').textContent=`$${pay.toFixed(2)}`;q('[data-r="paydetail"]').textContent=`${ppv} PPV · ${aia} AIA · ${upg} Upg · ${data} Data`};calc.querySelectorAll('input').forEach(i=>i.oninput=upd);upd()});const u=document.getElementById('unlockAdmin');if(u)u.onclick=async()=>{const candidate=document.getElementById('adminPhrase').value,st=document.getElementById('unlockStatus');if(!candidate){st.textContent='Enter the admin phrase.';return}const previous=adminPhrase;adminPhrase=candidate;try{await api('POST',{action:'verify_admin'});sessionStorage.setItem('huddleAdmin',candidate);render();show('admin')}catch(e){adminPhrase=previous;sessionStorage.removeItem('huddleAdmin');st.textContent='Incorrect admin phrase.'}};bindAdmin()}
+function bind(){document.querySelectorAll('[data-coach-status]').forEach(b=>b.onclick=async()=>{try{await api('POST',{action:'set_coaching_status',id:b.dataset.coachStatus,status:b.dataset.status});showSaved('Coaching status');const page=document.querySelector('.page.active')?.id||'team';await load();show(page)}catch(e){flash(e.message)}});nav.onclick=e=>{const b=e.target.closest('[data-page]');if(b)show(b.dataset.page)};document.querySelectorAll('[data-rep]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-rep]').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.repPane').forEach(p=>p.classList.toggle('active',p.id==='rep-'+b.dataset.rep))});document.querySelectorAll('[data-lock-admin]').forEach(b=>b.onclick=lockAdmin);bindManagerMode();document.querySelectorAll('[data-calc]').forEach(calc=>{
+  const base=JSON.parse(calc.dataset.base||'{}');
+  const q=x=>calc.querySelector(x);
+  const n=k=>Math.max(0,Number(q(`[data-c="${k}"]`)?.value||0));
+  const money=x=>`$${Number(x||0).toFixed(2)}`;
+  const pct=x=>`${(Number(x||0)*100).toFixed(1)}%`;
+  const setClass=(name,state)=>{
+    const el=q(`[data-q="${name}"]`);
+    if(el)el.className=`qualCard ${state}`;
+  };
+  const inferFraction=(rate,ceiling)=>{
+    ceiling=Math.max(1,Math.round(ceiling||1));
+    if(rate<=0)return {a:0,e:ceiling,diff:0};
+    let best=null;
+    for(let e=1;e<=ceiling;e++){
+      for(let a=0;a<=e;a++){
+        const diff=Math.abs(a/e-rate);
+        const score=diff*100000+(ceiling-e)*.02;
+        if(!best||score<best.score)best={a,e,diff,score};
+      }
+    }
+    return best;
+  };
+  const needConsecutiveWins=(a,e,target)=>{
+    if(e<=0)return 0;
+    if(a/e>=target)return 0;
+    return Math.max(0,Math.ceil((target*e-a)/(1-target)-1e-9));
+  };
+  const safeMisses=(a,e,target)=>{
+    let misses=0;
+    while(e+misses+1>0 && a/(e+misses+1)>=target)misses++;
+    return misses;
+  };
+  const update=()=>{
+    const addPpv=Math.round(n('addPpv'));
+    const addAia=Math.round(n('addAia'));
+    const addUpg=Math.round(n('addUpg'));
+    const addData=Math.round(n('addData'));
+    const addAiaSub=Math.round(n('addAiaSub'));
+    const addHtp=Math.round(n('addHtp'));
+    const addPrepaid=Math.round(n('addPrepaid'));
+    const addAcc=n('addAcc');
+    const newDeviceOpps=addPpv+addUpg;
+    let addIns=Math.round(n('addIns'));
+    if(addIns>newDeviceOpps){
+      addIns=newDeviceOpps;
+      q('[data-c="addIns"]').value=addIns;
+    }
+
+    const ppv=Number(base.ppv||0)+addPpv;
+    const aia=Number(base.aia_posted||0)+addAia;
+    const upg=Number(base.upgrades||0)+addUpg;
+    const data=Number(base.data||0)+addData;
+    const aiaSub=Number(base.aia_submits||0)+addAiaSub;
+    const htp=Number(base.htp||0)+addHtp;
+    const prepaid=Number(base.prepaid||0)+addPrepaid;
+
+    const baseOpps=Number(base.opps||0);
+    const scenarioOpps=baseOpps+addPpv+addUpg+addData;
+    const baseElig=Math.max(0,baseOpps-Number(base.data||0));
+    const elig=Math.max(0,scenarioOpps-data);
+    const baseAccRev=Number(base._base_accessory_revenue||0);
+    const accRev=baseAccRev+addAcc;
+    const accRate=elig>0?accRev/elig:0;
+
+    const baseInsRate=Number(base.insurance_rate||0);
+    const baseDeviceCeiling=Math.max(1,Number(base.ppv||0)+Number(base.upgrades||0));
+    const inferred=inferFraction(baseInsRate,baseDeviceCeiling);
+    const insAdds=inferred.a+addIns;
+    const insElig=inferred.e+newDeviceOpps;
+    const insRate=insElig>0?insAdds/insElig:baseInsRate;
+
+    const baseAiaRate=Number(base.aia_close||0);
+    let aiaDen=0;
+    if(Number(base.aia_submits||0)>0 && baseAiaRate>0)aiaDen=Math.max(Number(base.aia_submits||0),Math.round(Number(base.aia_submits||0)/baseAiaRate));
+    const aiaRate=aiaDen>0?aiaSub/aiaDen:baseAiaRate;
+
+    const accQual=Number(base._acc_qualifier||50);
+    const accTarget=Number(base._acc_target||60);
+    const insQual=Number(base._ins_qualifier||.50);
+    const insTarget=Number(base._ins_target||.60);
+    const aiaSubmitQual=Number(base._aia_qualifier||4);
+    const aiaCloseQual=Number(base._aia_close_qualifier||.075);
+    const htpQual=Number(base._htp_qualifier||2);
+    const csatQual=Number(base._csat_qualifier||.88);
+    const csat=Number(base.csat||0);
+
+    const okAia=aiaSub>=aiaSubmitQual || aiaRate>=aiaCloseQual;
+    const okHtp=htp>=htpQual;
+    const okAcc=accRate>=accQual;
+    const okIns=insRate>=insQual;
+    const okCsat=csat>=csatQual;
+    const qualified=okAia&&okHtp&&okAcc&&okIns&&okCsat;
+
+    const adjustedBase=15+(upg*.10)+(data*.20);
+    const accBonus=accRate>=accTarget?adjustedBase*.25:0;
+    const insBonus=insRate>=insTarget?adjustedBase*.25:0;
+    const finalBase=adjustedBase+accBonus+insBonus;
+    const ppvComp=ppv*finalBase;
+    const aiaComp=aia*finalBase*1.5;
+    const grossComp=ppvComp+aiaComp;
+    const spiffs=(aiaSub*10)+(prepaid*5);
+    const payableComp=qualified?grossComp:0;
+    const projected=payableComp+spiffs;
+
+    q('[data-r="grossComp"]').textContent=money(grossComp);
+    q('[data-r="grossNote"]').textContent=`${ppv} PPV + ${aia} AIA at a ${money(finalBase)} final base`;
+    q('[data-r="spiffs"]').textContent=money(spiffs);
+
+    const riskBox=q('[data-box="risk"]');
+    if(qualified){
+      riskBox.className='moneyBox risk';
+      q('[data-r="riskLabel"]').textContent='Money At Risk';
+      q('[data-r="riskMoney"]').textContent=money(grossComp);
+      q('[data-r="riskNote"]').textContent='This is the qualified comp that disappears if any qualifier fails.';
+    }else{
+      riskBox.className='moneyBox lost';
+      q('[data-r="riskLabel"]').textContent='Comp Currently Lost';
+      q('[data-r="riskMoney"]').textContent=money(grossComp);
+      q('[data-r="riskNote"]').textContent='Instant spiffs remain. Fix every failed qualifier to restore this comp.';
+    }
+
+    const qaia=q('[data-r="qaia"]');
+    qaia.textContent=okAia?'QUALIFIED':'NOT QUALIFIED';
+    q('[data-r="qaiaDetail"]').textContent=`${aiaSub} submits · ${pct(aiaRate)} close · need ${aiaSubmitQual} submits OR ${pct(aiaCloseQual)} close`;
+    setClass('aia',okAia?'good':'bad');
+
+    q('[data-r="qhtp"]').textContent=okHtp?'QUALIFIED':'NOT QUALIFIED';
+    q('[data-r="qhtpDetail"]').textContent=okHtp?`${htp} HTP · minimum ${htpQual}`:`${htp} HTP · need ${Math.max(0,htpQual-htp)} more`;
+    setClass('htp',okHtp?'good':'bad');
+
+    const accState=!okAcc?'bad':accRate<accTarget?'warn':'good';
+    q('[data-r="qacc"]').textContent=!okAcc?'NOT QUALIFIED':accRate>=accTarget?'60+ ACCELERATOR':'QUALIFIED';
+    const need50=Math.max(0,accQual*(elig+1)-accRev);
+    const need60=Math.max(0,accTarget*(elig+1)-accRev);
+    q('[data-r="qaccDetail"]').textContent=`${money(accRate)}/OPP · ${elig} eligible OPPs · next eligible OPP needs ${money(need50)} to be at ${money(accQual)} or ${money(need60)} to be at ${money(accTarget)}`;
+    setClass('acc',accState);
+
+    const insState=!okIns?'bad':insRate<insTarget?'warn':'good';
+    q('[data-r="qins"]').textContent=!okIns?'NOT QUALIFIED':insRate>=insTarget?'60% ACCELERATOR':'QUALIFIED';
+    const to50=needConsecutiveWins(insAdds,insElig,insQual);
+    const to60=needConsecutiveWins(insAdds,insElig,insTarget);
+    const misses50=safeMisses(insAdds,insElig,insQual);
+    const misses60=safeMisses(insAdds,insElig,insTarget);
+    let insText=`Estimated ${insAdds}/${insElig} = ${pct(insRate)}. `;
+    if(!okIns)insText+=`Need insurance on about the next ${to50} ${to50===1?'opportunity':'opportunities'} to reach 50%.`;
+    else if(insRate<insTarget)insText+=`50% qualified. About ${to60} straight insured ${to60===1?'opportunity':'opportunities'} reaches 60%.`;
+    else insText+=`60% accelerator active. Can miss about ${misses60} before dropping below 60%, ${misses50} before dropping below 50%.`;
+    q('[data-r="qinsDetail"]').textContent=insText;
+    setClass('ins',insState);
+
+    q('[data-r="qcsat"]').textContent=okCsat?'QUALIFIED':'NOT QUALIFIED';
+    q('[data-r="qcsatDetail"]').textContent=`${pct(csat)} · minimum ${pct(csatQual)}`;
+    setClass('csat',okCsat?'good':'bad');
+
+    q('[data-r="ppvNow"]').textContent=ppv;
+    q('[data-r="aiaNow"]').textContent=aia;
+    q('[data-r="aiaCloseNow"]').textContent=pct(aiaRate);
+    q('[data-r="upgNow"]').textContent=upg;
+    q('[data-r="dataNow"]').textContent=data;
+    q('[data-r="eligNow"]').textContent=elig;
+    q('[data-r="accNow"]').textContent=money(accRate);
+    q('[data-r="insNow"]').textContent=`${pct(insRate)} · est. ${insAdds}/${insElig}`;
+    q('[data-r="htpNow"]').textContent=htp;
+
+    q('[data-r="upgAdj"]').textContent=`+${money(upg*.10)}`;
+    q('[data-r="dataAdj"]').textContent=`+${money(data*.20)}`;
+    q('[data-r="adjustedBase"]').textContent=money(adjustedBase);
+    q('[data-r="accBonus"]').textContent=accBonus?`+${money(accBonus)} (25%)`:'$0.00';
+    q('[data-r="insBonus"]').textContent=insBonus?`+${money(insBonus)} (25%)`:'$0.00';
+    q('[data-r="finalBase"]').textContent=money(finalBase);
+    q('[data-r="ppvComp"]').textContent=`${ppv} × ${money(finalBase)} = ${money(ppvComp)}`;
+    q('[data-r="aiaComp"]').textContent=`${aia} × ${money(finalBase)} × 1.5 = ${money(aiaComp)}`;
+
+    const finalCard=q('[data-r="finalCard"]');
+    finalCard.className=`bigResult ${qualified?'good':'bad'}`;
+    q('[data-r="finalHeadline"]').textContent=qualified?`Projected payout: ${money(projected)}`:`Projected payout: ${money(spiffs)} — spiffs only`;
+    q('[data-r="finalSub"]').textContent=qualified
+      ? `${money(grossComp)} qualified comp + ${money(spiffs)} guaranteed instant spiffs.`
+      : `${money(grossComp)} of qualified comp is currently blocked by failed qualifiers.`;
+
+    const moves=[];
+    if(!okHtp)moves.push(`<div class="move"><b>HTP:</b> +${Math.max(0,htpQual-htp)} HTP restores eligibility for ${money(grossComp)} once all other qualifiers are clear.</div>`);
+    if(!okAcc){
+      const currentNeed=Math.max(0,accQual*elig-accRev);
+      moves.push(`<div class="move"><b>Accessories:</b> Add ${money(currentNeed)} without another eligible OPP to get back to ${money(accQual)}/OPP. Fixing it helps unlock ${money(grossComp)}.</div>`);
+    }else if(accRate<accTarget){
+      const currentNeed=Math.max(0,accTarget*elig-accRev);
+      const value=adjustedBase*.25*(ppv+aia*1.5);
+      moves.push(`<div class="move"><b>Accessories accelerator:</b> ${money(currentNeed)} more accessory revenue at the current OPP count gets to ${money(accTarget)}/OPP and is worth about +${money(value)} in qualified comp.</div>`);
+    }
+    if(!okIns)moves.push(`<div class="move"><b>Insurance:</b> About ${to50} straight insured ${to50===1?'opportunity':'opportunities'} reaches 50% and helps restore ${money(grossComp)}.</div>`);
+    else if(insRate<insTarget){
+      const value=adjustedBase*.25*(ppv+aia*1.5);
+      moves.push(`<div class="move"><b>Insurance accelerator:</b> About ${to60} straight insured ${to60===1?'opportunity':'opportunities'} reaches 60%, worth about +${money(value)} in qualified comp.</div>`);
+    }
+    if(!okAia)moves.push(`<div class="move"><b>AIA qualifier:</b> Need ${Math.max(0,aiaSubmitQual-aiaSub)} more submit(s), or enough close-rate improvement to reach ${pct(aiaCloseQual)}.</div>`);
+    if(!okCsat)moves.push(`<div class="move"><b>CSAT:</b> Current ${pct(csat)} is below the ${pct(csatQual)} qualifier.</div>`);
+    if(moves.length===0)moves.push(`<div class="move"><b>Everything qualifies.</b> ${money(grossComp)} of qualified comp is protected right now. Keep the qualifiers above their floors.</div>`);
+    q('[data-r="moves"]').innerHTML=moves.join('');
+
+    [['addPpv',base.ppv,'PPV'],['addAia',base.aia_posted,'AIA'],['addUpg',base.upgrades,'Upgrades'],['addData',base.data,'Data'],['addAiaSub',base.aia_submits,'AIA submits'],['addHtp',base.htp,'HTP'],['addPrepaid',base.prepaid,'Prepaid']].forEach(([key,b,label])=>{
+      const add=Math.round(n(key)),el=q(`[data-r="${key}Line"]`);
+      if(el)el.textContent=`Live ${Number(b||0)} → Scenario ${Number(b||0)+add}`;
+    });
+    q('[data-r="addAccLine"]').textContent=`Live accessory revenue ${money(baseAccRev)} → Scenario ${money(accRev)}`;
+    q('[data-r="addInsLine"]').textContent=newDeviceOpps
+      ? `${addIns} of ${newDeviceOpps} added device OPPs insured`
+      : 'Add PPV or Upgrades first; no new insurance opportunities yet.';
+  };
+
+  calc.querySelectorAll('input').forEach(el=>el.addEventListener('input',update));
+  calc.querySelectorAll('[data-step]').forEach(btn=>btn.onclick=()=>{
+    const key=btn.dataset.step,el=q(`[data-c="${key}"]`);
+    el.value=Math.max(0,Number(el.value||0)+Number(btn.dataset.d||0));
+    update();
+  });
+  q('[data-reset-calc]').onclick=()=>{
+    calc.querySelectorAll('[data-c]').forEach(el=>el.value=0);
+    update();
+  };
+  update();
+});const u=document.getElementById('unlockAdmin');if(u)u.onclick=async()=>{const candidate=document.getElementById('adminPhrase').value,st=document.getElementById('unlockStatus');if(!candidate){st.textContent='Enter the admin phrase.';return}const previous=adminPhrase;adminPhrase=candidate;try{await api('POST',{action:'verify_admin'});sessionStorage.setItem('huddleAdmin',candidate);render();show('admin')}catch(e){adminPhrase=previous;sessionStorage.removeItem('huddleAdmin');st.textContent='Incorrect admin phrase.'}};bindAdmin()}
 
 function collectStore(prefix=''){const out={};document.querySelectorAll(`#admin input[id${prefix?'$="_'+prefix+'"':''}]`);return out}
 function grab(ids){const o={};for(const id of ids){const el=document.getElementById(id);if(el)o[id]=el.value===''?null:Number.isNaN(Number(el.value))?el.value:Number(el.value)}return o}
-function bindAdmin(){const stat=document.getElementById('adminStatus');const set=s=>{if(stat)stat.textContent=s};const sg=document.querySelector('[data-save-goals]');if(sg)sg.onclick=async()=>{const pctKeys=new Set(['ppv_close','aia_close','htp_close','insurance_target','insurance_qualifier','trade_target','csat_target']),keys=['traffic','opportunities','ppv','ppv_close','aia_posted','aia_submits','aia_close','htp','htp_close','upgrades','data','accessory_target','accessory_qualifier','insurance_target','insurance_qualifier','trade_target','csat_target','rep_aia_qualifier','rep_htp_qualifier'],fields={};for(const k of keys){const el=document.getElementById('goal_'+k);if(el){let v=Number(el.value||0);if(pctKeys.has(k))v/=100;fields[k]=v}}try{await api('POST',{action:'save_goals',fields});set('Goals saved.');await load();show('admin')}catch(e){set(e.message)}};const config=document.querySelector('[data-save-config]');if(config)config.onclick=async()=>{try{await api('POST',{action:'save_config',headline:document.getElementById('headline').value,opening_prompt:document.getElementById('opening_prompt').value,team_message:document.getElementById('team_message').value});set('Saved.');await load();show('admin')}catch(e){set(e.message)}};const store=document.querySelector('[data-save-store]');if(store)store.onclick=async()=>{const keys=['traffic','ppv','ppv_close','aia_posted','aia_submits','aia_close','htp','htp_close','upgrades','data','cru','accessory_revenue','acc_per_opp','insurance_rate','nextup_rate','csat','pre_to_post','pa4','opps','trade_rate','prepaid','open_enrollment'];try{await api('POST',{action:'save_store',fields:grab(keys)});set('Store saved.');await load();show('admin')}catch(e){set(e.message)}};document.querySelectorAll('[data-save-rep]').forEach(btn=>btn.onclick=async()=>{const slug=btn.dataset.saveRep,r=DATA.reps.find(x=>x.slug===slug),suffix='_'+r.metrics.rep_id,keys=['ppv','aia_posted','aia_submits','aia_close','htp','upgrades','data','cru','accessory_revenue','acc_per_opp','insurance_rate','insurance_adds','insurance_eligible_opps','nextup_rate','csat','pa4','opps','trade_rate','prepaid','open_enrollment'];const fields={};for(const k of keys){const el=document.getElementById(k+suffix);if(el)fields[k]=el.value===''?null:Number(el.value)}try{await api('POST',{action:'save_rep',rep_slug:slug,fields});set(`${r.display_name} saved.`);await load();show('admin')}catch(e){set(e.message)}});const ac=document.querySelector('[data-add-coach]');if(ac)ac.onclick=async()=>{try{await api('POST',{action:'add_coaching',title:document.getElementById('coach_title').value,rep_slug:document.getElementById('coach_rep').value||null,kind:document.getElementById('coach_kind').value,body:document.getElementById('coach_body').value});set('Coaching added.');await load();show('admin')}catch(e){set(e.message)}};const as=document.querySelector('[data-add-sbs]');if(as)as.onclick=async()=>{try{await api('POST',{action:'add_sbs',rep_slug:document.getElementById('sbs_rep').value,observed_on:document.getElementById('sbs_date').value,title:document.getElementById('sbs_title').value,greet:numOrNull('sbs_greet'),understand:numOrNull('sbs_understand'),recommend:numOrNull('sbs_recommend'),confirm:numOrNull('sbs_confirm'),educate:numOrNull('sbs_educate'),thank:numOrNull('sbs_thank'),coaching_summary:document.getElementById('sbs_summary').value,notes:document.getElementById('sbs_notes').value});set('SBS added.');await load();show('admin')}catch(e){set(e.message)}}}
+function bindAdmin(){const stat=document.getElementById('adminStatus');const set=s=>{if(stat)stat.textContent=s};const sg=document.querySelector('[data-save-goals]');if(sg)sg.onclick=async()=>{const pctKeys=new Set(['ppv_close','aia_close','htp_close','insurance_target','insurance_qualifier','trade_target','csat_target']),keys=['traffic','opportunities','ppv','ppv_close','aia_posted','aia_submits','aia_close','htp','htp_close','upgrades','data','accessory_target','accessory_qualifier','insurance_target','insurance_qualifier','trade_target','csat_target','rep_aia_qualifier','rep_htp_qualifier'],fields={};for(const k of keys){const el=document.getElementById('goal_'+k);if(el){let v=Number(el.value||0);if(pctKeys.has(k))v/=100;fields[k]=v}}try{await api('POST',{action:'save_goals',fields});set('Goals saved.');await load();show('admin')}catch(e){set(e.message)}};const config=document.querySelector('[data-save-config]');if(config)config.onclick=async()=>{try{await api('POST',{action:'save_config',headline:document.getElementById('headline').value,opening_prompt:document.getElementById('opening_prompt').value,team_message:document.getElementById('team_message').value});set('Saved.');await load();show('admin')}catch(e){set(e.message)}};const store=document.querySelector('[data-save-store]');if(store)store.onclick=async()=>{const keys=['traffic','ppv','ppv_close','aia_posted','aia_submits','aia_close','htp','htp_close','upgrades','data','cru','accessory_revenue','acc_per_opp','insurance_rate','nextup_rate','csat','pre_to_post','pa4','opps','trade_rate','prepaid','open_enrollment'];try{await api('POST',{action:'save_store',fields:grab(keys)});set('Store saved.');await load();show('admin')}catch(e){set(e.message)}};document.querySelectorAll('[data-save-rep]').forEach(btn=>btn.onclick=async()=>{const slug=btn.dataset.saveRep,r=DATA.reps.find(x=>x.slug===slug),suffix='_'+r.metrics.rep_id,keys=['ppv','aia_posted','aia_submits','aia_close','htp','upgrades','data','cru','accessory_revenue','acc_per_opp','insurance_rate','nextup_rate','csat','pa4','opps','trade_rate','prepaid','open_enrollment'];const fields={};for(const k of keys){const el=document.getElementById(k+suffix);if(el)fields[k]=el.value===''?null:Number(el.value)}try{await api('POST',{action:'save_rep',rep_slug:slug,fields});set(`${r.display_name} saved.`);await load();show('admin')}catch(e){set(e.message)}});const ac=document.querySelector('[data-add-coach]');if(ac)ac.onclick=async()=>{try{await api('POST',{action:'add_coaching',title:document.getElementById('coach_title').value,rep_slug:document.getElementById('coach_rep').value||null,kind:document.getElementById('coach_kind').value,body:document.getElementById('coach_body').value,status:document.getElementById('coach_status')?.value||'new'});set('Coaching added.');await load();show('admin')}catch(e){set(e.message)}};const as=document.querySelector('[data-add-sbs]');if(as)as.onclick=async()=>{try{await api('POST',{action:'add_sbs',rep_slug:document.getElementById('sbs_rep').value,observed_on:document.getElementById('sbs_date').value,title:document.getElementById('sbs_title').value,greet:numOrNull('sbs_greet'),understand:numOrNull('sbs_understand'),recommend:numOrNull('sbs_recommend'),confirm:numOrNull('sbs_confirm'),educate:numOrNull('sbs_educate'),thank:numOrNull('sbs_thank'),coaching_summary:document.getElementById('sbs_summary').value,notes:document.getElementById('sbs_notes').value,behavior_notes:{greet:document.getElementById('sbs_note_greet')?.value||'',understand:document.getElementById('sbs_note_understand')?.value||'',recommend:document.getElementById('sbs_note_recommend')?.value||'',confirm:document.getElementById('sbs_note_confirm')?.value||'',educate:document.getElementById('sbs_note_educate')?.value||'',thank:document.getElementById('sbs_note_thank')?.value||''}});set('SBS added.');await load();show('admin')}catch(e){set(e.message)}}}
 function numOrNull(id){const v=document.getElementById(id).value;return v===''?null:Number(v)}
 load();
 </script></body></html>
