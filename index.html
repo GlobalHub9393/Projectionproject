@@ -447,10 +447,13 @@ function bind(){document.querySelectorAll('[data-coach-status]').forEach(b=>b.on
     el.value=Math.max(0,Number(el.value||0)+Number(btn.dataset.d||0));
     update();
   });
-  q('[data-reset-calc]').onclick=()=>{
-    calc.querySelectorAll('[data-c]').forEach(el=>el.value=0);
-    update();
-  };
+  const resetBtn=calc.closest('.body')?.querySelector('[data-reset-calc]');
+  if(resetBtn){
+    resetBtn.onclick=()=>{
+      calc.querySelectorAll('[data-c]').forEach(el=>el.value=0);
+      update();
+    };
+  }
   update();
 });const u=document.getElementById('unlockAdmin');if(u)u.onclick=async()=>{const candidate=document.getElementById('adminPhrase').value,st=document.getElementById('unlockStatus');if(!candidate){st.textContent='Enter the admin phrase.';return}const previous=adminPhrase;adminPhrase=candidate;try{await api('POST',{action:'verify_admin'});sessionStorage.setItem('huddleAdmin',candidate);render();show('admin')}catch(e){adminPhrase=previous;sessionStorage.removeItem('huddleAdmin');st.textContent='Incorrect admin phrase.'}};bindAdmin()}
 
