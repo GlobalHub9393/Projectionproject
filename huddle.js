@@ -20,24 +20,45 @@ const goalFields = new Set([
   'rep_aia_qualifier','rep_htp_qualifier'
 ]);
 
+const repGoalFields = new Set([
+  'ppv','aia_posted','aia_submits','aia_close','htp','upgrades','data',
+  'accessory_target','insurance_target','trade_target','csat_target'
+]);
+
 async function snapshot(sql) {
-  const config = (await sql`SELECT * FROM app_config WHERE id=1`)[0];
+  const config = (await sql`
+    SELECT * FROM app_config WHERE id=1
+  `)[0];
+
   const month = config.active_month;
 
   const goals =
-    (await sql`SELECT * FROM monthly_goals WHERE month=${month}`)[0] || {};
+    (await sql`
+      SELECT * FROM monthly_goals
+      WHERE month=${month}
+    `)[0] || {};
 
   const store =
-    (await sql`SELECT * FROM store_metrics WHERE month=${month}`)[0] || {};
+    (await sql`
+      SELECT * FROM store_metrics
+      WHERE month=${month}
+    `)[0] || {};
 
   const reps = await sql`
     SELECT
       r.*,
-      COALESCE(row_to_json(m),'{}'::json) AS metrics
+      COALESCE(row_to_json(m),'{}'::json) AS metrics,
+      COALESCE(
+        (to_jsonb(rg) - 'month' - 'rep_id' - 'updated_at'),
+        '{}'::jsonb
+      ) AS goal_overrides
     FROM reps r
     LEFT JOIN rep_metrics m
       ON m.rep_id=r.id
       AND m.month=${month}
+    LEFT JOIN rep_goals rg
+      ON rg.rep_id=r.id
+      AND rg.month=${month}
     WHERE r.active=true
     ORDER BY r.sort_order,r.display_name
   `;
@@ -64,7 +85,7 @@ async function snapshot(sql) {
     JOIN reps r
       ON r.id=s.rep_id
     ORDER BY s.observed_on DESC,s.updated_at DESC
-    LIMIT 100
+    LIMIT 250
   `;
 
   return {
@@ -136,9 +157,7 @@ export default async function handler(req,res) {
     } else if (b.action === 'save_goals') {
 
       for (const [k,v] of Object.entries(b.fields||{})) {
-
         if (goalFields.has(k)) {
-
           await updateField(
             sql,
             'monthly_goals',
@@ -146,17 +165,71 @@ export default async function handler(req,res) {
             v,
             'month=(SELECT active_month FROM app_config WHERE id=1)'
           );
-
         }
-
       }
+
+    } else if (b.action === 'save_rep_goals') {
+
+      const rep =
+        (await sql`
+          SELECT id
+          FROM reps
+          WHERE slug=${b.rep_slug}
+        `)[0];
+
+      if (!rep) {
+        throw new Error('Rep not found');
+      }
+
+      await sql`
+        INSERT INTO rep_goals(month,rep_id)
+        VALUES(
+          (SELECT active_month FROM app_config WHERE id=1),
+          ${rep.id}
+        )
+        ON CONFLICT(month,rep_id) DO NOTHING
+      `;
+
+      for (const [k,v] of Object.entries(b.fields||{})) {
+        if (repGoalFields.has(k)) {
+          await updateField(
+            sql,
+            'rep_goals',
+            k,
+            (v===null||v==='' ? null : v),
+            'rep_id=$2 AND month=(SELECT active_month FROM app_config WHERE id=1)',
+            [rep.id]
+          );
+        }
+      }
+
+    } else if (b.action === 'reset_rep_goals') {
+
+      const rep =
+        (await sql`
+          SELECT id
+          FROM reps
+          WHERE slug=${b.rep_slug}
+        `)[0];
+
+      if (!rep) {
+        throw new Error('Rep not found');
+      }
+
+      await sql`
+        DELETE FROM rep_goals
+        WHERE rep_id=${rep.id}
+          AND month=(
+            SELECT active_month
+            FROM app_config
+            WHERE id=1
+          )
+      `;
 
     } else if (b.action === 'save_store') {
 
       for (const [k,v] of Object.entries(b.fields||{})) {
-
         if (allowedStoreFields.has(k)) {
-
           await updateField(
             sql,
             'store_metrics',
@@ -164,9 +237,7 @@ export default async function handler(req,res) {
             v,
             'month=(SELECT active_month FROM app_config WHERE id=1)'
           );
-
         }
-
       }
 
     } else if (b.action === 'save_rep') {
@@ -183,9 +254,7 @@ export default async function handler(req,res) {
       }
 
       for (const [k,v] of Object.entries(b.fields||{})) {
-
         if (allowedRepFields.has(k)) {
-
           await updateField(
             sql,
             'rep_metrics',
@@ -194,9 +263,7 @@ export default async function handler(req,res) {
             'rep_id=$2 AND month=(SELECT active_month FROM app_config WHERE id=1)',
             [rep.id]
           );
-
         }
-
       }
 
     } else if (b.action === 'add_coaching') {
@@ -204,7 +271,6 @@ export default async function handler(req,res) {
       let repId = null;
 
       if (b.rep_slug) {
-
         const rep =
           (await sql`
             SELECT id
@@ -213,7 +279,6 @@ export default async function handler(req,res) {
           `)[0];
 
         repId = rep?.id || null;
-
       }
 
       await sql`
@@ -224,7 +289,8 @@ export default async function handler(req,res) {
           kind,
           title,
           body,
-          sort_order
+          sort_order,
+          status
         )
         VALUES(
           (SELECT active_month FROM app_config WHERE id=1),
@@ -233,8 +299,19 @@ export default async function handler(req,res) {
           ${b.kind||'coach'},
           ${b.title||''},
           ${b.body||''},
-          ${Number(b.sort_order||100)}
+          ${Number(b.sort_order||100)},
+          ${b.status||'new'}
         )
+      `;
+
+    } else if (b.action === 'set_coaching_status') {
+
+      await sql`
+        UPDATE coaching_points
+        SET
+          status=${b.status||'new'},
+          updated_at=now()
+        WHERE id=${b.id}
       `;
 
     } else if (b.action === 'delete_coaching') {
@@ -269,7 +346,8 @@ export default async function handler(req,res) {
           educate,
           thank,
           notes,
-          coaching_summary
+          coaching_summary,
+          behavior_notes
         )
         VALUES(
           ${rep.id},
@@ -282,7 +360,8 @@ export default async function handler(req,res) {
           ${b.educate||null},
           ${b.thank||null},
           ${b.notes||''},
-          ${b.coaching_summary||''}
+          ${b.coaching_summary||''},
+          ${JSON.stringify(b.behavior_notes||{})}::jsonb
         )
       `;
 
