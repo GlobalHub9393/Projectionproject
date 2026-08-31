@@ -1,5 +1,31 @@
 {
-  "rewrites": [
-    { "source": "/api/:path*", "destination": "/api/:path*" }
+  "version": 2,
+  "builds": [
+    {
+      "src": "huddle.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "setup.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "index.html",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/huddle",
+      "dest": "/huddle.js"
+    },
+    {
+      "src": "/api/setup",
+      "dest": "/setup.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
   ]
 }
