@@ -3,6 +3,19 @@
 <style>
 :root{--navy:#082f49;--blue:#0284c7;--sky:#e0f2fe;--ink:#172033;--muted:#64748b;--line:#dbe4ee;--page:#f4f7fb;--card:#fff;--green:#15803d;--greenbg:#dcfce7;--amber:#a16207;--amberbg:#fef3c7;--red:#b91c1c;--redbg:#fee2e2}*{box-sizing:border-box}body{margin:0;background:var(--page);color:var(--ink);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}button,input,textarea,select{font:inherit}.top{position:sticky;top:0;z-index:50;background:linear-gradient(100deg,var(--navy),#075985);color:#fff;padding:10px;box-shadow:0 3px 18px #082f4930}.toprow{max-width:1180px;margin:auto;display:flex;align-items:center;gap:8px}.brand{font-weight:950}.nav{display:flex;gap:6px;overflow:auto;flex:1}.nav button{border:0;background:#ffffff16;color:#fff;padding:9px 11px;border-radius:10px;font-weight:850;white-space:nowrap}.nav button.active{background:#fff;color:var(--navy)}main{max-width:1180px;margin:auto;padding:12px}.page{display:none}.page.active{display:block}.hero{background:linear-gradient(135deg,var(--navy),#0369a1);color:#fff;border-radius:18px;padding:18px;margin-bottom:12px}.hero h1{margin:2px 0 6px;font-size:clamp(26px,6vw,40px)}.hero p{margin:0;color:#dbeafe}.eyebrow{font-size:11px;font-weight:950;letter-spacing:.14em;text-transform:uppercase;color:#7dd3fc}.section{font-size:18px;color:var(--navy);font-weight:1000;margin:18px 0 9px}.card{background:#fff;border:1px solid var(--line);border-radius:15px;overflow:hidden}.body{padding:13px}.grid{display:grid;gap:10px}.metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.metric{background:#fff;border:1px solid var(--line);border-top:4px solid var(--navy);border-radius:13px;padding:11px}.metric .label{font-size:10px;text-transform:uppercase;color:var(--muted);font-weight:950}.metric .value{font-size:23px;font-weight:1000;color:var(--navy);margin:3px 0}.metric.adminEditable{cursor:pointer;position:relative}.metric.adminEditable:hover{outline:2px solid #38bdf8;outline-offset:1px}.inlineEdit{width:100%;font-size:22px;font-weight:1000;color:var(--navy);border:2px solid #38bdf8;border-radius:8px;padding:3px 6px;background:#fff}.adminModeBar{display:flex;align-items:center;justify-content:space-between;gap:8px;background:#ecfeff;border:1px solid #67e8f9;color:#0c4a6e;border-radius:12px;padding:9px 11px;margin-bottom:10px;font-size:12px;font-weight:850}.adminModeBar button{border:0;background:#0c4a6e;color:#fff;border-radius:8px;padding:7px 10px;font-weight:900}.saveFlash{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:99;background:#0f172a;color:#fff;padding:9px 14px;border-radius:999px;font-size:12px;font-weight:850;box-shadow:0 8px 30px #0003}.goalGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.goalGrid .field{margin:0}.metric .sub{font-size:10px;color:var(--muted)}.good{border-top-color:var(--green)!important}.warn{border-top-color:var(--amber)!important}.bad{border-top-color:var(--red)!important}.progress{height:7px;background:#e5e7eb;border-radius:999px;overflow:hidden;margin-top:8px}.progress span{display:block;height:100%;background:var(--blue)}.context{padding:12px;border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:12px;background:#fff}.context h3{margin:0 0 5px;color:var(--navy);font-size:14px}.context p{margin:0;line-height:1.45;font-size:13px}.tabs{display:flex;gap:7px;overflow:auto;margin-bottom:12px}.tabs button{border:1px solid var(--line);background:#fff;color:var(--navy);padding:9px 13px;border-radius:999px;font-weight:900;white-space:nowrap}.tabs button.active{background:var(--navy);color:#fff}.repPane{display:none}.repPane.active{display:block}.repbanner{background:linear-gradient(135deg,#0c4a6e,#0284c7);color:#fff;border-radius:17px;padding:16px;margin-bottom:10px}.repbanner h2{margin:0}.repbanner p{margin:5px 0 0;color:#dbeafe}.calc{display:grid;gap:8px}.calcrow{display:grid;grid-template-columns:1.2fr .8fr .8fr;gap:6px;align-items:center}.calcrow input{width:100%;padding:8px;border:1px solid var(--line);border-radius:9px}.result{padding:10px;border-radius:10px;background:#f8fafc;border:1px solid var(--line);font-size:13px}
 .compCalc{display:grid;gap:12px}
+.compModeBar{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:10px}
+.compModeBtn{border:1px solid var(--line);background:#fff;color:var(--navy);padding:8px 13px;border-radius:999px;font-weight:950;font-size:12px}
+.compModeBtn.active{background:var(--navy);color:#fff;border-color:var(--navy)}
+.modeHint{font-size:11px;color:var(--muted);font-weight:800;margin-left:auto}
+.modeBanner{border-radius:12px;padding:10px 12px;background:#eef6ff;border:1px solid #bfdbfe;font-size:12px;line-height:1.4}
+.modeBanner strong{color:var(--navy)}
+.editMetrics{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.editMetric{border:1px solid var(--line);border-radius:12px;padding:10px;background:#fff}
+.editMetric label{display:block;font-size:10px;font-weight:950;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.editMetric input{width:100%;padding:9px;border:1px solid var(--line);border-radius:9px;font-size:15px;font-weight:900}
+.compareLine{font-size:11px;color:var(--muted);margin-top:5px}
+@media(max-width:640px){.editMetrics{grid-template-columns:1fr}}
+
 .moneyHero{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .moneyBox{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fff}
 .moneyBox .k{font-size:10px;font-weight:900;text-transform:uppercase;color:var(--muted);letter-spacing:.06em}
@@ -118,6 +131,7 @@ function calcHtml(r){
   const baseAccessoryRevenue=Number(m.accessory_revenue||0)>0
     ? Number(m.accessory_revenue||0)
     : Number(m.acc_per_opp||0)*Math.max(0,Number(m.opps||0)-Number(m.data||0));
+
   const payload={
     ...m,
     _base_accessory_revenue:baseAccessoryRevenue,
@@ -128,19 +142,43 @@ function calcHtml(r){
     _acc_target:Number(DATA.goals.accessory_target||60),
     _ins_qualifier:Number(DATA.goals.insurance_qualifier||.50),
     _ins_target:Number(DATA.goals.insurance_target||.60),
-    _csat_qualifier:Number(DATA.goals.csat_target||.88)
+    _csat_qualifier:Number(DATA.goals.csat_target||.88),
+    _active_month:DATA.config?.active_month||''
   };
+
   return `<div class="card"><div class="body">
-    <div class="sandboxTitle">
-      <div><b>Comp Sandbox</b> <span class="chip">Does not save</span><div class="small">Starts from the live rep page. Change the scenario and the full comp picture recalculates instantly.</div></div>
-      <button class="resetBtn" type="button" data-reset-calc>Reset to Live</button>
+    <div><b>Comp Calculator</b><div class="small">Current tells you what the live numbers are worth. Pace projects the month. Change any number and it becomes a Sandbox.</div></div>
+
+    <div class="compModeBar">
+      <button type="button" class="compModeBtn active" data-mode="current">Current</button>
+      <button type="button" class="compModeBtn" data-mode="pace">Pace</button>
+      <button type="button" class="compModeBtn" data-mode="sandbox">Sandbox</button>
+      <span class="modeHint" data-r="modeHint">Live numbers from Team Huddle</span>
     </div>
+
+    <div class="modeBanner" data-r="modeBanner"><strong>Current:</strong> What your live numbers are worth right now.</div>
 
     <div class="compCalc" data-calc="${r.slug}" data-base='${JSON.stringify(payload).replaceAll("'","&#39;")}'>
       <div class="moneyHero">
         <div class="moneyBox" data-box="qualified"><div class="k">Qualified Comp Generated</div><div class="v" data-r="grossComp">$0</div><div class="small" data-r="grossNote">—</div></div>
         <div class="moneyBox risk" data-box="risk"><div class="k" data-r="riskLabel">Money At Risk</div><div class="v" data-r="riskMoney">$0</div><div class="small" data-r="riskNote">—</div></div>
         <div class="moneyBox safe"><div class="k">Guaranteed Instant Spiffs</div><div class="v" data-r="spiffs">$0</div><div class="small">AIA submits $10 · Prepaid $5</div></div>
+      </div>
+
+      <div class="section" style="margin:2px 0 0;font-size:14px">Numbers</div>
+      <div class="editMetrics">
+        ${[
+          ['PPV','ppv',1],['AIA Posted','aia_posted',1],['AIA Submits','aia_submits',1],
+          ['AIA Close %','aia_close',.1],['Upgrades','upgrades',1],['Data','data',1],
+          ['OPPs','opps',1],['Accessory Revenue','accessory_revenue',1],
+          ['Insurance %','insurance_rate',.1],['HTP','htp',1],['Prepaid','prepaid',1],['CSAT %','csat',.1]
+        ].map(([label,key,step])=>`
+          <div class="editMetric">
+            <label>${label}</label>
+            <input type="number" data-v="${key}" step="${step}" min="0">
+            <div class="compareLine" data-r="${key}Compare">—</div>
+          </div>
+        `).join('')}
       </div>
 
       <div class="section" style="margin:2px 0 0;font-size:14px">Qualification</div>
@@ -150,28 +188,6 @@ function calcHtml(r){
         <div class="qualCard" data-q="acc"><div class="qualTop"><span class="qualName">Accessories / OPP</span><span class="qualStatus" data-r="qacc">—</span></div><div class="qualDetail" data-r="qaccDetail">—</div></div>
         <div class="qualCard" data-q="ins"><div class="qualTop"><span class="qualName">Insurance</span><span class="qualStatus" data-r="qins">—</span></div><div class="qualDetail" data-r="qinsDetail">—</div></div>
         <div class="qualCard" data-q="csat"><div class="qualTop"><span class="qualName">CSAT</span><span class="qualStatus" data-r="qcsat">—</span></div><div class="qualDetail" data-r="qcsatDetail">—</div></div>
-      </div>
-
-      <div class="section" style="margin:2px 0 0;font-size:14px">Sandbox — Add Production</div>
-      <div class="sandboxGrid">
-        ${[['PPV','addPpv'],['AIA Posted','addAia'],['Upgrades','addUpg'],['Data','addData'],['AIA Submits','addAiaSub'],['HTP','addHtp'],['Prepaid','addPrepaid']].map(([label,key])=>`
-          <div class="sbox"><label>${label}</label><div class="stepper"><button type="button" data-step="${key}" data-d="-1">−</button><input type="number" step="1" min="0" value="0" data-c="${key}"><button type="button" data-step="${key}" data-d="1">+</button></div><div class="liveToScenario" data-r="${key}Line">—</div></div>
-        `).join('')}
-        <div class="sbox"><label>Accessory Revenue Added</label><input type="number" min="0" step="1" value="0" data-c="addAcc"><div class="liveToScenario" data-r="addAccLine">—</div></div>
-        <div class="sbox"><label>Insurance Adds On New Device OPPs</label><input type="number" min="0" step="1" value="0" data-c="addIns"><div class="liveToScenario" data-r="addInsLine">Only affects new PPV + Upgrade opportunities.</div></div>
-      </div>
-
-      <div class="section" style="margin:2px 0 0;font-size:14px">Scenario Breakdown</div>
-      <div class="breakdown">
-        <div class="breakRow"><span>PPV</span><b data-r="ppvNow">—</b></div>
-        <div class="breakRow"><span>AIA Posted</span><b data-r="aiaNow">—</b></div>
-        <div class="breakRow"><span>AIA Close</span><b data-r="aiaCloseNow">—</b></div>
-        <div class="breakRow"><span>Upgrades</span><b data-r="upgNow">—</b></div>
-        <div class="breakRow"><span>Data</span><b data-r="dataNow">—</b></div>
-        <div class="breakRow"><span>Eligible Accessory OPPs</span><b data-r="eligNow">—</b></div>
-        <div class="breakRow"><span>Accessories / OPP</span><b data-r="accNow">—</b></div>
-        <div class="breakRow"><span>Insurance</span><b data-r="insNow">—</b></div>
-        <div class="breakRow"><span>HTP</span><b data-r="htpNow">—</b></div>
       </div>
 
       <div class="section" style="margin:2px 0 0;font-size:14px">Comp Math</div>
@@ -192,8 +208,10 @@ function calcHtml(r){
         <div class="sub" data-r="finalSub">—</div>
       </div>
 
-      <div class="section" style="margin:2px 0 0;font-size:14px">What Protects The Money?</div>
+      <div class="section" style="margin:2px 0 0;font-size:14px">What You Need</div>
       <div class="moveList" data-r="moves"></div>
+
+      <button type="button" class="resetBtn" data-reset-calc style="width:100%">Reset to Current</button>
     </div>
   </div></div>`}
 
@@ -232,14 +250,79 @@ function bindManagerMode(){document.querySelectorAll('.metric.adminEditable').fo
 function lockAdmin(){adminPhrase='';sessionStorage.removeItem('huddleAdmin');render();show('admin')}
 function bind(){document.querySelectorAll('[data-coach-status]').forEach(b=>b.onclick=async()=>{try{await api('POST',{action:'set_coaching_status',id:b.dataset.coachStatus,status:b.dataset.status});showSaved('Coaching status');const page=document.querySelector('.page.active')?.id||'team';await load();show(page)}catch(e){flash(e.message)}});nav.onclick=e=>{const b=e.target.closest('[data-page]');if(b)show(b.dataset.page)};document.querySelectorAll('[data-rep]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-rep]').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.repPane').forEach(p=>p.classList.toggle('active',p.id==='rep-'+b.dataset.rep))});document.querySelectorAll('[data-lock-admin]').forEach(b=>b.onclick=lockAdmin);bindManagerMode();document.querySelectorAll('[data-calc]').forEach(calc=>{
   const base=JSON.parse(calc.dataset.base||'{}');
+  const body=calc.closest('.body');
   const q=x=>calc.querySelector(x);
-  const n=k=>Math.max(0,Number(q(`[data-c="${k}"]`)?.value||0));
+  const qb=x=>body.querySelector(x);
   const money=x=>`$${Number(x||0).toFixed(2)}`;
   const pct=x=>`${(Number(x||0)*100).toFixed(1)}%`;
+  const raw=k=>Number(q(`[data-v="${k}"]`)?.value||0);
+  let mode='current';
+  let loading=true;
+
+  const monthProgress=()=>{
+    const active=base._active_month ? new Date(`${String(base._active_month).slice(0,10)}T12:00:00`) : new Date();
+    const now=new Date();
+    const y=active.getFullYear(),m=active.getMonth();
+    const days=new Date(y,m+1,0).getDate();
+    if(now<new Date(y,m,1,0,0,0))return {elapsed:0,days,factor:1};
+    if(now>new Date(y,m+1,0,23,59,59))return {elapsed:days,days,factor:1};
+    const elapsed=Math.max(1,Math.min(days,now.getDate()));
+    return {elapsed,days,factor:days/elapsed};
+  };
+
+  const paceValue=(key)=>{
+    const {factor}=monthProgress();
+    const countKeys=new Set(['ppv','aia_posted','aia_submits','upgrades','data','opps','accessory_revenue','htp','prepaid']);
+    if(countKeys.has(key))return Number(base[key]||0)*factor;
+    return Number(base[key]||0);
+  };
+
+  const displayValue=(key,val)=>{
+    if(['aia_close','insurance_rate','csat'].includes(key))return Number(val||0)*100;
+    return Number(val||0);
+  };
+  const storedValue=(key,val)=>{
+    if(['aia_close','insurance_rate','csat'].includes(key))return Number(val||0)/100;
+    return Number(val||0);
+  };
+
+  const setInputs=(which)=>{
+    loading=true;
+    calc.querySelectorAll('[data-v]').forEach(el=>{
+      const key=el.dataset.v;
+      let val=which==='pace'?paceValue(key):Number(base[key]||0);
+      if(key==='accessory_revenue' && !Number(base.accessory_revenue||0))val=Number(base._base_accessory_revenue||0)*(which==='pace'?monthProgress().factor:1);
+      el.value=displayValue(key,val).toFixed(['aia_close','insurance_rate','csat'].includes(key)?1:0);
+    });
+    loading=false;
+    update();
+  };
+
+  const setMode=(next)=>{
+    mode=next;
+    body.querySelectorAll('[data-mode]').forEach(b=>b.classList.toggle('active',b.dataset.mode===next));
+    const banner=qb('[data-r="modeBanner"]'),hint=qb('[data-r="modeHint"]');
+    if(next==='current'){
+      banner.innerHTML='<strong>Current:</strong> What your live numbers are worth right now.';
+      hint.textContent='Live numbers from Team Huddle';
+      setInputs('current');
+    }else if(next==='pace'){
+      const p=monthProgress();
+      banner.innerHTML=`<strong>Pace:</strong> Projects the live production through month-end using ${p.elapsed||0} day${p.elapsed===1?'':'s'} elapsed out of ${p.days}. Rates stay at their current percentages.`;
+      hint.textContent='Month-end projection';
+      setInputs('pace');
+    }else{
+      banner.innerHTML='<strong>Sandbox:</strong> What-if mode. Nothing here saves to Neon.';
+      hint.textContent='Changes are temporary';
+      update();
+    }
+  };
+
   const setClass=(name,state)=>{
     const el=q(`[data-q="${name}"]`);
     if(el)el.className=`qualCard ${state}`;
   };
+
   const inferFraction=(rate,ceiling)=>{
     ceiling=Math.max(1,Math.round(ceiling||1));
     if(rate<=0)return {a:0,e:ceiling,diff:0};
@@ -254,74 +337,31 @@ function bind(){document.querySelectorAll('[data-coach-status]').forEach(b=>b.on
     return best;
   };
   const needConsecutiveWins=(a,e,target)=>{
-    if(e<=0)return 0;
-    if(a/e>=target)return 0;
+    if(e<=0||a/e>=target)return 0;
     return Math.max(0,Math.ceil((target*e-a)/(1-target)-1e-9));
   };
   const safeMisses=(a,e,target)=>{
     let misses=0;
-    while(e+misses+1>0 && a/(e+misses+1)>=target)misses++;
+    while(a/(e+misses+1)>=target)misses++;
     return misses;
   };
+
   const update=()=>{
-    const addPpv=Math.round(n('addPpv'));
-    const addAia=Math.round(n('addAia'));
-    const addUpg=Math.round(n('addUpg'));
-    const addData=Math.round(n('addData'));
-    const addAiaSub=Math.round(n('addAiaSub'));
-    const addHtp=Math.round(n('addHtp'));
-    const addPrepaid=Math.round(n('addPrepaid'));
-    const addAcc=n('addAcc');
-    const newDeviceOpps=addPpv+addUpg;
-    let addIns=Math.round(n('addIns'));
-    if(addIns>newDeviceOpps){
-      addIns=newDeviceOpps;
-      q('[data-c="addIns"]').value=addIns;
-    }
+    const vals={};
+    calc.querySelectorAll('[data-v]').forEach(el=>vals[el.dataset.v]=storedValue(el.dataset.v,el.value));
+    const ppv=Math.round(vals.ppv||0),aia=Math.round(vals.aia_posted||0),aiaSub=Math.round(vals.aia_submits||0);
+    const upg=Math.round(vals.upgrades||0),data=Math.round(vals.data||0),opps=Math.round(vals.opps||0);
+    const accRev=Number(vals.accessory_revenue||0),insRate=Number(vals.insurance_rate||0),htp=Math.round(vals.htp||0);
+    const prepaid=Math.round(vals.prepaid||0),csat=Number(vals.csat||0),aiaRate=Number(vals.aia_close||0);
+    const elig=Math.max(0,opps-data),accRate=elig>0?accRev/elig:0;
 
-    const ppv=Number(base.ppv||0)+addPpv;
-    const aia=Number(base.aia_posted||0)+addAia;
-    const upg=Number(base.upgrades||0)+addUpg;
-    const data=Number(base.data||0)+addData;
-    const aiaSub=Number(base.aia_submits||0)+addAiaSub;
-    const htp=Number(base.htp||0)+addHtp;
-    const prepaid=Number(base.prepaid||0)+addPrepaid;
-
-    const baseOpps=Number(base.opps||0);
-    const scenarioOpps=baseOpps+addPpv+addUpg+addData;
-    const baseElig=Math.max(0,baseOpps-Number(base.data||0));
-    const elig=Math.max(0,scenarioOpps-data);
-    const baseAccRev=Number(base._base_accessory_revenue||0);
-    const accRev=baseAccRev+addAcc;
-    const accRate=elig>0?accRev/elig:0;
-
-    const baseInsRate=Number(base.insurance_rate||0);
-    const baseDeviceCeiling=Math.max(1,Number(base.ppv||0)+Number(base.upgrades||0));
-    const inferred=inferFraction(baseInsRate,baseDeviceCeiling);
-    const insAdds=inferred.a+addIns;
-    const insElig=inferred.e+newDeviceOpps;
-    const insRate=insElig>0?insAdds/insElig:baseInsRate;
-
-    const baseAiaRate=Number(base.aia_close||0);
-    let aiaDen=0;
-    if(Number(base.aia_submits||0)>0 && baseAiaRate>0)aiaDen=Math.max(Number(base.aia_submits||0),Math.round(Number(base.aia_submits||0)/baseAiaRate));
-    const aiaRate=aiaDen>0?aiaSub/aiaDen:baseAiaRate;
-
-    const accQual=Number(base._acc_qualifier||50);
-    const accTarget=Number(base._acc_target||60);
-    const insQual=Number(base._ins_qualifier||.50);
-    const insTarget=Number(base._ins_target||.60);
-    const aiaSubmitQual=Number(base._aia_qualifier||4);
-    const aiaCloseQual=Number(base._aia_close_qualifier||.075);
-    const htpQual=Number(base._htp_qualifier||2);
-    const csatQual=Number(base._csat_qualifier||.88);
-    const csat=Number(base.csat||0);
+    const accQual=Number(base._acc_qualifier||50),accTarget=Number(base._acc_target||60);
+    const insQual=Number(base._ins_qualifier||.50),insTarget=Number(base._ins_target||.60);
+    const aiaSubmitQual=Number(base._aia_qualifier||4),aiaCloseQual=Number(base._aia_close_qualifier||.075);
+    const htpQual=Number(base._htp_qualifier||2),csatQual=Number(base._csat_qualifier||.88);
 
     const okAia=aiaSub>=aiaSubmitQual || aiaRate>=aiaCloseQual;
-    const okHtp=htp>=htpQual;
-    const okAcc=accRate>=accQual;
-    const okIns=insRate>=insQual;
-    const okCsat=csat>=csatQual;
+    const okHtp=htp>=htpQual,okAcc=accRate>=accQual,okIns=insRate>=insQual,okCsat=csat>=csatQual;
     const qualified=okAia&&okHtp&&okAcc&&okIns&&okCsat;
 
     const adjustedBase=15+(upg*.10)+(data*.20);
@@ -332,68 +372,49 @@ function bind(){document.querySelectorAll('[data-coach-status]').forEach(b=>b.on
     const aiaComp=aia*finalBase*1.5;
     const grossComp=ppvComp+aiaComp;
     const spiffs=(aiaSub*10)+(prepaid*5);
-    const payableComp=qualified?grossComp:0;
-    const projected=payableComp+spiffs;
+    const payable=qualified?grossComp:0;
+    const projected=payable+spiffs;
 
     q('[data-r="grossComp"]').textContent=money(grossComp);
-    q('[data-r="grossNote"]').textContent=`${ppv} PPV + ${aia} AIA at a ${money(finalBase)} final base`;
+    q('[data-r="grossNote"]').textContent=`${ppv} PPV + ${aia} AIA · final base ${money(finalBase)}`;
     q('[data-r="spiffs"]').textContent=money(spiffs);
 
     const riskBox=q('[data-box="risk"]');
-    if(qualified){
-      riskBox.className='moneyBox risk';
-      q('[data-r="riskLabel"]').textContent='Money At Risk';
-      q('[data-r="riskMoney"]').textContent=money(grossComp);
-      q('[data-r="riskNote"]').textContent='This is the qualified comp that disappears if any qualifier fails.';
-    }else{
-      riskBox.className='moneyBox lost';
-      q('[data-r="riskLabel"]').textContent='Comp Currently Lost';
-      q('[data-r="riskMoney"]').textContent=money(grossComp);
-      q('[data-r="riskNote"]').textContent='Instant spiffs remain. Fix every failed qualifier to restore this comp.';
-    }
+    riskBox.className=`moneyBox ${qualified?'risk':'lost'}`;
+    q('[data-r="riskLabel"]').textContent=qualified?'Money At Risk':'Comp Currently Lost';
+    q('[data-r="riskMoney"]').textContent=money(grossComp);
+    q('[data-r="riskNote"]').textContent=qualified?'Lose this qualified comp if a qualifier fails.':'Instant spiffs remain; qualified comp is blocked.';
 
-    const qaia=q('[data-r="qaia"]');
-    qaia.textContent=okAia?'QUALIFIED':'NOT QUALIFIED';
-    q('[data-r="qaiaDetail"]').textContent=`${aiaSub} submits · ${pct(aiaRate)} close · need ${aiaSubmitQual} submits OR ${pct(aiaCloseQual)} close`;
+    q('[data-r="qaia"]').textContent=okAia?'QUALIFIED':'NOT QUALIFIED';
+    q('[data-r="qaiaDetail"]').textContent=`${aiaSub} submits · ${pct(aiaRate)} close · need ${aiaSubmitQual} submits OR ${pct(aiaCloseQual)}`;
     setClass('aia',okAia?'good':'bad');
 
     q('[data-r="qhtp"]').textContent=okHtp?'QUALIFIED':'NOT QUALIFIED';
-    q('[data-r="qhtpDetail"]').textContent=okHtp?`${htp} HTP · minimum ${htpQual}`:`${htp} HTP · need ${Math.max(0,htpQual-htp)} more`;
+    q('[data-r="qhtpDetail"]').textContent=okHtp?`${htp} HTP · minimum ${htpQual}`:`Need ${Math.max(0,htpQual-htp)} more HTP`;
     setClass('htp',okHtp?'good':'bad');
 
-    const accState=!okAcc?'bad':accRate<accTarget?'warn':'good';
+    const need50Now=Math.max(0,accQual*elig-accRev),need60Now=Math.max(0,accTarget*elig-accRev);
+    const need50Next=Math.max(0,accQual*(elig+1)-accRev),need60Next=Math.max(0,accTarget*(elig+1)-accRev);
     q('[data-r="qacc"]').textContent=!okAcc?'NOT QUALIFIED':accRate>=accTarget?'60+ ACCELERATOR':'QUALIFIED';
-    const need50=Math.max(0,accQual*(elig+1)-accRev);
-    const need60=Math.max(0,accTarget*(elig+1)-accRev);
-    q('[data-r="qaccDetail"]').textContent=`${money(accRate)}/OPP · ${elig} eligible OPPs · next eligible OPP needs ${money(need50)} to be at ${money(accQual)} or ${money(need60)} to be at ${money(accTarget)}`;
-    setClass('acc',accState);
+    q('[data-r="qaccDetail"]').textContent=!okAcc
+      ? `${money(accRate)}/OPP · need ${money(need50Now)} now to reach ${money(accQual)}`
+      : `${money(accRate)}/OPP · next eligible OPP needs ${money(need50Next)} to stay at ${money(accQual)} or ${money(need60Next)} to be at ${money(accTarget)}`;
+    setClass('acc',!okAcc?'bad':accRate<accTarget?'warn':'good');
 
-    const insState=!okIns?'bad':insRate<insTarget?'warn':'good';
+    const inferred=inferFraction(insRate,Math.max(1,ppv+upg));
+    const to50=needConsecutiveWins(inferred.a,inferred.e,insQual),to60=needConsecutiveWins(inferred.a,inferred.e,insTarget);
+    const misses50=safeMisses(inferred.a,inferred.e,insQual),misses60=safeMisses(inferred.a,inferred.e,insTarget);
     q('[data-r="qins"]').textContent=!okIns?'NOT QUALIFIED':insRate>=insTarget?'60% ACCELERATOR':'QUALIFIED';
-    const to50=needConsecutiveWins(insAdds,insElig,insQual);
-    const to60=needConsecutiveWins(insAdds,insElig,insTarget);
-    const misses50=safeMisses(insAdds,insElig,insQual);
-    const misses60=safeMisses(insAdds,insElig,insTarget);
-    let insText=`Estimated ${insAdds}/${insElig} = ${pct(insRate)}. `;
-    if(!okIns)insText+=`Need insurance on about the next ${to50} ${to50===1?'opportunity':'opportunities'} to reach 50%.`;
-    else if(insRate<insTarget)insText+=`50% qualified. About ${to60} straight insured ${to60===1?'opportunity':'opportunities'} reaches 60%.`;
-    else insText+=`60% accelerator active. Can miss about ${misses60} before dropping below 60%, ${misses50} before dropping below 50%.`;
+    let insText=`${pct(insRate)}. `;
+    if(!okIns)insText+=`Need roughly ${to50} insured ${to50===1?'opportunity':'opportunities'} to get back to 50%.`;
+    else if(insRate<insTarget)insText+=`50% qualified. Roughly ${to60} straight insured ${to60===1?'opportunity':'opportunities'} gets to 60%.`;
+    else insText+=`60% accelerator active. Roughly ${misses60} miss${misses60===1?'':'es'} before falling below 60%; ${misses50} before 50%.`;
     q('[data-r="qinsDetail"]').textContent=insText;
-    setClass('ins',insState);
+    setClass('ins',!okIns?'bad':insRate<insTarget?'warn':'good');
 
     q('[data-r="qcsat"]').textContent=okCsat?'QUALIFIED':'NOT QUALIFIED';
     q('[data-r="qcsatDetail"]').textContent=`${pct(csat)} · minimum ${pct(csatQual)}`;
     setClass('csat',okCsat?'good':'bad');
-
-    q('[data-r="ppvNow"]').textContent=ppv;
-    q('[data-r="aiaNow"]').textContent=aia;
-    q('[data-r="aiaCloseNow"]').textContent=pct(aiaRate);
-    q('[data-r="upgNow"]').textContent=upg;
-    q('[data-r="dataNow"]').textContent=data;
-    q('[data-r="eligNow"]').textContent=elig;
-    q('[data-r="accNow"]').textContent=money(accRate);
-    q('[data-r="insNow"]').textContent=`${pct(insRate)} · est. ${insAdds}/${insElig}`;
-    q('[data-r="htpNow"]').textContent=htp;
 
     q('[data-r="upgAdj"]').textContent=`+${money(upg*.10)}`;
     q('[data-r="dataAdj"]').textContent=`+${money(data*.20)}`;
@@ -409,52 +430,51 @@ function bind(){document.querySelectorAll('[data-coach-status]').forEach(b=>b.on
     q('[data-r="finalHeadline"]').textContent=qualified?`Projected payout: ${money(projected)}`:`Projected payout: ${money(spiffs)} — spiffs only`;
     q('[data-r="finalSub"]').textContent=qualified
       ? `${money(grossComp)} qualified comp + ${money(spiffs)} guaranteed instant spiffs.`
-      : `${money(grossComp)} of qualified comp is currently blocked by failed qualifiers.`;
+      : `${money(grossComp)} qualified comp is blocked until every qualifier is met.`;
 
     const moves=[];
-    if(!okHtp)moves.push(`<div class="move"><b>HTP:</b> +${Math.max(0,htpQual-htp)} HTP restores eligibility for ${money(grossComp)} once all other qualifiers are clear.</div>`);
-    if(!okAcc){
-      const currentNeed=Math.max(0,accQual*elig-accRev);
-      moves.push(`<div class="move"><b>Accessories:</b> Add ${money(currentNeed)} without another eligible OPP to get back to ${money(accQual)}/OPP. Fixing it helps unlock ${money(grossComp)}.</div>`);
-    }else if(accRate<accTarget){
-      const currentNeed=Math.max(0,accTarget*elig-accRev);
-      const value=adjustedBase*.25*(ppv+aia*1.5);
-      moves.push(`<div class="move"><b>Accessories accelerator:</b> ${money(currentNeed)} more accessory revenue at the current OPP count gets to ${money(accTarget)}/OPP and is worth about +${money(value)} in qualified comp.</div>`);
+    if(!okHtp)moves.push(`<div class="move"><b>HTP:</b> Need ${Math.max(0,htpQual-htp)} more.</div>`);
+    if(!okAcc)moves.push(`<div class="move"><b>Accessories:</b> ${money(need50Now)} more revenue at the current eligible OPP count gets back to ${money(accQual)}/OPP.</div>`);
+    else if(accRate<accTarget){
+      const acceleratorValue=adjustedBase*.25*(ppv+aia*1.5);
+      moves.push(`<div class="move"><b>Accessories:</b> ${money(need60Now)} more at the current OPP count reaches ${money(accTarget)}/OPP and is worth about +${money(acceleratorValue)} in qualified comp.</div>`);
     }
-    if(!okIns)moves.push(`<div class="move"><b>Insurance:</b> About ${to50} straight insured ${to50===1?'opportunity':'opportunities'} reaches 50% and helps restore ${money(grossComp)}.</div>`);
+    if(!okIns)moves.push(`<div class="move"><b>Insurance:</b> Need improvement from ${pct(insRate)} to at least 50%. Rough estimate: ${to50} straight insured ${to50===1?'opportunity':'opportunities'}.</div>`);
     else if(insRate<insTarget){
-      const value=adjustedBase*.25*(ppv+aia*1.5);
-      moves.push(`<div class="move"><b>Insurance accelerator:</b> About ${to60} straight insured ${to60===1?'opportunity':'opportunities'} reaches 60%, worth about +${money(value)} in qualified comp.</div>`);
+      const acceleratorValue=adjustedBase*.25*(ppv+aia*1.5);
+      moves.push(`<div class="move"><b>Insurance:</b> Current ${pct(insRate)} qualifies. Reach 60% for roughly +${money(acceleratorValue)} more qualified comp.</div>`);
     }
-    if(!okAia)moves.push(`<div class="move"><b>AIA qualifier:</b> Need ${Math.max(0,aiaSubmitQual-aiaSub)} more submit(s), or enough close-rate improvement to reach ${pct(aiaCloseQual)}.</div>`);
-    if(!okCsat)moves.push(`<div class="move"><b>CSAT:</b> Current ${pct(csat)} is below the ${pct(csatQual)} qualifier.</div>`);
-    if(moves.length===0)moves.push(`<div class="move"><b>Everything qualifies.</b> ${money(grossComp)} of qualified comp is protected right now. Keep the qualifiers above their floors.</div>`);
+    if(!okAia)moves.push(`<div class="move"><b>AIA:</b> Need ${Math.max(0,aiaSubmitQual-aiaSub)} more submit(s) OR a ${pct(aiaCloseQual)} close rate.</div>`);
+    if(!okCsat)moves.push(`<div class="move"><b>CSAT:</b> Need ${pct(csatQual)}.</div>`);
+    if(moves.length===0)moves.push(`<div class="move"><b>All qualifiers are clear.</b> The full ${money(grossComp)} of qualified comp is currently payable.</div>`);
     q('[data-r="moves"]').innerHTML=moves.join('');
 
-    [['addPpv',base.ppv,'PPV'],['addAia',base.aia_posted,'AIA'],['addUpg',base.upgrades,'Upgrades'],['addData',base.data,'Data'],['addAiaSub',base.aia_submits,'AIA submits'],['addHtp',base.htp,'HTP'],['addPrepaid',base.prepaid,'Prepaid']].forEach(([key,b,label])=>{
-      const add=Math.round(n(key)),el=q(`[data-r="${key}Line"]`);
-      if(el)el.textContent=`Live ${Number(b||0)} → Scenario ${Number(b||0)+add}`;
+    calc.querySelectorAll('[data-v]').forEach(el=>{
+      const key=el.dataset.v,cmp=q(`[data-r="${key}Compare"]`);
+      if(!cmp)return;
+      const live=Number(base[key]||0);
+      const here=storedValue(key,el.value);
+      if(mode==='current')cmp.textContent='Live';
+      else if(mode==='pace')cmp.textContent=`Live ${['aia_close','insurance_rate','csat'].includes(key)?pct(live):key==='accessory_revenue'?money(live||base._base_accessory_revenue):Math.round(live)} → Pace`;
+      else cmp.textContent=`Current ${['aia_close','insurance_rate','csat'].includes(key)?pct(live):key==='accessory_revenue'?money(live||base._base_accessory_revenue):Math.round(live)} → What-if`;
     });
-    q('[data-r="addAccLine"]').textContent=`Live accessory revenue ${money(baseAccRev)} → Scenario ${money(accRev)}`;
-    q('[data-r="addInsLine"]').textContent=newDeviceOpps
-      ? `${addIns} of ${newDeviceOpps} added device OPPs insured`
-      : 'Add PPV or Upgrades first; no new insurance opportunities yet.';
   };
 
-  calc.querySelectorAll('input').forEach(el=>el.addEventListener('input',update));
-  calc.querySelectorAll('[data-step]').forEach(btn=>btn.onclick=()=>{
-    const key=btn.dataset.step,el=q(`[data-c="${key}"]`);
-    el.value=Math.max(0,Number(el.value||0)+Number(btn.dataset.d||0));
+  calc.querySelectorAll('[data-v]').forEach(el=>el.addEventListener('input',()=>{
+    if(!loading && mode!=='sandbox'){
+      mode='sandbox';
+      body.querySelectorAll('[data-mode]').forEach(b=>b.classList.toggle('active',b.dataset.mode==='sandbox'));
+      qb('[data-r="modeBanner"]').innerHTML='<strong>Sandbox:</strong> What-if mode. Nothing here saves to Neon.';
+      qb('[data-r="modeHint"]').textContent='Changes are temporary';
+    }
     update();
-  });
-  const resetBtn=calc.closest('.body')?.querySelector('[data-reset-calc]');
-  if(resetBtn){
-    resetBtn.onclick=()=>{
-      calc.querySelectorAll('[data-c]').forEach(el=>el.value=0);
-      update();
-    };
-  }
-  update();
+  }));
+
+  body.querySelectorAll('[data-mode]').forEach(btn=>btn.onclick=()=>setMode(btn.dataset.mode));
+  const resetBtn=q('[data-reset-calc]');
+  if(resetBtn)resetBtn.onclick=()=>setMode('current');
+
+  setMode('current');
 });const u=document.getElementById('unlockAdmin');if(u)u.onclick=async()=>{const candidate=document.getElementById('adminPhrase').value,st=document.getElementById('unlockStatus');if(!candidate){st.textContent='Enter the admin phrase.';return}const previous=adminPhrase;adminPhrase=candidate;try{await api('POST',{action:'verify_admin'});sessionStorage.setItem('huddleAdmin',candidate);render();show('admin')}catch(e){adminPhrase=previous;sessionStorage.removeItem('huddleAdmin');st.textContent='Incorrect admin phrase.'}};bindAdmin()}
 
 function collectStore(prefix=''){const out={};document.querySelectorAll(`#admin input[id${prefix?'$="_'+prefix+'"':''}]`);return out}
