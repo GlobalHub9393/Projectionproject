@@ -256,6 +256,32 @@ export async function ensureDatabase(sql) {
        'Rerate the account, look for more than one upgrade, present protection, accessories, Home Internet, and trade when they fit.',3,'working')`;
   }
 
+
+  // September rep-specific coaching seeds. Insert once; future coaching is managed through Neon/site.
+  const seedRepCoaching = async (slug, kind, title, body, sortOrder=50, status='new') => {
+    const rep = (await sql`SELECT id FROM reps WHERE slug=${slug}`)[0];
+    if (!rep) return;
+    const exists = await sql`SELECT 1 FROM coaching_points
+      WHERE month='2026-09-01' AND rep_id=${rep.id} AND title=${title} LIMIT 1`;
+    if (!exists.length) {
+      await sql`INSERT INTO coaching_points(month,scope,rep_id,kind,title,body,sort_order,status)
+        VALUES('2026-09-01','rep',${rep.id},${kind},${title},${body},${sortOrder},${status})`;
+    }
+  };
+
+  await seedRepCoaching('gio','shoutout','Welcome to Cinnaminson',
+    'Fresh month, fresh store, fresh board. Learn the rhythm, ask questions, and focus on completing the whole recommendation on every interaction.',10,'new');
+
+  await seedRepCoaching('noelle','shoutout','Keep the customer experience',
+    'August finished with 100% CSAT and strong trade performance. Keep that customer care and use it to support a more complete recommendation.',10,'new');
+  await seedRepCoaching('noelle','coach','September focus: protect the qualifiers',
+    'The biggest opportunity coming out of August is turning good customer care into stronger AIA close, protection, and accessories. Get AIA to 7.5%, protection above 50%, and accessories above $50 per eligible OPP early in the month.',20,'working');
+
+  await seedRepCoaching('tj','shoutout','Keep the AIA and HTP behaviors',
+    'August finished with an 8.6% AIA close rate, 15% HTP attach, and 100% CSAT. Those are behaviors worth carrying into September.',10,'new');
+  await seedRepCoaching('tj','coach','September focus: finish the full solution',
+    'Accessories and protection were the clear August opportunities. Keep the strong AIA/HTP behaviors, but make protection and accessory attachment part of every complete recommendation.',20,'working');
+
   // Historical Noelle SBS records. These insert only if that date is not already present.
   const noelle = (await sql`SELECT id FROM reps WHERE slug='noelle'`)[0];
   if (noelle) {

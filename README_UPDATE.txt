@@ -1,35 +1,27 @@
-TEAM HUDDLE — SEPTEMBER UPDATE
+TEAM HUDDLE — HUGE SEPTEMBER UPDATE
 
-Replace these three repo files:
+Upload/replace:
 - index.html
 - huddle.js
 - db.js
+- August_2026_Team_Huddle_Recap.pdf
 
-Included updates:
-- Cinnaminson September targets:
-  PPV 38
-  AIA 26
-  Upgrades 124
-  Data 15
-  AIA Close qualifier 7.5%
-  HTP Attach qualifier 5.0%
-  Protection qualifier 50%
-  Accessories qualifier $50/OPP
-  CSAT 88%
-
-- AIA qualification now uses 7.5% close rate only.
-- HTP qualification now uses 5% attach rate.
-- AIA instant spiff uses AIA Posted at $10 each.
-- Prepaid instant spiff remains $5 each.
-- Calculator modes: Current / Pace / Sandbox.
-- Editing any calculator number automatically switches to Sandbox.
-- Sandbox PPV/Upgrade/Data changes automatically adjust OPPs unless OPPs is manually edited.
-- Insurance/Protection stays as a percentage KPI; no fake Insurance Adds input.
-- Money At Risk remains the primary comp warning.
-- Added rep HTP Attach % support.
-- September target seed only corrects the original placeholder goal row and does not overwrite later manager edits.
-
-- NEW: AIA Green Count backend/helper metric.
-- AIA Close is derived from AIA Submits / Green Count whenever Green Count is present.
-- Current/Pace calculator shows exact submits needed to reach 7.5% AIA Close.
-- Sandbox hides Green Count and assumes 7.5% close once scenario has 2+ AIA Posted.
+This is the new September baseline:
+- Profile landing page: Team / Gio / Noelle / TJ.
+- Team page has primary store KPIs, smaller secondary tracking, shoutouts and anonymous/general coaching.
+- Rep pages are the personal home pages.
+- September starting rep coaching is seeded for Gio, Noelle and TJ.
+- How-to and comp explainer are on the landing page.
+- Hello? sticker repeats across major screens.
+- Calculator: Current / Pace / Sandbox.
+- Sandbox only edits PPV, AIA, Upgrades and Data.
+- PPV/Upgrade add OPP + accessory-eligible OPP.
+- Data adds OPP but not accessory-eligible OPP.
+- AIA does not add OPP.
+- Sandbox assumes $50 accessory revenue per new eligible OPP.
+- Insurance keeps roughly the current attach behavior on new PPV/Upgrade opportunities.
+- Sandbox assumes AIA Close = 7.5% once AIA Posted > 1.
+- Sandbox assumes HTP = 5%.
+- Current/Pace use AIA Submits / Green Count for actual AIA Close and exact submit guidance.
+- Prepaid removed from September UI/calculator.
+- August 2026 PDF linked from Archive.
