@@ -1,12 +1,12 @@
 import { sqlClient, requireAdmin, ensureDatabase } from './db.js';
 
 const allowedStoreFields = new Set([
-  'traffic','ppv','ppv_close','aia_posted','aia_submits','aia_close','htp','htp_close',
+  'traffic','ppv','ppv_close','aia_posted','aia_submits','aia_green_count','aia_close','htp','htp_close',
   'upgrades','data','cru','accessory_revenue','acc_per_opp','insurance_rate','nextup_rate',
   'csat','pre_to_post','pa4','opps','trade_rate','prepaid','open_enrollment'
 ]);
 const allowedRepFields = new Set([
-  'ppv','aia_posted','aia_submits','aia_close','htp','htp_close','upgrades','data','cru',
+  'ppv','aia_posted','aia_submits','aia_green_count','aia_close','htp','htp_close','upgrades','data','cru',
   'accessory_revenue','acc_per_opp','insurance_rate',
   'nextup_rate','csat','pre_to_post','pa4','opps',
   'trade_rate','prepaid','open_enrollment','ple_complete'
@@ -107,6 +107,13 @@ export default async function handler(req,res) {
           await updateField(sql,'store_metrics',k,v,'month=(SELECT active_month FROM app_config WHERE id=1)');
         }
       }
+      await sql`UPDATE store_metrics
+        SET aia_close = CASE
+          WHEN aia_green_count > 0 THEN aia_submits::numeric / aia_green_count
+          ELSE aia_close
+        END,
+        updated_at=now()
+        WHERE month=(SELECT active_month FROM app_config WHERE id=1)`;
 
     } else if (b.action === 'save_rep') {
       const rep = (await sql`SELECT id FROM reps WHERE slug=${b.rep_slug}`)[0];
@@ -117,6 +124,14 @@ export default async function handler(req,res) {
             'rep_id=$2 AND month=(SELECT active_month FROM app_config WHERE id=1)',[rep.id]);
         }
       }
+      await sql`UPDATE rep_metrics
+        SET aia_close = CASE
+          WHEN aia_green_count > 0 THEN aia_submits::numeric / aia_green_count
+          ELSE aia_close
+        END,
+        updated_at=now()
+        WHERE rep_id=${rep.id}
+          AND month=(SELECT active_month FROM app_config WHERE id=1)`;
 
     } else if (b.action === 'add_coaching') {
       let repId = null;

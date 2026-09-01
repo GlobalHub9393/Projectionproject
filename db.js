@@ -47,6 +47,7 @@ export async function ensureDatabase(sql) {
     ppv_close numeric NOT NULL DEFAULT 0,
     aia_posted integer NOT NULL DEFAULT 0,
     aia_submits integer NOT NULL DEFAULT 0,
+    aia_green_count integer NOT NULL DEFAULT 0,
     aia_close numeric NOT NULL DEFAULT 0,
     htp integer NOT NULL DEFAULT 0,
     htp_close numeric NOT NULL DEFAULT 0,
@@ -88,6 +89,7 @@ export async function ensureDatabase(sql) {
     ppv_close numeric NOT NULL DEFAULT 0,
     aia_posted integer NOT NULL DEFAULT 0,
     aia_submits integer NOT NULL DEFAULT 0,
+    aia_green_count integer NOT NULL DEFAULT 0,
     aia_close numeric NOT NULL DEFAULT 0,
     htp integer NOT NULL DEFAULT 0,
     htp_close numeric NOT NULL DEFAULT 0,
@@ -114,6 +116,7 @@ export async function ensureDatabase(sql) {
     ppv integer NOT NULL DEFAULT 0,
     aia_posted integer NOT NULL DEFAULT 0,
     aia_submits integer NOT NULL DEFAULT 0,
+    aia_green_count integer NOT NULL DEFAULT 0,
     aia_close numeric NOT NULL DEFAULT 0,
     htp integer NOT NULL DEFAULT 0,
     upgrades integer NOT NULL DEFAULT 0,
@@ -138,6 +141,12 @@ export async function ensureDatabase(sql) {
   )`;
 
   await sql`ALTER TABLE rep_metrics ADD COLUMN IF NOT EXISTS htp_close numeric NOT NULL DEFAULT 0`;
+
+  await sql`ALTER TABLE store_metrics
+    ADD COLUMN IF NOT EXISTS aia_green_count integer NOT NULL DEFAULT 0`;
+
+  await sql`ALTER TABLE rep_metrics
+    ADD COLUMN IF NOT EXISTS aia_green_count integer NOT NULL DEFAULT 0`;
 
   await sql`CREATE TABLE IF NOT EXISTS coaching_points (
     id uuid PRIMARY KEY DEFAULT gen_random_uuid(),

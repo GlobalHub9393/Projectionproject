@@ -28,3 +28,8 @@ Included updates:
 - Money At Risk remains the primary comp warning.
 - Added rep HTP Attach % support.
 - September target seed only corrects the original placeholder goal row and does not overwrite later manager edits.
+
+- NEW: AIA Green Count backend/helper metric.
+- AIA Close is derived from AIA Submits / Green Count whenever Green Count is present.
+- Current/Pace calculator shows exact submits needed to reach 7.5% AIA Close.
+- Sandbox hides Green Count and assumes 7.5% close once scenario has 2+ AIA Posted.
