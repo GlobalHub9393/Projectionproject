@@ -123,7 +123,7 @@ function sbsStats(slug){const rows=DATA.sbs.filter(s=>s.rep_slug===slug).slice()
 function coachingSnapshot(r){const x=sbsStats(r.slug),latest=x.rows.at(-1),rec=x.trends.filter(t=>t.status==='recurring').sort((a,b)=>b.misses-a.misses),best=x.trends.filter(t=>t.count).sort((a,b)=>b.avg-a.avg),improving=x.trends.filter(t=>t.status==='improving');return {count:x.rows.length,last:latest?.observed_on?.slice(0,10)||'None',focus:rec[0]?.label||'Build the pattern',win:improving[0]?.label||best[0]?.label||'No trend yet',trends:x.trends}}
 function coachingTrendHtml(r){const c=coachingSnapshot(r);if(!c.count)return `<div class="context"><p>No SBS history yet. The coaching trend card will build automatically after the first observation.</p></div>`;return `<div class="managerSnapshot"><div class="snap"><div class="k">SBS History</div><div class="v">${c.count} observations</div></div><div class="snap"><div class="k">Last SBS</div><div class="v">${c.last}</div></div><div class="snap"><div class="k">Current Focus</div><div class="v">${c.focus}</div></div><div class="snap"><div class="k">Best / Improving</div><div class="v">${c.win}</div></div></div><div class="trendGrid">${c.trends.filter(t=>t.count).map(t=>`<div class="trendRow"><div><b>${t.label}</b><span>${t.text}</span></div><span class="trendBadge ${t.status}">${t.status}</span></div>`).join('')}</div>`}
 
-function repMetrics(r){const m=r.metrics||{},g=DATA.goals,e=(field,fmt='num')=>({scope:'rep',field,rep:r.slug});return `${metric('PPV',m.ppv,Math.round(g.ppv/Math.max(DATA.reps.length,1)),'num',e('ppv'))}${metric('AIA Submits',m.aia_submits,g.rep_aia_qualifier,'num',e('aia_submits'))}${metric('HTP',m.htp,g.rep_htp_qualifier,'num',e('htp'))}${metric('Upgrades',m.upgrades,null,'num',e('upgrades'))}${metric('Accessories / OPP',m.acc_per_opp,g.accessory_target,'money',e('acc_per_opp'))}${metric('Insurance',m.insurance_rate,g.insurance_target,'pct',e('insurance_rate'))}${metric('Trade',m.trade_rate,g.trade_target,'pct',e('trade_rate'))}${metric('CSAT',m.csat,g.csat_target,'pct',e('csat'))}`}
+function repMetrics(r){const m=r.metrics||{},g=DATA.goals,e=(field,fmt='num')=>({scope:'rep',field,rep:r.slug});return `${metric('PPV',m.ppv,Math.round(g.ppv/Math.max(DATA.reps.length,1)),'num',e('ppv'))}${metric('AIA Submits',m.aia_submits,g.rep_aia_qualifier,'num',e('aia_submits'))}${metric('HTP',m.htp,null,'num',e('htp'))}${metric('HTP Attach',m.htp_close,g.htp_close,'pct',e('htp_close'))}${metric('Upgrades',m.upgrades,null,'num',e('upgrades'))}${metric('Accessories / OPP',m.acc_per_opp,g.accessory_target,'money',e('acc_per_opp'))}${metric('Insurance',m.insurance_rate,g.insurance_target,'pct',e('insurance_rate'))}${metric('Trade',m.trade_rate,g.trade_target,'pct',e('trade_rate'))}${metric('CSAT',m.csat,g.csat_target,'pct',e('csat'))}`}
 function needInsured(adds,elig,target){if(!elig)return null;if(adds/elig>=target)return 0;return Math.max(0,Math.ceil((target*elig-adds)/(1-target)-1e-9))}
 function needOE(adds,elig,target){if(!elig)return null;return Math.max(0,Math.ceil(target*elig-adds-1e-9))}
 function calcHtml(r){
@@ -131,13 +131,11 @@ function calcHtml(r){
   const baseAccessoryRevenue=Number(m.accessory_revenue||0)>0
     ? Number(m.accessory_revenue||0)
     : Number(m.acc_per_opp||0)*Math.max(0,Number(m.opps||0)-Number(m.data||0));
-
   const payload={
     ...m,
     _base_accessory_revenue:baseAccessoryRevenue,
-    _aia_qualifier:Number(DATA.goals.rep_aia_qualifier||4),
     _aia_close_qualifier:Number(DATA.goals.aia_close||.075),
-    _htp_qualifier:Number(DATA.goals.rep_htp_qualifier||2),
+    _htp_close_qualifier:Number(DATA.goals.htp_close||.05),
     _acc_qualifier:Number(DATA.goals.accessory_qualifier||50),
     _acc_target:Number(DATA.goals.accessory_target||60),
     _ins_qualifier:Number(DATA.goals.insurance_qualifier||.50),
@@ -145,51 +143,38 @@ function calcHtml(r){
     _csat_qualifier:Number(DATA.goals.csat_target||.88),
     _active_month:DATA.config?.active_month||''
   };
-
   return `<div class="card"><div class="body">
-    <div><b>Comp Calculator</b><div class="small">Current tells you what the live numbers are worth. Pace projects the month. Change any number and it becomes a Sandbox.</div></div>
-
+    <div><b>Comp Calculator</b><div class="small">Current = live money. Pace = where the month is headed. Change any number and it becomes a Sandbox.</div></div>
     <div class="compModeBar">
       <button type="button" class="compModeBtn active" data-mode="current">Current</button>
       <button type="button" class="compModeBtn" data-mode="pace">Pace</button>
       <button type="button" class="compModeBtn" data-mode="sandbox">Sandbox</button>
-      <span class="modeHint" data-r="modeHint">Live numbers from Team Huddle</span>
+      <span class="modeHint" data-r="modeHint">Live numbers</span>
     </div>
-
     <div class="modeBanner" data-r="modeBanner"><strong>Current:</strong> What your live numbers are worth right now.</div>
-
     <div class="compCalc" data-calc="${r.slug}" data-base='${JSON.stringify(payload).replaceAll("'","&#39;")}'>
       <div class="moneyHero">
-        <div class="moneyBox" data-box="qualified"><div class="k">Qualified Comp Generated</div><div class="v" data-r="grossComp">$0</div><div class="small" data-r="grossNote">—</div></div>
+        <div class="moneyBox"><div class="k">Qualified Comp Generated</div><div class="v" data-r="grossComp">$0</div><div class="small" data-r="grossNote">—</div></div>
         <div class="moneyBox risk" data-box="risk"><div class="k" data-r="riskLabel">Money At Risk</div><div class="v" data-r="riskMoney">$0</div><div class="small" data-r="riskNote">—</div></div>
-        <div class="moneyBox safe"><div class="k">Guaranteed Instant Spiffs</div><div class="v" data-r="spiffs">$0</div><div class="small">AIA submits $10 · Prepaid $5</div></div>
+        <div class="moneyBox safe"><div class="k">Guaranteed Instant Spiffs</div><div class="v" data-r="spiffs">$0</div><div class="small">AIA Posted $10 · Prepaid $5</div></div>
       </div>
-
       <div class="section" style="margin:2px 0 0;font-size:14px">Numbers</div>
       <div class="editMetrics">
         ${[
-          ['PPV','ppv',1],['AIA Posted','aia_posted',1],['AIA Submits','aia_submits',1],
-          ['AIA Close %','aia_close',.1],['Upgrades','upgrades',1],['Data','data',1],
-          ['OPPs','opps',1],['Accessory Revenue','accessory_revenue',1],
-          ['Insurance %','insurance_rate',.1],['HTP','htp',1],['Prepaid','prepaid',1],['CSAT %','csat',.1]
-        ].map(([label,key,step])=>`
-          <div class="editMetric">
-            <label>${label}</label>
-            <input type="number" data-v="${key}" step="${step}" min="0">
-            <div class="compareLine" data-r="${key}Compare">—</div>
-          </div>
-        `).join('')}
+          ['PPV','ppv',1],['AIA Posted','aia_posted',1],['AIA Close %','aia_close',.1],
+          ['Upgrades','upgrades',1],['Data','data',1],['OPPs','opps',1],
+          ['Accessory Revenue','accessory_revenue',1],['Protection %','insurance_rate',.1],
+          ['HTP Attach %','htp_close',.1],['Prepaid','prepaid',1],['CSAT %','csat',.1]
+        ].map(([label,key,step])=>`<div class="editMetric"><label>${label}</label><input type="number" data-v="${key}" step="${step}" min="0"><div class="compareLine" data-r="${key}Compare">—</div></div>`).join('')}
       </div>
-
-      <div class="section" style="margin:2px 0 0;font-size:14px">Qualification</div>
+      <div class="section" style="margin:2px 0 0;font-size:14px">Qualifiers</div>
       <div class="qualGrid">
-        <div class="qualCard" data-q="aia"><div class="qualTop"><span class="qualName">AIA</span><span class="qualStatus" data-r="qaia">—</span></div><div class="qualDetail" data-r="qaiaDetail">—</div></div>
-        <div class="qualCard" data-q="htp"><div class="qualTop"><span class="qualName">HTP</span><span class="qualStatus" data-r="qhtp">—</span></div><div class="qualDetail" data-r="qhtpDetail">—</div></div>
+        <div class="qualCard" data-q="aia"><div class="qualTop"><span class="qualName">AIA Close</span><span class="qualStatus" data-r="qaia">—</span></div><div class="qualDetail" data-r="qaiaDetail">—</div></div>
+        <div class="qualCard" data-q="htp"><div class="qualTop"><span class="qualName">HTP Attach</span><span class="qualStatus" data-r="qhtp">—</span></div><div class="qualDetail" data-r="qhtpDetail">—</div></div>
         <div class="qualCard" data-q="acc"><div class="qualTop"><span class="qualName">Accessories / OPP</span><span class="qualStatus" data-r="qacc">—</span></div><div class="qualDetail" data-r="qaccDetail">—</div></div>
-        <div class="qualCard" data-q="ins"><div class="qualTop"><span class="qualName">Insurance</span><span class="qualStatus" data-r="qins">—</span></div><div class="qualDetail" data-r="qinsDetail">—</div></div>
+        <div class="qualCard" data-q="ins"><div class="qualTop"><span class="qualName">Protection</span><span class="qualStatus" data-r="qins">—</span></div><div class="qualDetail" data-r="qinsDetail">—</div></div>
         <div class="qualCard" data-q="csat"><div class="qualTop"><span class="qualName">CSAT</span><span class="qualStatus" data-r="qcsat">—</span></div><div class="qualDetail" data-r="qcsatDetail">—</div></div>
       </div>
-
       <div class="section" style="margin:2px 0 0;font-size:14px">Comp Math</div>
       <div class="breakdown">
         <div class="breakRow"><span>Starting Base</span><b>$15.00</b></div>
@@ -197,24 +182,17 @@ function calcHtml(r){
         <div class="breakRow"><span>Data Adjustment</span><b data-r="dataAdj">—</b></div>
         <div class="breakRow"><span>Volume Adjusted Base</span><b data-r="adjustedBase">—</b></div>
         <div class="breakRow"><span>Accessory Accelerator</span><b data-r="accBonus">—</b></div>
-        <div class="breakRow"><span>Insurance Accelerator</span><b data-r="insBonus">—</b></div>
+        <div class="breakRow"><span>Protection Accelerator</span><b data-r="insBonus">—</b></div>
         <div class="breakRow"><span>Final Updated Base</span><b data-r="finalBase">—</b></div>
         <div class="breakRow"><span>PPV Comp</span><b data-r="ppvComp">—</b></div>
         <div class="breakRow"><span>AIA Comp</span><b data-r="aiaComp">—</b></div>
       </div>
-
-      <div class="bigResult" data-r="finalCard">
-        <div class="headline" data-r="finalHeadline">—</div>
-        <div class="sub" data-r="finalSub">—</div>
-      </div>
-
+      <div class="bigResult" data-r="finalCard"><div class="headline" data-r="finalHeadline">—</div><div class="sub" data-r="finalSub">—</div></div>
       <div class="section" style="margin:2px 0 0;font-size:14px">What You Need</div>
       <div class="moveList" data-r="moves"></div>
-
       <button type="button" class="resetBtn" data-reset-calc style="width:100%">Reset to Current</button>
     </div>
   </div></div>`}
-
 function repsPage(){return `<section class="page" id="team">${adminModeBar()}<div class="hero"><div class="eyebrow">Rep Pages</div><h1>Individual Pages</h1><p>Numbers, coaching, SBS and the sandbox calculator are open to the team.</p></div><div class="tabs">${DATA.reps.map((r,i)=>`<button class="${i?'':'active'}" data-rep="${r.slug}">${r.display_name}</button>`).join('')}</div>${DATA.reps.map((r,i)=>`<article class="repPane ${i?'':'active'}" id="rep-${r.slug}"><div class="repbanner"><h2>${r.display_name}</h2><p>September live scorecard</p>${adminPhrase?`<button class="editRepBtn" data-edit-rep-sheet="${r.slug}">Edit ${r.display_name}</button>`:''}</div><div class="metrics">${repMetrics(r)}</div><div class="section">Coaching</div><div class="grid">${coachingCards(r.slug)}</div><div class="section">Calculator</div>${calcHtml(r)}<div class="section">Recent SBS</div>${sbsFor(r.slug)}</article>`).join('')}</section>`}
 function sbsFor(slug){const rows=DATA.sbs.filter(s=>s.rep_slug===slug);return rows.map(s=>`<details class="sbs"><summary>${s.observed_on?.slice(0,10)||''} · ${s.title||'Side-by-Side'}</summary><div class="inside"><div class="scores">${[['Greet',s.greet],['Understand',s.understand],['Recommend',s.recommend],['Confirm',s.confirm],['Educate',s.educate],['Thank',s.thank]].filter(x=>x[1]!=null).map(x=>`<span class="chip">${x[0]} ${x[1]}</span>`).join('')}</div>${s.coaching_summary?`<b>Coaching:</b> ${s.coaching_summary}<br><br>`:''}${s.notes||''}</div></details>`).join('')||'<div class="context"><p>No SBS entered yet.</p></div>'}
 function sbsPage(){return `<section class="page" id="sbs"><div class="hero"><div class="eyebrow">Open SBS</div><h1>Side-by-Sides</h1><p>Visible to the team. Keep adding them and the history grows.</p></div>${DATA.reps.map(r=>`<div class="section">${r.display_name}</div>${sbsFor(r.slug)}`).join('')}</section>`}
@@ -223,7 +201,7 @@ function adminPage(){if(!adminPhrase)return `<section class="page" id="admin"><d
 function goalInputs(g){const rows=[['Traffic','traffic','num'],['Opportunities','opportunities','num'],['PPV','ppv','num'],['PPV Close %','ppv_close','pct'],['AIA Posted','aia_posted','num'],['AIA Submits','aia_submits','num'],['AIA Close %','aia_close','pct'],['HTP','htp','num'],['HTP Close %','htp_close','pct'],['Upgrades','upgrades','num'],['Data','data','num'],['Accessory Target $/OPP','accessory_target','num'],['Accessory Qualifier $/OPP','accessory_qualifier','num'],['Insurance Target %','insurance_target','pct'],['Insurance Qualifier %','insurance_qualifier','pct'],['Trade Target %','trade_target','pct'],['CSAT Target %','csat_target','pct'],['Rep AIA Qualifier','rep_aia_qualifier','num'],['Rep HTP Qualifier','rep_htp_qualifier','num']];return `<div class="goalGrid">${rows.map(([l,k,t])=>field(l,'goal_'+k,t==='pct'?(Number(g[k]||0)*100):g[k],'number')).join('')}</div>`}
 
 function field(label,id,val,type='text'){return `<div class="field"><label>${label}</label>${type==='textarea'?`<textarea id="${id}">${val??''}</textarea>`:`<input id="${id}" type="${type}" value="${val??''}">`}</div>`}function selectField(label,id,opts){return `<div class="field"><label>${label}</label><select id="${id}">${opts.map(o=>`<option value="${o[0]}">${o[1]}</option>`).join('')}</select></div>`}
-function metricInputs(m={},rep=false){const arr=[['PPV','ppv'],['AIA Posted','aia_posted'],['AIA Submits','aia_submits'],['AIA Close','aia_close'],['HTP','htp'],['Upgrades','upgrades'],['Data','data'],['CRU','cru'],['Accessory Revenue','accessory_revenue'],['ACC/OPP','acc_per_opp'],['Insurance Rate','insurance_rate'],['Next Up','nextup_rate'],['CSAT','csat'],['PA4','pa4'],['OPPs','opps'],['Trade','trade_rate'],['Prepaid','prepaid'],['Open Enrollment','open_enrollment']];if(!rep)arr.unshift(['Traffic','traffic'],['PPV Close','ppv_close'],['HTP Close','htp_close']);return `<div class="adminGrid">${arr.map(([l,k])=>field(l,k+(rep?'_'+(m.rep_id||'rep'):''),m[k]??0,'number')).join('')}</div>`}
+function metricInputs(m={},rep=false){const arr=[['PPV','ppv'],['AIA Posted','aia_posted'],['AIA Submits','aia_submits'],['AIA Close','aia_close'],['HTP','htp'],['HTP Attach %','htp_close'],['Upgrades','upgrades'],['Data','data'],['CRU','cru'],['Accessory Revenue','accessory_revenue'],['ACC/OPP','acc_per_opp'],['Insurance Rate','insurance_rate'],['Next Up','nextup_rate'],['CSAT','csat'],['PA4','pa4'],['OPPs','opps'],['Trade','trade_rate'],['Prepaid','prepaid'],['Open Enrollment','open_enrollment']];if(!rep)arr.unshift(['Traffic','traffic'],['PPV Close','ppv_close'],['HTP Close','htp_close']);return `<div class="adminGrid">${arr.map(([l,k])=>field(l,k+(rep?'_'+(m.rep_id||'rep'):''),m[k]??0,'number')).join('')}</div>`}
 function archivesPage(){return `<section class="page" id="archives"><div class="hero"><div class="eyebrow">Coming Next</div><h1>Awards & Archives</h1><p>Monthly wins and history without cluttering the daily huddle.</p></div><div class="grid two"><div class="context"><h3>September Awards</h3><p>Top PPV · Top AIA · Accessory Leader · Protection Leader · Biggest Improvement · Huddle MVP</p></div><div class="context"><h3>Monthly Archives</h3><p>Store scorecard + rep snapshots + SBS history. We can start saving month-end snapshots here.</p></div></div></section>`}
 function render(){app.innerHTML=homePage()+storePage()+repsPage()+sbsPage()+archivesPage()+adminPage();bind();show('home')}
 function show(id){document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===id));document.querySelectorAll('[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===id))}
@@ -240,7 +218,7 @@ function openMetricSheet(card){const scope=card.dataset.editScope,field=card.dat
 const pctFields=new Set(['ppv_close','aia_close','htp_close','insurance_rate','nextup_rate','csat','trade_rate','insurance_target','insurance_qualifier','trade_target','csat_target']);
 function editInput(label,key,value,kind='num'){const shown=kind==='pct'?Number(value||0)*100:(value??0);return `<div class="editRow"><label>${label}${kind==='pct'?' %':''}</label><input type="number" step="any" data-field="${key}" data-kind="${kind}" value="${shown}"></div>`}
 function openGoalsSheet(){const g=DATA.goals,groups=[['Volume',[['Traffic','traffic'],['Opportunities','opportunities'],['PPV','ppv'],['Upgrades','upgrades'],['Data','data']]],['AIA & HTP',[['PPV Close','ppv_close','pct'],['AIA Posted','aia_posted'],['AIA Submits','aia_submits'],['AIA Close','aia_close','pct'],['HTP','htp'],['HTP Close','htp_close','pct']]],['Quality',[['Accessory Target $/OPP','accessory_target'],['Accessory Qualifier $/OPP','accessory_qualifier'],['Insurance Target','insurance_target','pct'],['Insurance Qualifier','insurance_qualifier','pct'],['Trade Target','trade_target','pct'],['CSAT Target','csat_target','pct']]],['Rep Qualifiers',[['AIA Submit Qualifier','rep_aia_qualifier'],['HTP Qualifier','rep_htp_qualifier']]]];const body=`<div class="editGroups">${groups.map(([title,rows])=>`<div class="editGroup"><h3>${title}</h3><div class="editRows">${rows.map(([l,k,t])=>editInput(l,k,g[k],t||'num')).join('')}</div></div>`).join('')}</div>`;const wrap=openSheet('September Goals','Placeholder goals are fine until the official targets arrive.',body,`<div class="sheetActions"><button class="btn alt" type="button" data-cancel>Cancel</button><button class="btn" type="button" data-save>Save All Goals</button></div>`);wrap.querySelector('[data-cancel]').onclick=closeSheet;wrap.querySelector('[data-save]').onclick=async()=>{const fields={},old={};wrap.querySelectorAll('[data-field]').forEach(el=>{const k=el.dataset.field;let v=Number(el.value||0);if(el.dataset.kind==='pct')v/=100;fields[k]=v;old[k]=g[k]});try{await api('POST',{action:'save_goals',fields});showSaved('Goals',()=>api('POST',{action:'save_goals',fields:old}));closeSheet();const page=document.querySelector('.page.active')?.id||'admin';await load();show(page)}catch(e){flash(e.message)}}}
-function fullEditGroups(scope,obj){const groups=scope==='store'?[['Core',[['Traffic','traffic'],['PPV','ppv'],['PPV Close','ppv_close','pct'],['AIA Posted','aia_posted'],['AIA Submits','aia_submits'],['AIA Close','aia_close','pct'],['HTP','htp'],['HTP Close','htp_close','pct']]],['Sales',[['Upgrades','upgrades'],['Data','data'],['CRU','cru'],['OPPs','opps'],['PA4','pa4'],['Prepaid','prepaid'],['Open Enrollment','open_enrollment']]],['Quality',[['Accessory Revenue','accessory_revenue'],['ACC / OPP','acc_per_opp'],['Insurance','insurance_rate','pct'],['Next Up','nextup_rate','pct'],['Trade','trade_rate','pct'],['CSAT','csat','pct']]]]:[['Sales',[['PPV','ppv'],['AIA Posted','aia_posted'],['AIA Submits','aia_submits'],['AIA Close','aia_close','pct'],['HTP','htp'],['Upgrades','upgrades'],['Data','data'],['CRU','cru'],['OPPs','opps']]],['Quality',[['Accessory Revenue','accessory_revenue'],['ACC / OPP','acc_per_opp'],['Insurance','insurance_rate','pct'],['Next Up','nextup_rate','pct'],['Trade','trade_rate','pct'],['CSAT','csat','pct']]],['Other',[['PA4','pa4'],['Prepaid','prepaid'],['Open Enrollment','open_enrollment']]]];return groups.map(([title,rows])=>`<div class="editGroup"><h3>${title}</h3><div class="editRows">${rows.map(([l,k,t])=>editInput(l,k,obj[k],t||'num')).join('')}</div></div>`).join('')}
+function fullEditGroups(scope,obj){const groups=scope==='store'?[['Core',[['Traffic','traffic'],['PPV','ppv'],['PPV Close','ppv_close','pct'],['AIA Posted','aia_posted'],['AIA Submits','aia_submits'],['AIA Close','aia_close','pct'],['HTP','htp'],['HTP Close','htp_close','pct']]],['Sales',[['Upgrades','upgrades'],['Data','data'],['CRU','cru'],['OPPs','opps'],['PA4','pa4'],['Prepaid','prepaid'],['Open Enrollment','open_enrollment']]],['Quality',[['Accessory Revenue','accessory_revenue'],['ACC / OPP','acc_per_opp'],['Insurance','insurance_rate','pct'],['Next Up','nextup_rate','pct'],['Trade','trade_rate','pct'],['CSAT','csat','pct']]]]:[['Sales',[['PPV','ppv'],['AIA Posted','aia_posted'],['AIA Submits','aia_submits'],['AIA Close','aia_close','pct'],['HTP','htp'],['HTP Attach %','htp_close'],['Upgrades','upgrades'],['Data','data'],['CRU','cru'],['OPPs','opps']]],['Quality',[['Accessory Revenue','accessory_revenue'],['ACC / OPP','acc_per_opp'],['Insurance','insurance_rate','pct'],['Next Up','nextup_rate','pct'],['Trade','trade_rate','pct'],['CSAT','csat','pct']]],['Other',[['PA4','pa4'],['Prepaid','prepaid'],['Open Enrollment','open_enrollment']]]];return groups.map(([title,rows])=>`<div class="editGroup"><h3>${title}</h3><div class="editRows">${rows.map(([l,k,t])=>editInput(l,k,obj[k],t||'num')).join('')}</div></div>`).join('')}
 
 function openRepGoalsSheet(slug){const r=DATA.reps.find(x=>x.slug===slug);if(!r)return;const defaults=defaultRepGoals(r),over=r.goal_overrides||{},effective=repGoals(r);const rows=[['PPV','ppv','num'],['AIA Posted','aia_posted','num'],['AIA Submits','aia_submits','num'],['AIA Close','aia_close','pct'],['HTP','htp','num'],['Upgrades','upgrades','num'],['Data','data','num'],['Accessory $ / OPP','accessory_target','num'],['Insurance','insurance_target','pct'],['Trade','trade_target','pct'],['CSAT','csat_target','pct']];const body=`<p class="goalHint">These goals are specific to ${r.display_name}. Blank fields inherit the store/default rep goal automatically.</p><div class="inheritNote">Inherited values right now: ${rows.map(([l,k,t])=>`${l} ${t==='pct'?(defaults[k]*100).toFixed(1)+'%':defaults[k]}`).join(' · ')}</div><div class="editGroup" style="margin-top:10px"><div class="editRows">${rows.map(([l,k,t])=>{const raw=over[k];const shown=raw===null||raw===undefined?'':(t==='pct'?Number(raw)*100:raw);return `<div class="editRow"><label>${l}${t==='pct'?' %':''}</label><input type="number" step="any" data-field="${k}" data-kind="${t}" value="${shown}" placeholder="Inherit: ${t==='pct'?(defaults[k]*100).toFixed(1):defaults[k]}"></div>`}).join('')}</div></div>`;const wrap=openSheet(`${r.display_name} Goals`,'Rep-specific September goals.',body,`<div class="sheetActions"><button class="btn alt" type="button" data-reset>Use Store Defaults</button><button class="btn" type="button" data-save>Save Rep Goals</button></div>`);wrap.querySelector('[data-reset]').onclick=async()=>{if(!confirm(`Reset ${r.display_name} to inherited goals?`))return;try{await api('POST',{action:'reset_rep_goals',rep_slug:slug});showSaved(`${r.display_name} goals`);closeSheet();await load();show('team');setTimeout(()=>document.querySelector(`[data-rep="${slug}"]`)?.click(),0)}catch(e){flash(e.message)}};wrap.querySelector('[data-save]').onclick=async()=>{const fields={},old={...over};wrap.querySelectorAll('[data-field]').forEach(el=>{let v=el.value.trim()===''?null:Number(el.value);if(v!==null&&el.dataset.kind==='pct')v/=100;fields[el.dataset.field]=v});try{await api('POST',{action:'save_rep_goals',rep_slug:slug,fields});showSaved(`${r.display_name} goals`,()=>api('POST',{action:'save_rep_goals',rep_slug:slug,fields:old}));closeSheet();await load();show('team');setTimeout(()=>document.querySelector(`[data-rep="${slug}"]`)?.click(),0)}catch(e){flash(e.message)}}}
 
@@ -249,237 +227,46 @@ function openRepSheet(slug){const r=DATA.reps.find(x=>x.slug===slug);if(!r)retur
 function bindManagerMode(){document.querySelectorAll('.metric.adminEditable').forEach(card=>card.onclick=()=>openMetricSheet(card));document.querySelectorAll('[data-open-goals-sheet]').forEach(b=>b.onclick=openGoalsSheet);document.querySelectorAll('[data-open-store-sheet]').forEach(b=>b.onclick=openStoreSheet);document.querySelectorAll('[data-edit-rep-sheet]').forEach(b=>b.onclick=()=>openRepSheet(b.dataset.editRepSheet));document.querySelectorAll('[data-edit-rep-goals]').forEach(b=>b.onclick=()=>openRepGoalsSheet(b.dataset.editRepGoals));document.querySelectorAll('[data-manager-go]').forEach(b=>b.onclick=()=>{const go=b.dataset.managerGo;if(go==='store')show('store');else if(go==='goals')openGoalsSheet();else if(go==='reps')show('team');else if(go==='coaching'){show('admin');setTimeout(()=>document.getElementById('manager-coaching')?.scrollIntoView({behavior:'smooth'}),20)}else if(go==='sbs'){show('admin');setTimeout(()=>document.getElementById('manager-sbs')?.scrollIntoView({behavior:'smooth'}),20)}})}
 function lockAdmin(){adminPhrase='';sessionStorage.removeItem('huddleAdmin');render();show('admin')}
 function bind(){document.querySelectorAll('[data-coach-status]').forEach(b=>b.onclick=async()=>{try{await api('POST',{action:'set_coaching_status',id:b.dataset.coachStatus,status:b.dataset.status});showSaved('Coaching status');const page=document.querySelector('.page.active')?.id||'team';await load();show(page)}catch(e){flash(e.message)}});nav.onclick=e=>{const b=e.target.closest('[data-page]');if(b)show(b.dataset.page)};document.querySelectorAll('[data-rep]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-rep]').forEach(x=>x.classList.toggle('active',x===b));document.querySelectorAll('.repPane').forEach(p=>p.classList.toggle('active',p.id==='rep-'+b.dataset.rep))});document.querySelectorAll('[data-lock-admin]').forEach(b=>b.onclick=lockAdmin);bindManagerMode();document.querySelectorAll('[data-calc]').forEach(calc=>{
-  const base=JSON.parse(calc.dataset.base||'{}');
-  const body=calc.closest('.body');
-  const q=x=>calc.querySelector(x);
-  const qb=x=>body.querySelector(x);
-  const money=x=>`$${Number(x||0).toFixed(2)}`;
-  const pct=x=>`${(Number(x||0)*100).toFixed(1)}%`;
-  const raw=k=>Number(q(`[data-v="${k}"]`)?.value||0);
-  let mode='current';
-  let loading=true;
-
-  const monthProgress=()=>{
-    const active=base._active_month ? new Date(`${String(base._active_month).slice(0,10)}T12:00:00`) : new Date();
-    const now=new Date();
-    const y=active.getFullYear(),m=active.getMonth();
-    const days=new Date(y,m+1,0).getDate();
-    if(now<new Date(y,m,1,0,0,0))return {elapsed:0,days,factor:1};
-    if(now>new Date(y,m+1,0,23,59,59))return {elapsed:days,days,factor:1};
-    const elapsed=Math.max(1,Math.min(days,now.getDate()));
-    return {elapsed,days,factor:days/elapsed};
-  };
-
-  const paceValue=(key)=>{
-    const {factor}=monthProgress();
-    const countKeys=new Set(['ppv','aia_posted','aia_submits','upgrades','data','opps','accessory_revenue','htp','prepaid']);
-    if(countKeys.has(key))return Number(base[key]||0)*factor;
-    return Number(base[key]||0);
-  };
-
-  const displayValue=(key,val)=>{
-    if(['aia_close','insurance_rate','csat'].includes(key))return Number(val||0)*100;
-    return Number(val||0);
-  };
-  const storedValue=(key,val)=>{
-    if(['aia_close','insurance_rate','csat'].includes(key))return Number(val||0)/100;
-    return Number(val||0);
-  };
-
-  const setInputs=(which)=>{
-    loading=true;
-    calc.querySelectorAll('[data-v]').forEach(el=>{
-      const key=el.dataset.v;
-      let val=which==='pace'?paceValue(key):Number(base[key]||0);
-      if(key==='accessory_revenue' && !Number(base.accessory_revenue||0))val=Number(base._base_accessory_revenue||0)*(which==='pace'?monthProgress().factor:1);
-      el.value=displayValue(key,val).toFixed(['aia_close','insurance_rate','csat'].includes(key)?1:0);
-    });
-    loading=false;
-    update();
-  };
-
-  const setMode=(next)=>{
-    mode=next;
-    body.querySelectorAll('[data-mode]').forEach(b=>b.classList.toggle('active',b.dataset.mode===next));
-    const banner=qb('[data-r="modeBanner"]'),hint=qb('[data-r="modeHint"]');
-    if(next==='current'){
-      banner.innerHTML='<strong>Current:</strong> What your live numbers are worth right now.';
-      hint.textContent='Live numbers from Team Huddle';
-      setInputs('current');
-    }else if(next==='pace'){
-      const p=monthProgress();
-      banner.innerHTML=`<strong>Pace:</strong> Projects the live production through month-end using ${p.elapsed||0} day${p.elapsed===1?'':'s'} elapsed out of ${p.days}. Rates stay at their current percentages.`;
-      hint.textContent='Month-end projection';
-      setInputs('pace');
-    }else{
-      banner.innerHTML='<strong>Sandbox:</strong> What-if mode. Nothing here saves to Neon.';
-      hint.textContent='Changes are temporary';
-      update();
-    }
-  };
-
-  const setClass=(name,state)=>{
-    const el=q(`[data-q="${name}"]`);
-    if(el)el.className=`qualCard ${state}`;
-  };
-
-  const inferFraction=(rate,ceiling)=>{
-    ceiling=Math.max(1,Math.round(ceiling||1));
-    if(rate<=0)return {a:0,e:ceiling,diff:0};
-    let best=null;
-    for(let e=1;e<=ceiling;e++){
-      for(let a=0;a<=e;a++){
-        const diff=Math.abs(a/e-rate);
-        const score=diff*100000+(ceiling-e)*.02;
-        if(!best||score<best.score)best={a,e,diff,score};
-      }
-    }
-    return best;
-  };
-  const needConsecutiveWins=(a,e,target)=>{
-    if(e<=0||a/e>=target)return 0;
-    return Math.max(0,Math.ceil((target*e-a)/(1-target)-1e-9));
-  };
-  const safeMisses=(a,e,target)=>{
-    let misses=0;
-    while(a/(e+misses+1)>=target)misses++;
-    return misses;
-  };
-
+  const base=JSON.parse(calc.dataset.base||'{}'),body=calc.closest('.body');
+  const q=x=>calc.querySelector(x),qb=x=>body.querySelector(x);
+  const money=x=>`$${Number(x||0).toFixed(2)}`,pct=x=>`${(Number(x||0)*100).toFixed(1)}%`;
+  let mode='current',loading=true,oppsManual=false,seed={};
+  const rateKeys=new Set(['aia_close','insurance_rate','htp_close','csat']);
+  const countKeys=new Set(['ppv','aia_posted','upgrades','data','opps','accessory_revenue','prepaid']);
+  const monthProgress=()=>{const a=base._active_month?new Date(`${String(base._active_month).slice(0,10)}T12:00:00`):new Date(),n=new Date(),y=a.getFullYear(),m=a.getMonth(),days=new Date(y,m+1,0).getDate();if(n<new Date(y,m,1))return{elapsed:0,days,factor:1};if(n>new Date(y,m+1,0,23,59,59))return{elapsed:days,days,factor:1};const elapsed=Math.max(1,Math.min(days,n.getDate()));return{elapsed,days,factor:days/elapsed}};
+  const paceValue=k=>countKeys.has(k)?Number(base[k]||0)*monthProgress().factor:Number(base[k]||0);
+  const displayValue=(k,v)=>rateKeys.has(k)?Number(v||0)*100:Number(v||0);
+  const storedValue=(k,v)=>rateKeys.has(k)?Number(v||0)/100:Number(v||0);
+  const readVals=()=>{const v={};calc.querySelectorAll('[data-v]').forEach(el=>v[el.dataset.v]=storedValue(el.dataset.v,el.value));return v};
+  const setInputs=which=>{loading=true;oppsManual=false;seed={};calc.querySelectorAll('[data-v]').forEach(el=>{const k=el.dataset.v;let v=which==='pace'?paceValue(k):Number(base[k]||0);if(k==='accessory_revenue'&&!Number(base.accessory_revenue||0))v=Number(base._base_accessory_revenue||0)*(which==='pace'?monthProgress().factor:1);seed[k]=v;el.value=displayValue(k,v).toFixed(rateKeys.has(k)?1:0)});loading=false;update()};
+  const setMode=next=>{mode=next;body.querySelectorAll('[data-mode]').forEach(b=>b.classList.toggle('active',b.dataset.mode===next));const banner=qb('[data-r="modeBanner"]'),hint=qb('[data-r="modeHint"]');if(next==='current'){banner.innerHTML='<strong>Current:</strong> What your live numbers are worth right now.';hint.textContent='Live numbers';setInputs('current')}else if(next==='pace'){const p=monthProgress();banner.innerHTML=`<strong>Pace:</strong> Projects count metrics through month-end from day ${p.elapsed} of ${p.days}. Rates stay where they are now.`;hint.textContent='Month-end projection';setInputs('pace')}else{banner.innerHTML='<strong>Sandbox:</strong> What-if mode. Nothing here saves.';hint.textContent='Temporary changes';update()}};
+  const setClass=(name,state)=>{const el=q(`[data-q="${name}"]`);if(el)el.className=`qualCard ${state}`};
   const update=()=>{
-    const vals={};
-    calc.querySelectorAll('[data-v]').forEach(el=>vals[el.dataset.v]=storedValue(el.dataset.v,el.value));
-    const ppv=Math.round(vals.ppv||0),aia=Math.round(vals.aia_posted||0),aiaSub=Math.round(vals.aia_submits||0);
-    const upg=Math.round(vals.upgrades||0),data=Math.round(vals.data||0),opps=Math.round(vals.opps||0);
-    const accRev=Number(vals.accessory_revenue||0),insRate=Number(vals.insurance_rate||0),htp=Math.round(vals.htp||0);
-    const prepaid=Math.round(vals.prepaid||0),csat=Number(vals.csat||0),aiaRate=Number(vals.aia_close||0);
+    const v=readVals(),ppv=Math.round(v.ppv||0),aia=Math.round(v.aia_posted||0),upg=Math.round(v.upgrades||0),data=Math.round(v.data||0),opps=Math.round(v.opps||0),accRev=Number(v.accessory_revenue||0),insRate=Number(v.insurance_rate||0),htpRate=Number(v.htp_close||0),prepaid=Math.round(v.prepaid||0),csat=Number(v.csat||0),aiaRate=Number(v.aia_close||0);
     const elig=Math.max(0,opps-data),accRate=elig>0?accRev/elig:0;
-
-    const accQual=Number(base._acc_qualifier||50),accTarget=Number(base._acc_target||60);
-    const insQual=Number(base._ins_qualifier||.50),insTarget=Number(base._ins_target||.60);
-    const aiaSubmitQual=Number(base._aia_qualifier||4),aiaCloseQual=Number(base._aia_close_qualifier||.075);
-    const htpQual=Number(base._htp_qualifier||2),csatQual=Number(base._csat_qualifier||.88);
-
-    const okAia=aiaSub>=aiaSubmitQual || aiaRate>=aiaCloseQual;
-    const okHtp=htp>=htpQual,okAcc=accRate>=accQual,okIns=insRate>=insQual,okCsat=csat>=csatQual;
-    const qualified=okAia&&okHtp&&okAcc&&okIns&&okCsat;
-
-    const adjustedBase=15+(upg*.10)+(data*.20);
-    const accBonus=accRate>=accTarget?adjustedBase*.25:0;
-    const insBonus=insRate>=insTarget?adjustedBase*.25:0;
-    const finalBase=adjustedBase+accBonus+insBonus;
-    const ppvComp=ppv*finalBase;
-    const aiaComp=aia*finalBase*1.5;
-    const grossComp=ppvComp+aiaComp;
-    const spiffs=(aiaSub*10)+(prepaid*5);
-    const payable=qualified?grossComp:0;
-    const projected=payable+spiffs;
-
-    q('[data-r="grossComp"]').textContent=money(grossComp);
-    q('[data-r="grossNote"]').textContent=`${ppv} PPV + ${aia} AIA · final base ${money(finalBase)}`;
-    q('[data-r="spiffs"]').textContent=money(spiffs);
-
-    const riskBox=q('[data-box="risk"]');
-    riskBox.className=`moneyBox ${qualified?'risk':'lost'}`;
-    q('[data-r="riskLabel"]').textContent=qualified?'Money At Risk':'Comp Currently Lost';
-    q('[data-r="riskMoney"]').textContent=money(grossComp);
-    q('[data-r="riskNote"]').textContent=qualified?'Lose this qualified comp if a qualifier fails.':'Instant spiffs remain; qualified comp is blocked.';
-
-    q('[data-r="qaia"]').textContent=okAia?'QUALIFIED':'NOT QUALIFIED';
-    q('[data-r="qaiaDetail"]').textContent=`${aiaSub} submits · ${pct(aiaRate)} close · need ${aiaSubmitQual} submits OR ${pct(aiaCloseQual)}`;
-    setClass('aia',okAia?'good':'bad');
-
-    q('[data-r="qhtp"]').textContent=okHtp?'QUALIFIED':'NOT QUALIFIED';
-    q('[data-r="qhtpDetail"]').textContent=okHtp?`${htp} HTP · minimum ${htpQual}`:`Need ${Math.max(0,htpQual-htp)} more HTP`;
-    setClass('htp',okHtp?'good':'bad');
-
-    const need50Now=Math.max(0,accQual*elig-accRev),need60Now=Math.max(0,accTarget*elig-accRev);
-    const need50Next=Math.max(0,accQual*(elig+1)-accRev),need60Next=Math.max(0,accTarget*(elig+1)-accRev);
-    q('[data-r="qacc"]').textContent=!okAcc?'NOT QUALIFIED':accRate>=accTarget?'60+ ACCELERATOR':'QUALIFIED';
-    q('[data-r="qaccDetail"]').textContent=!okAcc
-      ? `${money(accRate)}/OPP · need ${money(need50Now)} now to reach ${money(accQual)}`
-      : `${money(accRate)}/OPP · next eligible OPP needs ${money(need50Next)} to stay at ${money(accQual)} or ${money(need60Next)} to be at ${money(accTarget)}`;
-    setClass('acc',!okAcc?'bad':accRate<accTarget?'warn':'good');
-
-    const inferred=inferFraction(insRate,Math.max(1,ppv+upg));
-    const to50=needConsecutiveWins(inferred.a,inferred.e,insQual),to60=needConsecutiveWins(inferred.a,inferred.e,insTarget);
-    const misses50=safeMisses(inferred.a,inferred.e,insQual),misses60=safeMisses(inferred.a,inferred.e,insTarget);
-    q('[data-r="qins"]').textContent=!okIns?'NOT QUALIFIED':insRate>=insTarget?'60% ACCELERATOR':'QUALIFIED';
-    let insText=`${pct(insRate)}. `;
-    if(!okIns)insText+=`Need roughly ${to50} insured ${to50===1?'opportunity':'opportunities'} to get back to 50%.`;
-    else if(insRate<insTarget)insText+=`50% qualified. Roughly ${to60} straight insured ${to60===1?'opportunity':'opportunities'} gets to 60%.`;
-    else insText+=`60% accelerator active. Roughly ${misses60} miss${misses60===1?'':'es'} before falling below 60%; ${misses50} before 50%.`;
-    q('[data-r="qinsDetail"]').textContent=insText;
-    setClass('ins',!okIns?'bad':insRate<insTarget?'warn':'good');
-
-    q('[data-r="qcsat"]').textContent=okCsat?'QUALIFIED':'NOT QUALIFIED';
-    q('[data-r="qcsatDetail"]').textContent=`${pct(csat)} · minimum ${pct(csatQual)}`;
-    setClass('csat',okCsat?'good':'bad');
-
-    q('[data-r="upgAdj"]').textContent=`+${money(upg*.10)}`;
-    q('[data-r="dataAdj"]').textContent=`+${money(data*.20)}`;
-    q('[data-r="adjustedBase"]').textContent=money(adjustedBase);
-    q('[data-r="accBonus"]').textContent=accBonus?`+${money(accBonus)} (25%)`:'$0.00';
-    q('[data-r="insBonus"]').textContent=insBonus?`+${money(insBonus)} (25%)`:'$0.00';
-    q('[data-r="finalBase"]').textContent=money(finalBase);
-    q('[data-r="ppvComp"]').textContent=`${ppv} × ${money(finalBase)} = ${money(ppvComp)}`;
-    q('[data-r="aiaComp"]').textContent=`${aia} × ${money(finalBase)} × 1.5 = ${money(aiaComp)}`;
-
-    const finalCard=q('[data-r="finalCard"]');
-    finalCard.className=`bigResult ${qualified?'good':'bad'}`;
-    q('[data-r="finalHeadline"]').textContent=qualified?`Projected payout: ${money(projected)}`:`Projected payout: ${money(spiffs)} — spiffs only`;
-    q('[data-r="finalSub"]').textContent=qualified
-      ? `${money(grossComp)} qualified comp + ${money(spiffs)} guaranteed instant spiffs.`
-      : `${money(grossComp)} qualified comp is blocked until every qualifier is met.`;
-
-    const moves=[];
-    if(!okHtp)moves.push(`<div class="move"><b>HTP:</b> Need ${Math.max(0,htpQual-htp)} more.</div>`);
-    if(!okAcc)moves.push(`<div class="move"><b>Accessories:</b> ${money(need50Now)} more revenue at the current eligible OPP count gets back to ${money(accQual)}/OPP.</div>`);
-    else if(accRate<accTarget){
-      const acceleratorValue=adjustedBase*.25*(ppv+aia*1.5);
-      moves.push(`<div class="move"><b>Accessories:</b> ${money(need60Now)} more at the current OPP count reaches ${money(accTarget)}/OPP and is worth about +${money(acceleratorValue)} in qualified comp.</div>`);
-    }
-    if(!okIns)moves.push(`<div class="move"><b>Insurance:</b> Need improvement from ${pct(insRate)} to at least 50%. Rough estimate: ${to50} straight insured ${to50===1?'opportunity':'opportunities'}.</div>`);
-    else if(insRate<insTarget){
-      const acceleratorValue=adjustedBase*.25*(ppv+aia*1.5);
-      moves.push(`<div class="move"><b>Insurance:</b> Current ${pct(insRate)} qualifies. Reach 60% for roughly +${money(acceleratorValue)} more qualified comp.</div>`);
-    }
-    if(!okAia)moves.push(`<div class="move"><b>AIA:</b> Need ${Math.max(0,aiaSubmitQual-aiaSub)} more submit(s) OR a ${pct(aiaCloseQual)} close rate.</div>`);
-    if(!okCsat)moves.push(`<div class="move"><b>CSAT:</b> Need ${pct(csatQual)}.</div>`);
-    if(moves.length===0)moves.push(`<div class="move"><b>All qualifiers are clear.</b> The full ${money(grossComp)} of qualified comp is currently payable.</div>`);
-    q('[data-r="moves"]').innerHTML=moves.join('');
-
-    calc.querySelectorAll('[data-v]').forEach(el=>{
-      const key=el.dataset.v,cmp=q(`[data-r="${key}Compare"]`);
-      if(!cmp)return;
-      const live=Number(base[key]||0);
-      const here=storedValue(key,el.value);
-      if(mode==='current')cmp.textContent='Live';
-      else if(mode==='pace')cmp.textContent=`Live ${['aia_close','insurance_rate','csat'].includes(key)?pct(live):key==='accessory_revenue'?money(live||base._base_accessory_revenue):Math.round(live)} → Pace`;
-      else cmp.textContent=`Current ${['aia_close','insurance_rate','csat'].includes(key)?pct(live):key==='accessory_revenue'?money(live||base._base_accessory_revenue):Math.round(live)} → What-if`;
-    });
+    const aiaQual=Number(base._aia_close_qualifier||.075),htpQual=Number(base._htp_close_qualifier||.05),accQual=Number(base._acc_qualifier||50),accTarget=Number(base._acc_target||60),insQual=Number(base._ins_qualifier||.50),insTarget=Number(base._ins_target||.60),csatQual=Number(base._csat_qualifier||.88);
+    const okAia=aiaRate>=aiaQual,okHtp=htpRate>=htpQual,okAcc=accRate>=accQual,okIns=insRate>=insQual,okCsat=csat>=csatQual,qualified=okAia&&okHtp&&okAcc&&okIns&&okCsat;
+    const adjustedBase=15+(upg*.10)+(data*.20),accBonus=accRate>=accTarget?adjustedBase*.25:0,insBonus=insRate>=insTarget?adjustedBase*.25:0,finalBase=adjustedBase+accBonus+insBonus,ppvComp=ppv*finalBase,aiaComp=aia*finalBase*1.5,grossComp=ppvComp+aiaComp,spiffs=(aia*10)+(prepaid*5),projected=(qualified?grossComp:0)+spiffs;
+    q('[data-r="grossComp"]').textContent=money(grossComp);q('[data-r="grossNote"]').textContent=`${ppv} PPV + ${aia} AIA · final base ${money(finalBase)}`;q('[data-r="spiffs"]').textContent=money(spiffs);
+    const risk=q('[data-box="risk"]');risk.className=`moneyBox ${qualified?'risk':'lost'}`;q('[data-r="riskLabel"]').textContent=qualified?'Money At Risk':'Comp Currently Lost';q('[data-r="riskMoney"]').textContent=money(grossComp);q('[data-r="riskNote"]').textContent=qualified?'This qualified comp disappears if any qualifier fails.':'Only instant spiffs remain until every qualifier is cleared.';
+    q('[data-r="qaia"]').textContent=okAia?'QUALIFIED':'NOT QUALIFIED';q('[data-r="qaiaDetail"]').textContent=okAia?`${pct(aiaRate)} · ${((aiaRate-aiaQual)*100).toFixed(1)} pt cushion above 7.5%`:`${pct(aiaRate)} · need +${((aiaQual-aiaRate)*100).toFixed(1)} pts to reach 7.5%`;setClass('aia',okAia?'good':'bad');
+    q('[data-r="qhtp"]').textContent=okHtp?'QUALIFIED':'NOT QUALIFIED';q('[data-r="qhtpDetail"]').textContent=okHtp?`${pct(htpRate)} · ${((htpRate-htpQual)*100).toFixed(1)} pt cushion above 5%`:`${pct(htpRate)} · need +${((htpQual-htpRate)*100).toFixed(1)} pts to reach 5%`;setClass('htp',okHtp?'good':'bad');
+    const need50Now=Math.max(0,accQual*elig-accRev),need60Now=Math.max(0,accTarget*elig-accRev),need50Next=Math.max(0,accQual*(elig+1)-accRev),need60Next=Math.max(0,accTarget*(elig+1)-accRev);
+    q('[data-r="qacc"]').textContent=!okAcc?'NOT QUALIFIED':accRate>=accTarget?'60+ ACCELERATOR':'QUALIFIED';q('[data-r="qaccDetail"]').textContent=!okAcc?`${money(accRate)}/OPP · need ${money(need50Now)} now to reach $50`:`${money(accRate)}/OPP · ${elig} eligible OPPs. Next eligible OPP needs ${money(need50Next)} to stay at $50 or ${money(need60Next)} to sit at $60`;setClass('acc',!okAcc?'bad':accRate<accTarget?'warn':'good');
+    q('[data-r="qins"]').textContent=!okIns?'NOT QUALIFIED':insRate>=insTarget?'60% ACCELERATOR':'QUALIFIED';q('[data-r="qinsDetail"]').textContent=!okIns?`${pct(insRate)} · need +${((insQual-insRate)*100).toFixed(1)} pts to reach 50%.`:insRate<insTarget?`${pct(insRate)} · qualified. Need +${((insTarget-insRate)*100).toFixed(1)} pts to reach 60%.`:`${pct(insRate)} · accelerator active. ${((insRate-insTarget)*100).toFixed(1)} pt cushion above 60%; ${((insRate-insQual)*100).toFixed(1)} above 50%.`;setClass('ins',!okIns?'bad':insRate<insTarget?'warn':'good');
+    q('[data-r="qcsat"]').textContent=okCsat?'QUALIFIED':'NOT QUALIFIED';q('[data-r="qcsatDetail"]').textContent=okCsat?`${pct(csat)} · qualifier clear`:`${pct(csat)} · need 88%`;setClass('csat',okCsat?'good':'bad');
+    q('[data-r="upgAdj"]').textContent=`+${money(upg*.10)}`;q('[data-r="dataAdj"]').textContent=`+${money(data*.20)}`;q('[data-r="adjustedBase"]').textContent=money(adjustedBase);q('[data-r="accBonus"]').textContent=accBonus?`+${money(accBonus)} (25%)`:'$0.00';q('[data-r="insBonus"]').textContent=insBonus?`+${money(insBonus)} (25%)`:'$0.00';q('[data-r="finalBase"]').textContent=money(finalBase);q('[data-r="ppvComp"]').textContent=`${ppv} × ${money(finalBase)} = ${money(ppvComp)}`;q('[data-r="aiaComp"]').textContent=`${aia} × ${money(finalBase)} × 1.5 = ${money(aiaComp)}`;
+    const finalCard=q('[data-r="finalCard"]');finalCard.className=`bigResult ${qualified?'good':'bad'}`;q('[data-r="finalHeadline"]').textContent=qualified?`Projected payout: ${money(projected)}`:`Projected payout: ${money(spiffs)} — spiffs only`;q('[data-r="finalSub"]').textContent=qualified?`${money(grossComp)} qualified comp + ${money(spiffs)} guaranteed spiffs.`:`${money(grossComp)} in qualified comp is blocked.`;
+    const moves=[];if(!okAia)moves.push(`<div class="move"><b>AIA:</b> Improve close rate by ${((aiaQual-aiaRate)*100).toFixed(1)} points to reach 7.5%.</div>`);if(!okHtp)moves.push(`<div class="move"><b>HTP:</b> Improve attach rate by ${((htpQual-htpRate)*100).toFixed(1)} points to reach 5%.</div>`);if(!okAcc)moves.push(`<div class="move"><b>Accessories:</b> ${money(need50Now)} more revenue at the current eligible OPP count restores $50/OPP.</div>`);else if(accRate<accTarget){const gain=adjustedBase*.25*(ppv+aia*1.5);moves.push(`<div class="move"><b>Accessories:</b> ${money(need60Now)} more at the current OPP count reaches $60 and is worth about +${money(gain)}.</div>`)}if(!okIns)moves.push(`<div class="move"><b>Protection:</b> Need +${((insQual-insRate)*100).toFixed(1)} points to reach 50%.</div>`);else if(insRate<insTarget){const gain=adjustedBase*.25*(ppv+aia*1.5);moves.push(`<div class="move"><b>Protection:</b> Need +${((insTarget-insRate)*100).toFixed(1)} points to reach 60%, worth about +${money(gain)}.</div>`)}if(!okCsat)moves.push(`<div class="move"><b>CSAT:</b> Need 88%.</div>`);if(!moves.length)moves.push(`<div class="move"><b>All qualifiers are clear.</b> The full ${money(grossComp)} of qualified comp is payable right now.</div>`);q('[data-r="moves"]').innerHTML=moves.join('');
+    calc.querySelectorAll('[data-v]').forEach(el=>{const cmp=q(`[data-r="${el.dataset.v}Compare"]`);if(cmp)cmp.textContent=mode==='current'?'Live':mode==='pace'?'Projected from live pace':'What-if · reset anytime'});
   };
-
-  calc.querySelectorAll('[data-v]').forEach(el=>el.addEventListener('input',()=>{
-    if(!loading && mode!=='sandbox'){
-      mode='sandbox';
-      body.querySelectorAll('[data-mode]').forEach(b=>b.classList.toggle('active',b.dataset.mode==='sandbox'));
-      qb('[data-r="modeBanner"]').innerHTML='<strong>Sandbox:</strong> What-if mode. Nothing here saves to Neon.';
-      qb('[data-r="modeHint"]').textContent='Changes are temporary';
-    }
-    update();
-  }));
-
-  body.querySelectorAll('[data-mode]').forEach(btn=>btn.onclick=()=>setMode(btn.dataset.mode));
-  const resetBtn=q('[data-reset-calc]');
-  if(resetBtn)resetBtn.onclick=()=>setMode('current');
-
-  setMode('current');
+  calc.querySelectorAll('[data-v]').forEach(el=>el.addEventListener('input',()=>{if(loading)return;const key=el.dataset.v;if(mode!=='sandbox'){mode='sandbox';body.querySelectorAll('[data-mode]').forEach(b=>b.classList.toggle('active',b.dataset.mode==='sandbox'));qb('[data-r="modeBanner"]').innerHTML='<strong>Sandbox:</strong> What-if mode. Nothing here saves.';qb('[data-r="modeHint"]').textContent='Temporary changes'}if(key==='opps')oppsManual=true;if(!oppsManual&&['ppv','upgrades','data'].includes(key)){const v=readVals(),delta=(Number(v.ppv||0)-Number(seed.ppv||0))+(Number(v.upgrades||0)-Number(seed.upgrades||0))+(Number(v.data||0)-Number(seed.data||0)),opp=q('[data-v="opps"]');if(opp)opp.value=Math.max(0,Math.round(Number(seed.opps||0)+delta))}update()}));
+  body.querySelectorAll('[data-mode]').forEach(btn=>btn.onclick=()=>setMode(btn.dataset.mode));const reset=q('[data-reset-calc]');if(reset)reset.onclick=()=>setMode('current');setMode('current');
 });const u=document.getElementById('unlockAdmin');if(u)u.onclick=async()=>{const candidate=document.getElementById('adminPhrase').value,st=document.getElementById('unlockStatus');if(!candidate){st.textContent='Enter the admin phrase.';return}const previous=adminPhrase;adminPhrase=candidate;try{await api('POST',{action:'verify_admin'});sessionStorage.setItem('huddleAdmin',candidate);render();show('admin')}catch(e){adminPhrase=previous;sessionStorage.removeItem('huddleAdmin');st.textContent='Incorrect admin phrase.'}};bindAdmin()}
 
 function collectStore(prefix=''){const out={};document.querySelectorAll(`#admin input[id${prefix?'$="_'+prefix+'"':''}]`);return out}
 function grab(ids){const o={};for(const id of ids){const el=document.getElementById(id);if(el)o[id]=el.value===''?null:Number.isNaN(Number(el.value))?el.value:Number(el.value)}return o}
-function bindAdmin(){const stat=document.getElementById('adminStatus');const set=s=>{if(stat)stat.textContent=s};const sg=document.querySelector('[data-save-goals]');if(sg)sg.onclick=async()=>{const pctKeys=new Set(['ppv_close','aia_close','htp_close','insurance_target','insurance_qualifier','trade_target','csat_target']),keys=['traffic','opportunities','ppv','ppv_close','aia_posted','aia_submits','aia_close','htp','htp_close','upgrades','data','accessory_target','accessory_qualifier','insurance_target','insurance_qualifier','trade_target','csat_target','rep_aia_qualifier','rep_htp_qualifier'],fields={};for(const k of keys){const el=document.getElementById('goal_'+k);if(el){let v=Number(el.value||0);if(pctKeys.has(k))v/=100;fields[k]=v}}try{await api('POST',{action:'save_goals',fields});set('Goals saved.');await load();show('admin')}catch(e){set(e.message)}};const config=document.querySelector('[data-save-config]');if(config)config.onclick=async()=>{try{await api('POST',{action:'save_config',headline:document.getElementById('headline').value,opening_prompt:document.getElementById('opening_prompt').value,team_message:document.getElementById('team_message').value});set('Saved.');await load();show('admin')}catch(e){set(e.message)}};const store=document.querySelector('[data-save-store]');if(store)store.onclick=async()=>{const keys=['traffic','ppv','ppv_close','aia_posted','aia_submits','aia_close','htp','htp_close','upgrades','data','cru','accessory_revenue','acc_per_opp','insurance_rate','nextup_rate','csat','pre_to_post','pa4','opps','trade_rate','prepaid','open_enrollment'];try{await api('POST',{action:'save_store',fields:grab(keys)});set('Store saved.');await load();show('admin')}catch(e){set(e.message)}};document.querySelectorAll('[data-save-rep]').forEach(btn=>btn.onclick=async()=>{const slug=btn.dataset.saveRep,r=DATA.reps.find(x=>x.slug===slug),suffix='_'+r.metrics.rep_id,keys=['ppv','aia_posted','aia_submits','aia_close','htp','upgrades','data','cru','accessory_revenue','acc_per_opp','insurance_rate','nextup_rate','csat','pa4','opps','trade_rate','prepaid','open_enrollment'];const fields={};for(const k of keys){const el=document.getElementById(k+suffix);if(el)fields[k]=el.value===''?null:Number(el.value)}try{await api('POST',{action:'save_rep',rep_slug:slug,fields});set(`${r.display_name} saved.`);await load();show('admin')}catch(e){set(e.message)}});const ac=document.querySelector('[data-add-coach]');if(ac)ac.onclick=async()=>{try{await api('POST',{action:'add_coaching',title:document.getElementById('coach_title').value,rep_slug:document.getElementById('coach_rep').value||null,kind:document.getElementById('coach_kind').value,body:document.getElementById('coach_body').value,status:document.getElementById('coach_status')?.value||'new'});set('Coaching added.');await load();show('admin')}catch(e){set(e.message)}};const as=document.querySelector('[data-add-sbs]');if(as)as.onclick=async()=>{try{await api('POST',{action:'add_sbs',rep_slug:document.getElementById('sbs_rep').value,observed_on:document.getElementById('sbs_date').value,title:document.getElementById('sbs_title').value,greet:numOrNull('sbs_greet'),understand:numOrNull('sbs_understand'),recommend:numOrNull('sbs_recommend'),confirm:numOrNull('sbs_confirm'),educate:numOrNull('sbs_educate'),thank:numOrNull('sbs_thank'),coaching_summary:document.getElementById('sbs_summary').value,notes:document.getElementById('sbs_notes').value,behavior_notes:{greet:document.getElementById('sbs_note_greet')?.value||'',understand:document.getElementById('sbs_note_understand')?.value||'',recommend:document.getElementById('sbs_note_recommend')?.value||'',confirm:document.getElementById('sbs_note_confirm')?.value||'',educate:document.getElementById('sbs_note_educate')?.value||'',thank:document.getElementById('sbs_note_thank')?.value||''}});set('SBS added.');await load();show('admin')}catch(e){set(e.message)}}}
+function bindAdmin(){const stat=document.getElementById('adminStatus');const set=s=>{if(stat)stat.textContent=s};const sg=document.querySelector('[data-save-goals]');if(sg)sg.onclick=async()=>{const pctKeys=new Set(['ppv_close','aia_close','htp_close','insurance_target','insurance_qualifier','trade_target','csat_target']),keys=['traffic','opportunities','ppv','ppv_close','aia_posted','aia_submits','aia_close','htp','htp_close','upgrades','data','accessory_target','accessory_qualifier','insurance_target','insurance_qualifier','trade_target','csat_target','rep_aia_qualifier','rep_htp_qualifier'],fields={};for(const k of keys){const el=document.getElementById('goal_'+k);if(el){let v=Number(el.value||0);if(pctKeys.has(k))v/=100;fields[k]=v}}try{await api('POST',{action:'save_goals',fields});set('Goals saved.');await load();show('admin')}catch(e){set(e.message)}};const config=document.querySelector('[data-save-config]');if(config)config.onclick=async()=>{try{await api('POST',{action:'save_config',headline:document.getElementById('headline').value,opening_prompt:document.getElementById('opening_prompt').value,team_message:document.getElementById('team_message').value});set('Saved.');await load();show('admin')}catch(e){set(e.message)}};const store=document.querySelector('[data-save-store]');if(store)store.onclick=async()=>{const keys=['traffic','ppv','ppv_close','aia_posted','aia_submits','aia_close','htp','htp_close','upgrades','data','cru','accessory_revenue','acc_per_opp','insurance_rate','nextup_rate','csat','pre_to_post','pa4','opps','trade_rate','prepaid','open_enrollment'];try{await api('POST',{action:'save_store',fields:grab(keys)});set('Store saved.');await load();show('admin')}catch(e){set(e.message)}};document.querySelectorAll('[data-save-rep]').forEach(btn=>btn.onclick=async()=>{const slug=btn.dataset.saveRep,r=DATA.reps.find(x=>x.slug===slug),suffix='_'+r.metrics.rep_id,keys=['ppv','aia_posted','aia_submits','aia_close','htp','htp_close','upgrades','data','cru','accessory_revenue','acc_per_opp','insurance_rate','nextup_rate','csat','pa4','opps','trade_rate','prepaid','open_enrollment'];const fields={};for(const k of keys){const el=document.getElementById(k+suffix);if(el)fields[k]=el.value===''?null:Number(el.value)}try{await api('POST',{action:'save_rep',rep_slug:slug,fields});set(`${r.display_name} saved.`);await load();show('admin')}catch(e){set(e.message)}});const ac=document.querySelector('[data-add-coach]');if(ac)ac.onclick=async()=>{try{await api('POST',{action:'add_coaching',title:document.getElementById('coach_title').value,rep_slug:document.getElementById('coach_rep').value||null,kind:document.getElementById('coach_kind').value,body:document.getElementById('coach_body').value,status:document.getElementById('coach_status')?.value||'new'});set('Coaching added.');await load();show('admin')}catch(e){set(e.message)}};const as=document.querySelector('[data-add-sbs]');if(as)as.onclick=async()=>{try{await api('POST',{action:'add_sbs',rep_slug:document.getElementById('sbs_rep').value,observed_on:document.getElementById('sbs_date').value,title:document.getElementById('sbs_title').value,greet:numOrNull('sbs_greet'),understand:numOrNull('sbs_understand'),recommend:numOrNull('sbs_recommend'),confirm:numOrNull('sbs_confirm'),educate:numOrNull('sbs_educate'),thank:numOrNull('sbs_thank'),coaching_summary:document.getElementById('sbs_summary').value,notes:document.getElementById('sbs_notes').value,behavior_notes:{greet:document.getElementById('sbs_note_greet')?.value||'',understand:document.getElementById('sbs_note_understand')?.value||'',recommend:document.getElementById('sbs_note_recommend')?.value||'',confirm:document.getElementById('sbs_note_confirm')?.value||'',educate:document.getElementById('sbs_note_educate')?.value||'',thank:document.getElementById('sbs_note_thank')?.value||''}});set('SBS added.');await load();show('admin')}catch(e){set(e.message)}}}
 function numOrNull(id){const v=document.getElementById(id).value;return v===''?null:Number(v)}
 load();
 </script></body></html>
