@@ -60,7 +60,7 @@
 
 
 /* ===== Literal Whiteboard Team Page ===== */
-:root{--marker:#172033;--board-red:#b91c1c;--board-green:#15803d;--board-super:#14532d;--sticky:#fff3a6}
+:root{--marker:#172033;--board-red:#b91c1c;--board-green:#15803d;--board-super:#1d4ed8;--sticky:#fff3a6}
 .hello{background:var(--sticky);border:0;border-radius:2px;padding:7px 11px;box-shadow:2px 4px 8px #0f172a25;transform:rotate(-3deg);font-family:"Comic Sans MS","Bradley Hand",cursive;font-size:13px}
 .whiteboard{
   position:relative;min-height:720px;margin-top:10px;padding:22px 20px 42px;
@@ -82,11 +82,11 @@
 .boardValue{font-size:20px;font-weight:1000;white-space:nowrap}
 .boardNote{font-size:14px;line-height:1.25;font-weight:700}
 .boardRow.bad .boardValue,.boardRow.bad .boardNote{color:var(--board-red)}
-.boardRow.good .boardValue,.boardRow.good .boardNote{color:var(--board-green)}
-.boardRow.super .boardValue,.boardRow.super .boardNote{color:var(--board-super);font-weight:1000}
+.boardRow.good .boardValue,.boardRow.good .boardNote{color:#16a34a}
+.boardRow.super .boardValue,.boardRow.super .boardNote{color:#1d4ed8;font-weight:1000}
 .boardRow.neutral .boardValue,.boardRow.neutral .boardNote{color:#334155}
 .boardLegend{font-family:"Comic Sans MS","Bradley Hand",cursive;font-size:11px;margin:9px 0 15px;color:#475569}
-.boardLegend b:nth-child(1){color:var(--board-red)}.boardLegend b:nth-child(2){color:var(--board-green)}.boardLegend b:nth-child(3){color:var(--board-super)}
+.boardLegend b:nth-child(1){color:var(--board-red)}.boardLegend b:nth-child(2){color:#16a34a}.boardLegend b:nth-child(3){color:#1d4ed8}
 .stickyZone{position:absolute;z-index:5;right:18px;top:84px;width:min(31%,330px);display:grid;gap:14px}
 .sticky{
   position:relative;background:var(--sticky);padding:17px 15px 18px;min-height:116px;
@@ -169,7 +169,7 @@ body:not(.classicView) .classicTeam{display:none!important}
 .repBoardItem{border-bottom:1px solid #64748b33;padding:8px 4px}
 .repBoardItem .k{font-size:11px;font-weight:1000;text-transform:uppercase}
 .repBoardItem .v{font-size:21px;font-weight:1000}
-.repBoardItem.bad{color:#b91c1c}.repBoardItem.good{color:#15803d}.repBoardItem.super{color:#14532d}
+.repBoardItem.bad{color:#b91c1c}.repBoardItem.good{color:#16a34a}.repBoardItem.super{color:#1d4ed8}
 @media(max-width:560px){
   .viewToggle{right:8px;bottom:8px;padding:9px 11px;font-size:11px}
   .notesRestore{right:8px;bottom:50px;padding:8px 10px;font-size:11px}
@@ -256,6 +256,26 @@ body:not(.teamNotesActive) .notesRestore{display:none}
 
 
 .stickyZone{display:none!important}
+
+/* V3.2 pace warning language:
+   red/green = direction, yellow swipe = close to the line, blue = crushing it */
+.boardRow.closeBand .boardValue,
+.boardRow.closeBand .boardNote,
+.repBoardItem.closeBand .v{
+  width:fit-content;
+  background-image:linear-gradient(
+    to bottom,
+    transparent 38%,
+    rgba(250,204,21,.52) 38%,
+    rgba(250,204,21,.52) 88%,
+    transparent 88%
+  );
+  -webkit-box-decoration-break:clone;
+  box-decoration-break:clone;
+  padding-left:3px;
+  padding-right:3px;
+}
+
 </style>
 </head>
 <body>
@@ -291,36 +311,118 @@ function monthPaceRatio(v,goal){
   const expected=Number(goal||0)*(elapsed/days);
   return expected?Number(v||0)/expected:null;
 }
+function boardRatio(v,goal,{pace=true}={}){
+  if(goal===null||goal===undefined||Number(goal)===0)return null;
+  return pace?monthPaceRatio(v,goal):Number(v||0)/Number(goal);
+}
 function boardStatus(v,goal,{pace=true,higher=true}={}){
   if(goal===null||goal===undefined||Number(goal)===0)return'neutral';
-  const x=pace?monthPaceRatio(v,goal):Number(v||0)/Number(goal);
-  if(!higher){if(Number(v)<=Number(goal)*.75)return'super';if(Number(v)<=Number(goal))return'good';return'bad'}
-  if(x>=1.35)return'super';
+  const x=boardRatio(v,goal,{pace});
+  if(!higher){
+    if(x<=.75)return'super';
+    if(x<=1)return'good';
+    return'bad';
+  }
+  if(x>=1.25)return'super';
   if(x>=1)return'good';
   return'bad';
 }
+function boardCloseBand(v,goal,{pace=true,higher=true}={}){
+  if(goal===null||goal===undefined||Number(goal)===0)return false;
+  const x=boardRatio(v,goal,{pace});
+  if(x===null)return false;
+  if(!higher)return x>.90&&x<=1.10;
+  return x>=.90&&x<1.10;
+}
 function boardNote(label,v,g,status,fmt='num'){
   const value=Number(v||0),goal=Number(g||0),ratio=g?monthPaceRatio(v,g):null;
+  const directRatio=goal?value/goal:null;
+  const paceNearBehind=ratio!==null&&ratio>=.90&&ratio<1;
+  const paceNearAhead=ratio!==null&&ratio>=1&&ratio<1.10;
+
   if(label==='PPV'){
-    if(status==='super')return'Great cushion. Keep building it before launch.';
-    if(status==='good')return ratio<1.12?'On pace — barely. Create breathing room before launch.':'On pace. Keep pressing before launch.';
+    if(status==='super')return'Crushing pace. Keep building the cushion before launch.';
+    if(paceNearAhead)return'Barely holding pace. Create breathing room before launch.';
+    if(status==='good')return'On pace. Keep pressing before launch.';
+    if(paceNearBehind)return'Just off pace. One good push gets us back over the line.';
     return'Behind pace. Every interaction needs a complete PPV conversation.';
   }
-  if(label==='PPV Close')return value>=goal?(value>=goal*1.35?'Well above the 3.5% goal. Protect it.':'At goal. Keep converting traffic.'):'Below 3.5%. Tighten the opportunity conversation.';
-  if(label==='AIA Posted')return status==='bad'?'Posted volume needs a push. Attach leads in Salesforce before launch.':status==='super'?'Excellent AIA pace. Keep every lead attached in Salesforce.':'On pace. Keep attaching leads in Salesforce before launch.';
-  if(label==='AIA Close')return value>=goal?'Qualified. Keep converting Green Checks into submits.':'Below 7.5%. More Green Checks need to become submits.';
-  if(label==='Upgrades')return status==='bad'?'Behind pace. Work every eligible upgrade before launch.':'On pace. Use upgrade traffic to practice the full launch process.';
-  if(label==='Data')return value===0?'Zero is the hole. Ask the connected-device question every time.':status==='bad'?'Needs a push — do not carry this gap into launch.':'On pace. Keep asking every time.';
-  if(label==='HTP Close')return value>=goal?'Qualified. Keep HTP in the full recommendation.':'Below 5%. HTP has to be part of the process.';
-  if(label==='ACC / Eligible OPP')return value>=60?'Excellent — accelerator territory. Do not give this money back.':value>=50?'Qualified, but push toward the $60 accelerator.':'Below $50. Finish the sale with the full accessory solution.';
-  if(label==='Insurance')return value>=.60?'Excellent protection behavior. Keep presenting it every time.':value>=.50?'Qualified, but the $60/60% accelerator is still there.':'Below the 50% qualifier. Immediate comp risk.';
-  if(label==='CSAT')return value>=goal?'Clean. Keep it there.':'Needs attention — protect the customer experience.';
-  if(label==='Trade-In')return status==='bad'?'Needs a push. Check trade value on every eligible device.':'On pace. Keep trade in the launch conversation.';
-  return status==='super'?'Well ahead of pace.':status==='good'?'On pace — keep pushing.':'Behind pace — needs attention.';
+  if(label==='PPV Close'){
+    if(value>=goal*1.25)return'Well above the 3.5% goal. Protect it.';
+    if(value>=goal)return directRatio<1.10?'Barely holding the 3.5% goal. Keep converting traffic.':'At goal. Keep converting traffic.';
+    if(directRatio>=.90)return'Just under 3.5%. Very close — tighten the opportunity conversation.';
+    return'Below 3.5%. Tighten the opportunity conversation.';
+  }
+  if(label==='AIA Posted'){
+    if(status==='super')return'Crushing AIA pace. Keep every lead attached in Salesforce.';
+    if(paceNearAhead)return'Barely holding pace. Keep attaching leads in Salesforce before launch.';
+    if(status==='good')return'On pace. Keep attaching leads in Salesforce before launch.';
+    if(paceNearBehind)return'Just off pace. One more posted AIA changes the picture.';
+    return'Posted volume needs a push. Attach leads in Salesforce before launch.';
+  }
+  if(label==='AIA Close'){
+    if(value>=goal*1.25)return'Crushing the qualifier. Keep converting Green Checks into submits.';
+    if(value>=goal)return directRatio<1.10?'Barely holding the qualifier. Keep converting Green Checks.':'Qualified. Keep converting Green Checks into submits.';
+    if(directRatio>=.90)return'Just under 7.5%. One conversion can flip this.';
+    return'Below 7.5%. More Green Checks need to become submits.';
+  }
+  if(label==='Upgrades'){
+    if(status==='super')return'Crushing pace. Use the volume to sharpen launch execution.';
+    if(paceNearAhead)return'Barely holding pace. Build some breathing room before launch.';
+    if(status==='good')return'On pace. Use upgrade traffic to practice the full launch process.';
+    if(paceNearBehind)return'Just off pace. Work every eligible upgrade before launch.';
+    return'Behind pace. Work every eligible upgrade before launch.';
+  }
+  if(label==='Data'){
+    if(value===0)return'Zero is the hole. Ask the connected-device question every time.';
+    if(status==='super')return'Crushing pace. Keep asking every time.';
+    if(paceNearAhead)return'Barely holding pace. Keep the connected-device question automatic.';
+    if(status==='good')return'On pace. Keep asking every time.';
+    if(paceNearBehind)return'Just off pace. One good push gets this back on track.';
+    return'Needs a push — do not carry this gap into launch.';
+  }
+  if(label==='HTP Close'){
+    if(value>=goal*1.25)return'Crushing the qualifier. Keep HTP in the full recommendation.';
+    if(value>=goal)return directRatio<1.10?'Barely holding the qualifier. Keep HTP in every recommendation.':'Qualified. Keep HTP in the full recommendation.';
+    if(directRatio>=.90)return'Just under 5%. Very close — keep HTP in the process.';
+    return'Below 5%. HTP has to be part of the process.';
+  }
+  if(label==='ACC / Eligible OPP'){
+    if(value>=goal*1.25)return'Crushing it. Protect the accessory accelerator.';
+    if(value>=60)return directRatio<1.10?'Barely over the accelerator line. Keep building the bundle.':'Accelerator territory. Do not give this money back.';
+    if(value>=50)return'Qualified, but push toward the $60 accelerator.';
+    if(value>=45)return'Just under the $50 qualifier. One strong bundle can move this.';
+    return'Below $50. Finish the sale with the full accessory solution.';
+  }
+  if(label==='Insurance'){
+    if(value>=goal*1.25)return'Crushing protection. Keep presenting it every time.';
+    if(value>=.60)return directRatio<1.10?'Barely over the accelerator line. Keep presenting every time.':'Accelerator territory. Keep presenting it every time.';
+    if(value>=.50)return'Qualified, but the 60% accelerator is still there.';
+    if(value>=.45)return'Just under the 50% qualifier. Immediate push needed.';
+    return'Below the 50% qualifier. Immediate comp risk.';
+  }
+  if(label==='CSAT'){
+    if(value>=goal*1.25)return'Crushing it. Keep the customer experience clean.';
+    if(value>=goal)return directRatio<1.10?'Barely holding the goal. Protect every interaction.':'Clean. Keep it there.';
+    if(directRatio>=.90)return'Just under goal. Protect every customer interaction.';
+    return'Needs attention — protect the customer experience.';
+  }
+  if(label==='Trade-In'){
+    if(status==='super')return'Crushing pace. Keep checking trade value every time.';
+    if(paceNearAhead)return'Barely holding pace. Keep trade in the launch conversation.';
+    if(status==='good')return'On pace. Keep trade in the launch conversation.';
+    if(paceNearBehind)return'Just off pace. Check trade value on every eligible device.';
+    return'Needs a push. Check trade value on every eligible device.';
+  }
+  if(status==='super')return'Crushing it.';
+  if(paceNearAhead)return'Barely holding pace.';
+  if(status==='good')return'On pace — keep pushing.';
+  if(paceNearBehind)return'Just off pace — one push can flip it.';
+  return'Behind pace — needs attention.';
 }
 function boardRow(label,v,g,fmt='num',opts={}){
-  const status=boardStatus(v,g,opts),goalText=g!==null&&g!==undefined?` / ${boardFmt(g,fmt)}`:'';
-  return `<div class="boardRow ${status}"><div class="boardMetric">${label}</div><div class="boardValue">${boardFmt(v,fmt)}${goalText}</div><div class="boardNote">${boardNote(label,v,g,status,fmt)}</div></div>`;
+  const status=boardStatus(v,g,opts),close=boardCloseBand(v,g,opts)?' closeBand':'',goalText=g!==null&&g!==undefined?` / ${boardFmt(g,fmt)}`:'';
+  return `<div class="boardRow ${status}${close}"><div class="boardMetric">${label}</div><div class="boardValue">${boardFmt(v,fmt)}${goalText}</div><div class="boardNote">${boardNote(label,v,g,status,fmt)}</div></div>`;
 }
 
 function shellHtml(active){if(active==='home')return adminPhrase?`<div class="managerRibbon">MANAGER MODE · Tap editable coaching/text to change it · Hello?</div>`:'';return `${adminPhrase?`<div class="managerRibbon">MANAGER MODE · Tap editable coaching/text to change it · Hello?</div>`:''}<div class="shell"><div class="shellrow"><button class="home" data-home>← Profiles</button><div class="title">Team Huddle <span class="hello" style="margin-left:8px">Hello?</span></div><div class="shellnav"><button data-go="store" class="${active==='store'?'active':''}">Team</button><button data-go="sbs" class="${active==='sbs'?'active':''}">SBS</button><button data-go="archives" class="${active==='archives'?'active':''}">Archive</button><button data-go="admin" class="${active==='admin'?'active':''}">Edit</button></div></div></div>`}
@@ -417,7 +519,7 @@ function bindStickyNotes(){
   });
 }
 
-function classicStorePage(){const s=DATA.store,g=DATA.goals,ppvCloseGoal=.035;return `<section class="page" id="store"><div class="whiteboard"><div class="boardTop"><div><div class="small">TEAM · ${DATA.config.month_label}</div><h1>CINNAMINSON</h1></div><div class="boardDate">STORE PULSE</div></div><div class="boardLegend"><b>RED = behind pace</b> · <b>GREEN = on pace</b> · <b>DARK GREEN = crushing it</b></div><div class="boardGrid">${boardRow('PPV',s.ppv,g.ppv)}${boardRow('PPV Close',s.ppv_close,ppvCloseGoal,'pct',{pace:false})}${boardRow('AIA Posted',s.aia_posted,g.aia_posted)}${boardRow('AIA Close',s.aia_close,g.aia_close,'pct',{pace:false})}${boardRow('Upgrades',s.upgrades,g.upgrades)}${boardRow('Data',s.data,g.data)}${boardRow('HTP Close',s.htp_close,g.htp_close,'pct',{pace:false})}${boardRow('ACC / Eligible OPP',s.acc_per_opp,g.accessory_target,'money',{pace:false})}${boardRow('Insurance',s.insurance_rate,g.insurance_target,'pct',{pace:false})}${boardRow('CSAT',s.csat,g.csat_target,'pct',{pace:false})}${boardRow('Trade-In',s.trade_rate,g.trade_target,'pct',{pace:false})}<div class="boardRow neutral"><div class="boardMetric">Total OPPs</div><div class="boardValue">${num(s.opps)}</div><div class="boardNote">Opportunity volume — use every one to practice launch execution.</div></div><div class="boardRow neutral"><div class="boardMetric">Traffic</div><div class="boardValue">${num(s.traffic)}</div><div class="boardNote">Traffic only matters if we convert it.</div></div><div class="boardOther"><span>CRU ${num(s.cru)}</span><span>ACC REV ${money(s.accessory_revenue)}</span><span>NUA ${pct(s.nextup_rate)}</span><span>P2P ${num(s.pre_to_post)}</span><span>PREPAID ${num(s.prepaid)}</span><span>PA4 ${num(s.pa4)}</span><span>AIA GREEN ${num(s.aia_green_count)}</span></div></div><div class="stickyZone">${stickyCards()}</div>${noteDockHtml()}</div></section>`}
+function classicStorePage(){const s=DATA.store,g=DATA.goals,ppvCloseGoal=.035;return `<section class="page" id="store"><div class="whiteboard"><div class="boardTop"><div><div class="small">TEAM · ${DATA.config.month_label}</div><h1>CINNAMINSON</h1></div><div class="boardDate">STORE PULSE</div></div><div class="boardLegend"><b>RED = behind</b> · <b>YELLOW HIGHLIGHT = close to the line</b> · <b>GREEN = on pace</b> · <b>BLUE = crushing it</b></div><div class="boardGrid">${boardRow('PPV',s.ppv,g.ppv)}${boardRow('PPV Close',s.ppv_close,ppvCloseGoal,'pct',{pace:false})}${boardRow('AIA Posted',s.aia_posted,g.aia_posted)}${boardRow('AIA Close',s.aia_close,g.aia_close,'pct',{pace:false})}${boardRow('Upgrades',s.upgrades,g.upgrades)}${boardRow('Data',s.data,g.data)}${boardRow('HTP Close',s.htp_close,g.htp_close,'pct',{pace:false})}${boardRow('ACC / Eligible OPP',s.acc_per_opp,g.accessory_target,'money',{pace:false})}${boardRow('Insurance',s.insurance_rate,g.insurance_target,'pct',{pace:false})}${boardRow('CSAT',s.csat,g.csat_target,'pct',{pace:false})}${boardRow('Trade-In',s.trade_rate,g.trade_target,'pct',{pace:false})}<div class="boardRow neutral"><div class="boardMetric">Total OPPs</div><div class="boardValue">${num(s.opps)}</div><div class="boardNote">Opportunity volume — use every one to practice launch execution.</div></div><div class="boardRow neutral"><div class="boardMetric">Traffic</div><div class="boardValue">${num(s.traffic)}</div><div class="boardNote">Traffic only matters if we convert it.</div></div><div class="boardOther"><span>CRU ${num(s.cru)}</span><span>ACC REV ${money(s.accessory_revenue)}</span><span>NUA ${pct(s.nextup_rate)}</span><span>P2P ${num(s.pre_to_post)}</span><span>PREPAID ${num(s.prepaid)}</span><span>PA4 ${num(s.pa4)}</span><span>AIA GREEN ${num(s.aia_green_count)}</span></div></div><div class="stickyZone">${stickyCards()}</div>${noteDockHtml()}</div></section>`}
 
 function oldCardStorePage(){const s=DATA.store,g=DATA.goals;return `<section class="page classicTeam" id="store-classic"><div class="hero"><span class="hello" style="float:right">Hello?</span><div class="eyebrow">Team · ${DATA.config.month_label}</div><h1>Cinnaminson</h1><p>What matters, what is working, and what the team needs next.</p></div><div class="section">Store Scorecard</div><div class="metrics">${metric('PPV',s.ppv,g.ppv)}${metric('PPV Close',s.ppv_close,.035,'pct')}${metric('AIA Posted',s.aia_posted,g.aia_posted)}${metric('AIA Close',s.aia_close,g.aia_close,'pct')}${metric('Upgrades',s.upgrades,g.upgrades)}${metric('Data',s.data,g.data)}${metric('HTP Close',s.htp_close,g.htp_close,'pct')}${metric('ACC / Eligible OPP',s.acc_per_opp,g.accessory_target,'money')}${metric('Insurance',s.insurance_rate,g.insurance_target,'pct')}${metric('CSAT',s.csat,g.csat_target,'pct')}${metric('Trade-In',s.trade_rate,g.trade_target,'pct')}${metric('Total OPPs',s.opps,g.opportunities)}${metric('Traffic',s.traffic,g.traffic)}</div><div class="section">Other Tracking</div><div class="secondary"><div class="item"><div class="k">CRU</div><div class="v">${num(s.cru)}</div></div><div class="item"><div class="k">Total Accessory Revenue</div><div class="v">${money(s.accessory_revenue)}</div></div><div class="item"><div class="k">Next Up Anytime</div><div class="v">${pct(s.nextup_rate)}</div></div><div class="item"><div class="k">Pre-to-Post</div><div class="v">${num(s.pre_to_post)}</div></div></div><div class="section">Shout Outs</div><div class="grid two">${coachCards(null,'shout')}</div><div class="section">Team Coaching</div><div class="grid two">${coachCards(null,'coach')}</div><div class="section">Team Message</div><div class="context ${adminPhrase?'adminEditable':''}" ${adminPhrase?'data-edit-config="team_message"':''}><p>${DATA.config.team_message}</p></div></section>`}
 function storePage(){return classicStorePage()+oldCardStorePage()}
@@ -426,22 +528,27 @@ function repGoal(r,key,fallback=0){const o=r.goal_overrides||{};if(o[key]!==null
 function repMetrics(r){const m=r.metrics||{},g=DATA.goals;return `${metric('PPV',m.ppv,repGoal(r,'ppv'))}${metric('AIA Posted',m.aia_posted,repGoal(r,'aia_posted'))}${metric('AIA Close',m.aia_close,g.aia_close,'pct')}${metric('HTP Close',m.htp_close,g.htp_close,'pct')}${metric('Upgrades',m.upgrades,repGoal(r,'upgrades'))}${metric('Data',m.data,repGoal(r,'data'))}${metric('ACC / Eligible OPP',m.acc_per_opp,g.accessory_target,'money')}${metric('Insurance',m.insurance_rate,g.insurance_target,'pct')}${metric('Total OPPs',m.opps,null)}${metric('Pre-to-Post',m.pre_to_post,null)}`}
 function sbsFor(slug){const rows=DATA.sbs.filter(x=>x.rep_slug===slug);return rows.map(x=>`<details class="sbs"><summary>${String(x.observed_on).slice(0,10)} · ${x.title||'Side-by-Side'}</summary><div class="inside"><div class="chips">${['greet','understand','recommend','confirm','educate','thank'].map(k=>x[k]!=null?`<span class="chip">${k}: ${x[k]}</span>`:'').join('')}</div>${x.coaching_summary?`<p><b>Coaching:</b> ${x.coaching_summary}</p>`:''}${x.notes?`<p>${x.notes}</p>`:''}</div></details>`).join('')||`<div class="context"><p>No SBS history yet.</p></div>`}
 function calcHtml(r){const m=r.metrics||{},accRev=Number(m.accessory_revenue||0)>0?Number(m.accessory_revenue):Number(m.acc_per_opp||0)*Math.max(0,Number(m.opps||0)-Number(m.data||0));const payload={...m,_accRev:accRev,_month:DATA.config.active_month,_aiaQual:Number(DATA.goals.aia_close||.075),_htpQual:Number(DATA.goals.htp_close||.05),_accQual:Number(DATA.goals.accessory_qualifier||50),_accTarget:Number(DATA.goals.accessory_target||60),_insQual:Number(DATA.goals.insurance_qualifier||.50),_insTarget:Number(DATA.goals.insurance_target||.60),_csatQual:Number(DATA.goals.csat_target||.88)};return `<div class="card"><div class="body"><div class="rephead"><div><b>Comp Calculator</b><div class="small">Current money. Month-end pace. Or a simple what-if game.</div></div><span class="hello">Hello?</span></div><div class="modebar"><button class="active" data-mode="current">Current</button><button data-mode="pace">Pace</button><button data-mode="sandbox">Sandbox</button><span class="modehint" data-r="hint">Live</span></div><div class="banner" data-r="banner"><b>Current:</b> live numbers.</div><div data-calc="${r.slug}" data-base='${JSON.stringify(payload).replaceAll("'","&#39;")}'><div class="moneygrid"><div class="moneybox"><div class="k">Qualified Comp</div><div class="v" data-r="gross">$0</div><div class="small" data-r="grossnote"></div></div><div class="moneybox risk" data-r="riskbox"><div class="k" data-r="risklabel">Money At Risk</div><div class="v" data-r="risk">$0</div><div class="small" data-r="risknote"></div></div><div class="moneybox safe"><div class="k">Guaranteed AIA Spiffs</div><div class="v" data-r="spiffs">$0</div><div class="small">$10 per AIA Posted</div></div></div><div class="section" style="font-size:14px">Production</div><div class="calcinputs">${[['PPV','ppv'],['AIA','aia_posted'],['Upgrades','upgrades'],['Data','data']].map(([l,k])=>`<div class="edit"><label>${l}</label><input data-v="${k}" type="number" min="0" step="1"><div class="compare" data-r="${k}c"></div></div>`).join('')}</div><div class="section" style="font-size:14px">Auto Math</div><div class="readgrid">${[['Total OPPs','opps'],['Eligible Accessory OPPs','elig'],['Accessories / OPP','acc'],['Insurance','ins'],['AIA Close','aiac'],['HTP','htp']].map(([l,k])=>`<div class="read"><div class="k">${l}</div><div class="v" data-r="${k}">—</div></div>`).join('')}</div><div class="section" style="font-size:14px">Qualifiers</div><div class="qualgrid">${[['AIA Close','aia'],['HTP','htp'],['Accessories','acc'],['Insurance','ins'],['CSAT','csat']].map(([l,k])=>`<div class="qual" data-q="${k}"><div class="qualtop"><span class="qualname">${l}</span><span class="qualstatus" data-r="q${k}"></span></div><div class="qualdetail" data-r="q${k}d"></div></div>`).join('')}</div><details class="tool" style="margin-top:10px"><summary>Show comp math</summary><div class="inside"><div class="breakdown">${[['Starting Base','$15.00','static'],['Upgrade Adjustment','upgadj'],['Data Adjustment','dataadj'],['Adjusted Base','adj'],['Accessory Accelerator','accbonus'],['Insurance Accelerator','insbonus'],['Final Base','final'],['PPV Comp','ppvcomp'],['AIA Comp','aiacomp']].map(x=>`<div class="breakrow"><span>${x[0]}</span><b ${x[2]?'':`data-r="${x[1]}"`}>${x[2]?x[1]:'—'}</b></div>`).join('')}</div></div></details><div class="bigresult" data-r="finalcard" style="margin-top:10px"><div class="headline" data-r="headline"></div><div class="small" data-r="sub"></div></div><div class="section" style="font-size:14px">What You Need</div><div data-r="moves"></div><button class="btn alt" data-reset style="width:100%;margin-top:10px">Reset to Current</button></div></div></div>`}
-function repWhiteboardMetrics(r){const m=r.metrics||{},g=DATA.goals;const rows=[['PPV',m.ppv,repGoal(r,'ppv'),'num'],['AIA Posted',m.aia_posted,repGoal(r,'aia_posted'),'num'],['AIA Close',m.aia_close,g.aia_close,'pct'],['HTP Close',m.htp_close,g.htp_close,'pct'],['Upgrades',m.upgrades,repGoal(r,'upgrades'),'num'],['Data',m.data,repGoal(r,'data'),'num'],['ACC / Eligible OPP',m.acc_per_opp,g.accessory_target,'money'],['Insurance',m.insurance_rate,g.insurance_target,'pct'],['Total OPPs',m.opps,null,'num'],['Pre-to-Post',m.pre_to_post,null,'num']];return rows.map(([k,v,goal,fmt])=>{const pace=!['AIA Close','HTP Close','ACC / Eligible OPP','Insurance'].includes(k),st=goal==null?'neutral':boardStatus(v,goal,{pace});return `<div class="repBoardItem ${st}"><div class="k">${k}</div><div class="v">${boardFmt(v,fmt)}${goal!=null?` / ${boardFmt(goal,fmt)}`:''}</div></div>`}).join('')}
-function repPage(){return `<section class="page" id="rep">${DATA.reps.map(r=>`<article class="repPane" id="rep-${r.slug}"><div class="repWhiteboard"><div class="small">${DATA.config.month_label} · REP BOARD</div><h2>${r.display_name}</h2><div class="repBoardGrid">${repWhiteboardMetrics(r)}</div></div><div class="section">Specific Coaching</div><div class="grid">${coachCards(r.slug)}</div><div class="section">Comp</div>${calcHtml(r)}<div class="section">SBS History</div>${sbsFor(r.slug)}</article>`).join('')}</section>`}
-function sbsPage(){return `<section class="page" id="sbs"><div class="hero"><span class="hello" style="float:right">Hello?</span><div class="eyebrow">Side-by-Sides</div><h1>SBS History</h1><p>Team-visible history by rep.</p></div>${DATA.reps.map(r=>`<div class="section">${r.display_name}</div>${sbsFor(r.slug)}`).join('')}</section>`}
-function archivesPage(){return `<section class="page" id="archives"><div class="hero"><span class="hello" style="float:right">Hello?</span><div class="eyebrow">Monthly History</div><h1>Archive</h1><p>Finished months live here.</p></div><div class="archive"><div><b>August 2026</b><div class="small">Final store scorecard, rep snapshot and Gio's ridiculous one-day pace.</div></div><a href="/August_2026_Team_Huddle_Recap.pdf" target="_blank">Open PDF</a></div></section>`}
-function field(label,id,value='',type='number'){return `<div class="field"><label>${label}</label>${type==='textarea'?`<textarea id="${id}">${value??''}</textarea>`:`<input id="${id}" type="${type}" value="${value??''}">`}</div>`}
-function adminPage(){if(!adminPhrase)return `<section class="page" id="admin"><div class="adminGate card"><div class="body"><span class="hello">Hello?</span><h2>Manager Mode</h2><div class="field"><label>Admin Phrase</label><input id="phrase" type="password" placeholder="Enter phrase"></div><button class="btn" id="unlock">Unlock</button><div class="small" id="adminstatus"></div></div></div></section>`;const store=DATA.store;return `<section class="page" id="admin"><div class="hero"><span class="hello" style="float:right">Hello?</span><div class="eyebrow">Manager Mode</div><h1>Edit</h1><p>Update numbers here, or go back to Team/Rep pages and tap coaching text directly to edit it.</p></div><div class="section">Store Metrics</div><div class="card"><div class="body"><div class="adminGrid">${[['PPV','ppv'],['PPV Close %','ppv_close'],['AIA Posted','aia_posted'],['AIA Submits','aia_submits'],['AIA Green Count','aia_green_count'],['Upgrades','upgrades'],['Data','data'],['HTP Close %','htp_close'],['Accessory Revenue','accessory_revenue'],['ACC/OPP','acc_per_opp'],['Insurance %','insurance_rate'],['CSAT %','csat'],['Trade %','trade_rate'],['OPPs','opps'],['Traffic','traffic'],['CRU','cru'],['Next Up %','nextup_rate'],['Pre-to-Post','pre_to_post']].map(([l,k])=>field(l,'store_'+k, ['ppv_close','htp_close','insurance_rate','csat','trade_rate','nextup_rate'].includes(k)?Number(store[k]||0)*100:store[k])).join('')}</div><button class="btn" data-save-store>Save Store</button></div></div>${DATA.reps.map(r=>{const m=r.metrics||{};return `<div class="section">${r.display_name}</div><div class="card"><div class="body"><div class="adminGrid">${[['PPV','ppv'],['AIA Posted','aia_posted'],['AIA Submits','aia_submits'],['AIA Green Count','aia_green_count'],['Upgrades','upgrades'],['Data','data'],['HTP Close %','htp_close'],['Accessory Revenue','accessory_revenue'],['ACC/OPP','acc_per_opp'],['Insurance %','insurance_rate'],['CSAT %','csat'],['OPPs','opps'],['Pre-to-Post','pre_to_post']].map(([l,k])=>field(l,`rep_${r.slug}_${k}`,['htp_close','insurance_rate','csat'].includes(k)?Number(m[k]||0)*100:m[k])).join('')}</div><button class="btn" data-save-rep="${r.slug}">Save ${r.display_name}</button></div></div>`}).join('')}<div class="section">Add Coaching</div><div class="card"><div class="body"><div class="adminGrid">${field('Title','coach_title','', 'text')}<div class="field"><label>Who</label><select id="coach_rep"><option value="">Team</option>${DATA.reps.map(r=>`<option value="${r.slug}">${r.display_name}</option>`).join('')}</select></div><div class="field"><label>Type</label><select id="coach_kind"><option value="coach">Coach</option><option value="shoutout">Shoutout</option></select></div></div>${field('Body','coach_body','', 'textarea')}<button class="btn" data-add-coach>Add Coaching</button></div></div><div class="section">Add SBS</div><div class="card"><div class="body"><div class="adminGrid"><div class="field"><label>Rep</label><select id="sbs_rep">${DATA.reps.map(r=>`<option value="${r.slug}">${r.display_name}</option>`).join('')}</select></div>${field('Date','sbs_date',new Date().toISOString().slice(0,10),'date')}${field('Title','sbs_title','Side-by-Side','text')}${['greet','understand','recommend','confirm','educate','thank'].map(k=>field(k,k,'')).join('')}</div>${field('Coaching Summary','sbs_summary','', 'textarea')}${field('Notes','sbs_notes','', 'textarea')}<button class="btn" data-add-sbs>Add SBS</button></div></div><div class="small" id="adminstatus"></div></section>`}
-
-
-function teamNoteDefs(){
-  const team=DATA.coaching.filter(c=>!c.rep_slug);
-  const notes=[
-    {id:'launch',cls:'blue',title:'📱 iPhone Launch Prep',body:'Attach leads in Salesforce prior to launch. Know the promos. Check trade. Rerate. Check NUA. Protect the phone. Build the accessory bundle. Ask about AIA. Every interaction is practice.'}
+function repWhiteboardMetrics(r){
+  const m=r.metrics||{},g=DATA.goals;
+  const rows=[
+    ['PPV',m.ppv,repGoal(r,'ppv'),'num'],
+    ['AIA Posted',m.aia_posted,repGoal(r,'aia_posted'),'num'],
+    ['AIA Close',m.aia_close,g.aia_close,'pct'],
+    ['HTP Close',m.htp_close,g.htp_close,'pct'],
+    ['Upgrades',m.upgrades,repGoal(r,'upgrades'),'num'],
+    ['Data',m.data,repGoal(r,'data'),'num'],
+    ['ACC / Eligible OPP',m.acc_per_opp,g.accessory_target,'money'],
+    ['Insurance',m.insurance_rate,g.insurance_target,'pct'],
+    ['Total OPPs',m.opps,null,'num'],
+    ['Pre-to-Post',m.pre_to_post,null,'num']
   ];
-  team.slice(0,5).forEach(c=>notes.push({id:String(c.id),cls:c.kind==='shoutout'?'green':'red',title:(c.kind==='shoutout'?'⭐ ':'')+c.title,body:c.body}));
-  if(DATA.config.team_message)notes.push({id:'message',cls:'',title:'Manager Note',body:DATA.config.team_message});
-  return notes;
+  return rows.map(([k,v,goal,fmt])=>{
+    const pace=!['AIA Close','HTP Close','ACC / Eligible OPP','Insurance'].includes(k);
+    const opts={pace};
+    const st=goal==null?'neutral':boardStatus(v,goal,opts);
+    const close=goal!=null&&boardCloseBand(v,goal,opts)?' closeBand':'';
+    return `<div class="repBoardItem ${st}${close}"><div class="k">${k}</div><div class="v">${boardFmt(v,fmt)}${goal!=null?` / ${boardFmt(goal,fmt)}`:''}</div></div>`
+  }).join('')
 }
 function noteDockHtml(){
   return `<div class="noteDockWrap" id="noteDockWrap">
