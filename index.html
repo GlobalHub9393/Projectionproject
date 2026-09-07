@@ -556,6 +556,24 @@ function archivesPage(){return `<section class="page" id="archives"><div class="
 function field(label,id,value='',type='number'){return `<div class="field"><label>${label}</label>${type==='textarea'?`<textarea id="${id}">${value??''}</textarea>`:`<input id="${id}" type="${type}" value="${value??''}">`}</div>`}
 function adminPage(){if(!adminPhrase)return `<section class="page" id="admin"><div class="adminGate card"><div class="body"><span class="hello">Hello?</span><h2>Manager Mode</h2><div class="field"><label>Admin Phrase</label><input id="phrase" type="password" placeholder="Enter phrase"></div><button class="btn" id="unlock">Unlock</button><div class="small" id="adminstatus"></div></div></div></section>`;const store=DATA.store;return `<section class="page" id="admin"><div class="hero"><span class="hello" style="float:right">Hello?</span><div class="eyebrow">Manager Mode</div><h1>Edit</h1><p>Update numbers here, or go back to Team/Rep pages and tap coaching text directly to edit it.</p></div><div class="section">Store Metrics</div><div class="card"><div class="body"><div class="adminGrid">${[['PPV','ppv'],['PPV Close %','ppv_close'],['AIA Posted','aia_posted'],['AIA Submits','aia_submits'],['AIA Green Count','aia_green_count'],['Upgrades','upgrades'],['Data','data'],['HTP Close %','htp_close'],['Accessory Revenue','accessory_revenue'],['ACC/OPP','acc_per_opp'],['Insurance %','insurance_rate'],['CSAT %','csat'],['Trade %','trade_rate'],['OPPs','opps'],['Traffic','traffic'],['CRU','cru'],['Next Up %','nextup_rate'],['Pre-to-Post','pre_to_post']].map(([l,k])=>field(l,'store_'+k, ['ppv_close','htp_close','insurance_rate','csat','trade_rate','nextup_rate'].includes(k)?Number(store[k]||0)*100:store[k])).join('')}</div><button class="btn" data-save-store>Save Store</button></div></div>${DATA.reps.map(r=>{const m=r.metrics||{};return `<div class="section">${r.display_name}</div><div class="card"><div class="body"><div class="adminGrid">${[['PPV','ppv'],['AIA Posted','aia_posted'],['AIA Submits','aia_submits'],['AIA Green Count','aia_green_count'],['Upgrades','upgrades'],['Data','data'],['HTP Close %','htp_close'],['Accessory Revenue','accessory_revenue'],['ACC/OPP','acc_per_opp'],['Insurance %','insurance_rate'],['CSAT %','csat'],['OPPs','opps'],['Pre-to-Post','pre_to_post']].map(([l,k])=>field(l,`rep_${r.slug}_${k}`,['htp_close','insurance_rate','csat'].includes(k)?Number(m[k]||0)*100:m[k])).join('')}</div><button class="btn" data-save-rep="${r.slug}">Save ${r.display_name}</button></div></div>`}).join('')}<div class="section">Add Coaching</div><div class="card"><div class="body"><div class="adminGrid">${field('Title','coach_title','', 'text')}<div class="field"><label>Who</label><select id="coach_rep"><option value="">Team</option>${DATA.reps.map(r=>`<option value="${r.slug}">${r.display_name}</option>`).join('')}</select></div><div class="field"><label>Type</label><select id="coach_kind"><option value="coach">Coach</option><option value="shoutout">Shoutout</option></select></div></div>${field('Body','coach_body','', 'textarea')}<button class="btn" data-add-coach>Add Coaching</button></div></div><div class="section">Add SBS</div><div class="card"><div class="body"><div class="adminGrid"><div class="field"><label>Rep</label><select id="sbs_rep">${DATA.reps.map(r=>`<option value="${r.slug}">${r.display_name}</option>`).join('')}</select></div>${field('Date','sbs_date',new Date().toISOString().slice(0,10),'date')}${field('Title','sbs_title','Side-by-Side','text')}${['greet','understand','recommend','confirm','educate','thank'].map(k=>field(k,k,'')).join('')}</div>${field('Coaching Summary','sbs_summary','', 'textarea')}${field('Notes','sbs_notes','', 'textarea')}<button class="btn" data-add-sbs>Add SBS</button></div></div><div class="small" id="adminstatus"></div></section>`}
 
+
+function teamNoteDefs(){
+  const team=DATA.coaching.filter(c=>!c.rep_slug);
+  const notes=[
+    {id:'launch',cls:'blue',title:'📱 iPhone Launch Prep',body:'Attach leads in Salesforce prior to launch. Know the promos. Check trade. Rerate. Check NUA. Protect the phone. Build the accessory bundle. Ask about AIA. Every interaction is practice.'}
+  ];
+  team.slice(0,5).forEach(c=>notes.push({
+    id:String(c.id),
+    cls:c.kind==='shoutout'?'green':'red',
+    title:(c.kind==='shoutout'?'⭐ ':'')+c.title,
+    body:c.body
+  }));
+  if(DATA.config.team_message){
+    notes.push({id:'message',cls:'',title:'Manager Note',body:DATA.config.team_message});
+  }
+  return notes;
+}
+
 function noteDockHtml(){
   return `<div class="noteDockWrap" id="noteDockWrap">
     <button class="noteDockNav" data-note-prev aria-label="Previous note">‹</button>
