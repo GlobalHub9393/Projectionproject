@@ -293,6 +293,20 @@ body:not(.teamNotesActive) .notesRestore{display:none}
 .paySpiffNote{margin-top:8px;padding:8px 10px;border-radius:8px;background:#ffffffa8;font:800 10px/1.4 Inter,Arial,sans-serif;color:#475569}.payPriority{padding:10px 11px;border-radius:9px;background:#fff;font:900 12px/1.45 Inter,Arial,sans-serif;color:#172033}
 @media(max-width:560px){.repPayOverlay{padding:8px}.repPayCard{padding:15px 12px 17px;max-height:94vh}.payNeedGrid{grid-template-columns:1fr}.payValueTable{font-size:9px;border-spacing:2px}.payValueTable th,.payValueTable td{padding:7px 3px}.payValueTable td strong{font-size:12px}.repPayMini{top:54px}.repPayMini .miniStatus{max-width:52%;text-align:right}}
 
+
+/* ===== Rep page cleanup: GET PAID owns comp, board owns production ===== */
+.repProductionSub{margin:4px 0 12px;font:800 10px/1.35 Inter,Arial,sans-serif;color:#64748b}
+.compToolWrap{margin-top:18px;border:1px solid #cbd5e1;border-radius:14px;background:#ffffffb8;overflow:hidden}
+.compToolWrap>summary{cursor:pointer;list-style:none;padding:14px 16px;font:1000 13px/1.2 Inter,Arial,sans-serif;color:#17324d;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.compToolWrap>summary::-webkit-details-marker{display:none}
+.compToolWrap>summary:after{content:'＋';font-size:18px}
+.compToolWrap[open]>summary:after{content:'–'}
+.compToolWrap .compToolHint{font-size:10px;font-weight:800;color:#64748b}
+.compToolBody{padding:0 10px 12px}
+.calcDeep{margin-top:10px}
+.repWhiteboard .repBoardGrid{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:560px){.repWhiteboard .repBoardGrid{grid-template-columns:repeat(2,minmax(0,1fr))}.compToolWrap>summary{padding:12px}}
+
 </style>
 </head>
 <body>
@@ -544,29 +558,29 @@ function storePage(){return classicStorePage()+oldCardStorePage()}
 function repGoal(r,key,fallback=0){const o=r.goal_overrides||{};if(o[key]!==null&&o[key]!==undefined)return Number(o[key]);const n=Math.max(DATA.reps.length,1),g=DATA.goals;if(key==='ppv')return Math.round(Number(g.ppv||0)/n);if(key==='aia_posted')return Math.round(Number(g.aia_posted||0)/n);if(key==='upgrades')return Math.round(Number(g.upgrades||0)/n);if(key==='data')return Math.round(Number(g.data||0)/n);return fallback}
 function repMetrics(r){const m=r.metrics||{},g=DATA.goals;return `${metric('PPV',m.ppv,repGoal(r,'ppv'))}${metric('AIA Posted',m.aia_posted,repGoal(r,'aia_posted'))}${metric('AIA Close',m.aia_close,g.aia_close,'pct')}${metric('HTP Close',m.htp_close,g.htp_close,'pct')}${metric('Upgrades',m.upgrades,repGoal(r,'upgrades'))}${metric('Data',m.data,repGoal(r,'data'))}${metric('ACC / Eligible OPP',m.acc_per_opp,g.accessory_target,'money')}${metric('Insurance',m.insurance_rate,g.insurance_target,'pct')}${metric('Total OPPs',m.opps,null)}${metric('Pre-to-Post',m.pre_to_post,null)}`}
 function sbsFor(slug){const rows=DATA.sbs.filter(x=>x.rep_slug===slug);return rows.map(x=>`<details class="sbs"><summary>${String(x.observed_on).slice(0,10)} · ${x.title||'Side-by-Side'}</summary><div class="inside"><div class="chips">${['greet','understand','recommend','confirm','educate','thank'].map(k=>x[k]!=null?`<span class="chip">${k}: ${x[k]}</span>`:'').join('')}</div>${x.coaching_summary?`<p><b>Coaching:</b> ${x.coaching_summary}</p>`:''}${x.notes?`<p>${x.notes}</p>`:''}</div></details>`).join('')||`<div class="context"><p>No SBS history yet.</p></div>`}
-function calcHtml(r){const m=r.metrics||{},accRev=Number(m.accessory_revenue||0)>0?Number(m.accessory_revenue):Number(m.acc_per_opp||0)*Math.max(0,Number(m.opps||0)-Number(m.data||0));const payload={...m,_accRev:accRev,_month:DATA.config.active_month,_aiaQual:Number(DATA.goals.aia_close||.075),_htpQual:Number(DATA.goals.htp_close||.05),_accQual:35,_accTarget:Number(DATA.goals.accessory_target||60),_insQual:.35,_insTarget:Number(DATA.goals.insurance_target||.60),_csatQual:Number(DATA.goals.csat_target||.88),_csatRequired:false};return `<div class="card"><div class="body"><div class="rephead"><div><b>Comp Calculator</b><div class="small">Current money. Month-end pace. Or a simple what-if game.</div></div><span class="hello">Hello?</span></div><div class="modebar"><button class="active" data-mode="current">Current</button><button data-mode="pace">Pace</button><button data-mode="sandbox">Sandbox</button><span class="modehint" data-r="hint">Live</span></div><div class="banner" data-r="banner"><b>Current:</b> live numbers.</div><div data-calc="${r.slug}" data-base='${JSON.stringify(payload).replaceAll("'","&#39;")}'><div class="moneygrid"><div class="moneybox"><div class="k">Qualified Comp</div><div class="v" data-r="gross">$0</div><div class="small" data-r="grossnote"></div></div><div class="moneybox risk" data-r="riskbox"><div class="k" data-r="risklabel">Money At Risk</div><div class="v" data-r="risk">$0</div><div class="small" data-r="risknote"></div></div><div class="moneybox safe"><div class="k">Guaranteed AIA Spiffs</div><div class="v" data-r="spiffs">$0</div><div class="small">$10 per AIA Posted</div></div></div><div class="section" style="font-size:14px">Production</div><div class="calcinputs">${[['PPV','ppv'],['AIA','aia_posted'],['Upgrades','upgrades'],['Data','data']].map(([l,k])=>`<div class="edit"><label>${l}</label><input data-v="${k}" type="number" min="0" step="1"><div class="compare" data-r="${k}c"></div></div>`).join('')}</div><div class="section" style="font-size:14px">Auto Math</div><div class="readgrid">${[['Total OPPs','opps'],['Eligible Accessory OPPs','elig'],['Accessories / OPP','acc'],['Insurance','ins'],['AIA Close','aiac'],['HTP','htp']].map(([l,k])=>`<div class="read"><div class="k">${l}</div><div class="v" data-r="${k}">—</div></div>`).join('')}</div><div class="section" style="font-size:14px">Qualifiers</div><div class="qualgrid">${[['AIA Close','aia'],['HTP','htp'],['Accessories','acc'],['Insurance','ins'],['CSAT (tracking)','csat']].map(([l,k])=>`<div class="qual" data-q="${k}"><div class="qualtop"><span class="qualname">${l}</span><span class="qualstatus" data-r="q${k}"></span></div><div class="qualdetail" data-r="q${k}d"></div></div>`).join('')}</div><details class="tool" style="margin-top:10px"><summary>Show comp math</summary><div class="inside"><div class="breakdown">${[['Starting Base','$15.00','static'],['Upgrade Adjustment','upgadj'],['Data Adjustment','dataadj'],['Adjusted Base','adj'],['Accessory Accelerator','accbonus'],['Insurance Accelerator','insbonus'],['Final Base','final'],['PPV Comp','ppvcomp'],['AIA Comp','aiacomp']].map(x=>`<div class="breakrow"><span>${x[0]}</span><b ${x[2]?'':`data-r="${x[1]}"`}>${x[2]?x[1]:'—'}</b></div>`).join('')}</div></div></details><div class="bigresult" data-r="finalcard" style="margin-top:10px"><div class="headline" data-r="headline"></div><div class="small" data-r="sub"></div></div><div class="section" style="font-size:14px">What You Need</div><div data-r="moves"></div><button class="btn alt" data-reset style="width:100%;margin-top:10px">Reset to Current</button></div></div></div>`}
+function calcHtml(r){
+  const m=r.metrics||{},accRev=Number(m.accessory_revenue||0)>0?Number(m.accessory_revenue):Number(m.acc_per_opp||0)*Math.max(0,Number(m.opps||0)-Number(m.data||0));
+  const payload={...m,_accRev:accRev,_month:DATA.config.active_month,_aiaQual:Number(DATA.goals.aia_close||.075),_htpQual:Number(DATA.goals.htp_close||.05),_accQual:35,_accTarget:Number(DATA.goals.accessory_target||60),_insQual:.35,_insTarget:Number(DATA.goals.insurance_target||.60),_csatQual:Number(DATA.goals.csat_target||.88),_csatRequired:false};
+  return `<div class="card"><div class="body"><div class="rephead"><div><b>What-If Calculator</b><div class="small">Play with PPV, AIA, Upgrade and Data production without repeating the GET PAID card.</div></div><span class="hello">Hello?</span></div><div class="modebar"><button class="active" data-mode="current">Current</button><button data-mode="pace">Pace</button><button data-mode="sandbox">Sandbox</button><span class="modehint" data-r="hint">Live</span></div><div class="banner" data-r="banner"><b>Current:</b> live numbers.</div><div data-calc="${r.slug}" data-base='${JSON.stringify(payload).replaceAll("'","&#39;")}'><div class="moneygrid"><div class="moneybox"><div class="k">Qualified Comp</div><div class="v" data-r="gross">$0</div><div class="small" data-r="grossnote"></div></div><div class="moneybox risk" data-r="riskbox"><div class="k" data-r="risklabel">Money At Risk</div><div class="v" data-r="risk">$0</div><div class="small" data-r="risknote"></div></div><div class="moneybox safe"><div class="k">AIA Instant Spiffs</div><div class="v" data-r="spiffs">$0</div><div class="small">$10 per standard AIA Posted</div></div></div><div class="section" style="font-size:14px">Change the production</div><div class="calcinputs">${[['PPV','ppv'],['AIA','aia_posted'],['Upgrades','upgrades'],['Data','data']].map(([l,k])=>`<div class="edit"><label>${l}</label><input data-v="${k}" type="number" min="0" step="1"><div class="compare" data-r="${k}c"></div></div>`).join('')}</div><details class="tool calcDeep"><summary>Show qualifier & denominator math</summary><div class="inside"><div class="readgrid">${[['Total OPPs','opps'],['Eligible Accessory OPPs','elig'],['Accessories / OPP','acc'],['Insurance','ins'],['AIA Close','aiac'],['HTP','htp']].map(([l,k])=>`<div class="read"><div class="k">${l}</div><div class="v" data-r="${k}">—</div></div>`).join('')}</div><div class="qualgrid" style="margin-top:10px">${[['AIA Close','aia'],['HTP','htp'],['Accessories','acc'],['Insurance','ins'],['CSAT (tracking)','csat']].map(([l,k])=>`<div class="qual" data-q="${k}"><div class="qualtop"><span class="qualname">${l}</span><span class="qualstatus" data-r="q${k}"></span></div><div class="qualdetail" data-r="q${k}d"></div></div>`).join('')}</div></div></details><details class="tool" style="margin-top:10px"><summary>Show comp math</summary><div class="inside"><div class="breakdown">${[['Starting Base','$15.00','static'],['Upgrade Adjustment','upgadj'],['Data Adjustment','dataadj'],['Adjusted Base','adj'],['Accessory Accelerator','accbonus'],['Insurance Accelerator','insbonus'],['Final Base','final'],['PPV Comp','ppvcomp'],['AIA Comp','aiacomp']].map(x=>`<div class="breakrow"><span>${x[0]}</span><b ${x[2]?'':`data-r="${x[1]}"`}>${x[2]?x[1]:'—'}</b></div>`).join('')}</div></div></details><div class="bigresult" data-r="finalcard" style="margin-top:10px"><div class="headline" data-r="headline"></div><div class="small" data-r="sub"></div></div><div class="section" style="font-size:14px">Scenario Result</div><div data-r="moves"></div><button class="btn alt" data-reset style="width:100%;margin-top:10px">Reset to Current</button></div></div></div>`
+}
+
 function repWhiteboardMetrics(r){
-  const m=r.metrics||{},g=DATA.goals;
+  const m=r.metrics||{};
   const rows=[
     ['PPV',m.ppv,repGoal(r,'ppv'),'num'],
     ['AIA Posted',m.aia_posted,repGoal(r,'aia_posted'),'num'],
-    ['AIA Close',m.aia_close,g.aia_close,'pct'],
-    ['HTP Close',m.htp_close,g.htp_close,'pct'],
     ['Upgrades',m.upgrades,repGoal(r,'upgrades'),'num'],
     ['Data',m.data,repGoal(r,'data'),'num'],
-    ['ACC / Eligible OPP',m.acc_per_opp,g.accessory_target,'money'],
-    ['Insurance',m.insurance_rate,g.insurance_target,'pct'],
     ['Total OPPs',m.opps,null,'num'],
     ['Pre-to-Post',m.pre_to_post,null,'num']
   ];
   return rows.map(([k,v,goal,fmt])=>{
-    const pace=!['AIA Close','HTP Close','ACC / Eligible OPP','Insurance'].includes(k);
-    const opts={pace};
-    const st=goal==null?'neutral':boardStatus(v,goal,opts);
-    const close=goal!=null&&boardCloseBand(v,goal,opts)?' closeBand':'';
+    const st=goal==null?'neutral':boardStatus(v,goal,{pace:true});
+    const close=goal!=null&&boardCloseBand(v,goal,{pace:true})?' closeBand':'';
     return `<div class="repBoardItem ${st}${close}"><div class="k">${k}</div><div class="v">${boardFmt(v,fmt)}${goal!=null?` / ${boardFmt(goal,fmt)}`:''}</div></div>`
   }).join('')
 }
+
 
 function payPaceMeta(){
   const active=String(DATA?.config?.active_month||'');
@@ -581,6 +595,9 @@ function payPaceMeta(){
   return{days,elapsed,factor:days/elapsed};
 }
 function htpEligibleEstimate(m){
+  if(m && m.htp_eligible_opps !== undefined && m.htp_eligible_opps !== null){
+    return Math.max(0,Number(m.htp_eligible_opps)||0);
+  }
   const h=Number(m?.htp||0),rate=Number(m?.htp_close||0);
   if(h>0&&rate>0)return Math.max(h,Math.round(h/rate));
   return Math.max(0,Math.round(Number(m?.opps||0)-Number(m?.data||0)-Number(m?.prepaid||0)-Number(m?.pa4||0)));
@@ -620,7 +637,7 @@ function repPayNoteHtml(r){
 function bindRepPayNotes(){document.querySelectorAll('[data-pay-close]').forEach(b=>b.onclick=e=>{e.stopPropagation();const slug=b.dataset.payClose;document.querySelector(`[data-pay-overlay="${slug}"]`)?.classList.remove('open');document.querySelector(`[data-pay-mini="${slug}"]`)?.classList.add('show')});document.querySelectorAll('[data-pay-mini]').forEach(b=>b.onclick=()=>{const slug=b.dataset.payMini;document.querySelector(`[data-pay-mini="${slug}"]`)?.classList.remove('show');document.querySelector(`[data-pay-overlay="${slug}"]`)?.classList.add('open')})}
 function openRepPayNote(slug){document.querySelectorAll('[data-pay-overlay]').forEach(x=>x.classList.remove('open'));document.querySelectorAll('[data-pay-mini]').forEach(x=>x.classList.remove('show'));document.querySelector(`[data-pay-overlay="${slug}"]`)?.classList.add('open')}
 
-function repPage(){return `<section class="page" id="rep">${DATA.reps.map(r=>`<article class="repPane" id="rep-${r.slug}">${repPayNoteHtml(r)}<div class="repWhiteboard"><div class="small">${DATA.config.month_label} · REP BOARD</div><h2>${r.display_name}</h2><div class="repBoardGrid">${repWhiteboardMetrics(r)}</div></div><div class="section">Specific Coaching</div><div class="grid">${coachCards(r.slug)}</div><div class="section">Comp</div>${calcHtml(r)}<div class="section">SBS History</div>${sbsFor(r.slug)}</article>`).join('')}</section>`}
+function repPage(){return `<section class="page" id="rep">${DATA.reps.map(r=>`<article class="repPane" id="rep-${r.slug}">${repPayNoteHtml(r)}<div class="repWhiteboard"><div class="small">${DATA.config.month_label} · PRODUCTION BOARD</div><h2>${r.display_name}</h2><div class="repProductionSub">Production lives here. Qualification, pace protection and sale value live in GET PAID.</div><div class="repBoardGrid">${repWhiteboardMetrics(r)}</div></div><div class="section">Specific Coaching</div><div class="grid">${coachCards(r.slug)}</div><details class="compToolWrap"><summary><span>💵 Full Comp Calculator</span><span class="compToolHint">What-if / sandbox / detailed math</span></summary><div class="compToolBody">${calcHtml(r)}</div></details><div class="section">SBS History</div>${sbsFor(r.slug)}</article>`).join('')}</section>`}
 function sbsPage(){return `<section class="page" id="sbs"><div class="hero"><span class="hello" style="float:right">Hello?</span><div class="eyebrow">Side-by-Sides</div><h1>SBS History</h1><p>Team-visible history by rep.</p></div>${DATA.reps.map(r=>`<div class="section">${r.display_name}</div>${sbsFor(r.slug)}`).join('')}</section>`}
 function archivesPage(){return `<section class="page" id="archives"><div class="hero"><span class="hello" style="float:right">Hello?</span><div class="eyebrow">Monthly History</div><h1>Archive</h1><p>Finished months live here.</p></div><div class="archive"><div><b>August 2026</b><div class="small">Final store scorecard, rep snapshot and Gio's ridiculous one-day pace.</div></div><a href="/August_2026_Team_Huddle_Recap.pdf" target="_blank">Open PDF</a></div></section>`}
 function field(label,id,value='',type='number'){return `<div class="field"><label>${label}</label>${type==='textarea'?`<textarea id="${id}">${value??''}</textarea>`:`<input id="${id}" type="${type}" value="${value??''}">`}</div>`}
