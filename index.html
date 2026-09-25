@@ -9,7 +9,7 @@
 :root{
   --navy:#082f49;--blue:#0369a1;--ink:#172033;--muted:#64748b;--line:#d7dee8;
   --paper:#fbfcfd;--page:#edf2f7;--green:#15803d;--green2:#166534;--amber:#a16207;
-  --red:#b91c1c;--yellow:#fff2a8;--yellow2:#fde68a;--marker:"Comic Sans MS","Bradley Hand",cursive
+  --red:#b91c1c;--yellow:#fff2a8;--yellow2:#fde68a;--marker:"Arial Rounded MT Bold","Trebuchet MS","Segoe UI",sans-serif;--markerHeavy:"Arial Black","Arial Rounded MT Bold","Trebuchet MS","Segoe UI",sans-serif
 }
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--page);color:var(--ink);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
 button,input{font:inherit}button{cursor:pointer}.hidden{display:none!important}
@@ -27,7 +27,7 @@ main{max-width:1160px;margin:auto;padding:12px}.page{display:none}.page.active{d
 .quickStrip{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}.quick{background:#fff;border:1px solid var(--line);border-radius:14px;padding:11px}.quick .n{font-size:23px;font-weight:1000;color:var(--navy)}.quick .l{font-size:10px;color:var(--muted);font-weight:900;text-transform:uppercase}
 .sectionTitle{font-size:17px;color:var(--navy);font-weight:1000;margin:16px 0 8px}
 .whiteboard{background:linear-gradient(180deg,#fff,#fbfcfd);border:9px solid #d1d5db;border-radius:15px;padding:18px;box-shadow:inset 0 0 24px #64748b14,0 12px 30px #0f172a14}
-.boardHead{display:flex;align-items:end;justify-content:space-between;gap:10px;border-bottom:3px solid #1f2937;padding-bottom:7px;margin-bottom:10px;font-family:var(--marker)}
+.boardHead{display:flex;align-items:end;justify-content:space-between;gap:10px;border-bottom:3px solid #1f2937;padding-bottom:7px;margin-bottom:10px;font-family:var(--markerHeavy)}
 .boardHead h1,.boardHead h2{margin:0;font-size:clamp(27px,6vw,46px)}.boardHead small{font-size:13px;font-weight:900}
 .finishGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}.finish{border:2px solid #1f2937;border-radius:8px;padding:12px;font-family:var(--marker);background:#fff;position:relative}
 .finish .lab{font-size:13px;font-weight:900}.finish .big{font-size:31px;font-weight:1000;line-height:1.05;margin:4px 0}.finish .need{font-size:14px;font-weight:1000}.finish .pace{font-size:11px;color:#475569;margin-top:5px}
@@ -48,8 +48,23 @@ details.card{padding:0}details.card summary{padding:13px;font-weight:1000;color:
 .rawGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.raw{padding:8px;border:1px solid var(--line);border-radius:9px}.raw .k{font-size:9px;color:var(--muted);text-transform:uppercase;font-weight:900}.raw .v{font-size:15px;font-weight:900;color:var(--navy);margin-top:2px}
 .mission{position:fixed;z-index:120;width:min(360px,calc(100vw - 24px));left:50%;top:82px;transform:translateX(-50%) rotate(-1deg);background:var(--yellow);box-shadow:7px 10px 30px #0004;padding:16px 16px 14px;font-family:var(--marker);touch-action:none}.mission .drag{display:flex;justify-content:space-between;gap:10px;align-items:start;border-bottom:2px solid #1f2937;padding-bottom:6px;margin-bottom:7px;cursor:grab}.mission h2{margin:0;font-size:23px}.mission .x{border:0;background:#111827;color:#fff;border-radius:999px;width:29px;height:29px;font-weight:1000}.mission .needline{font-size:17px;font-weight:1000;line-height:1.35}.mission .risk{margin-top:8px;padding-top:7px;border-top:1px dashed #854d0e;font-size:12px}.missionTab{position:fixed;z-index:110;right:12px;top:72px;border:0;background:var(--yellow);color:#422006;padding:9px 12px;border-radius:3px;box-shadow:3px 5px 12px #0003;font-family:var(--marker);font-weight:1000;transform:rotate(2deg)}
 .managerPanel{margin-top:12px}.managerTools{display:none}.managerTools.on{display:block}.tiny{font-size:10px;color:var(--muted)}.btn{border:0;background:var(--navy);color:#fff;border-radius:9px;padding:9px 11px;font-weight:900}.btn.alt{background:#fff;color:var(--navy);border:1px solid var(--line)}
+.whiteboard .sectionTitle{font-family:var(--markerHeavy);letter-spacing:.02em}
+.repWhiteboard{margin-top:2px}
+.repWhiteboard .repBanner{background:transparent;color:var(--ink);border-radius:0;padding:0 0 10px;margin-bottom:12px;border-bottom:3px solid #1f2937;box-shadow:none;font-family:var(--markerHeavy)}
+.repWhiteboard .repBanner .kicker{color:#475569}
+.repWhiteboard .repBanner h1{font-size:clamp(30px,6vw,46px);letter-spacing:.01em}
+.repWhiteboard .repBanner p{margin:4px 0 0;color:#334155;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;font-size:14px;line-height:1.45}
+.repWhiteboard .sectionTitle{font-family:var(--markerHeavy);font-size:20px;margin:14px 0 8px}
+.repWhiteboard .card,.repWhiteboard details.card{background:#fff;border:2px solid #1f2937;border-radius:10px;box-shadow:none}
+.repWhiteboard .qual,.repWhiteboard .money,.repWhiteboard .prod,.repWhiteboard .coach,.repWhiteboard .raw,.repWhiteboard .field,.repWhiteboard .out{border:2px solid #1f2937;border-radius:10px;box-shadow:none}
+.repWhiteboard .qual .name,.repWhiteboard .money .k,.repWhiteboard .prod .k,.repWhiteboard details.card summary{font-family:var(--markerHeavy)}
+.repWhiteboard .qual .value,.repWhiteboard .money .v,.repWhiteboard .prod .v{font-family:var(--markerHeavy)}
+.repWhiteboard .qual .detail,.repWhiteboard .money small,.repWhiteboard .prod .sub,.repWhiteboard .coach p,.repWhiteboard .tiny,.repWhiteboard .field label,.repWhiteboard .out .k{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+.repWhiteboard .coach{background:#fffef8}
+.repWhiteboard .coach.shout{background:#f0fdf4}
+
 @media(max-width:820px){.people,.finishGrid{grid-template-columns:repeat(2,1fr)}.quickStrip,.attachGrid,.moneyGrid,.rawGrid{grid-template-columns:repeat(2,1fr)}.stickyRow,.coachGrid{grid-template-columns:1fr}}
-@media(max-width:560px){main{padding:9px}.topbar .navRep{display:none}.hello{position:static;display:inline-block;margin-bottom:12px}.hero{padding:22px 18px}.people{grid-template-columns:1fr 1fr}.quickStrip{grid-template-columns:1fr 1fr}.paceGrid,.qualGrid{grid-template-columns:1fr}.prodGrid{grid-template-columns:1fr 1fr}.sandboxGrid,.sandboxOut{grid-template-columns:1fr 1fr}.boardHead{align-items:start;flex-direction:column}.whiteboard{padding:13px;border-width:7px}.mission{top:72px}.finish .big{font-size:27px}}
+@media(max-width:560px){main{padding:9px}.topbar .navRep{display:none}.hello{position:static;display:inline-block;margin-bottom:12px}.hero{padding:22px 18px}.people{grid-template-columns:1fr 1fr}.quickStrip{grid-template-columns:1fr 1fr}.paceGrid,.qualGrid{grid-template-columns:1fr}.prodGrid{grid-template-columns:1fr 1fr}.sandboxGrid,.sandboxOut{grid-template-columns:1fr 1fr}.boardHead{align-items:start;flex-direction:column}.whiteboard{padding:13px;border-width:7px}.repWhiteboard .repBanner h1{font-size:32px}.mission{top:72px}.finish .big{font-size:27px}}
 </style>
 </head>
 <body>
@@ -100,6 +115,7 @@ details.card{padding:0}details.card summary{padding:13px;font-weight:1000;color:
 </section>
 
 <section id="rep" class="page">
+  <div class="whiteboard repWhiteboard">
   <div class="repBanner"><div class="kicker">EOD 9/24 • 6 days left</div><h1 id="repName"></h1><p id="repTag"></p></div>
   <div class="sectionTitle">GET PAID</div>
   <div class="card">
@@ -126,6 +142,7 @@ details.card{padding:0}details.card summary{padding:13px;font-weight:1000;color:
 
   <div class="sectionTitle">Full snapshot</div>
   <details class="card"><summary>Show secondary metrics</summary><div class="inside"><div class="rawGrid" id="repRaw"></div></div></details>
+  </div>
 </section>
 </main>
 
