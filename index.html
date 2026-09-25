@@ -158,8 +158,8 @@ const D={
   snapshot:"EOD 9/24", elapsed:24, daysLeft:6,
   storeGoals:{ppv:38,aiaPosted:26,upgrades:124,data:15},
   reps:{
-    gio:{name:"Gio",tag:"Protect the money. Fix HTP. Keep AIA moving.",goals:{ppv:14,aiaPosted:8,upgrades:35,data:5},
-      m:{ppv:8,aiaPosted:5,aiaSubmits:5,greens:63,htp:1,htpOpps:27,upgrades:23,data:2,accRev:1902,accPerOpp:61.37,insurance:65.38,nextup:6.67,trade:65.5,csat:100,p2p:0,opps:35,prepaid:0,pa4:6,cru:0}},
+    gio:{name:"Gio",tag:"Both accelerators are active. HTP is safe — AIA pace is the finish.",goals:{ppv:14,aiaPosted:8,upgrades:35,data:5},
+      m:{ppv:10,aiaPosted:5,aiaSubmits:5,greens:75,htp:2,htpOpps:31,upgrades:27,data:2,accRev:2234,accPerOpp:60.39,insurance:63.33,nextup:6.67,trade:65.5,csat:100,p2p:0,opps:41,prepaid:0,pa4:6,cru:0}},
     noelle:{name:"Noelle",tag:"Qualified today. Keep AIA ahead of the denominator and chase accelerators.",goals:{ppv:14,aiaPosted:8,upgrades:50,data:5},
       m:{ppv:5,aiaPosted:7,aiaSubmits:7,greens:92,htp:2,htpOpps:29,upgrades:31,data:1,accRev:1324,accPerOpp:37.82,insurance:43.48,nextup:44.12,trade:25,csat:86.67,p2p:1,opps:40,prepaid:3,pa4:4,cru:0}},
     tj:{name:"TJ",tag:"Volume engine. Do not slow down — attach more to it.",goals:{ppv:14,aiaPosted:10,upgrades:45,data:5},
@@ -259,8 +259,8 @@ function renderRep(){
 function renderCoaching(slug,m,an,hn){
   let shout="",move="";
   if(slug==="gio"){
-    shout=`ACC is <b>$${m.accPerOpp.toFixed(2)}</b>, Protection is <b>${m.insurance.toFixed(2)}%</b>, and Trade is <b>${m.trade.toFixed(1)}%</b>. Both 25% accelerators are active.`;
-    move=`HTP is the immediate blocker: <b>1/27 = ${pct(htpRate(m))}</b>, so +1 HTP is the finish need. AIA is qualified today, but the denominator pace still calls for <b>+${an} AIA submit</b> by month-end. Protect the full-sale quality while you finish those two.`;
+    shout=`ACC is <b>$${m.accPerOpp.toFixed(2)}</b>, Protection is <b>${m.insurance.toFixed(2)}%</b>, HTP is <b>${m.htp}/${m.htpOpps} = ${pct(htpRate(m))}</b>, and Trade is <b>${m.trade.toFixed(1)}%</b>. Both 25% accelerators are active and HTP is safe.`;
+    move=`AIA is the finish issue: <b>${m.aiaSubmits}/${m.greens} = ${pct(aiaRate(m))}</b>. +${needToday(m,"aia")} submit fixes the line today, but current Green Check pace calls for <b>+${an} AIA submits by month-end</b>. Keep the accelerator-quality sale intact while you close the AIA gap.`;
   }else if(slug==="noelle"){
     shout=`HTP is <b>2/29 = ${pct(htpRate(m))}</b> and AIA is <b>7/92 = ${pct(aiaRate(m))}</b>. Both are qualified today, and HTP is holding on month-end pace.`;
     move=`Do not coast on AIA: the Green Check denominator projects to roughly 115, so pace calls for <b>+${an} more AIA submits</b>. ACC at <b>$${m.accPerOpp.toFixed(2)}</b> and Protection at <b>${m.insurance.toFixed(2)}%</b> are qualified, but both still have room to chase the $60/60% accelerators.`;
