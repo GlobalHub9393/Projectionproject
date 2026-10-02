@@ -189,6 +189,7 @@ body.classic .move{border-bottom:1px solid #eaecf0}
         <button type="button" data-manager-section="storeEdit" class="active">Store Stats</button>
         <button type="button" data-manager-section="goalsEdit">Store Goals</button>
         <button type="button" data-manager-section="repEdit">Rep Stats</button>
+        <button type="button" data-manager-section="repGoalsEdit">Rep Goals</button>
       </nav>
       <div class="managerPanel">
         <div id="storeEdit" class="managerSection active">
@@ -204,6 +205,11 @@ body.classic .move{border-bottom:1px solid #eaecf0}
           <h2>Rep Stats</h2><p>Pick a rep, update their month-to-date numbers, then Publish.</p>
           <div class="field" style="max-width:260px;margin-bottom:12px"><label>Rep</label><select id="mgrRepSelect"></select></div>
           <div id="mgrRepFields" class="formGrid"></div>
+        </div>
+        <div id="repGoalsEdit" class="managerSection">
+          <h2>Rep Goals</h2><p>Pick a rep and set only the goals you want shown on their Stats board. Leave any goal blank to hide that target.</p>
+          <div class="field" style="max-width:260px;margin-bottom:12px"><label>Rep</label><select id="mgrRepGoalSelect"></select></div>
+          <div id="mgrRepGoalFields" class="goalGrid"></div>
         </div>
         <div class="managerFooter"><span id="managerSaveStatus">Changes stay local until you publish.</span><button id="publishBtn" class="btn green" type="button">PUBLISH TO STORE PULSE</button></div>
       </div>
@@ -262,6 +268,7 @@ body.classic .move{border-bottom:1px solid #eaecf0}
     aia_posted:{label:'AIA Posted',unit:'count',rep:true,store:true,goal:true},
     aia_submits:{label:'AIA Submits',unit:'count',rep:true,store:true,goal:true},
     aia_green_checks:{label:'AIA Green Checks',unit:'count',rep:true,store:true},
+    aia_close:{label:'AIA Close',unit:'pct',rep:true,store:true,goal:true,derived:true},
     upgrades:{label:'Upgrades',unit:'count',rep:true,store:true,goal:true},
     data:{label:'Data',unit:'count',rep:true,store:true,goal:true},
     accessory_revenue:{label:'Accessory Revenue',unit:'money',rep:true,store:true,goal:true},
@@ -269,8 +276,9 @@ body.classic .move{border-bottom:1px solid #eaecf0}
     protectadvantage_rate:{label:'ProtectAdvantage',unit:'pct',rep:true,store:true,goal:true},
     premium_loading_rate:{label:'Premium Loading',unit:'pct',rep:true,store:true,goal:true},
     nextup_rate:{label:'Next Up Anytime',unit:'pct',rep:true,store:true,goal:true},
-    htp:{label:'HTP',unit:'count',rep:true,store:true,goal:true},
+    htp:{label:'HTP',unit:'count',rep:true,store:true},
     htp_eligible_opps:{label:'HTP Eligible',unit:'count',rep:true,store:true},
+    htp_close:{label:'HTP Close',unit:'pct',rep:true,store:true,goal:true,derived:true},
     csat:{label:'CSAT',unit:'pct',rep:true,store:true,goal:true},
     trade_rate:{label:'Trade',unit:'pct',rep:true,store:true},
     opps:{label:'OPPs',unit:'count',rep:true,store:true,goal:true},
@@ -285,6 +293,7 @@ body.classic .move{border-bottom:1px solid #eaecf0}
   const managerRepOrder=['ppv','aia_posted','aia_submits','aia_green_checks','upgrades','data','accessory_revenue','acc_per_opp','protectadvantage_rate','premium_loading_rate','nextup_rate','htp','htp_eligible_opps','csat','trade_rate','opps','pre_to_post','prepaid','pa4','cru'];
   const managerStoreOrder=['ppv','aia_posted','aia_submits','aia_green_checks','upgrades','data','accessory_revenue','acc_per_opp','protectadvantage_rate','premium_loading_rate','nextup_rate','htp','htp_eligible_opps','csat','trade_rate','opps','traffic','pre_to_post','prepaid','pa4','cru'];
   const goalOrder=Object.keys(metricDefs).filter(k=>metricDefs[k].goal && metricDefs[k].store);
+  const repGoalOrder=Object.keys(metricDefs).filter(k=>metricDefs[k].goal && metricDefs[k].rep);
 
   const S={month:'2026-10',monthRow:null,reps:[],repMetrics:[],store:{},goals:[],comp:null,ui:null,currentRep:null,managerPassword:'',managerDraft:{}};
 
@@ -304,8 +313,14 @@ body.classic .move{border-bottom:1px solid #eaecf0}
     if(v==null) return '—'; if(d.unit==='pct')return fmtPct(v); if(d.unit==='money')return fmtMoney0(v); if(d.unit==='money2')return fmtMoney(v); return fmtNum(v);
   }
   function metricLabel(key){ if(key==='aia_close')return 'AIA Close';if(key==='htp_close')return 'HTP Close';return metricDefs[key]?.label||key; }
-  function goalCurrent(key,m){ if(key==='protectadvantage_rate'||key==='premium_loading_rate'||key==='nextup_rate'||key==='csat'||key==='trade_rate') return num(m?.[key]); return num(m?.[key]); }
-  function goalFor(key){return S.goals.find(g=>g.scope==='store'&&g.metric_key===key)}
+  function goalCurrent(key,m){ if(key==='aia_close') return aiaClose(m); if(key==='htp_close') return htpClose(m); return num(m?.[key]); }
+  function goalFor(key,scope='store',repId=null){return S.goals.find(g=>g.scope===scope&&g.metric_key===key&&(scope!=='rep'||g.rep_id===repId))}
+  function goalMarkup(key,m,scope='store',repId=null){
+    const g=goalFor(key,scope,repId);if(!g)return '';
+    const cur=goalCurrent(key,m),target=num(g.target),p=target?Math.min(100,cur/target*100):0,gd=metricDefs[key];
+    const gt=gd?.unit==='pct'?fmtPct(target):gd?.unit?.startsWith('money')?fmtMoney(target):fmtNum(target);
+    return `<div class="goal">GOAL ${gt}</div><div class="progress"><i style="width:${p}%"></i></div>`;
+  }
 
   function comp(m){
     const ppv=num(m.ppv),pa=num(m.protectadvantage_rate),premium=num(m.premium_loading_rate),nua=num(m.nextup_rate);
@@ -359,8 +374,7 @@ body.classic .move{border-bottom:1px solid #eaecf0}
     $('storeWhen').textContent=S.monthRow?.snapshot_date?`SNAPSHOT ${S.monthRow.snapshot_date}`:'NO SNAPSHOT DATE';
     const m=S.store||{};
     $('storeStats').innerHTML=storeStatOrder.map(key=>{
-      const g=goalFor(key),v=displayValue(key,m);let extra='';
-      if(g){const cur=goalCurrent(key,m),target=num(g.target),p=target?Math.min(100,cur/target*100):0;const gd=metricDefs[key];const gt=gd?.unit==='pct'?fmtPct(target):gd?.unit?.startsWith('money')?fmtMoney(target):fmtNum(target);extra=`<div class="goal">GOAL ${gt}</div><div class="progress"><i style="width:${p}%"></i></div>`;}
+      const v=displayValue(key,m),extra=goalMarkup(key,m,'store');
       return `<div class="stat"><div class="label">${esc(metricLabel(key))}</div><div class="value">${esc(v)}</div>${extra}</div>`;
     }).join('');
   }
@@ -370,7 +384,7 @@ body.classic .move{border-bottom:1px solid #eaecf0}
     const r=S.reps.find(x=>x.rep_id===S.currentRep)||S.reps[0];if(!r)return;S.currentRep=r.rep_id;const m=repMetric(r.rep_id);
     $('repTitle').textContent=r.display_name;$('repKicker').textContent=(S.monthRow?.display_name||'October 2026').toUpperCase()+' • REP';
     $('repSelect').innerHTML=S.reps.filter(x=>x.active).map(x=>`<option value="${esc(x.rep_id)}" ${x.rep_id===r.rep_id?'selected':''}>${esc(x.display_name)}</option>`).join('');
-    $('repStats').innerHTML=repStatOrder.map(key=>`<div class="stat"><div class="label">${esc(metricLabel(key))}</div><div class="value">${esc(displayValue(key,m))}</div></div>`).join('');
+    $('repStats').innerHTML=repStatOrder.map(key=>`<div class="stat"><div class="label">${esc(metricLabel(key))}</div><div class="value">${esc(displayValue(key,m))}</div>${goalMarkup(key,m,'rep',r.rep_id)}</div>`).join('');
     $('coachGrid').innerHTML=coaching(m).map(x=>`<div class="note"><h3>${x.title}</h3><p>${x.body}</p></div>`).join('');
     const moves=moveCandidates(m).slice(0,4);$('moneyMoves').innerHTML=moves.length?moves.map((x,i)=>`<div class="move"><div class="rank">${i+1}</div><div><div class="what">${esc(x.title)}</div><div class="why">${esc(x.why)}</div></div><div class="money">+${fmtMoney(x.impact)}</div></div>`).join(''):`<div class="errorBox" style="border-color:#d0d5dd;background:#fff">Add some October production and Store Pulse will rank the biggest money moves here.</div>`;
   }
@@ -415,11 +429,15 @@ body.classic .move{border-bottom:1px solid #eaecf0}
   function renderManager(){
     $('mgrSnapshot').value=S.monthRow?.snapshot_date||new Date().toISOString().slice(0,10);
     $('mgrStoreFields').innerHTML=managerStoreOrder.map(k=>fieldHTML('mgr_store_'+k,metricDefs[k].label,S.store?.[k],metricDefs[k].unit)).join('');
-    $('mgrGoalFields').innerHTML=goalOrder.map(k=>{const g=goalFor(k);return fieldHTML('goal_'+k,metricDefs[k].label,g?.target,metricDefs[k].unit)}).join('');
-    $('mgrRepSelect').innerHTML=S.reps.filter(r=>r.active).map(r=>`<option value="${esc(r.rep_id)}">${esc(r.display_name)}</option>`).join('');
-    $('mgrRepSelect').value=S.currentRep||S.reps[0]?.rep_id||'';renderManagerRepFields();$('mgrRepSelect').onchange=renderManagerRepFields;
+    $('mgrGoalFields').innerHTML=goalOrder.map(k=>{const g=goalFor(k,'store');return fieldHTML('goal_'+k,metricDefs[k].label,g?.target,metricDefs[k].unit)}).join('');
+    const repOpts=S.reps.filter(r=>r.active).map(r=>`<option value="${esc(r.rep_id)}">${esc(r.display_name)}</option>`).join('');
+    $('mgrRepSelect').innerHTML=repOpts;$('mgrRepGoalSelect').innerHTML=repOpts;
+    $('mgrRepSelect').value=S.currentRep||S.reps[0]?.rep_id||'';$('mgrRepGoalSelect').value=S.currentRep||S.reps[0]?.rep_id||'';
+    renderManagerRepFields();renderManagerRepGoalFields();
+    $('mgrRepSelect').onchange=renderManagerRepFields;$('mgrRepGoalSelect').onchange=renderManagerRepGoalFields;
   }
   function renderManagerRepFields(){const id=$('mgrRepSelect').value,m=repMetric(id);$('mgrRepFields').innerHTML=managerRepOrder.map(k=>fieldHTML('mgr_rep_'+k,metricDefs[k].label,m?.[k],metricDefs[k].unit)).join('');}
+  function renderManagerRepGoalFields(){const id=$('mgrRepGoalSelect').value;$('mgrRepGoalFields').innerHTML=repGoalOrder.map(k=>{const g=goalFor(k,'rep',id);return fieldHTML('rep_goal_'+k,metricDefs[k].label,g?.target,metricDefs[k].unit)}).join('');}
   function valuesFrom(rootSel,prefix){const out={};qsa(rootSel+' input').forEach(i=>{const key=i.id.replace(prefix,'');out[key]=i.value===''?null:num(i.value)});return out;}
   async function publishManager(){
     if(!S.managerPassword){openManagerLogin();return}
@@ -428,9 +446,11 @@ body.classic .move{border-bottom:1px solid #eaecf0}
     if(!repRows.some(r=>r.rep_id===activeRep))repRows.push({rep_id:activeRep,metrics:editedRep});
     const storeMetrics=valuesFrom('#mgrStoreFields','mgr_store_');
     const goals=goalOrder.map((k,i)=>{const el=$('goal_'+k);if(!el||el.value==='')return null;return {metric_key:k,target:num(el.value),unit:metricDefs[k].unit,sort_order:i*10}}).filter(Boolean);
+    const repGoalRepId=$('mgrRepGoalSelect').value;
+    const repGoals=repGoalOrder.map((k,i)=>{const el=$('rep_goal_'+k);if(!el||el.value==='')return null;return {metric_key:k,target:num(el.value),unit:metricDefs[k].unit,sort_order:i*10}}).filter(Boolean);
     $('publishBtn').disabled=true;$('publishBtn').textContent='PUBLISHING…';$('managerSaveStatus').textContent='Publishing changes…';
     try{
-      await managerCall({action:'publish',password:S.managerPassword,month:S.month,snapshot_date:$('mgrSnapshot').value,store_metrics:storeMetrics,rep_metrics:repRows,goals});
+      await managerCall({action:'publish',password:S.managerPassword,month:S.month,snapshot_date:$('mgrSnapshot').value,store_metrics:storeMetrics,rep_metrics:repRows,goals,rep_goal_rep_id:repGoalRepId,rep_goals:repGoals});
       $('managerSaveStatus').textContent='Published. Refreshing live Store Pulse…';await loadData(false);renderManager();showToast('Store Pulse updated');$('managerSaveStatus').textContent='Published successfully.';
     }catch(e){$('managerSaveStatus').textContent='Publish failed: '+e.message;showToast('Publish failed');}
     finally{$('publishBtn').disabled=false;$('publishBtn').textContent='PUBLISH TO STORE PULSE';}
@@ -445,7 +465,7 @@ body.classic .move{border-bottom:1px solid #eaecf0}
         api('huddle_reps?active=eq.true&select=*&order=sort_order.asc'),
         api('huddle_store_metrics?month=eq.'+encodeURIComponent(S.month)+'&select=*'),
         api('huddle_rep_metrics?month=eq.'+encodeURIComponent(S.month)+'&select=*'),
-        api('huddle_goals?month=eq.'+encodeURIComponent(S.month)+'&scope=eq.store&select=*&order=sort_order.asc'),
+        api('huddle_goals?month=eq.'+encodeURIComponent(S.month)+'&select=*&order=scope.asc,sort_order.asc'),
         api('huddle_comp_config?month=eq.'+encodeURIComponent(S.month)+'&select=*'),
         api('huddle_app_config?config_key=eq.store_pulse_ui&select=config_value')
       ]);
