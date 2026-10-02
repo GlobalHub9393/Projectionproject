@@ -3,328 +3,470 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#082f49">
-<title>Team Huddle — September Finish</title>
+<meta name="theme-color" content="#f4f0df">
+<title>Store Pulse • Cinnaminson</title>
 <style>
 :root{
-  --navy:#082f49;--blue:#0369a1;--ink:#172033;--muted:#64748b;--line:#d7dee8;
-  --paper:#fbfcfd;--page:#edf2f7;--green:#15803d;--green2:#166534;--amber:#a16207;
-  --red:#b91c1c;--yellow:#fff2a8;--yellow2:#fde68a;--marker:"Arial Rounded MT Bold","Trebuchet MS","Segoe UI",sans-serif;--markerHeavy:"Arial Black","Arial Rounded MT Bold","Trebuchet MS","Segoe UI",sans-serif
+  --ink:#18202a;--muted:#667085;--blue:#125ca8;--red:#b42318;--green:#167c4b;--amber:#9a6700;
+  --paper:#fbfaf4;--paper2:#f4f0df;--line:#1d2732;--soft:#e8e3d4;--nav:#0c3554;--card:#ffffff;
+  --yellow:#fff19c;--pink:#ffd9e4;--mint:#d9f7df;--sky:#dff1ff;
+  --marker:"Chalkboard SE","Comic Sans MS","Bradley Hand","Noteworthy",cursive;
+  --plain:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  --shadow:0 12px 34px rgba(16,24,40,.12)
 }
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--page);color:var(--ink);font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
-button,input{font:inherit}button{cursor:pointer}.hidden{display:none!important}
-.topbar{position:sticky;top:0;z-index:70;background:var(--navy);color:#fff;box-shadow:0 3px 16px #082f4930}
-.topin{max-width:1160px;margin:auto;display:flex;gap:7px;align-items:center;padding:8px 10px}
-.brand{font-weight:1000;flex:1;white-space:nowrap}.topbar button{border:0;border-radius:9px;padding:8px 10px;font-weight:900;background:#ffffff16;color:#fff}
-.topbar button.active,.topbar button.home{background:#fff;color:var(--navy)}
-main{max-width:1160px;margin:auto;padding:12px}.page{display:none}.page.active{display:block}
-.hero{background:linear-gradient(145deg,#082f49,#075985 65%,#0284c7);color:#fff;border-radius:24px;padding:clamp(22px,5vw,48px);box-shadow:0 18px 48px #082f4926;position:relative;overflow:hidden}
-.hero h1{font-size:clamp(38px,8vw,70px);line-height:.95;margin:7px 0 10px;letter-spacing:-.04em}.hero p{color:#dbeafe;max-width:720px;line-height:1.5;margin:0}
-.kicker{font-size:11px;font-weight:1000;letter-spacing:.14em;text-transform:uppercase;color:#7dd3fc}
-.hello{position:absolute;right:22px;top:18px;background:var(--yellow);color:#111827;border:0;border-radius:2px;padding:8px 12px;font-weight:1000;transform:rotate(-4deg);box-shadow:2px 4px 10px #0004;font-family:var(--marker)}
-.people{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px;margin-top:14px}.person{background:#fff;border:1px solid var(--line);border-radius:19px;padding:18px;text-align:left;min-height:132px;box-shadow:0 9px 25px #0f172a0d}.person.team{background:linear-gradient(145deg,#fff,#e0f2fe)}
-.person b{display:block;font-size:25px;color:var(--navy)}.person span{display:block;color:var(--muted);font-size:12px;line-height:1.4;margin-top:5px}
-.quickStrip{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}.quick{background:#fff;border:1px solid var(--line);border-radius:14px;padding:11px}.quick .n{font-size:23px;font-weight:1000;color:var(--navy)}.quick .l{font-size:10px;color:var(--muted);font-weight:900;text-transform:uppercase}
-.sectionTitle{font-size:17px;color:var(--navy);font-weight:1000;margin:16px 0 8px}
-.whiteboard{background:linear-gradient(180deg,#fff,#fbfcfd);border:9px solid #d1d5db;border-radius:15px;padding:18px;box-shadow:inset 0 0 24px #64748b14,0 12px 30px #0f172a14}
-.boardHead{display:flex;align-items:end;justify-content:space-between;gap:10px;border-bottom:3px solid #1f2937;padding-bottom:7px;margin-bottom:10px;font-family:var(--markerHeavy)}
-.boardHead h1,.boardHead h2{margin:0;font-size:clamp(27px,6vw,46px)}.boardHead small{font-size:13px;font-weight:900}
-.finishGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}.finish{border:2px solid #1f2937;border-radius:8px;padding:12px;font-family:var(--marker);background:#fff;position:relative}
-.finish .lab{font-size:13px;font-weight:900}.finish .big{font-size:31px;font-weight:1000;line-height:1.05;margin:4px 0}.finish .need{font-size:14px;font-weight:1000}.finish .pace{font-size:11px;color:#475569;margin-top:5px}
-.markerRed{color:var(--red)}.markerGreen{color:var(--green)}.markerBlue{color:#1d4ed8}.highlight{background:linear-gradient(transparent 45%,#fde68a 45%,#fde68a 88%,transparent 88%)}
-.paceGrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}.paceCard{border:2px dashed #334155;border-radius:8px;padding:12px;font-family:var(--marker)}
-.paceCard h3{margin:0 0 5px;font-size:21px}.paceCard .rate{font-size:25px;font-weight:1000}.paceCard p{margin:5px 0 0;font-size:12px;line-height:1.45}
-.attachGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}.attach{border-bottom:3px solid #111827;padding:9px 5px;font-family:var(--marker)}.attach b{font-size:23px;display:block}.attach span{font-size:11px}
-.stickyRow{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}.sticky{background:var(--yellow);padding:14px;border-radius:2px;box-shadow:3px 5px 12px #0002;transform:rotate(-.5deg);font-family:var(--marker)}.sticky:nth-child(2){transform:rotate(1deg);background:#dcfce7}.sticky:nth-child(3){transform:rotate(-1deg);background:#e0f2fe}.sticky h3{margin:0 0 6px;font-size:19px}.sticky p{margin:0;font-size:12px;line-height:1.45}
-.repBanner{background:linear-gradient(135deg,#0c4a6e,#0284c7);color:#fff;border-radius:18px;padding:17px;margin-bottom:10px}.repBanner h1{margin:0;font-size:34px}.repBanner p{margin:4px 0 0;color:#dbeafe}
-.card{background:#fff;border:1px solid var(--line);border-radius:15px;padding:13px}.card h2,.card h3{margin:0 0 8px;color:var(--navy)}
-.qualGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.qual{border:1px solid var(--line);border-radius:12px;padding:10px}.qual.good{background:#f0fdf4;border-color:#86efac}.qual.warn{background:#fffbeb;border-color:#fcd34d}.qual.bad{background:#fef2f2;border-color:#fca5a5}.qual .top{display:flex;justify-content:space-between;gap:8px}.qual .name{font-weight:1000;color:var(--navy)}.qual .stat{font-size:11px;font-weight:1000}.qual .value{font-size:21px;font-weight:1000;margin-top:4px}.qual .detail{font-size:11px;color:#64748b;line-height:1.4;margin-top:4px}
-.moneyGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px}.money{border:1px solid var(--line);border-radius:12px;padding:10px;background:#f8fafc}.money .k{font-size:9px;text-transform:uppercase;color:var(--muted);font-weight:1000}.money .v{font-size:21px;font-weight:1000;color:var(--navy);margin-top:3px}.money small{font-size:10px;color:var(--muted)}
-.prodGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.prod{border:1px solid var(--line);border-top:4px solid var(--navy);border-radius:12px;padding:10px;background:#fff}.prod .k{font-size:10px;text-transform:uppercase;color:var(--muted);font-weight:1000}.prod .v{font-size:24px;color:var(--navy);font-weight:1000;margin-top:3px}.prod .sub{font-size:10px;color:var(--muted);margin-top:2px}
-.coachGrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}.coach{border-left:5px solid #0284c7}.coach.shout{border-left-color:#22c55e;background:#f0fdf4}.coach p{font-size:12px;line-height:1.5;color:#475569;margin:0}
-details.card{padding:0}details.card summary{padding:13px;font-weight:1000;color:var(--navy);cursor:pointer}details.card .inside{padding:0 13px 13px}
-.sandboxGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.field{background:#f8fafc;border:1px solid var(--line);border-radius:10px;padding:8px}.field label{font-size:9px;font-weight:1000;color:var(--muted);text-transform:uppercase;display:block;margin-bottom:4px}.field input{width:100%;border:1px solid var(--line);border-radius:8px;padding:8px;font-weight:900}
-.sandboxOut{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:9px}.out{border:1px solid var(--line);border-radius:10px;padding:9px;background:#fff}.out .k{font-size:9px;color:var(--muted);font-weight:1000;text-transform:uppercase}.out .v{font-size:18px;font-weight:1000;color:var(--navy);margin-top:3px}
-.rawGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.raw{padding:8px;border:1px solid var(--line);border-radius:9px}.raw .k{font-size:9px;color:var(--muted);text-transform:uppercase;font-weight:900}.raw .v{font-size:15px;font-weight:900;color:var(--navy);margin-top:2px}
-.mission{position:fixed;z-index:120;width:min(360px,calc(100vw - 24px));left:50%;top:82px;transform:translateX(-50%) rotate(-1deg);background:var(--yellow);box-shadow:7px 10px 30px #0004;padding:16px 16px 14px;font-family:var(--marker);touch-action:none}.mission .drag{display:flex;justify-content:space-between;gap:10px;align-items:start;border-bottom:2px solid #1f2937;padding-bottom:6px;margin-bottom:7px;cursor:grab}.mission h2{margin:0;font-size:23px}.mission .x{border:0;background:#111827;color:#fff;border-radius:999px;width:29px;height:29px;font-weight:1000}.mission .needline{font-size:17px;font-weight:1000;line-height:1.35}.mission .risk{margin-top:8px;padding-top:7px;border-top:1px dashed #854d0e;font-size:12px}.missionTab{position:fixed;z-index:110;right:12px;top:72px;border:0;background:var(--yellow);color:#422006;padding:9px 12px;border-radius:3px;box-shadow:3px 5px 12px #0003;font-family:var(--marker);font-weight:1000;transform:rotate(2deg)}
-.managerPanel{margin-top:12px}.managerTools{display:none}.managerTools.on{display:block}.tiny{font-size:10px;color:var(--muted)}.btn{border:0;background:var(--navy);color:#fff;border-radius:9px;padding:9px 11px;font-weight:900}.btn.alt{background:#fff;color:var(--navy);border:1px solid var(--line)}
-.whiteboard .sectionTitle{font-family:var(--markerHeavy);letter-spacing:.02em}
-.repWhiteboard{margin-top:2px}
-.repWhiteboard .repBanner{background:transparent;color:var(--ink);border-radius:0;padding:0 0 10px;margin-bottom:12px;border-bottom:3px solid #1f2937;box-shadow:none;font-family:var(--markerHeavy)}
-.repWhiteboard .repBanner .kicker{color:#475569}
-.repWhiteboard .repBanner h1{font-size:clamp(30px,6vw,46px);letter-spacing:.01em}
-.repWhiteboard .repBanner p{margin:4px 0 0;color:#334155;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;font-size:14px;line-height:1.45}
-.repWhiteboard .sectionTitle{font-family:var(--markerHeavy);font-size:20px;margin:14px 0 8px}
-.repWhiteboard .card,.repWhiteboard details.card{background:#fff;border:2px solid #1f2937;border-radius:10px;box-shadow:none}
-.repWhiteboard .qual,.repWhiteboard .money,.repWhiteboard .prod,.repWhiteboard .coach,.repWhiteboard .raw,.repWhiteboard .field,.repWhiteboard .out{border:2px solid #1f2937;border-radius:10px;box-shadow:none}
-.repWhiteboard .qual .name,.repWhiteboard .money .k,.repWhiteboard .prod .k,.repWhiteboard details.card summary{font-family:var(--markerHeavy)}
-.repWhiteboard .qual .value,.repWhiteboard .money .v,.repWhiteboard .prod .v{font-family:var(--markerHeavy)}
-.repWhiteboard .qual .detail,.repWhiteboard .money small,.repWhiteboard .prod .sub,.repWhiteboard .coach p,.repWhiteboard .tiny,.repWhiteboard .field label,.repWhiteboard .out .k{font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
-.repWhiteboard .coach{background:#fffef8}
-.repWhiteboard .coach.shout{background:#f0fdf4}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;color:var(--ink);font-family:var(--plain);background:#d8d2c0;min-height:100vh;overflow-x:hidden}
+button,input,select{font:inherit}
+button{cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #60a5fa;outline-offset:2px}
+.hidden{display:none!important}
 
-@media(max-width:820px){.people,.finishGrid{grid-template-columns:repeat(2,1fr)}.quickStrip,.attachGrid,.moneyGrid,.rawGrid{grid-template-columns:repeat(2,1fr)}.stickyRow,.coachGrid{grid-template-columns:1fr}}
-@media(max-width:560px){main{padding:9px}.topbar .navRep{display:none}.hello{position:static;display:inline-block;margin-bottom:12px}.hero{padding:22px 18px}.people{grid-template-columns:1fr 1fr}.quickStrip{grid-template-columns:1fr 1fr}.paceGrid,.qualGrid{grid-template-columns:1fr}.prodGrid{grid-template-columns:1fr 1fr}.sandboxGrid,.sandboxOut{grid-template-columns:1fr 1fr}.boardHead{align-items:start;flex-direction:column}.whiteboard{padding:13px;border-width:7px}.repWhiteboard .repBanner h1{font-size:32px}.mission{top:72px}.finish .big{font-size:27px}}
+.topbar{position:sticky;top:0;z-index:80;background:rgba(12,53,84,.97);color:white;border-bottom:1px solid #ffffff24;backdrop-filter:blur(10px)}
+.topin{max-width:1180px;margin:auto;padding:calc(8px + env(safe-area-inset-top)) 12px 8px;display:flex;align-items:center;gap:8px;min-width:0}
+.brand{font-weight:950;letter-spacing:.01em;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.navbtn,.modebtn{min-height:42px;border:1px solid #ffffff2e;border-radius:12px;padding:8px 11px;background:#ffffff12;color:#fff;font-weight:850}
+.navbtn.active,.modebtn.active{background:#fff;color:var(--nav)}
+.managerBtn{background:#fff3;color:#fff;border:1px solid #ffffff3b}
+
+main{max-width:1180px;margin:auto;padding:14px 12px 44px}
+.page{display:none}.page.active{display:block}
+
+.board{position:relative;background:
+  radial-gradient(circle at 20% 10%,rgba(255,255,255,.95),rgba(255,255,255,.45) 34%,transparent 35%),
+  repeating-linear-gradient(0deg,rgba(15,23,42,.018) 0,rgba(15,23,42,.018) 1px,transparent 1px,transparent 7px),
+  linear-gradient(180deg,#fffef8,#f8f6ed);
+  border:10px solid #c3bca9;border-radius:18px;box-shadow:inset 0 0 28px #64748b18,var(--shadow);padding:22px;overflow:hidden}
+.board:after{content:"";position:absolute;inset:7px;border:1px solid #0000000f;border-radius:10px;pointer-events:none}
+.markerTitle{font-family:var(--marker);font-weight:900;font-size:clamp(34px,7vw,66px);line-height:.98;letter-spacing:-.035em;margin:0}
+.markerSub{font-family:var(--marker);font-size:clamp(16px,3vw,24px);font-weight:800;margin-top:8px;color:#334155}
+.markerLine{height:4px;background:var(--ink);border-radius:100%;transform:rotate(-.35deg);margin:12px 0 16px;opacity:.9}
+.kicker{font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:900;color:#475467}
+.boardHead{display:flex;align-items:flex-end;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.boardHead .when{font-family:var(--marker);font-weight:800;font-size:15px}
+
+.homeGrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-top:22px;position:relative;z-index:2}
+.homeCard{appearance:none;border:3px solid var(--ink);background:#fffefb;border-radius:8px;padding:17px 14px;text-align:left;min-height:132px;box-shadow:3px 4px 0 #18202a22;transform:rotate(var(--tilt,0deg));transition:transform .15s ease,box-shadow .15s ease}
+.homeCard:nth-child(2n){--tilt:.35deg}.homeCard:nth-child(3n){--tilt:-.45deg}
+.homeCard:hover{transform:translateY(-2px) rotate(var(--tilt,0deg));box-shadow:4px 7px 0 #18202a22}
+.homeCard b{font-family:var(--marker);font-size:26px;display:block}.homeCard span{font-size:12px;color:#475467;line-height:1.45;display:block;margin-top:7px}
+.homeCard.store{background:#eaf5ff}
+
+.sticky{position:absolute;z-index:5;width:138px;min-height:108px;padding:16px 13px 12px;background:var(--yellow);box-shadow:5px 8px 16px #0002;transform:rotate(-4deg);font-family:var(--marker);font-weight:900;font-size:22px;line-height:1.05;user-select:none;touch-action:none;border:0;cursor:grab}
+.sticky:active{cursor:grabbing}.sticky.s2{background:var(--mint);transform:rotate(3deg)}.sticky.s3{background:var(--pink);transform:rotate(-2deg)}
+.sticky small{display:block;font-family:var(--plain);font-size:10px;font-weight:700;line-height:1.3;margin-top:9px;color:#475467}
+
+.sectionTitle{font-family:var(--marker);font-weight:950;font-size:26px;margin:20px 0 10px;letter-spacing:-.02em}
+.statsGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px}
+.stat{position:relative;background:#fffefb;border:3px solid var(--ink);border-radius:9px;padding:13px 12px;min-height:103px;transform:rotate(var(--r,0deg));box-shadow:2px 3px 0 #18202a16}
+.stat:nth-child(4n+1){--r:-.22deg}.stat:nth-child(4n+2){--r:.17deg}.stat:nth-child(4n+3){--r:-.11deg}.stat:nth-child(4n){--r:.28deg}
+.stat .label{font-family:var(--marker);font-weight:950;font-size:14px;color:#344054}.stat .value{font-family:var(--marker);font-weight:950;font-size:31px;line-height:1.05;margin-top:6px}.stat .goal{font-size:11px;font-weight:800;color:#667085;margin-top:6px}.stat .progress{height:7px;background:#ece7d8;border:1px solid #2a3440;border-radius:999px;margin-top:8px;overflow:hidden}.stat .progress i{display:block;height:100%;background:#3b82f6;width:0}
+
+.coachGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.note{background:var(--yellow);padding:17px 15px;min-height:150px;box-shadow:4px 6px 14px #0002;transform:rotate(-.55deg);font-family:var(--marker)}
+.note:nth-child(2){background:var(--mint);transform:rotate(.65deg)}.note:nth-child(3){background:var(--sky);transform:rotate(-.35deg)}
+.note h3{font-size:20px;margin:0 0 8px}.note p{font-family:var(--plain);font-size:13px;line-height:1.5;margin:0;color:#344054}
+
+.calcLaunch{display:flex;gap:12px;align-items:center;flex-wrap:wrap;background:#fffefb;border:3px solid var(--ink);border-radius:9px;padding:15px}
+.calcButton{min-height:60px;border:3px solid var(--ink);background:#15212d;color:#fff;border-radius:10px;padding:10px 18px;font-family:var(--marker);font-size:21px;font-weight:950;display:flex;align-items:center;gap:10px}
+.calcIcon{font-size:30px;line-height:1}.calcLaunch p{margin:0;color:#475467;font-size:13px;line-height:1.45;flex:1;min-width:210px}
+
+.moneyMoves{display:grid;gap:10px}.move{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;border-bottom:3px solid #263341;padding:11px 4px;font-family:var(--marker)}
+.move .rank{font-size:28px;font-weight:950}.move .what{font-size:18px;font-weight:950}.move .why{font-family:var(--plain);font-size:12px;color:#475467;margin-top:3px;line-height:1.4}.move .money{font-size:23px;font-weight:950;color:var(--green);white-space:nowrap}
+
+.repHead{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap}.repSelect{min-height:44px;border:2px solid var(--ink);border-radius:9px;background:white;padding:7px 34px 7px 10px;font-weight:850}
+
+.status{margin-top:12px;font-size:12px;color:#475467;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.errorBox{background:#fff1f0;border:2px solid #fda29b;color:#912018;border-radius:12px;padding:14px;line-height:1.5}
+.loading{padding:40px 10px;text-align:center;font-family:var(--marker);font-size:23px}
+
+/* Classic mode */
+body.classic{background:#eef2f6}
+body.classic .board{background:#fff;border:1px solid #d0d5dd;border-radius:18px;box-shadow:0 8px 26px #1018280c;padding:22px}
+body.classic .board:after{display:none}
+body.classic .markerTitle,body.classic .markerSub,body.classic .sectionTitle,body.classic .boardHead .when,body.classic .homeCard b,body.classic .stat .label,body.classic .stat .value,body.classic .note,body.classic .move,body.classic .calcButton{font-family:var(--plain)}
+body.classic .markerTitle{font-size:clamp(34px,6vw,54px);letter-spacing:-.04em}
+body.classic .markerLine{height:1px;transform:none;background:#eaecf0}
+body.classic .homeCard,body.classic .stat{transform:none!important;border:1px solid #d0d5dd;border-radius:14px;box-shadow:none}
+body.classic .homeCard:hover{transform:translateY(-1px)!important;box-shadow:0 8px 20px #1018280c}
+body.classic .note{transform:none!important;background:#fff;border:1px solid #d0d5dd;border-radius:14px;box-shadow:none}
+body.classic .sticky{display:none}
+body.classic .calcLaunch{border:1px solid #d0d5dd;border-radius:14px}
+body.classic .calcButton{border:0;background:var(--nav);border-radius:11px}
+body.classic .move{border-bottom:1px solid #eaecf0}
+
+/* Modal */
+.modalBack{position:fixed;inset:0;z-index:150;background:#0b1220bb;display:flex;align-items:flex-start;justify-content:center;padding:calc(18px + env(safe-area-inset-top)) 12px calc(18px + env(safe-area-inset-bottom));overflow:auto}
+.modal{width:min(930px,100%);background:#fff;border-radius:18px;box-shadow:0 30px 90px #0006;margin:auto;overflow:hidden}
+.modalHead{position:sticky;top:0;z-index:4;background:#fff;border-bottom:1px solid #e4e7ec;display:flex;align-items:center;gap:10px;padding:13px 14px}.modalHead h2{margin:0;flex:1;font-size:20px}.xbtn{border:0;background:#101828;color:#fff;width:42px;height:42px;border-radius:999px;font-size:20px;font-weight:900}
+.modalBody{padding:15px}.formGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.field{min-width:0}.field label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.04em;font-weight:850;color:#667085;margin-bottom:5px}.field input,.field select{width:100%;min-height:46px;border:1px solid #b8c0cc;border-radius:10px;background:#fff;padding:8px 10px;font-size:16px;color:#101828}
+.calcTotals{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}.totalCard{background:#f8fafc;border:1px solid #d0d5dd;border-radius:13px;padding:12px}.totalCard .k{font-size:10px;color:#667085;font-weight:850;text-transform:uppercase}.totalCard .v{font-size:27px;font-weight:950;margin-top:4px}.totalCard.good .v{color:var(--green)}.breakdown{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.break{background:#fff;border:1px solid #d0d5dd;border-radius:11px;padding:10px}.break .k{font-size:10px;color:#667085;text-transform:uppercase;font-weight:850}.break .v{font-size:18px;font-weight:900;margin-top:3px}.modalActions{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin-top:14px}.btn{min-height:44px;border:0;border-radius:10px;background:var(--nav);color:#fff;padding:9px 14px;font-weight:850}.btn.alt{background:#fff;color:#1d2939;border:1px solid #b8c0cc}.btn.danger{background:#b42318}.btn.green{background:#167c4b}
+
+/* Manager */
+.managerShell{display:grid;grid-template-columns:220px minmax(0,1fr);gap:14px}.managerNav{background:#fff;border:1px solid #d0d5dd;border-radius:14px;padding:9px;height:max-content;position:sticky;top:74px}.managerNav button{width:100%;text-align:left;border:0;background:transparent;padding:11px;border-radius:9px;font-weight:850}.managerNav button.active{background:#eaf2fb;color:#0c4a6e}.managerPanel{background:#fff;border:1px solid #d0d5dd;border-radius:14px;padding:15px}.managerPanel h2{margin:0 0 4px}.managerPanel p{color:#667085;font-size:13px;margin:0 0 14px}.managerSection{display:none}.managerSection.active{display:block}.managerFooter{position:sticky;bottom:10px;margin-top:16px;background:#101828;color:#fff;border-radius:14px;padding:10px 12px;display:flex;align-items:center;gap:10px;box-shadow:0 14px 34px #10182833}.managerFooter span{flex:1;font-size:12px;color:#d0d5dd}
+.goalGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+
+.toast{position:fixed;z-index:220;left:50%;bottom:calc(18px + env(safe-area-inset-bottom));transform:translateX(-50%);background:#101828;color:#fff;border-radius:999px;padding:10px 16px;font-weight:800;box-shadow:0 12px 28px #0004;max-width:calc(100vw - 24px);text-align:center}
+
+@media(max-width:900px){.homeGrid{grid-template-columns:repeat(3,1fr)}.statsGrid{grid-template-columns:repeat(3,1fr)}.formGrid{grid-template-columns:repeat(2,1fr)}.breakdown{grid-template-columns:repeat(3,1fr)}.managerShell{grid-template-columns:1fr}.managerNav{position:static;display:flex;gap:6px;overflow:auto}.managerNav button{width:auto;white-space:nowrap}.coachGrid{grid-template-columns:1fr 1fr}.coachGrid .note:last-child{grid-column:1/-1}}
+@media(max-width:650px){
+  main{padding:9px 9px 34px}.topin{padding-left:8px;padding-right:8px}.brand{font-size:13px}.navbtn{padding:7px 9px}.modebtn .modeText{display:none}
+  .board{padding:15px;border-width:7px;border-radius:14px}.homeGrid{grid-template-columns:1fr 1fr;gap:9px}.homeCard{min-height:110px;padding:13px 11px}.homeCard b{font-size:22px}
+  .statsGrid{grid-template-columns:1fr 1fr;gap:8px}.stat{min-height:92px;padding:11px 9px}.stat .value{font-size:27px}.coachGrid{grid-template-columns:1fr}.coachGrid .note:last-child{grid-column:auto}
+  .move{grid-template-columns:auto 1fr}.move .money{grid-column:2;justify-self:start;font-size:20px}.formGrid,.goalGrid{grid-template-columns:1fr 1fr}.calcTotals{grid-template-columns:1fr}.breakdown{grid-template-columns:1fr 1fr}.modalBody{padding:12px}
+  .sticky{width:116px;min-height:90px;font-size:18px;padding:13px 11px}.managerBtn{padding-left:8px;padding-right:8px}
+}
+@media(max-width:390px){.homeGrid,.statsGrid,.formGrid,.goalGrid{grid-template-columns:1fr}.breakdown{grid-template-columns:1fr 1fr}.markerTitle{font-size:39px}.sectionTitle{font-size:23px}.topbar .brand{display:none}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
 </style>
 </head>
 <body>
 <div class="topbar">
   <div class="topin">
-    <button class="home" onclick="showPage('landing')">⌂</button>
-    <div class="brand">Cinnaminson • September Finish</div>
-    <button id="navTeam" onclick="showPage('team')">TEAM</button>
-    <button class="navRep" onclick="showRep('gio')">GIO</button>
-    <button class="navRep" onclick="showRep('noelle')">NOELLE</button>
-    <button class="navRep" onclick="showRep('tj')">TJ</button>
+    <button id="homeBtn" class="navbtn active" type="button">⌂</button>
+    <div class="brand">CINNAMINSON • STORE PULSE</div>
+    <button id="storeBtn" class="navbtn" type="button">STORE</button>
+    <button id="modeBtn" class="modebtn" type="button">✎ <span class="modeText">CLASSIC</span></button>
+    <button id="managerBtn" class="navbtn managerBtn" type="button">MANAGER</button>
   </div>
 </div>
 
 <main>
-<section id="landing" class="page active">
-  <div class="hero">
-    <button class="hello" onclick="hello()">Hello?</button>
-    <div class="kicker">EOD 9/24 • 6 days left</div>
-    <h1>WHO ARE YOU?</h1>
-    <p>September closeout. The board is built from the EOD 9/24 snapshot and focuses on what has to happen from here — not just where the percentage happens to sit today.</p>
-  </div>
-  <div class="people">
-    <button class="person team" onclick="showPage('team')"><b>TEAM</b><span>Store finish, denominator pace, attachment opportunities, and the six-day close.</span></button>
-    <button class="person" onclick="showRep('gio')"><b>GIO</b><span>Get Paid • Production • Coaching • Sandbox</span></button>
-    <button class="person" onclick="showRep('noelle')"><b>NOELLE</b><span>Get Paid • Production • Coaching • Sandbox</span></button>
-    <button class="person" onclick="showRep('tj')"><b>TJ</b><span>Get Paid • Production • Coaching • Sandbox</span></button>
-  </div>
-  <div class="quickStrip" id="landingQuick"></div>
-  <div id="managerLanding" class="managerTools managerPanel card">
-    <h3>Manager detail</h3>
-    <p class="tiny">Static build. No Neon calls. EOD 9/24 is embedded directly in this index.</p>
-    <button class="btn alt" onclick="resetNotes()">Reset mission note positions</button>
-  </div>
-</section>
-
-<section id="team" class="page">
-  <div class="whiteboard">
-    <div class="boardHead"><h1>SEPTEMBER FINISH</h1><small>EOD 9/24 • 6 DAYS LEFT</small></div>
-    <div class="finishGrid" id="teamFinish"></div>
-    <div class="paceGrid" id="teamPace"></div>
-    <div class="sectionTitle" style="font-family:var(--marker)">VOLUME IS HERE. COMPLETE THE SALE.</div>
-    <div class="attachGrid" id="teamAttach"></div>
-    <div class="stickyRow" id="teamStickies"></div>
-  </div>
-  <div class="sectionTitle">Full store snapshot</div>
-  <details class="card"><summary>Show secondary metrics</summary><div class="inside"><div class="rawGrid" id="storeRaw"></div></div></details>
-</section>
-
-<section id="rep" class="page">
-  <div class="whiteboard repWhiteboard">
-  <div class="repBanner"><div class="kicker">EOD 9/24 • 6 days left</div><h1 id="repName"></h1><p id="repTag"></p></div>
-  <div class="sectionTitle">GET PAID</div>
-  <div class="card">
-    <div class="qualGrid" id="qualGrid"></div>
-    <div class="moneyGrid" id="moneyGrid"></div>
-    <p class="tiny" style="margin:9px 0 0">September floors: AIA 7.5% • HTP 5% • ACC $35 • Protection 35%. CSAT is tracking-only this month. $60 ACC and 60% Protection each add a 25% accelerator. Regular commission is separate from instant/event spiffs.</p>
-  </div>
-
-  <div class="sectionTitle">Production board</div>
-  <div class="prodGrid" id="prodGrid"></div>
-
-  <div class="sectionTitle">Coaching</div>
-  <div class="coachGrid" id="coachGrid"></div>
-
-  <div class="sectionTitle">Sandbox</div>
-  <details class="card">
-    <summary>🧪 What if I finish with…</summary>
-    <div class="inside">
-      <div class="sandboxGrid" id="sandboxGrid"></div>
-      <div class="sandboxOut" id="sandboxOut"></div>
-      <p class="tiny">Sandbox uses the September comp math in this build. It is for what-if planning and does not save anything.</p>
+  <section id="landing" class="page active">
+    <div id="landingBoard" class="board" style="min-height:480px">
+      <div class="kicker" id="landingKicker">STORE PULSE</div>
+      <h1 class="markerTitle">WHO ARE YOU?</h1>
+      <div class="markerSub">Grab your numbers. Find your next move.</div>
+      <div class="markerLine"></div>
+      <div id="homeGrid" class="homeGrid"><div class="loading">Loading the board…</div></div>
+      <div class="status"><span id="homeStatus">Connecting to Store Pulse…</span><span>Whiteboard mode</span></div>
+      <div class="sticky" data-sticky="hello" style="left:70%;top:54px">HELLO?<small>yes, you can move me</small></div>
+      <div class="sticky s2" data-sticky="money" style="left:78%;top:235px">MAKE<br>MONEY →<small>that is the whole idea</small></div>
+      <div class="sticky s3" data-sticky="aia" style="left:57%;top:330px">DON'T<br>FORGET AIA<small>seriously.</small></div>
     </div>
-  </details>
+  </section>
 
-  <div class="sectionTitle">Full snapshot</div>
-  <details class="card"><summary>Show secondary metrics</summary><div class="inside"><div class="rawGrid" id="repRaw"></div></div></details>
-  </div>
-</section>
+  <section id="store" class="page">
+    <div class="board">
+      <div class="boardHead">
+        <div><div class="kicker" id="storeKicker">STORE BOARD</div><h1 class="markerTitle" style="font-size:clamp(34px,6vw,54px)">CINNAMINSON</h1></div>
+        <div class="when" id="storeWhen">—</div>
+      </div>
+      <div class="markerLine"></div>
+      <div id="storeStats" class="statsGrid"></div>
+      <div id="storeEmpty" class="errorBox hidden">No store metrics have been published yet.</div>
+    </div>
+  </section>
+
+  <section id="rep" class="page">
+    <div class="board">
+      <div class="repHead">
+        <div><div class="kicker" id="repKicker">REP BOARD</div><h1 id="repTitle" class="markerTitle" style="font-size:clamp(36px,7vw,58px)">REP</h1></div>
+        <select id="repSelect" class="repSelect" aria-label="Choose rep"></select>
+      </div>
+      <div class="markerLine"></div>
+
+      <div class="sectionTitle">STATS</div>
+      <div id="repStats" class="statsGrid"></div>
+
+      <div class="sectionTitle">COACHING</div>
+      <div id="coachGrid" class="coachGrid"></div>
+
+      <div class="sectionTitle">CALCULATOR</div>
+      <div class="calcLaunch">
+        <button id="openCalc" class="calcButton" type="button"><span class="calcIcon">🧮</span> COMP CALCULATOR</button>
+        <p>Sandbox mode. It starts with your live Store Pulse numbers; change anything you want. Nothing in the calculator saves back to Supabase.</p>
+      </div>
+
+      <div class="sectionTitle">MONEY MOVES</div>
+      <div id="moneyMoves" class="moneyMoves"></div>
+    </div>
+  </section>
+
+  <section id="manager" class="page">
+    <div class="managerShell">
+      <nav class="managerNav" id="managerNav">
+        <button type="button" data-manager-section="storeEdit" class="active">Store Stats</button>
+        <button type="button" data-manager-section="goalsEdit">Store Goals</button>
+        <button type="button" data-manager-section="repEdit">Rep Stats</button>
+      </nav>
+      <div class="managerPanel">
+        <div id="storeEdit" class="managerSection active">
+          <h2>Store Stats</h2><p>These numbers drive the Store board. Blank percentage fields stay blank.</p>
+          <div class="field" style="max-width:260px;margin-bottom:12px"><label>Snapshot date</label><input id="mgrSnapshot" type="date"></div>
+          <div id="mgrStoreFields" class="formGrid"></div>
+        </div>
+        <div id="goalsEdit" class="managerSection">
+          <h2>Store Goals</h2><p>Leave a goal blank and Store Pulse will show the current number without a target.</p>
+          <div id="mgrGoalFields" class="goalGrid"></div>
+        </div>
+        <div id="repEdit" class="managerSection">
+          <h2>Rep Stats</h2><p>Pick a rep, update their month-to-date numbers, then Publish.</p>
+          <div class="field" style="max-width:260px;margin-bottom:12px"><label>Rep</label><select id="mgrRepSelect"></select></div>
+          <div id="mgrRepFields" class="formGrid"></div>
+        </div>
+        <div class="managerFooter"><span id="managerSaveStatus">Changes stay local until you publish.</span><button id="publishBtn" class="btn green" type="button">PUBLISH TO STORE PULSE</button></div>
+      </div>
+    </div>
+  </section>
 </main>
 
-<div id="mission" class="mission hidden">
-  <div class="drag" id="missionDrag"><h2 id="missionTitle">6 DAYS LEFT</h2><button class="x" onclick="minimizeMission()">×</button></div>
-  <div id="missionNeed" class="needline"></div>
-  <div id="missionRisk" class="risk"></div>
+<div id="calcBack" class="modalBack hidden" role="dialog" aria-modal="true" aria-labelledby="calcTitle">
+  <div class="modal">
+    <div class="modalHead"><h2 id="calcTitle">🧮 Compensation Calculator</h2><button class="xbtn" id="closeCalc" type="button">×</button></div>
+    <div class="modalBody">
+      <div id="calcFields" class="formGrid"></div>
+      <div class="calcTotals">
+        <div class="totalCard"><div class="k">Live estimate</div><div class="v" id="calcLive">$0.00</div></div>
+        <div class="totalCard"><div class="k">Sandbox estimate</div><div class="v" id="calcScenario">$0.00</div></div>
+        <div class="totalCard good"><div class="k">Difference</div><div class="v" id="calcDiff">$0.00</div></div>
+      </div>
+      <div id="calcBreakdown" class="breakdown"></div>
+      <div class="modalActions"><button class="btn alt" id="resetCalc" type="button">Reset to live</button><button class="btn" id="doneCalc" type="button">Done</button></div>
+    </div>
+  </div>
 </div>
-<button id="missionTab" class="missionTab hidden" onclick="restoreMission()">💵 WHAT I NEED</button>
+
+<div id="loginBack" class="modalBack hidden" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
+  <div class="modal" style="max-width:430px">
+    <div class="modalHead"><h2 id="loginTitle">Manager Mode</h2><button class="xbtn" id="closeLogin" type="button">×</button></div>
+    <div class="modalBody">
+      <p style="margin-top:0;color:#667085;line-height:1.5">Enter the Store Pulse manager password.</p>
+      <div class="field"><label>Password</label><input id="managerPassword" type="password" autocomplete="current-password"></div>
+      <div id="loginError" style="color:#b42318;font-size:12px;font-weight:800;margin-top:8px"></div>
+      <div class="modalActions"><button class="btn" id="loginBtn" type="button">ENTER MANAGER MODE</button></div>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast hidden"></div>
 
 <script>
-const D={
-  snapshot:"EOD 9/24", elapsed:24, daysLeft:6,
-  storeGoals:{ppv:38,aiaPosted:26,upgrades:124,data:15},
-  reps:{
-    gio:{name:"Gio",tag:"Both accelerators are active. HTP is safe — AIA pace is the finish.",goals:{ppv:14,aiaPosted:8,upgrades:35,data:5},
-      m:{ppv:10,aiaPosted:5,aiaSubmits:5,greens:75,htp:2,htpOpps:31,upgrades:27,data:2,accRev:2234,accPerOpp:60.39,insurance:63.33,nextup:6.67,trade:65.5,csat:100,p2p:0,opps:41,prepaid:0,pa4:6,cru:0}},
-    noelle:{name:"Noelle",tag:"Qualified today. Keep AIA ahead of the denominator and chase accelerators.",goals:{ppv:14,aiaPosted:8,upgrades:50,data:5},
-      m:{ppv:5,aiaPosted:7,aiaSubmits:7,greens:92,htp:2,htpOpps:29,upgrades:31,data:1,accRev:1324,accPerOpp:37.82,insurance:43.48,nextup:44.12,trade:25,csat:86.67,p2p:1,opps:40,prepaid:3,pa4:4,cru:0}},
-    tj:{name:"TJ",tag:"Volume engine. Do not slow down — attach more to it.",goals:{ppv:14,aiaPosted:10,upgrades:45,data:5},
-      m:{ppv:10,aiaPosted:5,aiaSubmits:6,greens:83,htp:2,htpOpps:44,upgrades:41,data:6,accRev:1648,accPerOpp:32.31,insurance:24.39,nextup:24.44,trade:26.1,csat:87.50,p2p:0,opps:60,prepaid:0,pa4:0,cru:0}}
-  },
-  store:{ppv:25,ppvClose:2.53,aiaPosted:17,aiaSubmits:18,greens:241,htp:5,htpOpps:104,upgrades:97,data:9,accRev:5016,accPerOpp:41.46,insurance:40.86,nextup:23.66,trade:35.1,csat:89.19,p2p:1,opps:139,traffic:950,prepaid:3,pa4:10,cru:0}
-};
-let currentRep="gio", manager=false;
-const $=id=>document.getElementById(id);
-const pct=x=>(x*100).toFixed(2).replace(/\.00$/,"").replace(/(\.\d)0$/,"$1")+"%";
-const money=x=>"$"+Math.round(x).toLocaleString();
-const clamp0=x=>Math.max(0,x);
-function aiaRate(m){return m.greens?m.aiaSubmits/m.greens:0}
-function htpRate(m){return m.htpOpps?m.htp/m.htpOpps:0}
-function needByPace(m,type){
-  if(type==="aia"){const projected=m.greens*30/D.elapsed;const req=Math.ceil(projected*.075-1e-9);return clamp0(req-m.aiaSubmits)}
-  const projected=m.htpOpps*30/D.elapsed;const req=Math.ceil(projected*.05-1e-9);return clamp0(req-m.htp)
-}
-function needToday(m,type){
-  if(type==="aia") return clamp0(Math.ceil(m.greens*.075-1e-9)-m.aiaSubmits);
-  return clamp0(Math.ceil(m.htpOpps*.05-1e-9)-m.htp);
-}
-function basePay(m){return 15+m.upgrades*.10+m.data*.20}
-function accelCount(m){return (m.accPerOpp>=60?1:0)+(m.insurance>=60?1:0)}
-function finalBase(m){return basePay(m)*(1+accelCount(m)*.25)}
-function regularValue(m){return m.ppv*finalBase(m)+m.aiaPosted*finalBase(m)*1.5}
-function qualifiesNow(m){return aiaRate(m)>=.075&&htpRate(m)>=.05&&m.accPerOpp>=35&&m.insurance>=35}
-function statusClass(ok,near=false){return ok?"good":near?"warn":"bad"}
-function showPage(id){
-  document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));$(id).classList.add("active");
-  $("navTeam").classList.toggle("active",id==="team"); minimizeMission(true); window.scrollTo(0,0)
-}
-function showRep(slug){
-  currentRep=slug;document.querySelectorAll(".page").forEach(x=>x.classList.remove("active"));$("rep").classList.add("active");$("navTeam").classList.remove("active");
-  renderRep();openMission();window.scrollTo(0,0)
-}
-function renderLanding(){
-  const s=D.store,g=D.storeGoals;
-  const arr=[["PPV LEFT",g.ppv-s.ppv],["AIA POSTED LEFT",g.aiaPosted-s.aiaPosted],["UPGRADES LEFT",g.upgrades-s.upgrades],["DATA LEFT",g.data-s.data]];
-  $("landingQuick").innerHTML=arr.map(x=>`<div class="quick"><div class="n">${x[1]}</div><div class="l">${x[0]}</div></div>`).join("")
-}
-function renderTeam(){
-  const s=D.store,g=D.storeGoals;
-  const items=[
-    ["PPV",s.ppv,g.ppv,((g.ppv-s.ppv)/D.daysLeft).toFixed(1)],
-    ["AIA POSTED",s.aiaPosted,g.aiaPosted,((g.aiaPosted-s.aiaPosted)/D.daysLeft).toFixed(1)],
-    ["UPGRADES",s.upgrades,g.upgrades,((g.upgrades-s.upgrades)/D.daysLeft).toFixed(1)],
-    ["DATA",s.data,g.data,((g.data-s.data)/D.daysLeft).toFixed(1)]
-  ];
-  $("teamFinish").innerHTML=items.map(([k,v,goal,per])=>`<div class="finish"><div class="lab">${k}</div><div class="big">${v} / ${goal}</div><div class="need markerRed">${goal-v} LEFT</div><div class="pace">${per}/day over the final ${D.daysLeft}</div></div>`).join("");
-  const an=needByPace(s,"aia"),hn=needByPace(s,"htp"),at=needToday(s,"aia"),ht=needToday(s,"htp");
-  $("teamPace").innerHTML=`
-    <div class="paceCard"><h3>AIA CLOSE</h3><div class="rate ${aiaRate(s)>=.075?"markerGreen":"markerRed"}">${s.aiaSubmits}/${s.greens} = ${pct(aiaRate(s))}</div>
-      <p><b>Today:</b> ${at?`+${at} submit fixes the line.`:"qualified."} <b>Month-end pace:</b> <span class="highlight">+${an} submits from here</span> if Green Checks keep growing at the current rate.</p></div>
-    <div class="paceCard"><h3>HTP CLOSE</h3><div class="rate ${htpRate(s)>=.05?"markerGreen":"markerRed"}">${s.htp}/${s.htpOpps} = ${pct(htpRate(s))}</div>
-      <p><b>Today:</b> ${ht?`+${ht} HTP fixes the line.`:"qualified."} <b>Month-end pace:</b> <span class="highlight">+${hn} HTP from here</span> if eligible OPPs keep growing at the current rate.</p></div>`;
-  const att=[["ACC / OPP","$"+s.accPerOpp.toFixed(2)],["PROTECTION",s.insurance.toFixed(2)+"%"],["TRADE",s.trade.toFixed(1)+"%"],["NUA",s.nextup.toFixed(2)+"%"]];
-  $("teamAttach").innerHTML=att.map(x=>`<div class="attach"><span>${x[0]}</span><b>${x[1]}</b></div>`).join("");
-  $("teamStickies").innerHTML=`
-    <div class="sticky"><h3>⭐ SHOUT OUT</h3><p>97 upgrades and 139 OPPs. The opportunity count is not the problem. Keep the volume engine running.</p></div>
-    <div class="sticky"><h3>📌 SIX-DAY MOVE</h3><p>AIA pace needs +${an} submits. HTP pace needs +${hn}. PPV needs ${g.ppv-s.ppv}, AIA Posted needs ${g.aiaPosted-s.aiaPosted}, Upgrades need ${g.upgrades-s.upgrades}, Data needs ${g.data-s.data}.</p></div>
-    <div class="sticky"><h3>🛍️ COMPLETE IT</h3><p>Do not slow upgrades. Add protection, accessories, AIA, HTP, trade and NUA where they fit. Naked volume is the leak.</p></div>`;
-  renderRaw("storeRaw",s,true)
-}
-function qBox(name,value,ok,detail,near=false){
-  return `<div class="qual ${statusClass(ok,near)}"><div class="top"><div class="name">${name}</div><div class="stat">${ok?"✓ SAFE":"! ACTION"}</div></div><div class="value">${value}</div><div class="detail">${detail}</div></div>`
-}
-function renderRep(){
-  const r=D.reps[currentRep],m=r.m,g=r.goals;
-  $("repName").textContent=r.name;$("repTag").textContent=r.tag;
-  const an=needByPace(m,"aia"),hn=needByPace(m,"htp"),at=needToday(m,"aia"),ht=needToday(m,"htp");
-  $("qualGrid").innerHTML=
-    qBox("AIA CLOSE",`${m.aiaSubmits}/${m.greens} = ${pct(aiaRate(m))}`,aiaRate(m)>=.075,`${at?`+${at} fixes today. `:"Qualified today. "}Month-end pace says +${an} submit${an===1?"":"s"} from here.`,aiaRate(m)>=.072&&aiaRate(m)<.075)+
-    qBox("HTP CLOSE",`${m.htp}/${m.htpOpps} = ${pct(htpRate(m))}`,htpRate(m)>=.05,`${ht?`+${ht} fixes today. `:"Qualified today. "}Month-end pace says +${hn} HTP from here.`,htpRate(m)>=.045&&htpRate(m)<.05)+
-    qBox("ACC / ELIGIBLE OPP","$"+m.accPerOpp.toFixed(2),m.accPerOpp>=35,`${m.accPerOpp>=60?"25% accelerator ACTIVE.":m.accPerOpp>=35?"Qualified; $60 unlocks +25%.":"Below the $35 September floor."}`,m.accPerOpp>=32&&m.accPerOpp<35)+
-    qBox("PROTECTION",m.insurance.toFixed(2)+"%",m.insurance>=35,`${m.insurance>=60?"25% accelerator ACTIVE.":m.insurance>=35?"Qualified; 60% unlocks +25%.":"Below the 35% September floor."}`,m.insurance>=32&&m.insurance<35);
-  const b=basePay(m),fb=finalBase(m),reg=regularValue(m),accels=accelCount(m);
-  $("moneyGrid").innerHTML=`
-    <div class="money"><div class="k">Adjusted base</div><div class="v">$${b.toFixed(2)}</div><small>$15 + UPG/Data</small></div>
-    <div class="money"><div class="k">Accelerators</div><div class="v">${accels}/2</div><small>${accels?`Final base $${fb.toFixed(2)}`:"$60 / 60% to add"}</small></div>
-    <div class="money"><div class="k">PPV value so far</div><div class="v">${money(m.ppv*fb)}</div><small>${m.ppv} × final base</small></div>
-    <div class="money"><div class="k">AIA regular value</div><div class="v">${money(m.aiaPosted*fb*1.5)}</div><small>+ $${m.aiaPosted*10} standard instant</small></div>`;
-  const prod=[
-    ["PPV",m.ppv,g.ppv,`${clamp0(g.ppv-m.ppv)} to personal goal`],
-    ["AIA POSTED",m.aiaPosted,g.aiaPosted,`${clamp0(g.aiaPosted-m.aiaPosted)} to personal goal`],
-    ["UPGRADES",m.upgrades,g.upgrades,`${clamp0(g.upgrades-m.upgrades)} to personal goal`],
-    ["DATA",m.data,g.data,`${clamp0(g.data-m.data)} to personal goal`]
-  ];
-  $("prodGrid").innerHTML=prod.map(([k,v,goal,sub])=>`<div class="prod"><div class="k">${k}</div><div class="v">${v} / ${goal}</div><div class="sub">${sub}</div></div>`).join("");
-  renderCoaching(currentRep,m,an,hn);
-  buildSandbox(m);
-  renderRaw("repRaw",m,false);
-  $("missionRisk").innerHTML=qualifiesNow(m)
-    ? `<b>${money(reg)} regular commission protected today.</b> AIA/HTP denominator pace still matters through 9/30.`
-    : `<b>~${money(reg)} regular commission currently at risk.</b> Instant/event spiffs are separate.`;
-}
-function renderCoaching(slug,m,an,hn){
-  let shout="",move="";
-  if(slug==="gio"){
-    shout=`ACC is <b>$${m.accPerOpp.toFixed(2)}</b>, Protection is <b>${m.insurance.toFixed(2)}%</b>, HTP is <b>${m.htp}/${m.htpOpps} = ${pct(htpRate(m))}</b>, and Trade is <b>${m.trade.toFixed(1)}%</b>. Both 25% accelerators are active and HTP is safe.`;
-    move=`AIA is the finish issue: <b>${m.aiaSubmits}/${m.greens} = ${pct(aiaRate(m))}</b>. +${needToday(m,"aia")} submit fixes the line today, but current Green Check pace calls for <b>+${an} AIA submits by month-end</b>. Keep the accelerator-quality sale intact while you close the AIA gap.`;
-  }else if(slug==="noelle"){
-    shout=`HTP is <b>2/29 = ${pct(htpRate(m))}</b> and AIA is <b>7/92 = ${pct(aiaRate(m))}</b>. Both are qualified today, and HTP is holding on month-end pace.`;
-    move=`Do not coast on AIA: the Green Check denominator projects to roughly 115, so pace calls for <b>+${an} more AIA submits</b>. ACC at <b>$${m.accPerOpp.toFixed(2)}</b> and Protection at <b>${m.insurance.toFixed(2)}%</b> are qualified, but both still have room to chase the $60/60% accelerators.`;
-  }else{
-    shout=`You own <b>${m.upgrades}/97 upgrades</b> and <b>${m.opps}/139 OPPs</b> — about ${Math.round(m.upgrades/97*100)}% of store upgrades and ${Math.round(m.opps/139*100)}% of store opportunity volume. Keep producing.`;
-    move=`The fix is attachment, not less volume. Month-end pace needs <b>+${an} AIA submits</b> and <b>+${hn} HTP</b>. ACC is <b>$${m.accPerOpp.toFixed(2)}</b> and Protection is <b>${m.insurance.toFixed(2)}%</b>, both below the September floors. Every next OPP needs the full-bag attempt.`;
+(() => {
+  'use strict';
+  const SUPABASE_URL = 'https://uwomiirfvllcafijmkmk.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_UMb8Nb5DG0w1dv9h5W5-2Q_0PinuBV4';
+  const MANAGER_URL = SUPABASE_URL + '/functions/v1/store-pulse-manager';
+  const $ = id => document.getElementById(id);
+  const qs = (s,root=document) => root.querySelector(s);
+  const qsa = (s,root=document) => [...root.querySelectorAll(s)];
+  const fmtMoney = n => '$' + Number(n || 0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+  const fmtMoney0 = n => '$' + Math.round(Number(n || 0)).toLocaleString();
+  const fmtPct = n => n == null || !Number.isFinite(Number(n)) ? '—' : Number(n).toFixed(1).replace(/\.0$/,'') + '%';
+  const fmtNum = n => Number(n || 0).toLocaleString(undefined,{maximumFractionDigits:2});
+  const esc = s => String(s ?? '').replace(/[&<>'"]/g,c=>({ '&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;' }[c]));
+  const num = v => { const n=Number(v); return Number.isFinite(n) ? Math.max(0,n) : 0; };
+
+  const metricDefs = {
+    ppv:{label:'PPV',unit:'count',rep:true,store:true,goal:true},
+    aia_posted:{label:'AIA Posted',unit:'count',rep:true,store:true,goal:true},
+    aia_submits:{label:'AIA Submits',unit:'count',rep:true,store:true,goal:true},
+    aia_green_checks:{label:'AIA Green Checks',unit:'count',rep:true,store:true},
+    upgrades:{label:'Upgrades',unit:'count',rep:true,store:true,goal:true},
+    data:{label:'Data',unit:'count',rep:true,store:true,goal:true},
+    accessory_revenue:{label:'Accessory Revenue',unit:'money',rep:true,store:true,goal:true},
+    acc_per_opp:{label:'ACC / OPP',unit:'money2',rep:true,store:true,goal:true},
+    protectadvantage_rate:{label:'ProtectAdvantage',unit:'pct',rep:true,store:true,goal:true},
+    premium_loading_rate:{label:'Premium Loading',unit:'pct',rep:true,store:true,goal:true},
+    nextup_rate:{label:'Next Up Anytime',unit:'pct',rep:true,store:true,goal:true},
+    htp:{label:'HTP',unit:'count',rep:true,store:true,goal:true},
+    htp_eligible_opps:{label:'HTP Eligible',unit:'count',rep:true,store:true},
+    csat:{label:'CSAT',unit:'pct',rep:true,store:true,goal:true},
+    trade_rate:{label:'Trade',unit:'pct',rep:true,store:true},
+    opps:{label:'OPPs',unit:'count',rep:true,store:true,goal:true},
+    traffic:{label:'Traffic',unit:'count',rep:false,store:true,goal:true},
+    pre_to_post:{label:'Pre → Post',unit:'count',rep:true,store:true},
+    prepaid:{label:'Prepaid',unit:'count',rep:true,store:true},
+    pa4:{label:'PA4',unit:'count',rep:true,store:true},
+    cru:{label:'CRU',unit:'count',rep:true,store:true}
+  };
+  const repStatOrder=['ppv','aia_posted','aia_submits','aia_close','upgrades','data','accessory_revenue','acc_per_opp','protectadvantage_rate','premium_loading_rate','nextup_rate','htp_close','csat','trade_rate','opps'];
+  const storeStatOrder=['ppv','aia_posted','upgrades','data','accessory_revenue','acc_per_opp','protectadvantage_rate','premium_loading_rate','nextup_rate','aia_close','htp_close','csat','trade_rate','opps','traffic'];
+  const managerRepOrder=['ppv','aia_posted','aia_submits','aia_green_checks','upgrades','data','accessory_revenue','acc_per_opp','protectadvantage_rate','premium_loading_rate','nextup_rate','htp','htp_eligible_opps','csat','trade_rate','opps','pre_to_post','prepaid','pa4','cru'];
+  const managerStoreOrder=['ppv','aia_posted','aia_submits','aia_green_checks','upgrades','data','accessory_revenue','acc_per_opp','protectadvantage_rate','premium_loading_rate','nextup_rate','htp','htp_eligible_opps','csat','trade_rate','opps','traffic','pre_to_post','prepaid','pa4','cru'];
+  const goalOrder=Object.keys(metricDefs).filter(k=>metricDefs[k].goal && metricDefs[k].store);
+
+  const S={month:'2026-10',monthRow:null,reps:[],repMetrics:[],store:{},goals:[],comp:null,ui:null,currentRep:null,managerPassword:'',managerDraft:{}};
+
+  function showToast(msg){ const t=$('toast');t.textContent=msg;t.classList.remove('hidden');clearTimeout(showToast.t);showToast.t=setTimeout(()=>t.classList.add('hidden'),2600); }
+  function api(path){ return fetch(SUPABASE_URL+'/rest/v1/'+path,{headers:{apikey:SUPABASE_KEY,Accept:'application/json'}}).then(async r=>{if(!r.ok)throw new Error((await r.text())||('HTTP '+r.status));return r.json();}); }
+  async function managerCall(payload){
+    const r=await fetch(MANAGER_URL,{method:'POST',headers:{'Content-Type':'application/json',apikey:SUPABASE_KEY},body:JSON.stringify(payload)});
+    const body=await r.json().catch(()=>({}));if(!r.ok)throw new Error(body.error||'Manager request failed');return body;
   }
-  $("coachGrid").innerHTML=`<div class="card coach shout"><h3>⭐ Shout Out</h3><p>${shout}</p></div><div class="card coach"><h3>📌 Next Move</h3><p>${move}</p></div>`
-}
-function buildSandbox(m){
-  const fields=[["ppv","PPV",m.ppv],["aiaPosted","AIA Posted",m.aiaPosted],["aiaSubmits","AIA Submits",m.aiaSubmits],["greens","AIA Greens",m.greens],["htp","HTP",m.htp],["htpOpps","HTP Eligible",m.htpOpps],["upgrades","Upgrades",m.upgrades],["data","Data",m.data],["accPerOpp","ACC / OPP",m.accPerOpp],["insurance","Protection %",m.insurance]];
-  $("sandboxGrid").innerHTML=fields.map(([id,l,v])=>`<div class="field"><label>${l}</label><input id="sb_${id}" type="number" step="0.01" value="${v}" oninput="sandboxCalc()"></div>`).join("");
-  sandboxCalc()
-}
-function sandboxCalc(){
-  const n=id=>Number($("sb_"+id)?.value||0);
-  const m={ppv:n("ppv"),aiaPosted:n("aiaPosted"),aiaSubmits:n("aiaSubmits"),greens:n("greens"),htp:n("htp"),htpOpps:n("htpOpps"),upgrades:n("upgrades"),data:n("data"),accPerOpp:n("accPerOpp"),insurance:n("insurance")};
-  const b=basePay(m),a=accelCount(m),fb=finalBase(m),reg=regularValue(m),q=qualifiesNow(m);
-  $("sandboxOut").innerHTML=`
-    <div class="out"><div class="k">Adjusted base</div><div class="v">$${b.toFixed(2)}</div></div>
-    <div class="out"><div class="k">Final base</div><div class="v">$${fb.toFixed(2)}</div></div>
-    <div class="out"><div class="k">Accelerators</div><div class="v">${a}/2</div></div>
-    <div class="out"><div class="k">AIA close</div><div class="v">${pct(aiaRate(m))}</div></div>
-    <div class="out"><div class="k">HTP close</div><div class="v">${pct(htpRate(m))}</div></div>
-    <div class="out"><div class="k">Regular commission</div><div class="v">${q?money(reg):"$0"}</div></div>`;
-}
-function renderRaw(id,m,store){
-  const arr=store?[
-    ["PPV Close",m.ppvClose+"%"],["AIA Posted",m.aiaPosted],["AIA Submits",m.aiaSubmits],["AIA Greens",m.greens],
-    ["AIA Close",pct(aiaRate(m))],["HTP",m.htp],["HTP Eligible",m.htpOpps],["HTP Close",pct(htpRate(m))],
-    ["ACC Revenue","$"+m.accRev],["ACC / OPP","$"+m.accPerOpp.toFixed(2)],["Protection",m.insurance+"%"],["NUA",m.nextup+"%"],
-    ["Trade",m.trade+"%"],["CSAT",m.csat+"%"],["P2P",m.p2p],["OPPs",m.opps],["Traffic",m.traffic],["Prepaid",m.prepaid],["PA4",m.pa4],["CRU",m.cru]
-  ]:[
-    ["AIA Greens",m.greens],["HTP Eligible",m.htpOpps],["ACC Revenue","$"+m.accRev],["ACC / OPP","$"+m.accPerOpp.toFixed(2)],
-    ["Protection",m.insurance+"%"],["NUA",m.nextup+"%"],["Trade",m.trade+"%"],["CSAT",m.csat+"%"],["P2P",m.p2p],["OPPs",m.opps],["Prepaid",m.prepaid],["PA4",m.pa4],["CRU",m.cru]
-  ];
-  $(id).innerHTML=arr.map(x=>`<div class="raw"><div class="k">${x[0]}</div><div class="v">${x[1]}</div></div>`).join("")
-}
-function missionText(){
-  const r=D.reps[currentRep],m=r.m,an=needByPace(m,"aia"),hn=needByPace(m,"htp");
-  let bits=[]; if(an)bits.push(`<span class="markerRed">+${an} AIA submit${an===1?"":"s"}</span>`); else bits.push(`<span class="markerGreen">AIA pace safe</span>`);
-  if(hn)bits.push(`<span class="markerRed">+${hn} HTP</span>`); else bits.push(`<span class="markerGreen">HTP pace safe</span>`);
-  if(m.accPerOpp<35)bits.push(`<span class="markerRed">ACC ≥ $35</span>`);
-  if(m.insurance<35)bits.push(`<span class="markerRed">Protection ≥ 35%</span>`);
-  $("missionTitle").textContent=`${D.daysLeft} DAYS LEFT — ${r.name.toUpperCase()}`;
-  $("missionNeed").innerHTML=`BY MONTH-END:<br>${bits.join(" • ")}`
-}
-function openMission(){
-  missionText();$("mission").classList.remove("hidden");$("missionTab").classList.add("hidden");
-  const pos=JSON.parse(localStorage.getItem("mission_"+currentRep)||"null");const el=$("mission");
-  if(pos){el.style.left=pos.left+"px";el.style.top=pos.top+"px";el.style.transform="rotate(-1deg)"}
-  else{el.style.left="50%";el.style.top="82px";el.style.transform="translateX(-50%) rotate(-1deg)"}
-}
-function minimizeMission(silent=false){$("mission")?.classList.add("hidden"); if(!silent&&$("rep").classList.contains("active"))$("missionTab").classList.remove("hidden"); else $("missionTab").classList.add("hidden")}
-function restoreMission(){openMission()}
-function resetNotes(){["gio","noelle","tj"].forEach(x=>localStorage.removeItem("mission_"+x));alert("Mission note positions reset.")}
-function hello(){manager=!manager;$("managerLanding").classList.toggle("on",manager); if(manager)alert("Hello? Manager detail unlocked.");}
-(function dragMission(){
-  let dragging=false,dx=0,dy=0;
-  $("missionDrag").addEventListener("pointerdown",e=>{if(e.target.tagName==="BUTTON")return;const el=$("mission"),r=el.getBoundingClientRect();dragging=true;dx=e.clientX-r.left;dy=e.clientY-r.top;el.setPointerCapture(e.pointerId);el.style.transform="rotate(-1deg)"});
-  $("missionDrag").addEventListener("pointermove",e=>{if(!dragging)return;const el=$("mission");el.style.left=Math.max(6,Math.min(window.innerWidth-el.offsetWidth-6,e.clientX-dx))+"px";el.style.top=Math.max(58,Math.min(window.innerHeight-el.offsetHeight-6,e.clientY-dy))+"px"});
-  $("missionDrag").addEventListener("pointerup",e=>{if(!dragging)return;dragging=false;const el=$("mission");localStorage.setItem("mission_"+currentRep,JSON.stringify({left:parseFloat(el.style.left),top:parseFloat(el.style.top)}))});
+  function aiaClose(m){return num(m?.aia_green_checks)>0 ? num(m.aia_submits)/num(m.aia_green_checks)*100 : 0}
+  function htpClose(m){return num(m?.htp_eligible_opps)>0 ? num(m.htp)/num(m.htp_eligible_opps)*100 : 0}
+  function displayValue(key,m){
+    let v=m?.[key];
+    if(key==='aia_close') return fmtPct(aiaClose(m));
+    if(key==='htp_close') return fmtPct(htpClose(m));
+    const d=metricDefs[key]; if(!d) return fmtNum(v);
+    if(v==null) return '—'; if(d.unit==='pct')return fmtPct(v); if(d.unit==='money')return fmtMoney0(v); if(d.unit==='money2')return fmtMoney(v); return fmtNum(v);
+  }
+  function metricLabel(key){ if(key==='aia_close')return 'AIA Close';if(key==='htp_close')return 'HTP Close';return metricDefs[key]?.label||key; }
+  function goalCurrent(key,m){ if(key==='protectadvantage_rate'||key==='premium_loading_rate'||key==='nextup_rate'||key==='csat'||key==='trade_rate') return num(m?.[key]); return num(m?.[key]); }
+  function goalFor(key){return S.goals.find(g=>g.scope==='store'&&g.metric_key===key)}
+
+  function comp(m){
+    const ppv=num(m.ppv),pa=num(m.protectadvantage_rate),premium=num(m.premium_loading_rate),nua=num(m.nextup_rate);
+    const ppvEach=5+pa/10+premium/10+nua/10,ppvPay=ppv*ppvEach;
+    const ac=Math.min(aiaClose(m),15),aiaEach=ac*4,aiaPay=num(m.aia_posted)*aiaEach;
+    const accPay=num(m.accessory_revenue)*(num(m.acc_per_opp)/1000);
+    const dataEach=num(m.upgrades)*.25,dataPay=num(m.data)*dataEach;
+    const production=ppvPay+aiaPay+accPay+dataPay;
+    const htpPct=Math.min(htpClose(m),15),csat=num(m.csat),csatPct=csat>=90?Math.min(csat,100)/10:0;
+    const bonusPct=htpPct+csatPct,bonus=production*bonusPct/100,total=production+bonus;
+    return {ppvEach,ppvPay,aiaEach,aiaPay,accPay,dataEach,dataPay,production,htpPct,csatPct,bonusPct,bonus,total};
+  }
+
+  function moveCandidates(m){
+    const c=comp(m),mult=1+c.bonusPct/100,moves=[];
+    const ac=aiaClose(m),hc=htpClose(m),cs=num(m.csat);
+    if(ac<15 && num(m.aia_posted)>0) moves.push({title:'AIA close +1 point',impact:num(m.aia_posted)*4*mult,why:`Each +1 point adds $4 to every posted AIA. You're at ${fmtPct(ac)} now.`});
+    if(hc<15 && c.production>0) moves.push({title:'HTP +1 point',impact:c.production*.01,why:`Until the 15% cap, another HTP point adds 1% to the whole production payout.`});
+    if(cs>0 && cs<90 && c.production>0) moves.push({title:'Get CSAT to 90%',impact:c.production*.09,why:`CSAT below 90 earns no CSAT bonus. Hitting 90% turns on a 9% bonus.`});
+    else if(cs>=90 && cs<100 && c.production>0) moves.push({title:'CSAT +1 point',impact:c.production*.001,why:`Once eligible, +1 CSAT point adds 0.1% to the whole production payout.`});
+    if(num(m.ppv)>0){const rates=[['ProtectAdvantage','protectadvantage_rate'],['Premium Loading','premium_loading_rate'],['NUA','nextup_rate']].sort((a,b)=>num(m[a[1]])-num(m[b[1]]));moves.push({title:`${rates[0][0]} +10 pts`,impact:num(m.ppv)*1*mult,why:`Ten more points adds $1 to every PPV before HTP/CSAT bonuses.`});}
+    if(num(m.accessory_revenue)>0) moves.push({title:'ACC / OPP +$10',impact:num(m.accessory_revenue)*.01*mult,why:`Every +$10/OPP raises accessory payout by 1% of accessory revenue.`});
+    if(num(m.data)>0) moves.push({title:'5 more upgrades',impact:num(m.data)*1.25*mult,why:`Five upgrades raises every Data unit by $1.25.`});
+    if(num(m.upgrades)>0) moves.push({title:'1 more Data',impact:num(m.upgrades)*.25*mult,why:`At ${fmtNum(m.upgrades)} upgrades, one additional Data is worth ${fmtMoney(num(m.upgrades)*.25)} before bonus.`});
+    return moves.filter(x=>x.impact>0).sort((a,b)=>b.impact-a.impact);
+  }
+
+  function coaching(m){
+    const c=comp(m),moves=moveCandidates(m),cards=[];
+    if(moves[0]) cards.push({title:'💵 BEST MONEY MOVE',body:`${moves[0].title}. About ${fmtMoney(moves[0].impact)} of incremental pay at today's other rates. ${moves[0].why}`});
+    if(num(m.csat)>=90) cards.push({title:'⭐ PROTECT THIS',body:`CSAT is ${fmtPct(m.csat)}, currently adding ${fmtPct(c.csatPct)} to the entire production payout. Keep it above 90%.`});
+    else if(htpClose(m)>0) cards.push({title:'⭐ PROTECT THIS',body:`HTP is ${fmtPct(htpClose(m))}, currently adding ${fmtPct(c.htpPct)} to the entire production payout.`});
+    else if(num(m.ppv)>0) cards.push({title:'⭐ PROTECT THIS',body:`Each PPV is currently worth ${fmtMoney(c.ppvEach)} before the HTP/CSAT bonus. Keep the full attach conversation on every activation.`});
+    const next=moves[1]||moves[0];
+    if(next) cards.push({title:'📌 NEXT FOCUS',body:`${next.title}: roughly ${fmtMoney(next.impact)} of upside using today's production as the baseline. ${next.why}`});
+    while(cards.length<3) cards.push({title:'📌 BUILD THE BASE',body:'Keep adding PPV, AIA Posted, accessory revenue and Data. October pays on every unit — there is no minimum before the production dollars start counting.'});
+    return cards.slice(0,3);
+  }
+
+  function showPage(id){ qsa('.page').forEach(p=>p.classList.remove('active'));$(id).classList.add('active');$('homeBtn').classList.toggle('active',id==='landing');$('storeBtn').classList.toggle('active',id==='store');window.scrollTo({top:0,behavior:'smooth'}); }
+  function renderHome(){
+    $('landingKicker').textContent=(S.monthRow?.display_name||'October 2026').toUpperCase()+' • STORE PULSE';
+    const cards=[`<button class="homeCard store" type="button" data-home="store"><b>STORE</b><span>Store numbers and goals.</span></button>`].concat(S.reps.filter(r=>r.active).map(r=>`<button class="homeCard" type="button" data-rep="${esc(r.rep_id)}"><b>${esc(r.display_name)}</b><span>Stats • Coaching • Calculator • Money Moves</span></button>`));
+    $('homeGrid').innerHTML=cards.join('');
+    qs('[data-home="store"]')?.addEventListener('click',()=>{renderStore();showPage('store')});
+    qsa('[data-rep]').forEach(b=>b.addEventListener('click',()=>openRep(b.dataset.rep)));
+    const date=S.monthRow?.snapshot_date; $('homeStatus').textContent=date?`Snapshot ${date}`:'October board ready';
+  }
+  function renderStore(){
+    $('storeKicker').textContent=(S.monthRow?.display_name||'October 2026').toUpperCase()+' • STORE';
+    $('storeWhen').textContent=S.monthRow?.snapshot_date?`SNAPSHOT ${S.monthRow.snapshot_date}`:'NO SNAPSHOT DATE';
+    const m=S.store||{};
+    $('storeStats').innerHTML=storeStatOrder.map(key=>{
+      const g=goalFor(key),v=displayValue(key,m);let extra='';
+      if(g){const cur=goalCurrent(key,m),target=num(g.target),p=target?Math.min(100,cur/target*100):0;const gd=metricDefs[key];const gt=gd?.unit==='pct'?fmtPct(target):gd?.unit?.startsWith('money')?fmtMoney(target):fmtNum(target);extra=`<div class="goal">GOAL ${gt}</div><div class="progress"><i style="width:${p}%"></i></div>`;}
+      return `<div class="stat"><div class="label">${esc(metricLabel(key))}</div><div class="value">${esc(v)}</div>${extra}</div>`;
+    }).join('');
+  }
+  function repMetric(id){return S.repMetrics.find(x=>x.rep_id===id)||{rep_id:id,month:S.month}}
+  function openRep(id){S.currentRep=id;renderRep();showPage('rep')}
+  function renderRep(){
+    const r=S.reps.find(x=>x.rep_id===S.currentRep)||S.reps[0];if(!r)return;S.currentRep=r.rep_id;const m=repMetric(r.rep_id);
+    $('repTitle').textContent=r.display_name;$('repKicker').textContent=(S.monthRow?.display_name||'October 2026').toUpperCase()+' • REP';
+    $('repSelect').innerHTML=S.reps.filter(x=>x.active).map(x=>`<option value="${esc(x.rep_id)}" ${x.rep_id===r.rep_id?'selected':''}>${esc(x.display_name)}</option>`).join('');
+    $('repStats').innerHTML=repStatOrder.map(key=>`<div class="stat"><div class="label">${esc(metricLabel(key))}</div><div class="value">${esc(displayValue(key,m))}</div></div>`).join('');
+    $('coachGrid').innerHTML=coaching(m).map(x=>`<div class="note"><h3>${x.title}</h3><p>${x.body}</p></div>`).join('');
+    const moves=moveCandidates(m).slice(0,4);$('moneyMoves').innerHTML=moves.length?moves.map((x,i)=>`<div class="move"><div class="rank">${i+1}</div><div><div class="what">${esc(x.title)}</div><div class="why">${esc(x.why)}</div></div><div class="money">+${fmtMoney(x.impact)}</div></div>`).join(''):`<div class="errorBox" style="border-color:#d0d5dd;background:#fff">Add some October production and Store Pulse will rank the biggest money moves here.</div>`;
+  }
+
+  function setupTheme(){
+    const saved=localStorage.getItem('storePulseMode')||'whiteboard';document.body.classList.toggle('classic',saved==='classic');updateThemeButton();
+    $('modeBtn').addEventListener('click',()=>{document.body.classList.toggle('classic');localStorage.setItem('storePulseMode',document.body.classList.contains('classic')?'classic':'whiteboard');updateThemeButton();});
+  }
+  function updateThemeButton(){const classic=document.body.classList.contains('classic');$('modeBtn').classList.toggle('active',classic);$('modeBtn').innerHTML=classic?'✎ <span class="modeText">WHITEBOARD</span>':'▦ <span class="modeText">CLASSIC</span>';}
+
+  function setupStickies(){
+    const board=$('landingBoard');qsa('[data-sticky]').forEach(el=>{
+      const saved=JSON.parse(localStorage.getItem('sticky_'+el.dataset.sticky)||'null');if(saved){el.style.left=saved.x+'%';el.style.top=saved.y+'%';}
+      let drag=null;
+      el.addEventListener('pointerdown',e=>{if(document.body.classList.contains('classic'))return;const er=el.getBoundingClientRect(),br=board.getBoundingClientRect();drag={dx:e.clientX-er.left,dy:e.clientY-er.top,br};el.setPointerCapture(e.pointerId);});
+      el.addEventListener('pointermove',e=>{if(!drag)return;const br=board.getBoundingClientRect();let x=e.clientX-br.left-drag.dx,y=e.clientY-br.top-drag.dy;x=Math.max(4,Math.min(br.width-el.offsetWidth-4,x));y=Math.max(4,Math.min(br.height-el.offsetHeight-4,y));el.style.left=(x/br.width*100)+'%';el.style.top=(y/br.height*100)+'%';});
+      el.addEventListener('pointerup',()=>{if(!drag)return;localStorage.setItem('sticky_'+el.dataset.sticky,JSON.stringify({x:parseFloat(el.style.left),y:parseFloat(el.style.top)}));drag=null;});
+      el.addEventListener('pointercancel',()=>drag=null);
+    });
+  }
+
+  const calcOrder=['ppv','protectadvantage_rate','premium_loading_rate','nextup_rate','aia_posted','aia_submits','aia_green_checks','accessory_revenue','acc_per_opp','data','upgrades','htp','htp_eligible_opps','csat'];
+  function openCalculator(){
+    const m=repMetric(S.currentRep);$('calcFields').innerHTML=calcOrder.map(k=>fieldHTML('calc_'+k,metricDefs[k]?.label||k,m[k],metricDefs[k]?.unit)).join('');
+    qsa('#calcFields input').forEach(i=>i.addEventListener('input',renderCalc));renderCalc();$('calcBack').classList.remove('hidden');setTimeout(()=>qs('#calcFields input')?.focus(),30);
+  }
+  function fieldHTML(id,label,value,unit){const step=unit==='count'?'1':unit==='money'?'1':'.1';return `<div class="field"><label for="${id}">${esc(label)}</label><input id="${id}" data-key="${id.replace(/^calc_|^mgr_store_|^mgr_rep_/,'')}" type="number" min="0" step="${step}" value="${value==null?'':esc(value)}"></div>`;}
+  function calcScenario(){const base={...repMetric(S.currentRep)};qsa('#calcFields input').forEach(i=>{base[i.dataset.key]=i.value===''?null:num(i.value)});return base;}
+  function renderCalc(){
+    const live=comp(repMetric(S.currentRep)),scenario=comp(calcScenario()),diff=scenario.total-live.total;$('calcLive').textContent=fmtMoney(live.total);$('calcScenario').textContent=fmtMoney(scenario.total);$('calcDiff').textContent=(diff>=0?'+':'')+fmtMoney(diff);$('calcDiff').style.color=diff<0?'#b42318':'#167c4b';
+    const rows=[['PPV',scenario.ppvPay],['AIA',scenario.aiaPay],['Accessories',scenario.accPay],['Data',scenario.dataPay],['Bonus',scenario.bonus]];$('calcBreakdown').innerHTML=rows.map(x=>`<div class="break"><div class="k">${x[0]}</div><div class="v">${fmtMoney(x[1])}</div></div>`).join('');
+  }
+  function closeCalc(){$('calcBack').classList.add('hidden')}
+
+  function openManagerLogin(){$('loginError').textContent='';$('managerPassword').value='';$('loginBack').classList.remove('hidden');setTimeout(()=>$('managerPassword').focus(),30)}
+  async function verifyManager(){
+    const pw=$('managerPassword').value;$('loginBtn').disabled=true;$('loginBtn').textContent='CHECKING…';$('loginError').textContent='';
+    try{await managerCall({action:'verify',password:pw});S.managerPassword=pw;$('loginBack').classList.add('hidden');renderManager();showPage('manager');showToast('Manager Mode unlocked');}
+    catch(e){$('loginError').textContent=e.message||'Incorrect password';}
+    finally{$('loginBtn').disabled=false;$('loginBtn').textContent='ENTER MANAGER MODE';}
+  }
+  function renderManager(){
+    $('mgrSnapshot').value=S.monthRow?.snapshot_date||new Date().toISOString().slice(0,10);
+    $('mgrStoreFields').innerHTML=managerStoreOrder.map(k=>fieldHTML('mgr_store_'+k,metricDefs[k].label,S.store?.[k],metricDefs[k].unit)).join('');
+    $('mgrGoalFields').innerHTML=goalOrder.map(k=>{const g=goalFor(k);return fieldHTML('goal_'+k,metricDefs[k].label,g?.target,metricDefs[k].unit)}).join('');
+    $('mgrRepSelect').innerHTML=S.reps.filter(r=>r.active).map(r=>`<option value="${esc(r.rep_id)}">${esc(r.display_name)}</option>`).join('');
+    $('mgrRepSelect').value=S.currentRep||S.reps[0]?.rep_id||'';renderManagerRepFields();$('mgrRepSelect').onchange=renderManagerRepFields;
+  }
+  function renderManagerRepFields(){const id=$('mgrRepSelect').value,m=repMetric(id);$('mgrRepFields').innerHTML=managerRepOrder.map(k=>fieldHTML('mgr_rep_'+k,metricDefs[k].label,m?.[k],metricDefs[k].unit)).join('');}
+  function valuesFrom(rootSel,prefix){const out={};qsa(rootSel+' input').forEach(i=>{const key=i.id.replace(prefix,'');out[key]=i.value===''?null:num(i.value)});return out;}
+  async function publishManager(){
+    if(!S.managerPassword){openManagerLogin();return}
+    const activeRep=$('mgrRepSelect').value,editedRep=valuesFrom('#mgrRepFields','mgr_rep_');
+    const repRows=S.repMetrics.map(r=>({rep_id:r.rep_id,metrics:r.rep_id===activeRep?{...r,...editedRep}:r}));
+    if(!repRows.some(r=>r.rep_id===activeRep))repRows.push({rep_id:activeRep,metrics:editedRep});
+    const storeMetrics=valuesFrom('#mgrStoreFields','mgr_store_');
+    const goals=goalOrder.map((k,i)=>{const el=$('goal_'+k);if(!el||el.value==='')return null;return {metric_key:k,target:num(el.value),unit:metricDefs[k].unit,sort_order:i*10}}).filter(Boolean);
+    $('publishBtn').disabled=true;$('publishBtn').textContent='PUBLISHING…';$('managerSaveStatus').textContent='Publishing changes…';
+    try{
+      await managerCall({action:'publish',password:S.managerPassword,month:S.month,snapshot_date:$('mgrSnapshot').value,store_metrics:storeMetrics,rep_metrics:repRows,goals});
+      $('managerSaveStatus').textContent='Published. Refreshing live Store Pulse…';await loadData(false);renderManager();showToast('Store Pulse updated');$('managerSaveStatus').textContent='Published successfully.';
+    }catch(e){$('managerSaveStatus').textContent='Publish failed: '+e.message;showToast('Publish failed');}
+    finally{$('publishBtn').disabled=false;$('publishBtn').textContent='PUBLISH TO STORE PULSE';}
+  }
+
+  async function loadData(first=true){
+    try{
+      if(first)$('homeGrid').innerHTML='<div class="loading">Loading the board…</div>';
+      const cfg=await api('huddle_app_config?config_key=eq.active_month&select=config_value');S.month=cfg?.[0]?.config_value?.month||'2026-10';
+      const [months,reps,store,repMetrics,goals,compCfg,uiCfg]=await Promise.all([
+        api('huddle_months?month=eq.'+encodeURIComponent(S.month)+'&select=*'),
+        api('huddle_reps?active=eq.true&select=*&order=sort_order.asc'),
+        api('huddle_store_metrics?month=eq.'+encodeURIComponent(S.month)+'&select=*'),
+        api('huddle_rep_metrics?month=eq.'+encodeURIComponent(S.month)+'&select=*'),
+        api('huddle_goals?month=eq.'+encodeURIComponent(S.month)+'&scope=eq.store&select=*&order=sort_order.asc'),
+        api('huddle_comp_config?month=eq.'+encodeURIComponent(S.month)+'&select=*'),
+        api('huddle_app_config?config_key=eq.store_pulse_ui&select=config_value')
+      ]);
+      S.monthRow=months[0]||null;S.reps=reps||[];S.store=store[0]||{};S.repMetrics=repMetrics||[];S.goals=goals||[];S.comp=compCfg[0]||null;S.ui=uiCfg[0]?.config_value||{};
+      if(!S.currentRep||!S.reps.some(r=>r.rep_id===S.currentRep))S.currentRep=S.reps[0]?.rep_id||null;
+      renderHome();renderStore();if(S.currentRep)renderRep();
+    }catch(e){$('homeGrid').innerHTML=`<div class="errorBox" style="grid-column:1/-1"><b>Store Pulse could not load.</b><br>${esc(e.message)}<br><br><button id="retryLoad" class="btn" type="button">Retry</button></div>`;$('homeStatus').textContent='Connection error';setTimeout(()=>$('retryLoad')?.addEventListener('click',()=>loadData(true)),0);}
+  }
+
+  $('homeBtn').addEventListener('click',()=>showPage('landing'));
+  $('storeBtn').addEventListener('click',()=>{renderStore();showPage('store')});
+  $('repSelect').addEventListener('change',e=>openRep(e.target.value));
+  $('openCalc').addEventListener('click',openCalculator);$('closeCalc').addEventListener('click',closeCalc);$('doneCalc').addEventListener('click',closeCalc);
+  $('resetCalc').addEventListener('click',openCalculator);$('calcBack').addEventListener('click',e=>{if(e.target===$('calcBack'))closeCalc()});
+  $('managerBtn').addEventListener('click',openManagerLogin);$('closeLogin').addEventListener('click',()=>$('loginBack').classList.add('hidden'));$('loginBtn').addEventListener('click',verifyManager);$('managerPassword').addEventListener('keydown',e=>{if(e.key==='Enter')verifyManager()});
+  $('loginBack').addEventListener('click',e=>{if(e.target===$('loginBack'))$('loginBack').classList.add('hidden')});
+  qsa('[data-manager-section]').forEach(b=>b.addEventListener('click',()=>{qsa('[data-manager-section]').forEach(x=>x.classList.toggle('active',x===b));qsa('.managerSection').forEach(x=>x.classList.toggle('active',x.id===b.dataset.managerSection));}));
+  $('publishBtn').addEventListener('click',publishManager);
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeCalc();$('loginBack').classList.add('hidden')}});
+  setupTheme();setupStickies();loadData(true);
 })();
-renderLanding();renderTeam();
 </script>
 </body>
 </html>
