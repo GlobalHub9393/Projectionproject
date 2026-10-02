@@ -99,7 +99,8 @@ body.classic .move{border-bottom:1px solid #eaecf0}
 .modalBack{position:fixed;inset:0;z-index:150;background:#0b1220bb;display:flex;align-items:flex-start;justify-content:center;padding:calc(18px + env(safe-area-inset-top)) 12px calc(18px + env(safe-area-inset-bottom));overflow:auto}
 .modal{width:min(930px,100%);background:#fff;border-radius:18px;box-shadow:0 30px 90px #0006;margin:auto;overflow:hidden}
 .modalHead{position:sticky;top:0;z-index:4;background:#fff;border-bottom:1px solid #e4e7ec;display:flex;align-items:center;gap:10px;padding:13px 14px}.modalHead h2{margin:0;flex:1;font-size:20px}.xbtn{border:0;background:#101828;color:#fff;width:42px;height:42px;border-radius:999px;font-size:20px;font-weight:900}
-.modalBody{padding:15px}.formGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.field{min-width:0}.field label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.04em;font-weight:850;color:#667085;margin-bottom:5px}.field input,.field select{width:100%;min-height:46px;border:1px solid #b8c0cc;border-radius:10px;background:#fff;padding:8px 10px;font-size:16px;color:#101828}
+.modalBody{padding:15px}.formGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.field{min-width:0}.field label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.04em;font-weight:850;color:#667085;margin-bottom:5px}.field input,.field select{width:100%;min-height:46px;border:1px solid #b8c0cc;border-radius:10px;background:#fff;padding:8px 10px;font-size:16px;color:#101828}.field input:disabled{background:#f2f4f7;color:#344054;opacity:1}
+.calcModes{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;background:#f2f4f7;border:1px solid #d0d5dd;border-radius:13px;padding:5px;margin-bottom:11px}.calcModeBtn{min-height:44px;border:0;border-radius:9px;background:transparent;color:#475467;font-weight:950;letter-spacing:.04em}.calcModeBtn.active{background:#101828;color:#fff;box-shadow:0 2px 7px #10182822}.calcModeNote{font-size:12px;line-height:1.45;color:#667085;background:#f8fafc;border:1px solid #e4e7ec;border-radius:10px;padding:9px 11px;margin-bottom:12px}
 .calcTotals{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}.totalCard{background:#f8fafc;border:1px solid #d0d5dd;border-radius:13px;padding:12px}.totalCard .k{font-size:10px;color:#667085;font-weight:850;text-transform:uppercase}.totalCard .v{font-size:27px;font-weight:950;margin-top:4px}.totalCard.good .v{color:var(--green)}.breakdown{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.break{background:#fff;border:1px solid #d0d5dd;border-radius:11px;padding:10px}.break .k{font-size:10px;color:#667085;text-transform:uppercase;font-weight:850}.break .v{font-size:18px;font-weight:900;margin-top:3px}.modalActions{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin-top:14px}.btn{min-height:44px;border:0;border-radius:10px;background:var(--nav);color:#fff;padding:9px 14px;font-weight:850}.btn.alt{background:#fff;color:#1d2939;border:1px solid #b8c0cc}.btn.danger{background:#b42318}.btn.green{background:#167c4b}
 
 /* Manager */
@@ -175,7 +176,7 @@ body.classic .move{border-bottom:1px solid #eaecf0}
       <div class="sectionTitle">CALCULATOR</div>
       <div class="calcLaunch">
         <button id="openCalc" class="calcButton" type="button"><span class="calcIcon">🧮</span> COMP CALCULATOR</button>
-        <p>Sandbox mode. It starts with your live Store Pulse numbers; change anything you want. Nothing in the calculator saves back to Supabase.</p>
+        <p>Live shows today, Pace projects your month-end finish at the current run rate, and Sandbox lets you play with anything. Nothing in the calculator saves back to Supabase.</p>
       </div>
 
       <div class="sectionTitle">MONEY MOVES</div>
@@ -221,14 +222,20 @@ body.classic .move{border-bottom:1px solid #eaecf0}
   <div class="modal">
     <div class="modalHead"><h2 id="calcTitle">🧮 Compensation Calculator</h2><button class="xbtn" id="closeCalc" type="button">×</button></div>
     <div class="modalBody">
+      <div class="calcModes" aria-label="Calculator mode">
+        <button class="calcModeBtn" id="calcModeLive" type="button">LIVE</button>
+        <button class="calcModeBtn" id="calcModePace" type="button">PACE</button>
+        <button class="calcModeBtn" id="calcModeSandbox" type="button">SANDBOX</button>
+      </div>
+      <div id="calcModeNote" class="calcModeNote"></div>
       <div id="calcFields" class="formGrid"></div>
       <div class="calcTotals">
-        <div class="totalCard"><div class="k">Live estimate</div><div class="v" id="calcLive">$0.00</div></div>
-        <div class="totalCard"><div class="k">Sandbox estimate</div><div class="v" id="calcScenario">$0.00</div></div>
-        <div class="totalCard good"><div class="k">Difference</div><div class="v" id="calcDiff">$0.00</div></div>
+        <div class="totalCard"><div class="k" id="calcLabel1">Live estimate</div><div class="v" id="calcLive">$0.00</div></div>
+        <div class="totalCard"><div class="k" id="calcLabel2">Scenario estimate</div><div class="v" id="calcScenario">$0.00</div></div>
+        <div class="totalCard good"><div class="k" id="calcLabel3">Difference</div><div class="v" id="calcDiff">$0.00</div></div>
       </div>
       <div id="calcBreakdown" class="breakdown"></div>
-      <div class="modalActions"><button class="btn alt" id="resetCalc" type="button">Reset to live</button><button class="btn" id="doneCalc" type="button">Done</button></div>
+      <div class="modalActions"><button class="btn alt" id="resetCalc" type="button">Reset Sandbox to Live</button><button class="btn" id="doneCalc" type="button">Done</button></div>
     </div>
   </div>
 </div>
@@ -295,7 +302,7 @@ body.classic .move{border-bottom:1px solid #eaecf0}
   const goalOrder=Object.keys(metricDefs).filter(k=>metricDefs[k].goal && metricDefs[k].store);
   const repGoalOrder=Object.keys(metricDefs).filter(k=>metricDefs[k].goal && metricDefs[k].rep);
 
-  const S={month:'2026-10',monthRow:null,reps:[],repMetrics:[],store:{},goals:[],comp:null,ui:null,currentRep:null,managerPassword:'',managerDraft:{}};
+  const S={month:'2026-10',monthRow:null,reps:[],repMetrics:[],store:{},goals:[],comp:null,ui:null,currentRep:null,managerPassword:'',managerDraft:{},calcMode:'live',calcSandbox:null};
 
   function showToast(msg){ const t=$('toast');t.textContent=msg;t.classList.remove('hidden');clearTimeout(showToast.t);showToast.t=setTimeout(()=>t.classList.add('hidden'),2600); }
   function api(path){ return fetch(SUPABASE_URL+'/rest/v1/'+path,{headers:{apikey:SUPABASE_KEY,Accept:'application/json'}}).then(async r=>{if(!r.ok)throw new Error((await r.text())||('HTTP '+r.status));return r.json();}); }
@@ -407,14 +414,53 @@ body.classic .move{border-bottom:1px solid #eaecf0}
   }
 
   const calcOrder=['ppv','protectadvantage_rate','premium_loading_rate','nextup_rate','aia_posted','aia_submits','aia_green_checks','accessory_revenue','acc_per_opp','data','upgrades','htp','htp_eligible_opps','csat'];
-  function openCalculator(){
-    const m=repMetric(S.currentRep);$('calcFields').innerHTML=calcOrder.map(k=>fieldHTML('calc_'+k,metricDefs[k]?.label||k,m[k],metricDefs[k]?.unit)).join('');
-    qsa('#calcFields input').forEach(i=>i.addEventListener('input',renderCalc));renderCalc();$('calcBack').classList.remove('hidden');setTimeout(()=>qs('#calcFields input')?.focus(),30);
+  const paceVolumeKeys=new Set(['ppv','aia_posted','aia_submits','aia_green_checks','accessory_revenue','data','upgrades','htp','htp_eligible_opps']);
+  function paceInfo(){
+    const days=Number(S.monthRow?.days_in_month)||31,date=S.monthRow?.snapshot_date;
+    if(!date)return {ok:false,days,elapsed:0,factor:1};
+    const parts=String(date).split('-').map(Number),monthParts=String(S.month).split('-').map(Number);
+    if(parts.length!==3||monthParts.length!==2||parts[0]!==monthParts[0]||parts[1]!==monthParts[1])return {ok:false,days,elapsed:0,factor:1};
+    const elapsed=Math.max(1,Math.min(days,parts[2]||1));
+    return {ok:true,days,elapsed,factor:days/elapsed};
   }
-  function fieldHTML(id,label,value,unit){const step=unit==='count'?'1':unit==='money'?'1':'.1';return `<div class="field"><label for="${id}">${esc(label)}</label><input id="${id}" data-key="${id.replace(/^calc_|^mgr_store_|^mgr_rep_/,'')}" type="number" min="0" step="${step}" value="${value==null?'':esc(value)}"></div>`;}
-  function calcScenario(){const base={...repMetric(S.currentRep)};qsa('#calcFields input').forEach(i=>{base[i.dataset.key]=i.value===''?null:num(i.value)});return base;}
+  function paceScenario(){
+    const live={...repMetric(S.currentRep)},p=paceInfo(),out={...live};
+    if(!p.ok)return out;
+    calcOrder.forEach(k=>{
+      if(!paceVolumeKeys.has(k))return;
+      const v=live[k];if(v==null)return;
+      const projected=num(v)*p.factor;
+      out[k]=metricDefs[k]?.unit==='count'?Math.round(projected*10)/10:Math.round(projected*100)/100;
+    });
+    return out;
+  }
+  function openCalculator(){
+    S.calcSandbox={...repMetric(S.currentRep)};
+    setCalcMode('live');$('calcBack').classList.remove('hidden');
+  }
+  function fieldHTML(id,label,value,unit,disabled=false){const step=unit==='count'?'1':unit==='money'?'1':'.1';return `<div class="field"><label for="${id}">${esc(label)}</label><input id="${id}" data-key="${id.replace(/^calc_|^mgr_store_|^mgr_rep_/,'')}" type="number" min="0" step="${step}" value="${value==null?'':esc(value)}" ${disabled?'disabled':''}></div>`;}
+  function setCalcMode(mode){
+    S.calcMode=['live','pace','sandbox'].includes(mode)?mode:'live';
+    ['Live','Pace','Sandbox'].forEach(x=>$('calcMode'+x).classList.toggle('active',S.calcMode===x.toLowerCase()));
+    renderCalcFields();renderCalc();
+  }
+  function renderCalcFields(){
+    const live=repMetric(S.currentRep),pace=paceScenario();
+    const data=S.calcMode==='pace'?pace:S.calcMode==='sandbox'?(S.calcSandbox||live):live;
+    const disabled=S.calcMode!=='sandbox';
+    $('calcFields').innerHTML=calcOrder.map(k=>fieldHTML('calc_'+k,metricDefs[k]?.label||k,data[k],metricDefs[k]?.unit,disabled)).join('');
+    if(!disabled){qsa('#calcFields input').forEach(i=>i.addEventListener('input',()=>{S.calcSandbox[i.dataset.key]=i.value===''?null:num(i.value);renderCalc();}));}
+    $('resetCalc').classList.toggle('hidden',S.calcMode!=='sandbox');
+  }
   function renderCalc(){
-    const live=comp(repMetric(S.currentRep)),scenario=comp(calcScenario()),diff=scenario.total-live.total;$('calcLive').textContent=fmtMoney(live.total);$('calcScenario').textContent=fmtMoney(scenario.total);$('calcDiff').textContent=(diff>=0?'+':'')+fmtMoney(diff);$('calcDiff').style.color=diff<0?'#b42318':'#167c4b';
+    const liveMetrics=repMetric(S.currentRep),live=comp(liveMetrics),paceMetrics=paceScenario(),pace=comp(paceMetrics),sandboxMetrics=S.calcSandbox||liveMetrics,sandbox=comp(sandboxMetrics),p=paceInfo();
+    let scenario=live,metrics=liveMetrics;
+    if(S.calcMode==='pace'){scenario=pace;metrics=paceMetrics;$('calcLabel1').textContent='Live estimate';$('calcLabel2').textContent='Pace estimate';$('calcLabel3').textContent='Projected gain';$('calcModeNote').textContent=p.ok?`${p.elapsed} of ${p.days} days on the snapshot • volume and accessory revenue projected ×${p.factor.toFixed(2)} • PA, Premium, NUA, AIA close, ACC/OPP, HTP close and CSAT held at current rates.`:'Pace needs a valid snapshot date for this month. Add one in Manager Mode.';}
+    else if(S.calcMode==='sandbox'){scenario=sandbox;metrics=sandboxMetrics;$('calcLabel1').textContent='Live estimate';$('calcLabel2').textContent='Sandbox estimate';$('calcLabel3').textContent='Difference';$('calcModeNote').textContent='Change anything you want. Sandbox never saves back to Store Pulse.';}
+    else{$('calcLabel1').textContent='Live estimate';$('calcLabel2').textContent='Production';$('calcLabel3').textContent='Bonus';$('calcModeNote').textContent='Live uses the current Store Pulse snapshot exactly as published.';}
+    $('calcLive').textContent=fmtMoney(live.total);
+    if(S.calcMode==='live'){$('calcScenario').textContent=fmtMoney(live.production);$('calcDiff').textContent=fmtMoney(live.bonus);$('calcDiff').style.color='#167c4b';}
+    else{const diff=scenario.total-live.total;$('calcScenario').textContent=fmtMoney(scenario.total);$('calcDiff').textContent=(diff>=0?'+':'')+fmtMoney(diff);$('calcDiff').style.color=diff<0?'#b42318':'#167c4b';}
     const rows=[['PPV',scenario.ppvPay],['AIA',scenario.aiaPay],['Accessories',scenario.accPay],['Data',scenario.dataPay],['Bonus',scenario.bonus]];$('calcBreakdown').innerHTML=rows.map(x=>`<div class="break"><div class="k">${x[0]}</div><div class="v">${fmtMoney(x[1])}</div></div>`).join('');
   }
   function closeCalc(){$('calcBack').classList.add('hidden')}
@@ -479,7 +525,8 @@ body.classic .move{border-bottom:1px solid #eaecf0}
   $('storeBtn').addEventListener('click',()=>{renderStore();showPage('store')});
   $('repSelect').addEventListener('change',e=>openRep(e.target.value));
   $('openCalc').addEventListener('click',openCalculator);$('closeCalc').addEventListener('click',closeCalc);$('doneCalc').addEventListener('click',closeCalc);
-  $('resetCalc').addEventListener('click',openCalculator);$('calcBack').addEventListener('click',e=>{if(e.target===$('calcBack'))closeCalc()});
+  $('calcModeLive').addEventListener('click',()=>setCalcMode('live'));$('calcModePace').addEventListener('click',()=>setCalcMode('pace'));$('calcModeSandbox').addEventListener('click',()=>setCalcMode('sandbox'));
+  $('resetCalc').addEventListener('click',()=>{S.calcSandbox={...repMetric(S.currentRep)};renderCalcFields();renderCalc();});$('calcBack').addEventListener('click',e=>{if(e.target===$('calcBack'))closeCalc()});
   $('managerBtn').addEventListener('click',openManagerLogin);$('closeLogin').addEventListener('click',()=>$('loginBack').classList.add('hidden'));$('loginBtn').addEventListener('click',verifyManager);$('managerPassword').addEventListener('keydown',e=>{if(e.key==='Enter')verifyManager()});
   $('loginBack').addEventListener('click',e=>{if(e.target===$('loginBack'))$('loginBack').classList.add('hidden')});
   qsa('[data-manager-section]').forEach(b=>b.addEventListener('click',()=>{qsa('[data-manager-section]').forEach(x=>x.classList.toggle('active',x===b));qsa('.managerSection').forEach(x=>x.classList.toggle('active',x.id===b.dataset.managerSection));}));
