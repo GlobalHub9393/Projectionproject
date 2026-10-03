@@ -503,7 +503,7 @@ body.classic .move{border-bottom:1px solid #eaecf0}
     else{const diff=scenario.total-live.total;$('calcScenario').textContent=fmtMoney(scenario.total);$('calcDiff').textContent=(diff>=0?'+':'')+fmtMoney(diff);$('calcDiff').style.color=diff<0?'#b42318':'#167c4b';}
     const accPct=num(metrics.acc_per_opp)/10;
     const rows=[
-      ['PPV',scenario.ppvPay,`${fmtNum(metrics.ppv)} × ${fmtMoney(scenario.ppvEach)} each`],
+      ['PPV',scenario.ppvPay,`${fmtMoney(scenario.ppvEach)} per PPV = $5.00 Base + ${fmtMoney(num(metrics.protectadvantage_rate)/10)} Insurance + ${fmtMoney(num(metrics.premium_loading_rate)/10)} Premium + ${fmtMoney(num(metrics.nextup_rate)/10)} Next Up • ${fmtNum(metrics.ppv)} PPV × ${fmtMoney(scenario.ppvEach)} = ${fmtMoney(scenario.ppvPay)}`],
       ['AIA',scenario.aiaPay,`${fmtNum(metrics.aia_posted)} posted × ${fmtMoney(scenario.aiaEach)} each • ${fmtPct(calcAiaClose(metrics))} close`],
       ['Accessories',scenario.accPay,`${fmtMoney0(metrics.accessory_revenue)} × ${accPct.toFixed(3).replace(/0+$/,'').replace(/\.$/,'')}%`],
       ['Connected',scenario.dataPay,`${fmtNum(metrics.upgrades)} upgrades → ${fmtMoney(scenario.dataEach)}/Data • ${fmtNum(metrics.data)} Data`],
