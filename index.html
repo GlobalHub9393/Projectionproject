@@ -101,7 +101,7 @@ body.classic .move{border-bottom:1px solid #eaecf0}
 .modalHead{position:sticky;top:0;z-index:4;background:#fff;border-bottom:1px solid #e4e7ec;display:flex;align-items:center;gap:10px;padding:13px 14px}.modalHead h2{margin:0;flex:1;font-size:20px}.xbtn{border:0;background:#101828;color:#fff;width:42px;height:42px;border-radius:999px;font-size:20px;font-weight:900}
 .modalBody{padding:15px}.formGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.field{min-width:0}.field label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:.04em;font-weight:850;color:#667085;margin-bottom:5px}.field input,.field select{width:100%;min-height:46px;border:1px solid #b8c0cc;border-radius:10px;background:#fff;padding:8px 10px;font-size:16px;color:#101828}.field input:disabled{background:#f2f4f7;color:#344054;opacity:1}
 .calcModes{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;background:#f2f4f7;border:1px solid #d0d5dd;border-radius:13px;padding:5px;margin-bottom:11px}.calcModeBtn{min-height:44px;border:0;border-radius:9px;background:transparent;color:#475467;font-weight:950;letter-spacing:.04em}.calcModeBtn.active{background:#101828;color:#fff;box-shadow:0 2px 7px #10182822}.calcModeNote{font-size:12px;line-height:1.45;color:#667085;background:#f8fafc;border:1px solid #e4e7ec;border-radius:10px;padding:9px 11px;margin-bottom:12px}
-.calcTotals{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}.totalCard{background:#f8fafc;border:1px solid #d0d5dd;border-radius:13px;padding:12px}.totalCard .k{font-size:10px;color:#667085;font-weight:850;text-transform:uppercase}.totalCard .v{font-size:27px;font-weight:950;margin-top:4px}.totalCard.good .v{color:var(--green)}.breakdown{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.break{background:#fff;border:1px solid #d0d5dd;border-radius:11px;padding:10px}.break .k{font-size:10px;color:#667085;text-transform:uppercase;font-weight:850}.break .v{font-size:18px;font-weight:900;margin-top:3px}.modalActions{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin-top:14px}.btn{min-height:44px;border:0;border-radius:10px;background:var(--nav);color:#fff;padding:9px 14px;font-weight:850}.btn.alt{background:#fff;color:#1d2939;border:1px solid #b8c0cc}.btn.danger{background:#b42318}.btn.green{background:#167c4b}
+.calcTotals{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}.totalCard{background:#f8fafc;border:1px solid #d0d5dd;border-radius:13px;padding:12px}.totalCard .k{font-size:10px;color:#667085;font-weight:850;text-transform:uppercase}.totalCard .v{font-size:27px;font-weight:950;margin-top:4px}.totalCard.good .v{color:var(--green)}.breakdown{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.break{background:#fff;border:1px solid #d0d5dd;border-radius:11px;padding:10px}.break .k{font-size:10px;color:#667085;text-transform:uppercase;font-weight:850}.break .v{font-size:18px;font-weight:900;margin-top:3px}.break .sub{font-size:10px;color:#667085;line-height:1.35;margin-top:4px}.modalActions{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin-top:14px}.btn{min-height:44px;border:0;border-radius:10px;background:var(--nav);color:#fff;padding:9px 14px;font-weight:850}.btn.alt{background:#fff;color:#1d2939;border:1px solid #b8c0cc}.btn.danger{background:#b42318}.btn.green{background:#167c4b}
 
 /* Manager */
 .managerShell{display:grid;grid-template-columns:220px minmax(0,1fr);gap:14px}.managerNav{background:#fff;border:1px solid #d0d5dd;border-radius:14px;padding:9px;height:max-content;position:sticky;top:74px}.managerNav button{width:100%;text-align:left;border:0;background:transparent;padding:11px;border-radius:9px;font-weight:850}.managerNav button.active{background:#eaf2fb;color:#0c4a6e}.managerPanel{background:#fff;border:1px solid #d0d5dd;border-radius:14px;padding:15px}.managerPanel h2{margin:0 0 4px}.managerPanel p{color:#667085;font-size:13px;margin:0 0 14px}.managerSection{display:none}.managerSection.active{display:block}.managerFooter{position:sticky;bottom:10px;margin-top:16px;background:#101828;color:#fff;border-radius:14px;padding:10px 12px;display:flex;align-items:center;gap:10px;box-shadow:0 14px 34px #10182833}.managerFooter span{flex:1;font-size:12px;color:#d0d5dd}
@@ -272,6 +272,7 @@ body.classic .move{border-bottom:1px solid #eaecf0}
 
   const metricDefs = {
     ppv:{label:'PPV',unit:'count',rep:true,store:true,goal:true},
+    ppv_close:{label:'PPV Close',unit:'pct',rep:false,store:true},
     aia_posted:{label:'AIA Posted',unit:'count',rep:true,store:true,goal:true},
     aia_submits:{label:'AIA Submits',unit:'count',rep:true,store:true,goal:true},
     aia_green_checks:{label:'AIA Green Checks',unit:'count',rep:true,store:true},
@@ -280,14 +281,14 @@ body.classic .move{border-bottom:1px solid #eaecf0}
     data:{label:'Data',unit:'count',rep:true,store:true,goal:true},
     accessory_revenue:{label:'Accessory Revenue',unit:'money',rep:true,store:true,goal:true},
     acc_per_opp:{label:'ACC / OPP',unit:'money2',rep:true,store:true,goal:true},
-    protectadvantage_rate:{label:'ProtectAdvantage',unit:'pct',rep:true,store:true,goal:true},
-    premium_loading_rate:{label:'Premium Loading',unit:'pct',rep:true,store:true,goal:true},
-    nextup_rate:{label:'Next Up Anytime',unit:'pct',rep:true,store:true,goal:true},
+    protectadvantage_rate:{label:'Insurance',unit:'pct',rep:true,store:true,goal:true},
+    premium_loading_rate:{label:'Premium Plan Loading',unit:'pct',rep:true,store:true,goal:true},
+    nextup_rate:{label:'Next Up',unit:'pct',rep:true,store:true,goal:true},
     htp:{label:'HTP',unit:'count',rep:true,store:true},
     htp_eligible_opps:{label:'HTP Eligible',unit:'count',rep:true,store:true},
     htp_close:{label:'HTP Close',unit:'pct',rep:true,store:true,goal:true,derived:true},
     csat:{label:'CSAT',unit:'pct',rep:true,store:true,goal:true},
-    trade_rate:{label:'Trade',unit:'pct',rep:true,store:true},
+    trade_rate:{label:'Trade In',unit:'pct',rep:true,store:true},
     opps:{label:'OPPs',unit:'count',rep:true,store:true,goal:true},
     traffic:{label:'Traffic',unit:'count',rep:false,store:true,goal:true},
     pre_to_post:{label:'Pre → Post',unit:'count',rep:true,store:true},
@@ -295,11 +296,11 @@ body.classic .move{border-bottom:1px solid #eaecf0}
     pa4:{label:'PA4',unit:'count',rep:true,store:true},
     cru:{label:'CRU',unit:'count',rep:true,store:true}
   };
-  const repStatOrder=['ppv','aia_posted','aia_submits','aia_close','upgrades','data','accessory_revenue','acc_per_opp','protectadvantage_rate','premium_loading_rate','nextup_rate','htp_close','csat','trade_rate','opps'];
-  const storeStatOrder=['ppv','aia_posted','upgrades','data','accessory_revenue','acc_per_opp','protectadvantage_rate','premium_loading_rate','nextup_rate','aia_close','htp_close','csat','trade_rate','opps','traffic'];
+  const repStatOrder=['ppv','aia_submits','aia_posted','aia_close','upgrades','data','accessory_revenue','acc_per_opp','protectadvantage_rate','premium_loading_rate','nextup_rate','htp_close','csat','opps','aia_green_checks','trade_rate'];
+  const storeStatOrder=['ppv','ppv_close','aia_submits','aia_posted','aia_close','upgrades','data','accessory_revenue','acc_per_opp','protectadvantage_rate','premium_loading_rate','nextup_rate','htp_close','csat','opps','traffic','aia_green_checks','trade_rate'];
   const managerRepOrder=['ppv','aia_posted','aia_submits','aia_green_checks','upgrades','data','accessory_revenue','acc_per_opp','protectadvantage_rate','premium_loading_rate','nextup_rate','htp','htp_eligible_opps','csat','trade_rate','opps','pre_to_post','prepaid','pa4','cru'];
-  const managerStoreOrder=['ppv','aia_posted','aia_submits','aia_green_checks','upgrades','data','accessory_revenue','acc_per_opp','protectadvantage_rate','premium_loading_rate','nextup_rate','htp','htp_eligible_opps','csat','trade_rate','opps','traffic','pre_to_post','prepaid','pa4','cru'];
-  const goalOrder=Object.keys(metricDefs).filter(k=>metricDefs[k].goal && metricDefs[k].store);
+  const managerStoreOrder=['ppv','ppv_close','aia_posted','aia_submits','aia_green_checks','upgrades','data','accessory_revenue','acc_per_opp','protectadvantage_rate','premium_loading_rate','nextup_rate','htp','htp_eligible_opps','csat','trade_rate','opps','traffic','pre_to_post','prepaid','pa4','cru'];
+  const goalOrder=[...Object.keys(metricDefs).filter(k=>metricDefs[k].goal && metricDefs[k].store),'trade_rate'];
   const repGoalOrder=Object.keys(metricDefs).filter(k=>metricDefs[k].goal && metricDefs[k].rep);
 
   const S={month:'2026-10',monthRow:null,reps:[],repMetrics:[],store:{},goals:[],comp:null,ui:null,currentRep:null,managerPassword:'',managerDraft:{},calcMode:'live',calcSandbox:null};
@@ -329,30 +330,54 @@ body.classic .move{border-bottom:1px solid #eaecf0}
     return `<div class="goal">GOAL ${gt}</div><div class="progress"><i style="width:${p}%"></i></div>`;
   }
 
+  function calculatorRate(m,key,fallback){
+    const v=m?.[key];
+    return v!==null && v!==undefined && v!=='' && Number.isFinite(Number(v)) ? num(v) : fallback;
+  }
+  function calcAiaClose(m){return calculatorRate(m,'aia_close_input',aiaClose(m))}
+  function calcHtpClose(m){return calculatorRate(m,'htp_close_input',htpClose(m))}
   function comp(m){
     const ppv=num(m.ppv),pa=num(m.protectadvantage_rate),premium=num(m.premium_loading_rate),nua=num(m.nextup_rate);
     const ppvEach=5+pa/10+premium/10+nua/10,ppvPay=ppv*ppvEach;
-    const ac=Math.min(aiaClose(m),15),aiaEach=ac*4,aiaPay=num(m.aia_posted)*aiaEach;
+    const ac=Math.min(calcAiaClose(m),15),aiaEach=ac*4,aiaPay=num(m.aia_posted)*aiaEach;
     const accPay=num(m.accessory_revenue)*(num(m.acc_per_opp)/1000);
     const dataEach=num(m.upgrades)*.25,dataPay=num(m.data)*dataEach;
     const production=ppvPay+aiaPay+accPay+dataPay;
-    const htpPct=Math.min(htpClose(m),15),csat=num(m.csat),csatPct=csat>=90?Math.min(csat,100)/10:0;
+    const htpPct=Math.min(calcHtpClose(m),15),csat=num(m.csat),csatPct=csat>=90?Math.min(csat,100)/10:0;
     const bonusPct=htpPct+csatPct,bonus=production*bonusPct/100,total=production+bonus;
     return {ppvEach,ppvPay,aiaEach,aiaPay,accPay,dataEach,dataPay,production,htpPct,csatPct,bonusPct,bonus,total};
   }
 
+  function aiaPlan(m){
+    const ac=aiaClose(m);if(ac>=15)return null;
+    const target=ac<10?10:15,greens=num(m.aia_green_checks),wins=num(m.aia_submits),window=20;
+    let action=`Work AIA close toward ${target}%.`;
+    if(greens>0){const need=Math.max(0,Math.ceil((target/100)*(greens+window)-wins-1e-9));if(need>0&&need<=window)action=`Get ${need} AIA ${need===1?'submit':'submits'} in your next ${window} Green Checks to reach at least ${target}% close.`;}
+    return {target,delta:Math.max(0,target-ac),action};
+  }
+  function htpPlan(m){
+    const hc=htpClose(m);if(hc>=15)return null;
+    const target=hc<5?5:hc<10?10:15,eligible=num(m.htp_eligible_opps),wins=num(m.htp),window=10;
+    let action='Don’t forget HTP production — your first HTP starts the HTP bonus.';
+    if(eligible>0){
+      const next=(wins+1)/(eligible+1)*100;
+      if(next>=target) action=`One more HTP gets you to ${fmtPct(next)} close.`;
+      else{const need=Math.max(0,Math.ceil((target/100)*(eligible+window)-wins-1e-9));if(need>0&&need<=window)action=`Get ${need} HTP in your next ${window} eligible opportunities to reach at least ${target}% close.`;}
+    }
+    return {target,delta:Math.max(0,target-hc),action};
+  }
   function moveCandidates(m){
     const c=comp(m),mult=1+c.bonusPct/100,moves=[];
-    const ac=aiaClose(m),hc=htpClose(m),cs=num(m.csat);
-    if(ac<15 && num(m.aia_posted)>0) moves.push({title:'AIA close +1 point',impact:num(m.aia_posted)*4*mult,why:`Each +1 point adds $4 to every posted AIA. You're at ${fmtPct(ac)} now.`});
-    if(hc<15 && c.production>0) moves.push({title:'HTP +1 point',impact:c.production*.01,why:`Until the 15% cap, another HTP point adds 1% to the whole production payout.`});
-    if(cs>0 && cs<90 && c.production>0) moves.push({title:'Get CSAT to 90%',impact:c.production*.09,why:`CSAT below 90 earns no CSAT bonus. Hitting 90% turns on a 9% bonus.`});
-    else if(cs>=90 && cs<100 && c.production>0) moves.push({title:'CSAT +1 point',impact:c.production*.001,why:`Once eligible, +1 CSAT point adds 0.1% to the whole production payout.`});
-    if(num(m.ppv)>0){const rates=[['ProtectAdvantage','protectadvantage_rate'],['Premium Loading','premium_loading_rate'],['NUA','nextup_rate']].sort((a,b)=>num(m[a[1]])-num(m[b[1]]));moves.push({title:`${rates[0][0]} +10 pts`,impact:num(m.ppv)*1*mult,why:`Ten more points adds $1 to every PPV before HTP/CSAT bonuses.`});}
-    if(num(m.accessory_revenue)>0) moves.push({title:'ACC / OPP +$10',impact:num(m.accessory_revenue)*.01*mult,why:`Every +$10/OPP raises accessory payout by 1% of accessory revenue.`});
-    if(num(m.data)>0) moves.push({title:'5 more upgrades',impact:num(m.data)*1.25*mult,why:`Five upgrades raises every Data unit by $1.25.`});
-    if(num(m.upgrades)>0) moves.push({title:'1 more Data',impact:num(m.upgrades)*.25*mult,why:`At ${fmtNum(m.upgrades)} upgrades, one additional Data is worth ${fmtMoney(num(m.upgrades)*.25)} before bonus.`});
-    return moves.filter(x=>x.impact>0).sort((a,b)=>b.impact-a.impact);
+    const ac=aiaClose(m),hc=htpClose(m),cs=num(m.csat),ap=aiaPlan(m),hp=htpPlan(m);
+    if(ap){const perAia=ap.delta*4;moves.push({title:`AIA → ${ap.target}%`,impact:num(m.aia_posted)*perAia*mult,score:Math.max(perAia,num(m.aia_posted)*perAia*mult),impactLabel:`+${fmtMoney(perAia)}/AIA`,why:`${ap.action} At ${ap.target}% close, each posted AIA pays ${fmtMoney(ap.target*4)}.`});}
+    if(hp){const impact=c.production*hp.delta/100;moves.push({title:`HTP → ${hp.target}%`,impact,score:Math.max(hp.delta,impact),impactLabel:c.production>0?`+${fmtMoney(impact)}`:`+${hp.target}% BONUS`,why:`${hp.action} HTP bonus applies to the entire production payout, capped at 15%.`});}
+    if(cs>0 && cs<90 && c.production>0) moves.push({title:'Get CSAT to 90%',impact:c.production*.09,score:c.production*.09,why:`CSAT below 90 earns no CSAT bonus. Hitting 90% turns on a 9% bonus.`});
+    else if(cs>=90 && cs<100 && c.production>0) moves.push({title:'CSAT +1 point',impact:c.production*.001,score:c.production*.001,why:`Once eligible, +1 CSAT point adds 0.1% to the whole production payout.`});
+    if(num(m.ppv)>0){const rates=[['Insurance','protectadvantage_rate'],['Premium Plan Loading','premium_loading_rate'],['Next Up','nextup_rate']].sort((a,b)=>num(m[a[1]])-num(m[b[1]]));moves.push({title:`${rates[0][0]} +10 pts`,impact:num(m.ppv)*1*mult,score:num(m.ppv)*1*mult,why:`Ten more points adds $1 to every PPV before HTP/CSAT bonuses.`});}
+    if(num(m.accessory_revenue)>0) moves.push({title:'ACC / OPP +$10',impact:num(m.accessory_revenue)*.01*mult,score:num(m.accessory_revenue)*.01*mult,why:`Every +$10/OPP raises accessory payout by 1% of accessory revenue.`});
+    if(num(m.data)>0) moves.push({title:'5 more upgrades',impact:num(m.data)*1.25*mult,score:num(m.data)*1.25*mult,why:`Five upgrades raises every Data unit by $1.25.`});
+    if(num(m.upgrades)>0) moves.push({title:'1 more Data',impact:num(m.upgrades)*.25*mult,score:num(m.upgrades)*.25*mult,why:`At ${fmtNum(m.upgrades)} upgrades, one additional Data is worth ${fmtMoney(num(m.upgrades)*.25)} before bonus.`});
+    return moves.filter(x=>x.impactLabel||x.impact>0).sort((a,b)=>(b.score??b.impact)-(a.score??a.impact));
   }
 
   function coaching(m){
@@ -393,7 +418,7 @@ body.classic .move{border-bottom:1px solid #eaecf0}
     $('repSelect').innerHTML=S.reps.filter(x=>x.active).map(x=>`<option value="${esc(x.rep_id)}" ${x.rep_id===r.rep_id?'selected':''}>${esc(x.display_name)}</option>`).join('');
     $('repStats').innerHTML=repStatOrder.map(key=>`<div class="stat"><div class="label">${esc(metricLabel(key))}</div><div class="value">${esc(displayValue(key,m))}</div>${goalMarkup(key,m,'rep',r.rep_id)}</div>`).join('');
     $('coachGrid').innerHTML=coaching(m).map(x=>`<div class="note"><h3>${x.title}</h3><p>${x.body}</p></div>`).join('');
-    const moves=moveCandidates(m).slice(0,4);$('moneyMoves').innerHTML=moves.length?moves.map((x,i)=>`<div class="move"><div class="rank">${i+1}</div><div><div class="what">${esc(x.title)}</div><div class="why">${esc(x.why)}</div></div><div class="money">+${fmtMoney(x.impact)}</div></div>`).join(''):`<div class="errorBox" style="border-color:#d0d5dd;background:#fff">Add some October production and Store Pulse will rank the biggest money moves here.</div>`;
+    const moves=moveCandidates(m).slice(0,4);$('moneyMoves').innerHTML=moves.length?moves.map((x,i)=>`<div class="move"><div class="rank">${i+1}</div><div><div class="what">${esc(x.title)}</div><div class="why">${esc(x.why)}</div></div><div class="money">${esc(x.impactLabel||('+'+fmtMoney(x.impact)))}</div></div>`).join(''):`<div class="errorBox" style="border-color:#d0d5dd;background:#fff">Add some October production and Store Pulse will rank the biggest money moves here.</div>`;
   }
 
   function setupTheme(){
@@ -413,8 +438,23 @@ body.classic .move{border-bottom:1px solid #eaecf0}
     });
   }
 
-  const calcOrder=['ppv','protectadvantage_rate','premium_loading_rate','nextup_rate','aia_posted','aia_submits','aia_green_checks','accessory_revenue','acc_per_opp','data','upgrades','htp','htp_eligible_opps','csat'];
-  const paceVolumeKeys=new Set(['ppv','aia_posted','aia_submits','aia_green_checks','accessory_revenue','data','upgrades','htp','htp_eligible_opps']);
+  const calcDefs={
+    ppv:{label:'PPV',unit:'count'},
+    protectadvantage_rate:{label:'Insurance',unit:'pct'},
+    premium_loading_rate:{label:'Premium Plan Loading',unit:'pct'},
+    nextup_rate:{label:'Next Up',unit:'pct'},
+    aia_posted:{label:'AIA Posted',unit:'count'},
+    aia_close_input:{label:'AIA Close %',unit:'pct'},
+    accessory_revenue:{label:'Accessory Revenue',unit:'money'},
+    acc_per_opp:{label:'Accessory / OPP',unit:'money2'},
+    upgrades:{label:'Upgrades',unit:'count'},
+    data:{label:'Data',unit:'count'},
+    htp_close_input:{label:'HTP Close %',unit:'pct'},
+    csat:{label:'CSAT %',unit:'pct'}
+  };
+  const calcOrder=['ppv','protectadvantage_rate','premium_loading_rate','nextup_rate','aia_posted','aia_close_input','accessory_revenue','acc_per_opp','upgrades','data','htp_close_input','csat'];
+  const paceVolumeKeys=new Set(['ppv','aia_posted','accessory_revenue','data','upgrades']);
+  function calcBase(m){return {...m,aia_close_input:aiaClose(m),htp_close_input:htpClose(m)}}
   function paceInfo(){
     const days=Number(S.monthRow?.days_in_month)||31,date=S.monthRow?.snapshot_date;
     if(!date)return {ok:false,days,elapsed:0,factor:1};
@@ -424,18 +464,18 @@ body.classic .move{border-bottom:1px solid #eaecf0}
     return {ok:true,days,elapsed,factor:days/elapsed};
   }
   function paceScenario(){
-    const live={...repMetric(S.currentRep)},p=paceInfo(),out={...live};
+    const live=calcBase(repMetric(S.currentRep)),p=paceInfo(),out={...live};
     if(!p.ok)return out;
     calcOrder.forEach(k=>{
       if(!paceVolumeKeys.has(k))return;
       const v=live[k];if(v==null)return;
       const projected=num(v)*p.factor;
-      out[k]=metricDefs[k]?.unit==='count'?Math.round(projected*10)/10:Math.round(projected*100)/100;
+      out[k]=calcDefs[k]?.unit==='count'?Math.round(projected*10)/10:Math.round(projected*100)/100;
     });
     return out;
   }
   function openCalculator(){
-    S.calcSandbox={...repMetric(S.currentRep)};
+    S.calcSandbox=calcBase(repMetric(S.currentRep));
     setCalcMode('live');$('calcBack').classList.remove('hidden');
   }
   function fieldHTML(id,label,value,unit,disabled=false){const step=unit==='count'?'1':unit==='money'?'1':'.1';return `<div class="field"><label for="${id}">${esc(label)}</label><input id="${id}" data-key="${id.replace(/^calc_|^mgr_store_|^mgr_rep_/,'')}" type="number" min="0" step="${step}" value="${value==null?'':esc(value)}" ${disabled?'disabled':''}></div>`;}
@@ -445,23 +485,31 @@ body.classic .move{border-bottom:1px solid #eaecf0}
     renderCalcFields();renderCalc();
   }
   function renderCalcFields(){
-    const live=repMetric(S.currentRep),pace=paceScenario();
+    const live=calcBase(repMetric(S.currentRep)),pace=paceScenario();
     const data=S.calcMode==='pace'?pace:S.calcMode==='sandbox'?(S.calcSandbox||live):live;
     const disabled=S.calcMode!=='sandbox';
-    $('calcFields').innerHTML=calcOrder.map(k=>fieldHTML('calc_'+k,metricDefs[k]?.label||k,data[k],metricDefs[k]?.unit,disabled)).join('');
+    $('calcFields').innerHTML=calcOrder.map(k=>fieldHTML('calc_'+k,calcDefs[k].label,data[k],calcDefs[k].unit,disabled)).join('');
     if(!disabled){qsa('#calcFields input').forEach(i=>i.addEventListener('input',()=>{S.calcSandbox[i.dataset.key]=i.value===''?null:num(i.value);renderCalc();}));}
     $('resetCalc').classList.toggle('hidden',S.calcMode!=='sandbox');
   }
   function renderCalc(){
-    const liveMetrics=repMetric(S.currentRep),live=comp(liveMetrics),paceMetrics=paceScenario(),pace=comp(paceMetrics),sandboxMetrics=S.calcSandbox||liveMetrics,sandbox=comp(sandboxMetrics),p=paceInfo();
+    const liveMetrics=calcBase(repMetric(S.currentRep)),live=comp(liveMetrics),paceMetrics=paceScenario(),pace=comp(paceMetrics),sandboxMetrics=S.calcSandbox||liveMetrics,sandbox=comp(sandboxMetrics),p=paceInfo();
     let scenario=live,metrics=liveMetrics;
-    if(S.calcMode==='pace'){scenario=pace;metrics=paceMetrics;$('calcLabel1').textContent='Live estimate';$('calcLabel2').textContent='Pace estimate';$('calcLabel3').textContent='Projected gain';$('calcModeNote').textContent=p.ok?`${p.elapsed} of ${p.days} days on the snapshot • volume and accessory revenue projected ×${p.factor.toFixed(2)} • PA, Premium, NUA, AIA close, ACC/OPP, HTP close and CSAT held at current rates.`:'Pace needs a valid snapshot date for this month. Add one in Manager Mode.';}
-    else if(S.calcMode==='sandbox'){scenario=sandbox;metrics=sandboxMetrics;$('calcLabel1').textContent='Live estimate';$('calcLabel2').textContent='Sandbox estimate';$('calcLabel3').textContent='Difference';$('calcModeNote').textContent='Change anything you want. Sandbox never saves back to Store Pulse.';}
-    else{$('calcLabel1').textContent='Live estimate';$('calcLabel2').textContent='Production';$('calcLabel3').textContent='Bonus';$('calcModeNote').textContent='Live uses the current Store Pulse snapshot exactly as published.';}
+    if(S.calcMode==='pace'){scenario=pace;metrics=paceMetrics;$('calcLabel1').textContent='Live estimate';$('calcLabel2').textContent='Pace estimate';$('calcLabel3').textContent='Projected gain';$('calcModeNote').textContent=p.ok?`${p.elapsed} of ${p.days} days on the snapshot • PPV, AIA Posted, accessory revenue, Upgrades and Data projected ×${p.factor.toFixed(2)} • Insurance, Premium Plan Loading, Next Up, AIA Close, ACC/OPP, HTP Close and CSAT held at current rates.`:'Pace needs a valid snapshot date for this month. Add one in Manager Mode.';}
+    else if(S.calcMode==='sandbox'){scenario=sandbox;metrics=sandboxMetrics;$('calcLabel1').textContent='Live estimate';$('calcLabel2').textContent='Sandbox estimate';$('calcLabel3').textContent='Difference';$('calcModeNote').textContent='Change the paycheck inputs directly. Sandbox never saves back to Store Pulse.';}
+    else{$('calcLabel1').textContent='Live estimate';$('calcLabel2').textContent='Production';$('calcLabel3').textContent='Bonus';$('calcModeNote').textContent='Live is auto-filled from the current Store Pulse snapshot. Green Checks stay behind the scenes; the calculator uses the resulting AIA close rate.';}
     $('calcLive').textContent=fmtMoney(live.total);
     if(S.calcMode==='live'){$('calcScenario').textContent=fmtMoney(live.production);$('calcDiff').textContent=fmtMoney(live.bonus);$('calcDiff').style.color='#167c4b';}
     else{const diff=scenario.total-live.total;$('calcScenario').textContent=fmtMoney(scenario.total);$('calcDiff').textContent=(diff>=0?'+':'')+fmtMoney(diff);$('calcDiff').style.color=diff<0?'#b42318':'#167c4b';}
-    const rows=[['PPV',scenario.ppvPay],['AIA',scenario.aiaPay],['Accessories',scenario.accPay],['Data',scenario.dataPay],['Bonus',scenario.bonus]];$('calcBreakdown').innerHTML=rows.map(x=>`<div class="break"><div class="k">${x[0]}</div><div class="v">${fmtMoney(x[1])}</div></div>`).join('');
+    const accPct=num(metrics.acc_per_opp)/10;
+    const rows=[
+      ['PPV',scenario.ppvPay,`${fmtNum(metrics.ppv)} × ${fmtMoney(scenario.ppvEach)} each`],
+      ['AIA',scenario.aiaPay,`${fmtNum(metrics.aia_posted)} posted × ${fmtMoney(scenario.aiaEach)} each • ${fmtPct(calcAiaClose(metrics))} close`],
+      ['Accessories',scenario.accPay,`${fmtMoney0(metrics.accessory_revenue)} × ${accPct.toFixed(3).replace(/0+$/,'').replace(/\.$/,'')}%`],
+      ['Connected',scenario.dataPay,`${fmtNum(metrics.upgrades)} upgrades → ${fmtMoney(scenario.dataEach)}/Data • ${fmtNum(metrics.data)} Data`],
+      ['Bonus',scenario.bonus,`HTP ${fmtPct(scenario.htpPct)} + CSAT ${fmtPct(scenario.csatPct)} = ${fmtPct(scenario.bonusPct)}`]
+    ];
+    $('calcBreakdown').innerHTML=rows.map(x=>`<div class="break"><div class="k">${x[0]}</div><div class="v">${fmtMoney(x[1])}</div><div class="sub">${esc(x[2])}</div></div>`).join('');
   }
   function closeCalc(){$('calcBack').classList.add('hidden')}
 
@@ -526,7 +574,7 @@ body.classic .move{border-bottom:1px solid #eaecf0}
   $('repSelect').addEventListener('change',e=>openRep(e.target.value));
   $('openCalc').addEventListener('click',openCalculator);$('closeCalc').addEventListener('click',closeCalc);$('doneCalc').addEventListener('click',closeCalc);
   $('calcModeLive').addEventListener('click',()=>setCalcMode('live'));$('calcModePace').addEventListener('click',()=>setCalcMode('pace'));$('calcModeSandbox').addEventListener('click',()=>setCalcMode('sandbox'));
-  $('resetCalc').addEventListener('click',()=>{S.calcSandbox={...repMetric(S.currentRep)};renderCalcFields();renderCalc();});$('calcBack').addEventListener('click',e=>{if(e.target===$('calcBack'))closeCalc()});
+  $('resetCalc').addEventListener('click',()=>{S.calcSandbox=calcBase(repMetric(S.currentRep));renderCalcFields();renderCalc();});$('calcBack').addEventListener('click',e=>{if(e.target===$('calcBack'))closeCalc()});
   $('managerBtn').addEventListener('click',openManagerLogin);$('closeLogin').addEventListener('click',()=>$('loginBack').classList.add('hidden'));$('loginBtn').addEventListener('click',verifyManager);$('managerPassword').addEventListener('keydown',e=>{if(e.key==='Enter')verifyManager()});
   $('loginBack').addEventListener('click',e=>{if(e.target===$('loginBack'))$('loginBack').classList.add('hidden')});
   qsa('[data-manager-section]').forEach(b=>b.addEventListener('click',()=>{qsa('[data-manager-section]').forEach(x=>x.classList.toggle('active',x===b));qsa('.managerSection').forEach(x=>x.classList.toggle('active',x.id===b.dataset.managerSection));}));
