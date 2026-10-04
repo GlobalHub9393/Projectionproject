@@ -95,6 +95,28 @@ body.classic .snapshotBoard{background:#fff}body.classic .snapshotTitle,body.cla
 @media(max-width:900px){.homeSnapshotGrid{grid-template-columns:repeat(4,1fr)}.snapMetric{border-bottom:2px solid rgba(24,32,42,.48)}.snapMetric:nth-child(4n){border-right:0}.snapMetric:nth-last-child(-n+4){border-bottom:0}.teamBoard{border:0;background:transparent;display:grid;grid-template-columns:1fr 1fr;gap:10px}.teamHeader{display:none}.teamRow{display:grid;grid-template-columns:repeat(3,1fr);border:2px solid rgba(24,32,42,.72)!important;border-radius:8px;overflow:hidden;background:rgba(255,255,255,.25);box-shadow:2px 3px 0 rgba(24,32,42,.08)}.teamCell{border-right:1px solid rgba(24,32,42,.35);border-bottom:1px solid rgba(24,32,42,.28);padding:8px 5px}.teamCell:nth-child(3n){border-right:0}.teamCell:nth-last-child(-n+3){border-bottom:0}.teamName{grid-column:1/-1;font-size:25px;border-right:0;border-bottom:2px solid rgba(24,32,42,.55);display:block;padding:8px 10px}.teamName:after{content:"  ›";color:#145ca8}.teamChange{grid-column:1/-1;border-right:0;border-bottom:0!important;min-height:48px}.teamCell[data-label]:before{content:attr(data-label);font-family:var(--marker);font-size:10px;font-weight:950;color:#475467;margin-bottom:4px}.stickyZone{min-height:330px}.coachSticky{width:45%;min-height:140px}}
 @media(max-width:600px){main{padding:8px 7px 34px}.board{border-width:6px;border-radius:13px;padding:13px 10px}.snapshotHeader{align-items:flex-start}.snapshotTitle{font-size:39px}.markerSub{font-size:16px}.snapshotDate b{font-size:17px}.snapshotDate span{font-size:10px}.whiteboardLabel{font-size:23px;margin-top:13px}.homeSnapshotGrid{grid-template-columns:repeat(3,1fr)}.snapMetric{min-height:105px;padding:9px 5px;border-right:1.5px solid rgba(24,32,42,.48);border-bottom:1.5px solid rgba(24,32,42,.48)}.snapMetric:nth-child(4n){border-right:1.5px solid rgba(24,32,42,.48)}.snapMetric:nth-child(3n){border-right:0}.snapMetric:nth-last-child(-n+4){border-bottom:1.5px solid rgba(24,32,42,.48)}.snapMetric:nth-last-child(-n+2){border-bottom:0}.snapMetric:nth-child(7){grid-column:1/2}.snapMetric:nth-child(8){grid-column:2/4;border-right:0}.snapMetric .smValue{font-size:24px}.snapMetric .smLabel{font-size:13px}.teamBoard{grid-template-columns:1fr;gap:9px}.teamRow{grid-template-columns:repeat(3,1fr)}.coachSticky{width:46%;padding:12px 10px;min-height:138px}.coachSticky strong{font-size:18px}.coachSticky small{font-size:10.5px}.boardDoodle{display:none}}
 
+
+/* ===== Tactile whiteboard + marker tabs + calculator ===== */
+body:not(.classic){background:radial-gradient(circle at 20% 0%,rgba(255,255,255,.32),transparent 34%),linear-gradient(180deg,#d6d0bd,#c8c1ad 60%,#bbb39f)}
+body:not(.classic) .board{border:10px solid #aeb4b7;outline:2px solid rgba(74,80,84,.28);background:linear-gradient(105deg,transparent 0 50%,rgba(255,255,255,.44) 55%,rgba(255,255,255,.12) 64%,transparent 72%),radial-gradient(ellipse at 20% 3%,rgba(255,255,255,.85),transparent 38%),radial-gradient(ellipse at 75% 84%,rgba(90,95,87,.055),transparent 32%),linear-gradient(180deg,#f8f7f1 0%,#f0efe8 55%,#ebe9e0 100%);box-shadow:inset 0 0 38px rgba(60,64,62,.15),inset 0 1px 1px rgba(255,255,255,.9),0 2px 0 #747a7e,0 20px 38px rgba(54,48,36,.25)}
+body:not(.classic) .board:after{content:"";position:absolute;inset:10px;pointer-events:none;opacity:.26;background:repeating-linear-gradient(1deg,transparent 0 34px,rgba(54,64,71,.018) 35px 36px),radial-gradient(ellipse at 13% 72%,rgba(52,62,70,.055),transparent 12%),radial-gradient(ellipse at 84% 31%,rgba(52,62,70,.035),transparent 15%);mix-blend-mode:multiply}
+body:not(.classic) .snapshotBoard{background:linear-gradient(108deg,transparent 0 46%,rgba(255,255,255,.5) 54%,rgba(255,255,255,.14) 65%,transparent 73%),radial-gradient(ellipse at 22% 4%,rgba(255,255,255,.88),transparent 38%),radial-gradient(ellipse at 73% 82%,rgba(79,83,76,.06),transparent 30%),linear-gradient(180deg,#f7f6ef,#efeee7 56%,#e9e7dd)}
+body:not(.classic) .homeSnapshotGrid,body:not(.classic) .teamBoard{background:rgba(250,249,243,.22)}
+.markerDock{position:fixed;z-index:95;left:50%;bottom:max(0px,env(safe-area-inset-bottom));transform:translateX(-50%);width:min(900px,calc(100% - 18px));display:flex;align-items:flex-end;justify-content:center;gap:3px;padding:7px 10px 0;background:linear-gradient(#b8bec1,#8e969a);border:1px solid #737a7e;border-bottom:0;border-radius:13px 13px 0 0;box-shadow:0 -7px 20px rgba(0,0,0,.16),inset 0 1px #e8ebec}
+.dockTab{border:2px solid #27313a;border-bottom:0;border-radius:10px 10px 0 0;min-height:43px;padding:8px 15px;background:#f5d76d;color:#20262c;font-family:var(--marker);font-weight:950;font-size:14px;transform:rotate(-.35deg);box-shadow:inset 0 1px rgba(255,255,255,.6);white-space:nowrap}.dockTab:nth-child(2){background:#b9e3fa;transform:rotate(.25deg)}.dockTab:nth-child(3){background:#d7f2d7}.dockTab:nth-child(4){background:#ffd6e0}.dockTab:nth-child(5){background:#d9d2ff}.dockTab:nth-child(6){background:#ffd9b8}.dockTab.active{min-height:50px;margin-top:-7px;background:#fff8bd;box-shadow:0 -5px 10px rgba(0,0,0,.11),inset 0 1px white}main{padding-bottom:82px}
+body.classic .markerDock{background:#fff;border-color:#d0d5dd;box-shadow:0 -5px 18px rgba(16,24,40,.08)}body.classic .dockTab{font-family:var(--plain);border:0;border-radius:8px 8px 0 0;background:#f2f4f7;transform:none}body.classic .dockTab.active{background:#101828;color:white}
+.repWhiteboard{min-height:650px}.repMarkerTitle{font-size:clamp(42px,7vw,64px)!important;color:#185fa8;text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:8px}.repScribble{font-family:var(--marker);font-weight:900;font-size:13px;color:#b13b32;margin-top:7px;transform:rotate(-.5deg)}
+body:not(.classic) .repSelect{font-family:var(--marker);font-size:18px;background:rgba(255,255,255,.4);border:0;border-bottom:3px solid #202b35;border-radius:0;transform:rotate(.3deg)}
+.repSectionTabs{display:flex;gap:5px;align-items:flex-end;margin:17px 0 5px;padding:0 8px;border-bottom:4px solid #858b8e;overflow-x:auto;position:relative;z-index:4}.repSectionTab{border:2px solid #26313a;border-bottom:0;border-radius:10px 10px 0 0;background:#f4d66f;min-height:44px;padding:8px 18px;font-family:var(--marker);font-weight:950;font-size:16px;white-space:nowrap;transform:rotate(-.4deg)}.repSectionTab:nth-child(2){background:#cdeecf;transform:rotate(.35deg)}.repSectionTab.calcTab{background:#cde8fa}.repSectionTab.moneyTab{background:#ffd5df}.repSectionTab.active{min-height:51px;background:#fff6b5;margin-top:-7px;box-shadow:0 -4px 8px rgba(0,0,0,.09)}.repSectionPanel{display:none;position:relative;z-index:2;min-height:350px}.repSectionPanel.active{display:block}.repCornerNote{position:absolute;right:28px;bottom:26px;font-family:var(--marker);font-size:18px;color:#188154;transform:rotate(-4deg)}
+.repStatsGrid .stat{background:transparent;border:0;border-radius:0;border-bottom:2px solid rgba(30,39,47,.72);box-shadow:none;min-height:96px;padding:12px 8px}.repStatsGrid .stat:nth-child(odd){transform:rotate(-.25deg)}.repStatsGrid .stat:nth-child(even){transform:rotate(.2deg)}.repStatsGrid .stat .value{color:#c33d35}.repStatsGrid .stat:nth-child(3n) .value{color:#17804e}.repStatsGrid .stat .goal{font-family:var(--marker);font-size:13px;color:#145ca8}.repStatsGrid .stat .progress{border:0;height:4px;background:rgba(28,39,47,.14)}.repStatsGrid .stat .progress i{background:#145ca8}.repCoachGrid .note{border:0;box-shadow:5px 8px 16px rgba(0,0,0,.15);border-radius:1px}
+.calcLaunchBoard{background:transparent;border:0;padding:24px 8px;justify-content:center}.calculatorSketch{min-width:230px;min-height:150px;display:flex;flex-direction:column;justify-content:center;gap:4px;border:5px solid #242c32;border-radius:14px;background:linear-gradient(#353d43,#171c20);box-shadow:5px 7px 0 rgba(0,0,0,.17),inset 0 1px #657078;transform:rotate(-1deg)}.calculatorSketch .calcIcon{font-size:47px}.calculatorSketch small{display:block;font-family:var(--plain);font-size:9px;letter-spacing:.15em;color:#a9d4b0}.calcLaunchCopy{max-width:390px;font-family:var(--marker);font-size:18px}.calcLaunchCopy b{color:#145ca8}.calcLaunchCopy p{font-family:var(--plain);font-size:13px;line-height:1.5;color:#475467}.moneyMoves .move{background:rgba(255,255,255,.08);border-bottom:3px solid #263341;padding:15px 8px}.moneyMoves .move:nth-child(odd){transform:rotate(-.18deg)}
+body.classic .repSectionTabs{border-bottom:1px solid #d0d5dd}.classic .repSectionTab{font-family:var(--plain);border:0;background:#f2f4f7;transform:none}.classic .repSectionTab.active{background:#101828;color:white}.classic .repStatsGrid .stat{border:1px solid #d0d5dd;border-radius:14px;background:white}
+.calcMachine{width:min(860px,100%);background:linear-gradient(145deg,#343a40,#1b2025 70%,#11161a);border:3px solid #0f1317;border-radius:26px;box-shadow:0 34px 100px rgba(0,0,0,.62),inset 0 1px #606870;overflow:hidden}.calcMachineTop{display:flex;align-items:center;padding:16px 18px 8px;color:#e9edf0}.calcBrand{flex:1}.calcBrandTiny{font-size:9px;letter-spacing:.22em;color:#9da6ad;font-weight:900}.calcBrand h2{font-family:var(--plain);font-size:17px;letter-spacing:.08em;margin:2px 0 0}.calcPower{background:#b9483f;border:2px solid #0e1114;box-shadow:inset 0 1px #e2847c,0 2px 0 #0d1012}.calcMachineBody{padding:10px 17px 18px}
+.calcScreen{background:linear-gradient(180deg,#d7e1c9,#bcccad);border:5px solid #0d1114;border-radius:9px;padding:12px;box-shadow:inset 0 2px 8px rgba(25,43,30,.24),0 1px #616b72;margin-bottom:13px;color:#243028;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}.calcScreenRow{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.screenCell{border-right:1px solid rgba(36,48,40,.25);padding:2px 9px}.screenCell:last-child{border-right:0}.screenCell span{display:block;font-size:9px;font-weight:900;letter-spacing:.05em}.screenCell strong{display:block;font-size:clamp(22px,4vw,34px);line-height:1.1;margin-top:3px;white-space:nowrap}.screenGain strong{color:#235d35}.calcScreenNote{background:transparent;border:0;padding:8px 8px 0;margin:8px 0 0;color:#405346;font-family:var(--plain);font-size:10px;border-top:1px dashed rgba(36,48,40,.35)}
+.calcKeyModes{background:transparent;border:0;padding:0;gap:9px}.calcKeyModes .calcModeBtn{background:linear-gradient(#59626a,#30373d);color:white;border:2px solid #101418;border-radius:8px;box-shadow:0 3px 0 #0d1013,inset 0 1px #7b858d}.calcKeyModes .calcModeBtn.active{background:linear-gradient(#d4a942,#9f7621);color:#111;box-shadow:0 3px 0 #0d1013,inset 0 1px #f5d880}.calcKeyLabel{color:#9ca6ad;font-size:9px;font-weight:900;letter-spacing:.16em;margin:17px 2px 7px}.calcKeypad{grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.calcKeypad .field{background:linear-gradient(#4c555c,#2b3238);border:2px solid #11161a;border-radius:9px;padding:7px;box-shadow:0 3px 0 #0d1013,inset 0 1px #707a82}.calcKeypad .field label{color:#d6dce0;font-size:9px;margin-bottom:4px}.calcKeypad .field input{min-height:39px;border:0;border-radius:5px;background:#d5dfca;color:#243028;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-weight:900;text-align:right;padding:7px 8px}.calcKeypad .field input:disabled{background:#bdc8b4;color:#34443a}.calcReceipt{grid-template-columns:repeat(5,1fr);gap:7px}.calcReceipt .break{background:#ece9dc;border:0;border-radius:3px;padding:10px;box-shadow:0 2px 0 #0e1215}.calcReceipt .break .k{color:#4d5356}.calcReceipt .break .v{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}.calcReceipt .break .sub{color:#596166}.calcActions{margin-top:15px}.calcUtilityKey,.calcEqualsKey{border:2px solid #101418;border-radius:8px;box-shadow:0 3px 0 #0d1013;min-width:120px}.calcUtilityKey{background:#59626a!important;color:white!important}.calcEqualsKey{background:#d39f35;color:#17120a}
+body.classic .calcMachine{background:#fff;border:0;border-radius:18px}.classic .calcMachineTop{color:#101828}.classic .calcBrandTiny{color:#667085}.classic .calcScreen{background:#f8fafc;border:1px solid #d0d5dd;color:#101828}.classic .calcKeypad .field{background:#fff;border:1px solid #d0d5dd;box-shadow:none}.classic .calcKeypad .field label{color:#667085}.classic .calcKeypad .field input,.classic .calcKeypad .field input:disabled{background:#f2f4f7;color:#101828}.classic .calcReceipt .break{background:#fff;border:1px solid #d0d5dd;box-shadow:none}
+@media(max-width:700px){.markerDock{justify-content:flex-start;overflow-x:auto;width:100%;border-radius:0;padding-left:7px;padding-right:7px}.dockTab{padding:8px 13px;font-size:13px}.repSectionTabs{margin-left:-5px;margin-right:-5px;padding-left:4px}.repSectionTab{padding:8px 13px;font-size:14px}.repStatsGrid{grid-template-columns:repeat(2,1fr)}.calcKeypad{grid-template-columns:repeat(2,1fr)}.calcReceipt{grid-template-columns:1fr 1fr}.calcScreenRow{grid-template-columns:1fr}.screenCell{border-right:0;border-bottom:1px solid rgba(36,48,40,.25);padding:5px}.screenCell:last-child{border-bottom:0}.screenCell strong{font-size:28px}}
+
 /* Classic mode */
 body.classic{background:#eef2f6}
 body.classic .board{background:#fff;border:1px solid #d0d5dd;border-radius:18px;box-shadow:0 8px 26px #1018280c;padding:22px}
@@ -179,27 +201,31 @@ body.classic .move{border-bottom:1px solid #eaecf0}
   </section>
 
   <section id="rep" class="page">
-    <div class="board">
+    <div class="board repWhiteboard">
       <div class="repHead">
-        <div><div class="kicker" id="repKicker">REP BOARD</div><h1 id="repTitle" class="markerTitle" style="font-size:clamp(36px,7vw,58px)">REP</h1></div>
+        <div><div class="kicker" id="repKicker">REP BOARD</div><h1 id="repTitle" class="markerTitle repMarkerTitle">REP</h1><div class="repScribble">MONTH-TO-DATE • MONEY BOARD</div></div>
         <select id="repSelect" class="repSelect" aria-label="Choose rep"></select>
       </div>
-      <div class="markerLine"></div>
+      <div class="markerLine blueLine"></div>
 
-      <div class="sectionTitle">STATS</div>
-      <div id="repStats" class="statsGrid"></div>
+      <nav class="repSectionTabs" aria-label="Rep sections">
+        <button type="button" class="repSectionTab active" data-rep-section="repStatsPanel">STATS</button>
+        <button type="button" class="repSectionTab" data-rep-section="repCoachPanel">COACHING</button>
+        <button type="button" class="repSectionTab calcTab" data-rep-section="repCalcPanel">CALCULATOR</button>
+        <button type="button" class="repSectionTab moneyTab" data-rep-section="repMoneyPanel">MONEY MOVES</button>
+      </nav>
 
-      <div class="sectionTitle">COACHING</div>
-      <div id="coachGrid" class="coachGrid"></div>
-
-      <div class="sectionTitle">CALCULATOR</div>
-      <div class="calcLaunch">
-        <button id="openCalc" class="calcButton" type="button"><span class="calcIcon">🧮</span> COMP CALCULATOR</button>
-        <p>Live shows today, Pace projects your month-end finish at the current run rate, and Sandbox lets you play with anything. Nothing in the calculator saves back to Supabase.</p>
+      <div id="repStatsPanel" class="repSectionPanel active"><div class="whiteboardLabel">STATS</div><div id="repStats" class="statsGrid repStatsGrid"></div></div>
+      <div id="repCoachPanel" class="repSectionPanel"><div class="whiteboardLabel">COACHING</div><div id="coachGrid" class="coachGrid repCoachGrid"></div></div>
+      <div id="repCalcPanel" class="repSectionPanel">
+        <div class="whiteboardLabel">PAYCHECK LAB</div>
+        <div class="calcLaunch calcLaunchBoard">
+          <button id="openCalc" class="calcButton calculatorSketch" type="button"><span class="calcIcon">▦</span><span><small>OPEN</small> COMP CALCULATOR</span></button>
+          <div class="calcLaunchCopy"><b>LIVE • PACE • SANDBOX</b><p>See what you've earned, where you're pacing, or play with the numbers without changing Store Pulse.</p></div>
+        </div>
       </div>
-
-      <div class="sectionTitle">MONEY MOVES</div>
-      <div id="moneyMoves" class="moneyMoves"></div>
+      <div id="repMoneyPanel" class="repSectionPanel"><div class="whiteboardLabel">MONEY MOVES</div><div id="moneyMoves" class="moneyMoves"></div></div>
+      <div class="repCornerNote">make the next one count ↗</div>
     </div>
   </section>
 
@@ -236,25 +262,40 @@ body.classic .move{border-bottom:1px solid #eaecf0}
     </div>
   </section>
 </main>
+<nav id="markerDock" class="markerDock" aria-label="Store Pulse tabs">
+  <button type="button" data-dock="landing" class="dockTab active"><span>⌂</span> SNAPSHOT</button>
+  <button type="button" data-dock="store" class="dockTab"><span>▦</span> STORE</button>
+  <button type="button" data-dock-rep="gio" class="dockTab repDock">GIO</button>
+  <button type="button" data-dock-rep="noelle" class="dockTab repDock">NOELLE</button>
+  <button type="button" data-dock-rep="gage" class="dockTab repDock">GAGE</button>
+  <button type="button" data-dock-rep="tj" class="dockTab repDock">TJ</button>
+</nav>
 
 <div id="calcBack" class="modalBack hidden" role="dialog" aria-modal="true" aria-labelledby="calcTitle">
-  <div class="modal">
-    <div class="modalHead"><h2 id="calcTitle">🧮 Compensation Calculator</h2><button class="xbtn" id="closeCalc" type="button">×</button></div>
-    <div class="modalBody">
-      <div class="calcModes" aria-label="Calculator mode">
+  <div class="modal calcMachine">
+    <div class="calcMachineTop">
+      <div class="calcBrand"><span class="calcBrandTiny">STORE PULSE</span><h2 id="calcTitle">COMP CALCULATOR</h2></div>
+      <button class="xbtn calcPower" id="closeCalc" type="button" aria-label="Close">×</button>
+    </div>
+    <div class="modalBody calcMachineBody">
+      <div class="calcScreen">
+        <div class="calcScreenRow">
+          <div class="screenCell"><span id="calcLabel1">LIVE</span><strong id="calcLive">$0.00</strong></div>
+          <div class="screenCell"><span id="calcLabel2">SCENARIO</span><strong id="calcScenario">$0.00</strong></div>
+          <div class="screenCell screenGain"><span id="calcLabel3">DIFFERENCE</span><strong id="calcDiff">$0.00</strong></div>
+        </div>
+        <div id="calcModeNote" class="calcModeNote calcScreenNote"></div>
+      </div>
+      <div class="calcModes calcKeyModes" aria-label="Calculator mode">
         <button class="calcModeBtn" id="calcModeLive" type="button">LIVE</button>
         <button class="calcModeBtn" id="calcModePace" type="button">PACE</button>
         <button class="calcModeBtn" id="calcModeSandbox" type="button">SANDBOX</button>
       </div>
-      <div id="calcModeNote" class="calcModeNote"></div>
-      <div id="calcFields" class="formGrid"></div>
-      <div class="calcTotals">
-        <div class="totalCard"><div class="k" id="calcLabel1">Live estimate</div><div class="v" id="calcLive">$0.00</div></div>
-        <div class="totalCard"><div class="k" id="calcLabel2">Scenario estimate</div><div class="v" id="calcScenario">$0.00</div></div>
-        <div class="totalCard good"><div class="k" id="calcLabel3">Difference</div><div class="v" id="calcDiff">$0.00</div></div>
-      </div>
-      <div id="calcBreakdown" class="breakdown"></div>
-      <div class="modalActions"><button class="btn alt" id="resetCalc" type="button">Reset Sandbox to Live</button><button class="btn" id="doneCalc" type="button">Done</button></div>
+      <div class="calcKeyLabel">PAYCHECK INPUTS</div>
+      <div id="calcFields" class="formGrid calcKeypad"></div>
+      <div class="calcKeyLabel">BREAKDOWN</div>
+      <div id="calcBreakdown" class="breakdown calcReceipt"></div>
+      <div class="modalActions calcActions"><button class="btn alt calcUtilityKey" id="resetCalc" type="button">RESET</button><button class="btn calcEqualsKey" id="doneCalc" type="button">DONE</button></div>
     </div>
   </div>
 </div>
@@ -619,6 +660,20 @@ body.classic .move{border-bottom:1px solid #eaecf0}
   qsa('[data-manager-section]').forEach(b=>b.addEventListener('click',()=>{qsa('[data-manager-section]').forEach(x=>x.classList.toggle('active',x===b));qsa('.managerSection').forEach(x=>x.classList.toggle('active',x.id===b.dataset.managerSection));}));
   $('publishBtn').addEventListener('click',publishManager);
   document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeCalc();$('loginBack').classList.add('hidden')}});
+
+  function setRepSection(id){
+    qsa('.repSectionPanel').forEach(x=>x.classList.toggle('active',x.id===id));
+    qsa('.repSectionTab').forEach(x=>x.classList.toggle('active',x.dataset.repSection===id));
+  }
+  qsa('.repSectionTab').forEach(b=>b.addEventListener('click',()=>setRepSection(b.dataset.repSection)));
+  function syncDock(page,repId=null){
+    qsa('.dockTab').forEach(b=>b.classList.remove('active'));
+    if(page==='rep'&&repId) document.querySelector(`[data-dock-rep="${repId}"]`)?.classList.add('active');
+    else document.querySelector(`[data-dock="${page}"]`)?.classList.add('active');
+  }
+  qsa('[data-dock]').forEach(b=>b.addEventListener('click',()=>{showPage(b.dataset.dock);syncDock(b.dataset.dock)}));
+  qsa('[data-dock-rep]').forEach(b=>b.addEventListener('click',()=>{openRep(b.dataset.dockRep);syncDock('rep',b.dataset.dockRep)}));
+
   setupTheme();loadData(true);
 })();
 </script>
