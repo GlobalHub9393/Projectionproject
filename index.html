@@ -80,6 +80,21 @@ main{max-width:1180px;margin:auto;padding:14px 12px 44px}
 .errorBox{background:#fff1f0;border:2px solid #fda29b;color:#912018;border-radius:12px;padding:14px;line-height:1.5}
 .loading{padding:40px 10px;text-align:center;font-family:var(--marker);font-size:23px}
 
+
+/* ===== Snapshot whiteboard home ===== */
+.snapshotBoard{min-height:720px;background:linear-gradient(112deg,transparent 0 56%,rgba(255,255,255,.72) 61%,rgba(255,255,255,.18) 68%,transparent 74%),radial-gradient(ellipse at 28% 4%,rgba(255,255,255,.98),rgba(255,255,255,.55) 30%,transparent 52%),radial-gradient(circle at 88% 20%,rgba(148,163,184,.08),transparent 28%),linear-gradient(180deg,#fff,#f7f8f5 58%,#f2f3ef);border-color:#aeb4b8;box-shadow:inset 0 0 38px rgba(15,23,42,.11),inset 0 1px 2px #fff,0 18px 44px rgba(16,24,40,.18)}
+.snapshotBoard:before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.34;background:radial-gradient(ellipse at 16% 28%,rgba(31,41,55,.035) 0 1px,transparent 2px),radial-gradient(ellipse at 72% 66%,rgba(31,41,55,.025) 0 1px,transparent 2px);background-size:31px 23px,43px 37px}
+.snapshotHeader{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;position:relative;z-index:2}.snapshotTitle{color:#135ca8;text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:8px}.snapshotDate{font-family:var(--marker);text-align:right;display:grid;gap:4px;transform:rotate(.6deg)}.snapshotDate b{font-size:22px;border-bottom:3px solid #c93a31;padding:0 5px 4px}.snapshotDate span{font-size:12px;color:#475467}.blueLine{background:#1874b9;height:3px}
+.whiteboardLabel{font-family:var(--marker);font-size:27px;font-weight:950;display:flex;align-items:baseline;gap:10px;margin:10px 0 8px;position:relative;z-index:2}.whiteboardLabel:after{content:"";height:3px;flex:1;background:#1d2732;border-radius:50%;transform:rotate(.12deg);opacity:.75}.whiteboardLabel span{font-family:var(--plain);font-size:10px;color:#667085;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
+.homeSnapshotGrid{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));border:2px solid rgba(24,32,42,.76);position:relative;z-index:2;background:rgba(255,255,255,.18)}
+.snapMetric{min-width:0;padding:11px 8px 9px;border-right:2px solid rgba(24,32,42,.55);text-align:center;min-height:116px}.snapMetric:last-child{border-right:0}.snapMetric .smLabel{font-family:var(--marker);font-weight:950;font-size:15px;line-height:1.05}.snapMetric .smValue{font-family:var(--marker);font-weight:950;font-size:28px;line-height:1.05;margin-top:8px;color:#c23a32}.snapMetric.good .smValue{color:#16824f}.snapMetric.warn .smValue{color:#c46d16}.snapMetric .smGoal{font-family:var(--marker);font-weight:900;font-size:14px;color:#145ca8;margin-top:5px}.snapMetric .smPace{font-family:var(--marker);font-weight:900;font-size:13px;color:#145ca8;margin-top:4px}.snapMetric .smDelta{font-family:var(--marker);font-size:12px;font-weight:900;color:#16824f;margin-top:4px;min-height:15px}.snapMetric .smDelta.down{color:#b42318}
+.teamBoard{position:relative;z-index:2;border:2px solid rgba(24,32,42,.76);background:rgba(255,255,255,.14)}.teamHeader,.teamRow{display:grid;grid-template-columns:1.35fr repeat(9,minmax(62px,1fr)) 1.45fr;align-items:stretch}.teamHeader{border-bottom:2px solid rgba(24,32,42,.72)}.teamHeader div{font-family:var(--marker);font-weight:950;font-size:13px;text-align:center;padding:7px 4px;border-right:1.5px solid rgba(24,32,42,.5)}.teamHeader div:last-child{border-right:0}
+.teamRow{appearance:none;width:100%;border:0;border-bottom:1.8px solid rgba(24,32,42,.62);background:transparent;color:inherit;padding:0;text-align:left;transition:background .12s ease}.teamRow:last-child{border-bottom:0}.teamRow:hover{background:rgba(223,241,255,.36)}.teamCell{min-width:0;padding:9px 5px;border-right:1.5px solid rgba(24,32,42,.46);text-align:center;display:flex;flex-direction:column;justify-content:center;gap:2px}.teamCell:last-child{border-right:0}.teamName{font-family:var(--marker);font-size:25px;font-weight:950;text-align:left;padding-left:12px;color:#18202a}.teamActual{font-family:var(--marker);font-size:21px;font-weight:950;color:#c23a32;line-height:1}.teamActual.good{color:#16824f}.teamActual.warn{color:#c46d16}.teamGoal{font-family:var(--marker);font-size:13px;font-weight:900;color:#145ca8;line-height:1}.teamChange{font-family:var(--marker);font-size:12px;line-height:1.18;text-align:left;color:#145ca8;padding:8px 7px}.teamChange b{display:block;color:#16824f;font-size:13px}.teamChange b.down{color:#b42318}
+.stickyZone{position:relative;z-index:4;min-height:205px;margin-top:3px;border:1px dashed rgba(71,84,103,.22);border-radius:12px;background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.2))}.coachSticky{position:absolute;width:22.5%;min-height:142px;padding:15px 13px 12px;background:#fff19c;box-shadow:4px 8px 18px rgba(0,0,0,.18);transform:rotate(-2deg);font-family:var(--marker);user-select:none;touch-action:none;cursor:grab;border:0;text-align:left}.coachSticky:nth-child(2){background:#d9f7df;transform:rotate(2deg)}.coachSticky:nth-child(3){background:#ffd9e4;transform:rotate(-1deg)}.coachSticky:nth-child(4){background:#dff1ff;transform:rotate(1.5deg)}.coachSticky:active{cursor:grabbing;z-index:12}.coachSticky strong{display:block;font-size:20px;line-height:1;margin-bottom:7px}.coachSticky small{font-family:var(--plain);display:block;font-size:11px;line-height:1.38;color:#344054;font-weight:700}.boardDoodle{position:absolute;right:25px;bottom:34px;font-family:var(--marker);font-size:24px;color:#6d42bd;transform:rotate(-8deg);opacity:.88}.boardDoodle span{display:block;text-align:center;font-size:20px}
+body.classic .snapshotBoard{background:#fff}body.classic .snapshotTitle,body.classic .whiteboardLabel,body.classic .snapshotDate,body.classic .snapMetric .smLabel,body.classic .snapMetric .smValue,body.classic .snapMetric .smGoal,body.classic .snapMetric .smPace,body.classic .teamHeader div,body.classic .teamName,body.classic .teamActual,body.classic .teamGoal,body.classic .teamChange{font-family:var(--plain)}body.classic .homeSnapshotGrid,body.classic .teamBoard{border:1px solid #d0d5dd;border-radius:14px;overflow:hidden}body.classic .snapMetric,body.classic .teamCell,body.classic .teamHeader div{border-color:#eaecf0}body.classic .coachSticky,body.classic .boardDoodle{display:none}
+@media(max-width:900px){.homeSnapshotGrid{grid-template-columns:repeat(4,1fr)}.snapMetric{border-bottom:2px solid rgba(24,32,42,.48)}.snapMetric:nth-child(4n){border-right:0}.snapMetric:nth-last-child(-n+4){border-bottom:0}.teamBoard{border:0;background:transparent;display:grid;grid-template-columns:1fr 1fr;gap:10px}.teamHeader{display:none}.teamRow{display:grid;grid-template-columns:repeat(3,1fr);border:2px solid rgba(24,32,42,.72)!important;border-radius:8px;overflow:hidden;background:rgba(255,255,255,.25);box-shadow:2px 3px 0 rgba(24,32,42,.08)}.teamCell{border-right:1px solid rgba(24,32,42,.35);border-bottom:1px solid rgba(24,32,42,.28);padding:8px 5px}.teamCell:nth-child(3n){border-right:0}.teamCell:nth-last-child(-n+3){border-bottom:0}.teamName{grid-column:1/-1;font-size:25px;border-right:0;border-bottom:2px solid rgba(24,32,42,.55);display:block;padding:8px 10px}.teamName:after{content:"  ›";color:#145ca8}.teamChange{grid-column:1/-1;border-right:0;border-bottom:0!important;min-height:48px}.teamCell[data-label]:before{content:attr(data-label);font-family:var(--marker);font-size:10px;font-weight:950;color:#475467;margin-bottom:4px}.stickyZone{min-height:330px}.coachSticky{width:45%;min-height:140px}}
+@media(max-width:600px){main{padding:8px 7px 34px}.board{border-width:6px;border-radius:13px;padding:13px 10px}.snapshotHeader{align-items:flex-start}.snapshotTitle{font-size:39px}.markerSub{font-size:16px}.snapshotDate b{font-size:17px}.snapshotDate span{font-size:10px}.whiteboardLabel{font-size:23px;margin-top:13px}.homeSnapshotGrid{grid-template-columns:repeat(3,1fr)}.snapMetric{min-height:105px;padding:9px 5px;border-right:1.5px solid rgba(24,32,42,.48);border-bottom:1.5px solid rgba(24,32,42,.48)}.snapMetric:nth-child(4n){border-right:1.5px solid rgba(24,32,42,.48)}.snapMetric:nth-child(3n){border-right:0}.snapMetric:nth-last-child(-n+4){border-bottom:1.5px solid rgba(24,32,42,.48)}.snapMetric:nth-last-child(-n+2){border-bottom:0}.snapMetric:nth-child(7){grid-column:1/2}.snapMetric:nth-child(8){grid-column:2/4;border-right:0}.snapMetric .smValue{font-size:24px}.snapMetric .smLabel{font-size:13px}.teamBoard{grid-template-columns:1fr;gap:9px}.teamRow{grid-template-columns:repeat(3,1fr)}.coachSticky{width:46%;padding:12px 10px;min-height:138px}.coachSticky strong{font-size:18px}.coachSticky small{font-size:10.5px}.boardDoodle{display:none}}
+
 /* Classic mode */
 body.classic{background:#eef2f6}
 body.classic .board{background:#fff;border:1px solid #d0d5dd;border-radius:18px;box-shadow:0 8px 26px #1018280c;padding:22px}
@@ -134,16 +149,20 @@ body.classic .move{border-bottom:1px solid #eaecf0}
 
 <main>
   <section id="landing" class="page active">
-    <div id="landingBoard" class="board" style="min-height:480px">
-      <div class="kicker" id="landingKicker">STORE PULSE</div>
-      <h1 class="markerTitle">WHO ARE YOU?</h1>
-      <div class="markerSub">Grab your numbers. Find your next move.</div>
-      <div class="markerLine"></div>
-      <div id="homeGrid" class="homeGrid"><div class="loading">Loading the board…</div></div>
-      <div class="status"><span id="homeStatus">Connecting to Store Pulse…</span><span>Whiteboard mode</span></div>
-      <div class="sticky" data-sticky="hello" style="left:70%;top:54px">HELLO?<small>yes, you can move me</small></div>
-      <div class="sticky s2" data-sticky="money" style="left:78%;top:235px">MAKE<br>MONEY →<small>that is the whole idea</small></div>
-      <div class="sticky s3" data-sticky="aia" style="left:57%;top:330px">DON'T<br>FORGET AIA<small>seriously.</small></div>
+    <div id="landingBoard" class="board snapshotBoard">
+      <div class="snapshotHeader">
+        <div><div class="kicker" id="landingKicker">STORE PULSE</div><h1 class="markerTitle snapshotTitle">CINNAMINSON</h1><div class="markerSub">TEAM SNAPSHOT</div></div>
+        <div class="snapshotDate"><b id="homeSnapshotDate">EOD —</b><span id="homeStatus">Connecting…</span></div>
+      </div>
+      <div class="markerLine blueLine"></div>
+      <div class="whiteboardLabel">STORE SNAPSHOT</div>
+      <div id="homeSnapshotGrid" class="homeSnapshotGrid"><div class="loading">Loading the board…</div></div>
+      <div class="whiteboardLabel teamLabel">THE TEAM</div>
+      <div id="teamBoard" class="teamBoard"></div>
+      <div class="whiteboardLabel coachLabel">COACHING NOTES <span>drag these around</span></div>
+      <div id="coachStickyZone" class="stickyZone"></div>
+      <div class="boardDoodle" aria-hidden="true">Hello?<span>☺</span></div>
+      <div class="status"><span>Tap a rep for Stats • Coaching • Calculator • Money Moves</span><span>Whiteboard mode</span></div>
     </div>
   </section>
 
@@ -260,6 +279,8 @@ body.classic .move{border-bottom:1px solid #eaecf0}
   const SUPABASE_URL = 'https://uwomiirfvllcafijmkmk.supabase.co';
   const SUPABASE_KEY = 'sb_publishable_UMb8Nb5DG0w1dv9h5W5-2Q_0PinuBV4';
   const MANAGER_URL = SUPABASE_URL + '/functions/v1/store-pulse-manager';
+  const SNAPSHOT_URL = SUPABASE_URL + '/functions/v1/store-pulse-snapshot';
+  const REP_GOALS_URL = SUPABASE_URL + '/functions/v1/store-pulse-rep-goals';
   const $ = id => document.getElementById(id);
   const qs = (s,root=document) => root.querySelector(s);
   const qsa = (s,root=document) => [...root.querySelectorAll(s)];
@@ -282,7 +303,8 @@ body.classic .move{border-bottom:1px solid #eaecf0}
     accessory_revenue:{label:'Accessory Revenue',unit:'money',rep:true,store:true,goal:true},
     acc_per_opp:{label:'ACC / OPP',unit:'money2',rep:true,store:true,goal:true},
     protectadvantage_rate:{label:'Insurance',unit:'pct',rep:true,store:true,goal:true},
-    premium_loading_rate:{label:'Premium Plan Loading',unit:'pct',rep:true,store:true,goal:true},
+    premium_ppv:{label:'Premium PPV',unit:'count',rep:true,store:true},
+    premium_loading_rate:{label:'Premium Plan Loading',unit:'pct',rep:true,store:true,goal:true,derived:true},
     nextup_rate:{label:'Next Up',unit:'pct',rep:true,store:true,goal:true},
     htp:{label:'HTP',unit:'count',rep:true,store:true},
     htp_eligible_opps:{label:'HTP Eligible',unit:'count',rep:true,store:true},
@@ -296,14 +318,14 @@ body.classic .move{border-bottom:1px solid #eaecf0}
     pa4:{label:'PA4',unit:'count',rep:true,store:true},
     cru:{label:'CRU',unit:'count',rep:true,store:true}
   };
-  const repStatOrder=['ppv','aia_submits','aia_posted','aia_close','upgrades','data','accessory_revenue','acc_per_opp','protectadvantage_rate','premium_loading_rate','nextup_rate','htp_close','csat','opps','aia_green_checks','trade_rate'];
-  const storeStatOrder=['ppv','ppv_close','aia_submits','aia_posted','aia_close','upgrades','data','accessory_revenue','acc_per_opp','protectadvantage_rate','premium_loading_rate','nextup_rate','htp_close','csat','opps','traffic','aia_green_checks','trade_rate'];
-  const managerRepOrder=['ppv','aia_posted','aia_submits','aia_green_checks','upgrades','data','accessory_revenue','acc_per_opp','protectadvantage_rate','premium_loading_rate','nextup_rate','htp','htp_eligible_opps','csat','trade_rate','opps','pre_to_post','prepaid','pa4','cru'];
-  const managerStoreOrder=['ppv','ppv_close','aia_posted','aia_submits','aia_green_checks','upgrades','data','accessory_revenue','acc_per_opp','protectadvantage_rate','premium_loading_rate','nextup_rate','htp','htp_eligible_opps','csat','trade_rate','opps','traffic','pre_to_post','prepaid','pa4','cru'];
+  const repStatOrder=['ppv','aia_submits','aia_posted','aia_close','upgrades','data','accessory_revenue','acc_per_opp','protectadvantage_rate','premium_ppv','nextup_rate','htp_close','csat','opps','aia_green_checks','trade_rate'];
+  const storeStatOrder=['ppv','ppv_close','aia_submits','aia_posted','aia_close','upgrades','data','accessory_revenue','acc_per_opp','protectadvantage_rate','premium_ppv','nextup_rate','htp_close','csat','opps','traffic','aia_green_checks','trade_rate'];
+  const managerRepOrder=['ppv','aia_posted','aia_submits','aia_green_checks','upgrades','data','accessory_revenue','acc_per_opp','protectadvantage_rate','premium_ppv','nextup_rate','htp','htp_eligible_opps','csat','trade_rate','opps','pre_to_post','prepaid','pa4','cru'];
+  const managerStoreOrder=['ppv','ppv_close','aia_posted','aia_submits','aia_green_checks','upgrades','data','accessory_revenue','acc_per_opp','protectadvantage_rate','premium_ppv','nextup_rate','htp','htp_eligible_opps','csat','trade_rate','opps','traffic','pre_to_post','prepaid','pa4','cru'];
   const goalOrder=[...Object.keys(metricDefs).filter(k=>metricDefs[k].goal && metricDefs[k].store),'trade_rate'];
   const repGoalOrder=Object.keys(metricDefs).filter(k=>metricDefs[k].goal && metricDefs[k].rep);
 
-  const S={month:'2026-10',monthRow:null,reps:[],repMetrics:[],store:{},goals:[],comp:null,ui:null,currentRep:null,managerPassword:'',managerDraft:{},calcMode:'live',calcSandbox:null};
+  const S={month:'2026-10',monthRow:null,reps:[],repMetrics:[],store:{},goals:[],history:[],comp:null,ui:null,currentRep:null,managerPassword:'',managerDraft:{},calcMode:'live',calcSandbox:null};
 
   function showToast(msg){ const t=$('toast');t.textContent=msg;t.classList.remove('hidden');clearTimeout(showToast.t);showToast.t=setTimeout(()=>t.classList.add('hidden'),2600); }
   function api(path){ return fetch(SUPABASE_URL+'/rest/v1/'+path,{headers:{apikey:SUPABASE_KEY,Accept:'application/json'}}).then(async r=>{if(!r.ok)throw new Error((await r.text())||('HTTP '+r.status));return r.json();}); }
@@ -311,17 +333,23 @@ body.classic .move{border-bottom:1px solid #eaecf0}
     const r=await fetch(MANAGER_URL,{method:'POST',headers:{'Content-Type':'application/json',apikey:SUPABASE_KEY},body:JSON.stringify(payload)});
     const body=await r.json().catch(()=>({}));if(!r.ok)throw new Error(body.error||'Manager request failed');return body;
   }
+  async function protectedCall(url,payload){
+    const r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json',apikey:SUPABASE_KEY},body:JSON.stringify(payload)});
+    const body=await r.json().catch(()=>({}));if(!r.ok)throw new Error(body.error||'Protected request failed');return body;
+  }
   function aiaClose(m){return num(m?.aia_green_checks)>0 ? num(m.aia_submits)/num(m.aia_green_checks)*100 : 0}
   function htpClose(m){return num(m?.htp_eligible_opps)>0 ? num(m.htp)/num(m.htp_eligible_opps)*100 : 0}
+  function premiumLoading(m){if(m?.premium_loading_rate!==null&&m?.premium_loading_rate!==undefined&&m?.premium_loading_rate!=='')return num(m.premium_loading_rate);return num(m?.ppv)>0?num(m?.premium_ppv)/num(m.ppv)*100:null}
   function displayValue(key,m){
     let v=m?.[key];
     if(key==='aia_close') return fmtPct(aiaClose(m));
     if(key==='htp_close') return fmtPct(htpClose(m));
+    if(key==='premium_loading_rate') return fmtPct(premiumLoading(m));
     const d=metricDefs[key]; if(!d) return fmtNum(v);
     if(v==null) return '—'; if(d.unit==='pct')return fmtPct(v); if(d.unit==='money')return fmtMoney0(v); if(d.unit==='money2')return fmtMoney(v); return fmtNum(v);
   }
   function metricLabel(key){ if(key==='aia_close')return 'AIA Close';if(key==='htp_close')return 'HTP Close';return metricDefs[key]?.label||key; }
-  function goalCurrent(key,m){ if(key==='aia_close') return aiaClose(m); if(key==='htp_close') return htpClose(m); return num(m?.[key]); }
+  function goalCurrent(key,m){ if(key==='aia_close') return aiaClose(m); if(key==='htp_close') return htpClose(m); if(key==='premium_loading_rate') return num(premiumLoading(m)); return num(m?.[key]); }
   function goalFor(key,scope='store',repId=null){return S.goals.find(g=>g.scope===scope&&g.metric_key===key&&(scope!=='rep'||g.rep_id===repId))}
   function goalMarkup(key,m,scope='store',repId=null){
     const g=goalFor(key,scope,repId);if(!g)return '';
@@ -337,7 +365,7 @@ body.classic .move{border-bottom:1px solid #eaecf0}
   function calcAiaClose(m){return calculatorRate(m,'aia_close_input',aiaClose(m))}
   function calcHtpClose(m){return calculatorRate(m,'htp_close_input',htpClose(m))}
   function comp(m){
-    const ppv=num(m.ppv),pa=num(m.protectadvantage_rate),premium=num(m.premium_loading_rate),nua=num(m.nextup_rate);
+    const ppv=num(m.ppv),pa=num(m.protectadvantage_rate),premium=num(premiumLoading(m)),nua=num(m.nextup_rate);
     const ppvEach=5+pa/10+premium/10+nua/10,ppvPay=ppv*ppvEach;
     const ac=Math.min(calcAiaClose(m),15),aiaEach=ac*4,aiaPay=num(m.aia_posted)*aiaEach;
     const accPay=num(m.accessory_revenue)*(num(m.acc_per_opp)/1000);
@@ -393,13 +421,24 @@ body.classic .move{border-bottom:1px solid #eaecf0}
   }
 
   function showPage(id){ qsa('.page').forEach(p=>p.classList.remove('active'));$(id).classList.add('active');$('homeBtn').classList.toggle('active',id==='landing');$('storeBtn').classList.toggle('active',id==='store');window.scrollTo({top:0,behavior:'smooth'}); }
+  const homeStoreKeys=['ppv','aia_posted','aia_close','htp_close','data','acc_per_opp','protectadvantage_rate','csat'];
+  const homeRepKeys=['ppv','aia_posted','aia_close','htp_close','upgrades','data','acc_per_opp','protectadvantage_rate','csat'];
+  function metricRaw(key,m){if(key==='aia_close')return aiaClose(m);if(key==='htp_close')return htpClose(m);if(key==='premium_loading_rate')return premiumLoading(m);return m?.[key]===null||m?.[key]===undefined?null:num(m[key])}
+  function snapshotRows(scope,repId=null){return(S.history||[]).filter(x=>x.scope===scope&&(scope!=='rep'||x.rep_id===repId)).sort((a,b)=>String(b.snapshot_date).localeCompare(String(a.snapshot_date)))}
+  function previousSnapshot(scope,repId=null){const current=String(S.monthRow?.snapshot_date||'');return snapshotRows(scope,repId).find(x=>String(x.snapshot_date)<current)||null}
+  function paceAt(m,key,date){if(!date||!['ppv','aia_posted','upgrades','data','accessory_revenue'].includes(key))return null;const day=Math.max(1,Number(String(date).split('-')[2])||1),days=Number(S.monthRow?.days_in_month)||31;return Math.round(num(metricRaw(key,m))*days/day)}
+  function metricGoal(key,scope='store',repId=null){const g=goalFor(key,scope,repId);return g?num(g.target):null}
+  function metricTone(key,m,scope='store',repId=null){const cur=metricRaw(key,m),goal=metricGoal(key,scope,repId);if(cur===null)return'';if(goal!==null&&goal>0){if(['ppv','aia_posted','upgrades','data','accessory_revenue'].includes(key)){const pace=paceAt(m,key,S.monthRow?.snapshot_date);if(pace!==null)return pace>=goal?'good':pace>=goal*.85?'warn':'bad'}return cur>=goal?'good':cur>=goal*.8?'warn':'bad'}return''}
+  function compactValue(key,m){if(key==='acc_per_opp')return m?.acc_per_opp==null?'—':fmtMoney(m.acc_per_opp);return displayValue(key,m)}
+  function changeSummary(key,m,scope='store',repId=null){const prev=previousSnapshot(scope,repId);if(!prev)return'';const old=prev.metrics||{},cur=metricRaw(key,m),before=metricRaw(key,old);if(cur===null||before===null)return'';const d=cur-before;if(['ppv','aia_posted','upgrades','data','accessory_revenue'].includes(key)){const oldP=paceAt(old,key,prev.snapshot_date),newP=paceAt(m,key,S.monthRow?.snapshot_date);if(!d&&oldP===newP)return'';const dt=key==='accessory_revenue'?((d>=0?'+':'')+fmtMoney0(d)):((d>=0?'+':'')+fmtNum(d));return`${dt} • pace ${oldP}→${newP}`}if(Math.abs(d)<.005)return'';if(key==='acc_per_opp')return`${d>=0?'+':''}${fmtMoney(d)}`;return`${d>=0?'+':''}${d.toFixed(1).replace(/\.0$/,'')} pts`}
+  function renderSnapshotMetric(key){const m=S.store||{},goal=metricGoal(key,'store'),tone=metricTone(key,m,'store'),pace=paceAt(m,key,S.monthRow?.snapshot_date),delta=changeSummary(key,m,'store');const gt=goal!==null?(metricDefs[key]?.unit==='pct'?`Goal ${fmtPct(goal)}`:metricDefs[key]?.unit?.startsWith('money')?`Goal ${fmtMoney(goal)}`:`Goal ${fmtNum(goal)}`):'';return`<div class="snapMetric ${tone}"><div class="smLabel">${esc(metricLabel(key))}</div><div class="smValue">${esc(compactValue(key,m))}</div><div class="smGoal">${esc(gt)}</div><div class="smPace">${pace!==null?`Pace ${esc(fmtNum(pace))}`:''}</div><div class="smDelta ${delta.startsWith('-')?'down':''}">${esc(delta)}</div></div>`}
+  function repChangeLine(repId,m){const prev=previousSnapshot('rep',repId);if(!prev)return'<b>First tracked snapshot</b>';const all=[];for(const key of ['ppv','aia_posted','upgrades','data','aia_close','htp_close','protectadvantage_rate']){const s=changeSummary(key,m,'rep',repId);if(s)all.push(`${metricLabel(key)} ${s}`)}return all.length?`<b>${esc(all[0])}</b>${all[1]?esc(all[1]):''}`:'<b>No meaningful change</b>'}
+  function renderTeamRow(r){const m=repMetric(r.rep_id);const cells=homeRepKeys.map(key=>{const g=metricGoal(key,'rep',r.rep_id),tone=metricTone(key,m,'rep',r.rep_id);let gt='';if(g!==null)gt=metricDefs[key]?.unit==='pct'?fmtPct(g):metricDefs[key]?.unit?.startsWith('money')?fmtMoney(g):fmtNum(g);return`<div class="teamCell" data-label="${esc(metricLabel(key))}"><div class="teamActual ${tone}">${esc(compactValue(key,m))}</div><div class="teamGoal">${gt?'/ '+esc(gt):''}</div></div>`}).join('');return`<button class="teamRow" type="button" data-rep="${esc(r.rep_id)}"><div class="teamCell teamName">${esc(r.display_name)}</div>${cells}<div class="teamCell teamChange">${repChangeLine(r.rep_id,m)}</div></button>`}
+  function shortCoach(r,i){const m=repMetric(r.rep_id),ap=aiaPlan(m),hp=htpPlan(m),moves=moveCandidates(m);let body='';if(i%2===0&&ap)body=ap.action;else if(hp)body=hp.action;else if(moves[0])body=`${moves[0].title}: ${moves[0].why}`;else body='Keep building the base — every PPV, AIA, accessory dollar and Data unit counts.';if(body.length>150)body=body.slice(0,147)+'…';return`<button class="coachSticky" data-sticky="coach_${esc(r.rep_id)}" type="button"><strong>${esc(r.display_name)}</strong><small>${esc(body)}</small></button>`}
   function renderHome(){
-    $('landingKicker').textContent=(S.monthRow?.display_name||'October 2026').toUpperCase()+' • STORE PULSE';
-    const cards=[`<button class="homeCard store" type="button" data-home="store"><b>STORE</b><span>Store numbers and goals.</span></button>`].concat(S.reps.filter(r=>r.active).map(r=>`<button class="homeCard" type="button" data-rep="${esc(r.rep_id)}"><b>${esc(r.display_name)}</b><span>Stats • Coaching • Calculator • Money Moves</span></button>`));
-    $('homeGrid').innerHTML=cards.join('');
-    qs('[data-home="store"]')?.addEventListener('click',()=>{renderStore();showPage('store')});
-    qsa('[data-rep]').forEach(b=>b.addEventListener('click',()=>openRep(b.dataset.rep)));
-    const date=S.monthRow?.snapshot_date; $('homeStatus').textContent=date?`Snapshot ${date}`:'October board ready';
+    $('landingKicker').textContent=(S.monthRow?.display_name||'October 2026').toUpperCase()+' • STORE PULSE';const date=S.monthRow?.snapshot_date;$('homeSnapshotDate').textContent=date?`EOD ${Number(date.slice(5,7))}/${Number(date.slice(8,10))}`:'EOD —';$('homeStatus').textContent=date?`Updated through ${date}`:'Waiting for snapshot';$('homeSnapshotGrid').innerHTML=homeStoreKeys.map(renderSnapshotMetric).join('');
+    const active=S.reps.filter(r=>r.active);$('teamBoard').innerHTML=`<div class="teamHeader"><div></div>${homeRepKeys.map(k=>`<div>${esc(metricLabel(k).replace('Accessory / OPP','ACC/OPP').replace('Insurance','INS'))}</div>`).join('')}<div>SINCE LAST</div></div>`+active.map(renderTeamRow).join('');qsa('#teamBoard [data-rep]').forEach(b=>b.addEventListener('click',()=>openRep(b.dataset.rep)));
+    $('coachStickyZone').innerHTML=active.map(shortCoach).join('');const notes=qsa('#coachStickyZone .coachSticky'),mobile=window.innerWidth<=600;notes.forEach((el,i)=>{if(!localStorage.getItem('sticky_'+el.dataset.sticky)){const pos=mobile?[{x:2,y:10},{x:52,y:14},{x:3,y:174},{x:51,y:170}][i%4]:[{x:2,y:24},{x:26,y:16},{x:51,y:27},{x:75,y:18}][i%4];el.style.left=pos.x+'%';el.style.top=pos.y+'px'}});setupStickies();
   }
   function renderStore(){
     $('storeKicker').textContent=(S.monthRow?.display_name||'October 2026').toUpperCase()+' • STORE';
@@ -428,13 +467,10 @@ body.classic .move{border-bottom:1px solid #eaecf0}
   function updateThemeButton(){const classic=document.body.classList.contains('classic');$('modeBtn').classList.toggle('active',classic);$('modeBtn').innerHTML=classic?'✎ <span class="modeText">WHITEBOARD</span>':'▦ <span class="modeText">CLASSIC</span>';}
 
   function setupStickies(){
-    const board=$('landingBoard');qsa('[data-sticky]').forEach(el=>{
-      const saved=JSON.parse(localStorage.getItem('sticky_'+el.dataset.sticky)||'null');if(saved){el.style.left=saved.x+'%';el.style.top=saved.y+'%';}
-      let drag=null;
-      el.addEventListener('pointerdown',e=>{if(document.body.classList.contains('classic'))return;const er=el.getBoundingClientRect(),br=board.getBoundingClientRect();drag={dx:e.clientX-er.left,dy:e.clientY-er.top,br};el.setPointerCapture(e.pointerId);});
-      el.addEventListener('pointermove',e=>{if(!drag)return;const br=board.getBoundingClientRect();let x=e.clientX-br.left-drag.dx,y=e.clientY-br.top-drag.dy;x=Math.max(4,Math.min(br.width-el.offsetWidth-4,x));y=Math.max(4,Math.min(br.height-el.offsetHeight-4,y));el.style.left=(x/br.width*100)+'%';el.style.top=(y/br.height*100)+'%';});
-      el.addEventListener('pointerup',()=>{if(!drag)return;localStorage.setItem('sticky_'+el.dataset.sticky,JSON.stringify({x:parseFloat(el.style.left),y:parseFloat(el.style.top)}));drag=null;});
-      el.addEventListener('pointercancel',()=>drag=null);
+    qsa('[data-sticky]').forEach(el=>{if(el.dataset.dragReady==='1')return;el.dataset.dragReady='1';const zone=el.closest('.stickyZone')||$('landingBoard');const saved=JSON.parse(localStorage.getItem('sticky_'+el.dataset.sticky)||'null');if(saved){el.style.left=saved.x+'%';el.style.top=saved.y+'px'}let drag=null;
+      el.addEventListener('pointerdown',e=>{if(document.body.classList.contains('classic'))return;const er=el.getBoundingClientRect();drag={dx:e.clientX-er.left,dy:e.clientY-er.top};el.setPointerCapture(e.pointerId)});
+      el.addEventListener('pointermove',e=>{if(!drag)return;const br=zone.getBoundingClientRect();let x=e.clientX-br.left-drag.dx,y=e.clientY-br.top-drag.dy;x=Math.max(3,Math.min(br.width-el.offsetWidth-3,x));y=Math.max(3,Math.min(br.height-el.offsetHeight-3,y));el.style.left=(x/br.width*100)+'%';el.style.top=y+'px'});
+      const end=()=>{if(!drag)return;localStorage.setItem('sticky_'+el.dataset.sticky,JSON.stringify({x:parseFloat(el.style.left),y:parseFloat(el.style.top)}));drag=null};el.addEventListener('pointerup',end);el.addEventListener('pointercancel',()=>drag=null);
     });
   }
 
@@ -452,7 +488,7 @@ body.classic .move{border-bottom:1px solid #eaecf0}
     htp_close_input:{label:'HTP Close %',unit:'pct'},
     csat:{label:'CSAT %',unit:'pct'}
   };
-  const calcOrder=['ppv','protectadvantage_rate','premium_loading_rate','nextup_rate','aia_posted','aia_close_input','accessory_revenue','acc_per_opp','upgrades','data','htp_close_input','csat'];
+  const calcOrder=['ppv','protectadvantage_rate','premium_ppv','nextup_rate','aia_posted','aia_close_input','accessory_revenue','acc_per_opp','upgrades','data','htp_close_input','csat'];
   const paceVolumeKeys=new Set(['ppv','aia_posted','accessory_revenue','data','upgrades']);
   function calcBase(m){return {...m,aia_close_input:aiaClose(m),htp_close_input:htpClose(m)}}
   function paceInfo(){
@@ -544,7 +580,9 @@ body.classic .move{border-bottom:1px solid #eaecf0}
     const repGoals=repGoalOrder.map((k,i)=>{const el=$('rep_goal_'+k);if(!el||el.value==='')return null;return {metric_key:k,target:num(el.value),unit:metricDefs[k].unit,sort_order:i*10}}).filter(Boolean);
     $('publishBtn').disabled=true;$('publishBtn').textContent='PUBLISHING…';$('managerSaveStatus').textContent='Publishing changes…';
     try{
-      await managerCall({action:'publish',password:S.managerPassword,month:S.month,snapshot_date:$('mgrSnapshot').value,store_metrics:storeMetrics,rep_metrics:repRows,goals,rep_goal_rep_id:repGoalRepId,rep_goals:repGoals});
+      await managerCall({action:'publish',password:S.managerPassword,month:S.month,snapshot_date:$('mgrSnapshot').value,store_metrics:storeMetrics,rep_metrics:repRows,goals});
+      await protectedCall(REP_GOALS_URL,{password:S.managerPassword,month:S.month,rep_id:repGoalRepId,goals:repGoals});
+      await protectedCall(SNAPSHOT_URL,{password:S.managerPassword,month:S.month});
       $('managerSaveStatus').textContent='Published. Refreshing live Store Pulse…';await loadData(false);renderManager();showToast('Store Pulse updated');$('managerSaveStatus').textContent='Published successfully.';
     }catch(e){$('managerSaveStatus').textContent='Publish failed: '+e.message;showToast('Publish failed');}
     finally{$('publishBtn').disabled=false;$('publishBtn').textContent='PUBLISH TO STORE PULSE';}
@@ -552,21 +590,22 @@ body.classic .move{border-bottom:1px solid #eaecf0}
 
   async function loadData(first=true){
     try{
-      if(first)$('homeGrid').innerHTML='<div class="loading">Loading the board…</div>';
+      if(first)$('homeSnapshotGrid').innerHTML='<div class="loading" style="grid-column:1/-1">Loading the board…</div>';
       const cfg=await api('huddle_app_config?config_key=eq.active_month&select=config_value');S.month=cfg?.[0]?.config_value?.month||'2026-10';
-      const [months,reps,store,repMetrics,goals,compCfg,uiCfg]=await Promise.all([
+      const [months,reps,store,repMetrics,goals,history,compCfg,uiCfg]=await Promise.all([
         api('huddle_months?month=eq.'+encodeURIComponent(S.month)+'&select=*'),
         api('huddle_reps?active=eq.true&select=*&order=sort_order.asc'),
         api('huddle_store_metrics?month=eq.'+encodeURIComponent(S.month)+'&select=*'),
         api('huddle_rep_metrics?month=eq.'+encodeURIComponent(S.month)+'&select=*'),
         api('huddle_goals?month=eq.'+encodeURIComponent(S.month)+'&select=*&order=scope.asc,sort_order.asc'),
+        api('huddle_snapshots?month=eq.'+encodeURIComponent(S.month)+'&select=*&order=snapshot_date.desc'),
         api('huddle_comp_config?month=eq.'+encodeURIComponent(S.month)+'&select=*'),
         api('huddle_app_config?config_key=eq.store_pulse_ui&select=config_value')
       ]);
-      S.monthRow=months[0]||null;S.reps=reps||[];S.store=store[0]||{};S.repMetrics=repMetrics||[];S.goals=goals||[];S.comp=compCfg[0]||null;S.ui=uiCfg[0]?.config_value||{};
+      S.monthRow=months[0]||null;S.reps=reps||[];S.store=store[0]||{};S.repMetrics=repMetrics||[];S.goals=goals||[];S.history=history||[];S.comp=compCfg[0]||null;S.ui=uiCfg[0]?.config_value||{};
       if(!S.currentRep||!S.reps.some(r=>r.rep_id===S.currentRep))S.currentRep=S.reps[0]?.rep_id||null;
       renderHome();renderStore();if(S.currentRep)renderRep();
-    }catch(e){$('homeGrid').innerHTML=`<div class="errorBox" style="grid-column:1/-1"><b>Store Pulse could not load.</b><br>${esc(e.message)}<br><br><button id="retryLoad" class="btn" type="button">Retry</button></div>`;$('homeStatus').textContent='Connection error';setTimeout(()=>$('retryLoad')?.addEventListener('click',()=>loadData(true)),0);}
+    }catch(e){$('homeSnapshotGrid').innerHTML=`<div class="errorBox" style="grid-column:1/-1"><b>Store Pulse could not load.</b><br>${esc(e.message)}<br><br><button id="retryLoad" class="btn" type="button">Retry</button></div>`;$('homeStatus').textContent='Connection error';setTimeout(()=>$('retryLoad')?.addEventListener('click',()=>loadData(true)),0);}
   }
 
   $('homeBtn').addEventListener('click',()=>showPage('landing'));
@@ -580,7 +619,7 @@ body.classic .move{border-bottom:1px solid #eaecf0}
   qsa('[data-manager-section]').forEach(b=>b.addEventListener('click',()=>{qsa('[data-manager-section]').forEach(x=>x.classList.toggle('active',x===b));qsa('.managerSection').forEach(x=>x.classList.toggle('active',x.id===b.dataset.managerSection));}));
   $('publishBtn').addEventListener('click',publishManager);
   document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeCalc();$('loginBack').classList.add('hidden')}});
-  setupTheme();setupStickies();loadData(true);
+  setupTheme();loadData(true);
 })();
 </script>
 </body>
