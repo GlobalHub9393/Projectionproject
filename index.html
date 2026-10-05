@@ -252,6 +252,31 @@ body.classic #landingBoard .snapshotHeader{position:relative;width:auto;height:a
   body:not(.classic) #landingBoard .stickyZone{min-height:330px}
 }
 
+/* ===== Team whiteboard + frozen home notes + COMP-84 calculator ===== */
+/* Home focus notes are intentionally fixed. They never float over the dashboard. */
+body:not(.classic) #landingBoard .dashboardOverlay{display:flex;flex-direction:column}
+body:not(.classic) #landingBoard .stickyZone{position:relative!important;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(6px,.8vw,12px);min-height:0!important;margin-top:auto;padding:7px 2px 3px;border:0;background:transparent;overflow:visible}
+body:not(.classic) #landingBoard .coachSticky{position:relative!important;left:auto!important;top:auto!important;width:auto!important;min-height:clamp(72px,8.4vw,116px)!important;padding:clamp(7px,.75vw,12px)!important;cursor:default!important;touch-action:auto!important;pointer-events:auto;transform:rotate(-1.2deg)!important}
+body:not(.classic) #landingBoard .coachSticky:nth-child(2){transform:rotate(1deg)!important}body:not(.classic) #landingBoard .coachSticky:nth-child(3){transform:rotate(-.6deg)!important}body:not(.classic) #landingBoard .coachSticky:nth-child(4){transform:rotate(.8deg)!important}
+body:not(.classic) #landingBoard .coachSticky:active{transform:inherit!important}
+body:not(.classic) #landingBoard .coachLabel{margin-top:auto!important}
+body:not(.classic) #landingBoard .status{margin-top:2px}
+
+/* Team page: full physical marker board. */
+.teamWhiteboard{position:relative;overflow:hidden;background:linear-gradient(110deg,rgba(255,255,255,.78),rgba(239,237,226,.9)),radial-gradient(circle at 18% 12%,rgba(255,255,255,.9),transparent 30%);box-shadow:inset 0 0 40px rgba(40,45,44,.13),0 18px 45px rgba(40,35,26,.22)}
+.teamWhiteboard:before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.3;background:repeating-linear-gradient(1deg,transparent 0 37px,rgba(20,34,44,.025) 38px 39px),radial-gradient(ellipse at 72% 15%,rgba(43,63,74,.05),transparent 18%),radial-gradient(ellipse at 20% 74%,rgba(180,55,48,.04),transparent 15%)}
+.teamPageHead,.teamPageNote,.teamFullWrap,.managerCompBoard{position:relative;z-index:2}.teamPageHead{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}.teamPageTitle{font-size:clamp(38px,6vw,64px);color:#145ca8;text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:8px}.teamPageNote{font-family:var(--marker);font-weight:950;color:#39434b;margin:8px 0 10px;letter-spacing:.02em}.teamPageNote span{color:#b33b33;padding:0 4px}
+.teamFullWrap{overflow:auto;border:3px solid rgba(28,36,42,.78);background:rgba(250,248,237,.38);box-shadow:2px 3px 0 rgba(20,28,34,.08)}
+.teamFullMatrix{border-collapse:collapse;width:100%;min-width:760px;table-layout:fixed}.teamFullMatrix th,.teamFullMatrix td{border-right:1.5px solid rgba(28,36,42,.55);border-bottom:1.5px solid rgba(28,36,42,.5);padding:7px 6px;text-align:center;vertical-align:middle}.teamFullMatrix tr:last-child td{border-bottom:0}.teamFullMatrix th:last-child,.teamFullMatrix td:last-child{border-right:0}.teamFullMatrix thead th{font-family:var(--marker);font-size:20px;color:#145ca8;background:rgba(255,255,255,.18);border-bottom:3px solid rgba(28,36,42,.72)}.teamFullMatrix thead th:first-child{text-align:left;color:#222}.teamFullMatrix .metricName{text-align:left;font-family:var(--marker);font-size:15px;font-weight:950;color:#222;width:170px}.teamFullMatrix .matrixValue{font-family:var(--marker);font-size:20px;font-weight:950;color:#b63832}.teamFullMatrix .matrixValue.good{color:#16824f}.teamFullMatrix .matrixValue.warn{color:#b86a14}.teamFullMatrix .matrixGoal{font-family:var(--marker);font-size:11px;font-weight:900;color:#145ca8;margin-top:2px}.teamFullMatrix tbody tr:nth-child(4n+1){background:rgba(255,255,255,.08)}
+.managerCompBoard{margin-top:20px;border-top:4px solid rgba(32,41,47,.76);padding-top:13px}.managerCompHeadingRow{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}.managerCompHeadingRow h2{font-family:var(--marker);font-size:clamp(24px,3vw,38px);margin:2px 0;color:#1d2730}.andyNote{font-family:var(--marker);font-size:17px;line-height:1.05;color:#b63832;text-align:center;transform:rotate(-2deg);padding:4px 8px}.andyNote b{color:#145ca8}.managerCompLayout{display:grid;grid-template-columns:minmax(300px,.85fr) minmax(340px,1.15fr);gap:18px;align-items:start;margin-top:10px}.managerCalcDevice{background:linear-gradient(145deg,#30363b,#171b1f);border:5px solid #101418;border-radius:19px;padding:15px;box-shadow:7px 10px 0 rgba(0,0,0,.18),inset 0 1px #69737a;color:#fff}.tiBrand{display:flex;justify-content:space-between;align-items:end;font-family:Arial,sans-serif;font-size:11px;letter-spacing:.12em;color:#cbd2d6}.tiBrand span{font-size:8px;color:#8f9aa1}.managerLcd{margin:9px 0 12px;background:#b9c9a8;color:#1f2b22;border:6px solid #0c1012;border-radius:7px;padding:11px 12px;text-align:right;box-shadow:inset 0 3px 9px rgba(25,40,27,.32);font-family:"Courier New",ui-monospace,monospace;text-shadow:0 0 1px #263328}.managerLcd>span{display:block;text-align:left;font-size:11px;font-weight:900}.managerLcd>strong{display:block;font-size:42px;line-height:1}.managerLcd>div{font-size:12px;margin-top:7px}.managerCalcInputs{display:grid;grid-template-columns:1fr 1fr;gap:8px}.managerCalcInputs label{font-size:9px;font-weight:900;color:#d7dde0;letter-spacing:.06em}.managerCalcInputs input{width:100%;margin-top:4px;background:#d1ddc5;color:#1d2a20;border:3px solid #0d1113;border-radius:6px;padding:10px 8px;font-family:"Courier New",monospace;font-weight:900;text-align:right;font-size:17px}.managerCalcResult{margin-top:10px;background:#11171a;border-radius:8px;padding:10px 12px}.managerCalcResult span{display:block;color:#9ba6ac;font-size:9px;font-weight:900;letter-spacing:.08em}.managerCalcResult strong{display:block;color:#f3b544;font-family:"Courier New",monospace;font-size:30px;margin:3px 0}.managerCalcResult small{color:#c6ced2;line-height:1.3}.managerCompMath{font-family:var(--marker);font-size:17px;line-height:1.2;padding:4px 5px}.managerMathRow{display:grid;grid-template-columns:1.35fr .75fr .9fr;gap:8px;padding:6px 3px;border-bottom:2px solid rgba(34,43,49,.38)}.managerMathRow .source{color:#222}.managerMathRow .raw{color:#145ca8;text-align:right}.managerMathRow .points{color:#16824f;text-align:right;font-weight:950}.managerMathTotal{margin-top:9px;padding:9px 8px;border:3px solid #25313a;display:flex;justify-content:space-between;gap:10px;font-weight:950;font-size:21px}.managerMathBonus{color:#b63832;margin-top:8px;font-size:15px}.profitWarning{color:#b42318;font-weight:950}
+body.classic .teamWhiteboard{background:#fff;box-shadow:none}.classic .teamWhiteboard:before{display:none}.classic .teamFullMatrix th,.classic .teamFullMatrix td,.classic .managerCompMath,.classic .teamPageNote,.classic .andyNote{font-family:var(--plain)}
+
+/* COMP-84: calculator UI, with the money always dominating the display. */
+.ti84Machine{width:min(790px,100%);background:linear-gradient(145deg,#3c4247,#20252a 62%,#171b1f);border:6px solid #111519;border-radius:28px;box-shadow:0 34px 100px rgba(0,0,0,.65),inset 0 1px #737b82;overflow:hidden}.tiTopBar{display:flex;align-items:flex-end;gap:12px;padding:16px 18px 6px;color:#dce2e5}.tiLogo{display:flex;flex-direction:column;font-family:Arial,sans-serif;line-height:1}.tiLogo b{font-size:16px;letter-spacing:.08em}.tiLogo span{font-size:10px;color:#aeb7bd;letter-spacing:.18em}.tiModel{flex:1;text-align:center;font-size:8px;font-weight:900;letter-spacing:.16em;color:#8f9aa1}.tiClose{width:38px;height:30px;border:2px solid #0d1114;border-radius:7px;background:#5a6268;color:white;font-size:20px;font-weight:900;box-shadow:0 3px 0 #0b0e10}.tiBody{padding:8px 18px 18px}.tiScreen{background:linear-gradient(#c9d6b9,#b3c5a2);border:9px solid #0b0f11;border-radius:9px;padding:13px 15px 12px;color:#1f2c22;box-shadow:inset 0 3px 10px rgba(25,40,27,.32),0 1px #69737a;font-family:"Courier New",ui-monospace,monospace;text-shadow:0 0 1px #253428}.tiScreenTop{display:flex;justify-content:space-between;font-size:11px;font-weight:900;letter-spacing:.04em}.tiScreen>strong{display:block;text-align:right;font-size:clamp(42px,8vw,68px);line-height:1.05;letter-spacing:-.05em;margin:5px 0 8px}.tiScreenBottom{display:flex;justify-content:space-between;gap:10px;border-top:2px solid rgba(30,45,33,.3);padding-top:7px;font-size:11px}.tiScreenBottom i{font-style:normal;font-size:9px}.tiStatus{font-family:"Courier New",monospace;color:#c7d0d5;font-size:10px;line-height:1.35;min-height:32px;padding:7px 4px}.tiModeKeys{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:2px 0 13px}.tiModeKeys button,.tiFooterKeys button{border:2px solid #0b0f12;border-radius:8px;color:#fff;font-weight:950;letter-spacing:.06em;min-height:42px;box-shadow:0 4px 0 #0b0e10,inset 0 1px rgba(255,255,255,.24)}.tiBlueKey{background:linear-gradient(#2d8dcc,#126398)}.tiGrayKey{background:linear-gradient(#697178,#41484e)}.tiModeKeys button.active{background:linear-gradient(#f0c451,#b98521);color:#17120b}.tiSectionLabel{color:#aeb8be;font-size:9px;font-weight:950;letter-spacing:.18em;margin:11px 2px 7px}.tiInputGrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.tiInputKey{background:linear-gradient(#5a6268,#333a40);border:2px solid #0d1114;border-radius:8px;padding:7px;box-shadow:0 4px 0 #0b0e10,inset 0 1px #7b858c}.tiInputKey label{display:block;color:#e2e6e8;font-size:9px;font-weight:950;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.tiInputKey input{width:100%;border:0;border-radius:4px;margin-top:4px;padding:7px 6px;background:#cbd8bd;color:#1f2c22;font-family:"Courier New",ui-monospace,monospace;font-size:17px;font-weight:950;text-align:right}.tiInputKey input:disabled{opacity:.8;background:#aeb9a4}.tiInputKey:focus-within{transform:translateY(2px);box-shadow:0 2px 0 #0b0e10}.tiInputKey input:focus{outline:2px solid #e8b947}.tiMathPaper{background:#eeeadd;color:#25292c;border-radius:4px;padding:5px 12px 8px;box-shadow:inset 0 0 15px rgba(75,68,50,.09);font-family:"Courier New",ui-monospace,monospace}.tiMathRow{display:grid;grid-template-columns:100px 105px 1fr;gap:8px;align-items:start;padding:8px 0;border-bottom:1px dashed #9c9789}.tiMathRow:last-child{border-bottom:0}.tiMathRow .mathName{font-weight:950}.tiMathRow .mathMoney{text-align:right;font-weight:950}.tiMathRow .mathExplain{font-size:11px;line-height:1.35;color:#4c4d49}.tiMathTotal{display:flex;justify-content:space-between;gap:10px;padding:10px 0 4px;font-weight:950;font-size:18px;border-top:3px double #4a4a45;margin-top:3px}.tiFooterKeys{display:flex;justify-content:flex-end;gap:10px;margin-top:12px}.tiSmallKey{background:linear-gradient(#6b7379,#42494f);min-width:90px}.tiEnterKey{background:linear-gradient(#f1b348,#c07812);color:#181109!important;min-width:150px}
+body.classic .ti84Machine{background:#fff;border:1px solid #d0d5dd;border-radius:18px}.classic .tiTopBar{color:#101828}.classic .tiScreen{background:#f8fafc;color:#101828;border:1px solid #d0d5dd;text-shadow:none}.classic .tiStatus{color:#667085}.classic .tiInputKey{background:#fff;border:1px solid #d0d5dd;box-shadow:none}.classic .tiInputKey label{color:#475467}.classic .tiInputKey input,.classic .tiInputKey input:disabled{background:#f2f4f7;color:#101828}.classic .tiMathPaper{background:#fff;border:1px solid #d0d5dd;box-shadow:none}
+@media(max-width:900px){.managerCompLayout{grid-template-columns:1fr}.teamFullMatrix{min-width:690px}.tiInputGrid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:700px){body:not(.classic) #landingBoard .stickyZone{grid-template-columns:1fr 1fr;gap:8px}.teamWhiteboard{padding:14px 9px}.teamPageHead{align-items:flex-start}.teamPageTitle{font-size:39px}.managerCompHeadingRow{display:block}.andyNote{text-align:left;margin:5px 0 10px;transform:rotate(-1deg)}.managerCalcInputs{grid-template-columns:1fr}.managerMathRow{grid-template-columns:1.25fr .8fr .8fr;font-size:14px}.ti84Machine{border-width:4px;border-radius:18px}.tiTopBar{padding:12px 12px 5px}.tiBody{padding:7px 11px 13px}.tiScreen{border-width:6px;padding:10px}.tiScreen>strong{font-size:44px}.tiScreenBottom{font-size:10px}.tiInputGrid{grid-template-columns:repeat(2,1fr);gap:7px}.tiMathRow{grid-template-columns:74px 86px 1fr;gap:6px}.tiMathRow .mathExplain{font-size:10px}.tiFooterKeys{justify-content:stretch}.tiFooterKeys button{flex:1;min-width:0}}
+
 </style>
 </head>
 <body>
@@ -259,7 +284,7 @@ body.classic #landingBoard .snapshotHeader{position:relative;width:auto;height:a
   <div class="topin">
     <button id="homeBtn" class="navbtn active" type="button">⌂</button>
     <div class="brand">CINNAMINSON • STORE PULSE</div>
-    <button id="storeBtn" class="navbtn" type="button">STORE</button>
+    <button id="storeBtn" class="navbtn" type="button">TEAM</button>
     <button id="modeBtn" class="modebtn" type="button">✎ <span class="modeText">CLASSIC</span></button>
     <button id="managerBtn" class="navbtn managerBtn" type="button">MANAGER</button>
   </div>
@@ -278,7 +303,7 @@ body.classic #landingBoard .snapshotHeader{position:relative;width:auto;height:a
         <div id="homeSnapshotGrid" class="homeSnapshotGrid"><div class="loading">Loading the board…</div></div>
         <div class="whiteboardLabel teamLabel">THE TEAM</div>
         <div id="teamBoard" class="teamBoard"></div>
-        <div class="whiteboardLabel coachLabel">COACHING NOTES <span>drag these around</span></div>
+        <div class="whiteboardLabel coachLabel">FOCUS NOTES <span>fixed at the bottom</span></div>
         <div id="coachStickyZone" class="stickyZone"></div>
         <div class="status"><span>Tap a rep for Stats • Coaching • Calculator • Money Moves</span><span>Whiteboard mode</span></div>
       </div>
@@ -286,15 +311,36 @@ body.classic #landingBoard .snapshotHeader{position:relative;width:auto;height:a
   </section>
 
   <section id="store" class="page">
-    <div class="board">
-      <div class="boardHead">
-        <div><div class="kicker" id="storeKicker">STORE BOARD</div><h1 class="markerTitle" style="font-size:clamp(34px,6vw,54px)">CINNAMINSON</h1></div>
+    <div class="board teamWhiteboard">
+      <div class="teamPageHead">
+        <div><div class="kicker" id="storeKicker">TEAM BOARD</div><h1 class="markerTitle teamPageTitle">CINNAMINSON</h1><div class="markerSub">FULL SCOREBOARD</div></div>
         <div class="when" id="storeWhen">—</div>
       </div>
       <div class="markerLine"></div>
-      <div id="storeStats" class="statsGrid"></div>
-      <div id="storeEmpty" class="errorBox hidden">No store metrics have been published yet.</div>
-      <div class="doodleLayer storeDoodles" aria-hidden="true"><span class="doodle dChart">▁▃▅▇</span><span class="doodle dBolt">⚡</span><span class="doodle dCircle">○→</span></div>
+      <div class="teamPageNote">THE WHOLE BOARD <span>•</span> STORE + EVERY REP <span>•</span> MONTH TO DATE</div>
+      <div id="teamFullTable" class="teamFullWrap"></div>
+
+      <section class="managerCompBoard" aria-labelledby="managerCompHeading">
+        <div class="managerCompHeadingRow">
+          <div><div class="kicker">MANAGER COMP</div><h2 id="managerCompHeading">PROFIT SHARE CALCULATOR</h2></div>
+          <div class="andyNote">LET'S MAKE ANDY<br>SPEND MORE MONEY.<br><b>EARN COMP.</b></div>
+        </div>
+        <div class="managerCompLayout">
+          <div class="managerCalcDevice">
+            <div class="tiBrand"><b>STORE PULSE</b><span>MANAGER EDITION</span></div>
+            <div class="managerLcd">
+              <span>FINAL RATE</span><strong id="mgrCompRate">—</strong>
+              <div><b id="mgrRevRate">—</b> REV + <b id="mgrProfitRate">—</b> PROFIT</div>
+            </div>
+            <div class="managerCalcInputs">
+              <label>EST. REVENUE <input id="mgrRevenue" type="number" min="0" step="100" value="28000" inputmode="decimal"></label>
+              <label>STORE COST <input id="mgrCost" type="number" min="0" step="100" placeholder="Enter when known" inputmode="decimal"></label>
+            </div>
+            <div class="managerCalcResult"><span>EST. MANAGER COMP</span><strong id="mgrCompTotal">RATE ONLY</strong><small id="mgrCompGate">Enter store cost to confirm profitability and estimate payout.</small></div>
+          </div>
+          <div class="managerCompMath" id="mgrCompMath"></div>
+        </div>
+      </section>
     </div>
   </section>
 
@@ -323,7 +369,6 @@ body.classic #landingBoard .snapshotHeader{position:relative;width:auto;height:a
         </div>
       </div>
       <div id="repMoneyPanel" class="repSectionPanel"><div class="whiteboardLabel">MONEY MOVES</div><div id="moneyMoves" class="moneyMoves"></div></div>
-      <div class="doodleLayer repDoodles" aria-hidden="true"><span class="doodle dRepDollar">$</span><span class="doodle dRepStar">★</span><span class="doodle dRepArrow">↗↗</span><span class="doodle dRepPhone">▯</span></div>
       <div class="repCornerNote">make the next one count ↗</div>
     </div>
   </section>
@@ -363,7 +408,7 @@ body.classic #landingBoard .snapshotHeader{position:relative;width:auto;height:a
 </main>
 <nav id="markerDock" class="markerDock" aria-label="Store Pulse tabs">
   <button type="button" data-dock="landing" class="dockTab active"><span>⌂</span> SNAPSHOT</button>
-  <button type="button" data-dock="store" class="dockTab"><span>▦</span> STORE</button>
+  <button type="button" data-dock="store" class="dockTab"><span>▦</span> TEAM</button>
   <button type="button" data-dock-rep="gio" class="dockTab repDock">GIO</button>
   <button type="button" data-dock-rep="noelle" class="dockTab repDock">NOELLE</button>
   <button type="button" data-dock-rep="gage" class="dockTab repDock">GAGE</button>
@@ -371,30 +416,29 @@ body.classic #landingBoard .snapshotHeader{position:relative;width:auto;height:a
 </nav>
 
 <div id="calcBack" class="modalBack hidden" role="dialog" aria-modal="true" aria-labelledby="calcTitle">
-  <div class="modal calcMachine">
-    <div class="calcMachineTop">
-      <div class="calcBrand"><span class="calcBrandTiny">STORE PULSE</span><h2 id="calcTitle">COMP CALCULATOR</h2></div>
-      <button class="xbtn calcPower" id="closeCalc" type="button" aria-label="Close">×</button>
+  <div class="modal calcMachine ti84Machine">
+    <div class="tiTopBar">
+      <div class="tiLogo"><b>STORE PULSE</b><span>COMP-84</span></div>
+      <div class="tiModel">PAYCHECK GRAPHING CALCULATOR</div>
+      <button class="tiClose" id="closeCalc" type="button" aria-label="Close">×</button>
     </div>
-    <div class="modalBody calcMachineBody">
-      <div class="calcScreen">
-        <div class="calcScreenRow">
-          <div class="screenCell"><span id="calcLabel1">LIVE</span><strong id="calcLive">$0.00</strong></div>
-          <div class="screenCell"><span id="calcLabel2">SCENARIO</span><strong id="calcScenario">$0.00</strong></div>
-          <div class="screenCell screenGain"><span id="calcLabel3">DIFFERENCE</span><strong id="calcDiff">$0.00</strong></div>
-        </div>
-        <div id="calcModeNote" class="calcModeNote calcScreenNote"></div>
+    <div class="modalBody tiBody">
+      <div class="tiScreen" aria-live="polite">
+        <div class="tiScreenTop"><span id="calcLabel1">ESTIMATED COMP</span><span id="tiModeReadout">LIVE</span></div>
+        <strong id="calcLive">$0.00</strong>
+        <div class="tiScreenBottom"><span><i id="calcLabel2">PRODUCTION</i> <b id="calcScenario">$0.00</b></span><span><i id="calcLabel3">BONUS</i> <b id="calcDiff">$0.00</b></span></div>
       </div>
-      <div class="calcModes calcKeyModes" aria-label="Calculator mode">
-        <button class="calcModeBtn" id="calcModeLive" type="button">LIVE</button>
-        <button class="calcModeBtn" id="calcModePace" type="button">PACE</button>
-        <button class="calcModeBtn" id="calcModeSandbox" type="button">SANDBOX</button>
+      <div id="calcModeNote" class="tiStatus"></div>
+      <div class="tiModeKeys" aria-label="Calculator mode">
+        <button class="calcModeBtn tiBlueKey" id="calcModeLive" type="button">LIVE</button>
+        <button class="calcModeBtn tiGrayKey" id="calcModePace" type="button">PACE</button>
+        <button class="calcModeBtn tiGrayKey" id="calcModeSandbox" type="button">SANDBOX</button>
       </div>
-      <div class="calcKeyLabel">PAYCHECK INPUTS</div>
-      <div id="calcFields" class="formGrid calcKeypad"></div>
-      <div class="calcKeyLabel">BREAKDOWN</div>
-      <div id="calcBreakdown" class="breakdown calcReceipt"></div>
-      <div class="modalActions calcActions"><button class="btn alt calcUtilityKey" id="resetCalc" type="button">RESET</button><button class="btn calcEqualsKey" id="doneCalc" type="button">DONE</button></div>
+      <div class="tiSectionLabel">PAYCHECK INPUTS</div>
+      <div id="calcFields" class="tiInputGrid"></div>
+      <div class="tiSectionLabel">SHOW THE MATH</div>
+      <div id="calcBreakdown" class="tiMathPaper"></div>
+      <div class="tiFooterKeys"><button class="tiSmallKey" id="resetCalc" type="button">CLEAR</button><button class="tiEnterKey" id="doneCalc" type="button">ENTER / DONE</button></div>
     </div>
   </div>
 </div>
@@ -550,19 +594,20 @@ body.classic #landingBoard .snapshotHeader{position:relative;width:auto;height:a
 
   function coaching(m){
     const c=comp(m),moves=moveCandidates(m),cards=[];
-    if(moves[0]) cards.push({title:'💵 BEST MONEY MOVE',body:`${moves[0].title}. About ${fmtMoney(moves[0].impact)} of incremental pay at today's other rates. ${moves[0].why}`});
-    if(num(m.csat)>=90) cards.push({title:'⭐ PROTECT THIS',body:`CSAT is ${fmtPct(m.csat)}, currently adding ${fmtPct(c.csatPct)} to the entire production payout. Keep it above 90%.`});
-    else if(htpClose(m)>0) cards.push({title:'⭐ PROTECT THIS',body:`HTP is ${fmtPct(htpClose(m))}, currently adding ${fmtPct(c.htpPct)} to the entire production payout.`});
-    else if(num(m.ppv)>0) cards.push({title:'⭐ PROTECT THIS',body:`Each PPV is currently worth ${fmtMoney(c.ppvEach)} before the HTP/CSAT bonus. Keep the full attach conversation on every activation.`});
+    if(moves[0]) cards.push({title:'BEST MONEY MOVE',body:`${moves[0].title}. About ${fmtMoney(moves[0].impact)} of incremental pay at today's other rates. ${moves[0].why}`});
+    if(num(m.csat)>=90) cards.push({title:'PROTECT THIS',body:`CSAT is ${fmtPct(m.csat)}, currently adding ${fmtPct(c.csatPct)} to the entire production payout. Keep it above 90%.`});
+    else if(htpClose(m)>0) cards.push({title:'PROTECT THIS',body:`HTP is ${fmtPct(htpClose(m))}, currently adding ${fmtPct(c.htpPct)} to the entire production payout.`});
+    else if(num(m.ppv)>0) cards.push({title:'PROTECT THIS',body:`Each PPV is currently worth ${fmtMoney(c.ppvEach)} before the HTP/CSAT bonus. Keep the full attach conversation on every activation.`});
     const next=moves[1]||moves[0];
-    if(next) cards.push({title:'📌 NEXT FOCUS',body:`${next.title}: roughly ${fmtMoney(next.impact)} of upside using today's production as the baseline. ${next.why}`});
-    while(cards.length<3) cards.push({title:'📌 BUILD THE BASE',body:'Keep adding PPV, AIA Posted, accessory revenue and Data. October pays on every unit — there is no minimum before the production dollars start counting.'});
+    if(next) cards.push({title:'NEXT FOCUS',body:`${next.title}: roughly ${fmtMoney(next.impact)} of upside using today's production as the baseline. ${next.why}`});
+    while(cards.length<3) cards.push({title:'BUILD THE BASE',body:'Keep adding PPV, AIA Posted, accessory revenue and Data. October pays on every unit — there is no minimum before the production dollars start counting.'});
     return cards.slice(0,3);
   }
 
   function showPage(id){ qsa('.page').forEach(p=>p.classList.remove('active'));$(id).classList.add('active');$('homeBtn').classList.toggle('active',id==='landing');$('storeBtn').classList.toggle('active',id==='store');if(id==='landing')resetStickyPositions();window.scrollTo({top:0,behavior:'smooth'}); }
   const homeStoreKeys=['ppv','aia_posted','aia_close','htp_close','data','acc_per_opp','protectadvantage_rate','csat'];
   const homeRepKeys=['ppv','aia_posted','aia_close','htp_close','upgrades','data','acc_per_opp','protectadvantage_rate','csat'];
+  const teamFullKeys=['ppv','ppv_close','aia_submits','aia_posted','aia_close','upgrades','data','accessory_revenue','acc_per_opp','protectadvantage_rate','premium_ppv','premium_loading_rate','nextup_rate','htp','htp_close','csat','opps','traffic','aia_green_checks','trade_rate'];
   function metricRaw(key,m){if(key==='aia_close')return aiaClose(m);if(key==='htp_close')return htpClose(m);if(key==='premium_loading_rate')return premiumLoading(m);return m?.[key]===null||m?.[key]===undefined?null:num(m[key])}
   function snapshotRows(scope,repId=null){return(S.history||[]).filter(x=>x.scope===scope&&(scope!=='rep'||x.rep_id===repId)).sort((a,b)=>String(b.snapshot_date).localeCompare(String(a.snapshot_date)))}
   function previousSnapshot(scope,repId=null){const current=String(S.monthRow?.snapshot_date||'');return snapshotRows(scope,repId).find(x=>String(x.snapshot_date)<current)||null}
@@ -580,14 +625,49 @@ body.classic #landingBoard .snapshotHeader{position:relative;width:auto;height:a
     const active=S.reps.filter(r=>r.active);$('teamBoard').innerHTML=`<div class="teamHeader"><div></div>${homeRepKeys.map(k=>`<div>${esc(metricLabel(k).replace('Accessory / OPP','ACC/OPP').replace('Insurance','INS'))}</div>`).join('')}<div>SINCE LAST</div></div>`+active.map(renderTeamRow).join('');qsa('#teamBoard [data-rep]').forEach(b=>b.addEventListener('click',()=>openRep(b.dataset.rep)));
     $('coachStickyZone').innerHTML=active.map(shortCoach).join('');resetStickyPositions();setupStickies();
   }
-  function renderStore(){
-    $('storeKicker').textContent=(S.monthRow?.display_name||'October 2026').toUpperCase()+' • STORE';
-    $('storeWhen').textContent=S.monthRow?.snapshot_date?`SNAPSHOT ${S.monthRow.snapshot_date}`:'NO SNAPSHOT DATE';
+  function managerCompData(){
     const m=S.store||{};
-    $('storeStats').innerHTML=storeStatOrder.map(key=>{
-      const v=displayValue(key,m),extra=goalMarkup(key,m,'store');
-      return `<div class="stat"><div class="label">${esc(metricLabel(key))}</div><div class="value">${esc(v)}</div>${extra}</div>`;
+    const pa=num(m.protectadvantage_rate),premium=num(premiumLoading(m)),nu=num(m.nextup_rate),acc=num(m.acc_per_opp),aia=aiaClose(m),htp=Math.min(htpClose(m),15),csat=num(m.csat);
+    // Andy's example treats 6% AIA close as .90 after the 1.5x weighting: (6 / 10) * 1.5.
+    const pieces={pa:pa/100,premium:premium/100,nu:nu/100,acc:acc/100,aia:(aia/10)*1.5};
+    const base=pieces.pa+pieces.premium+pieces.nu+pieces.acc+pieces.aia;
+    const csatBonus=csat>=90?Math.min(csat,100)/1000:0;
+    const bonus=htp/100+csatBonus;
+    const finalRate=base*(1+bonus),half=finalRate/2;
+    return {pa,premium,nu,acc,aia,htp,csat,pieces,base,csatBonus,bonus,finalRate,half};
+  }
+  function renderManagerComp(){
+    const c=managerCompData();
+    $('mgrCompRate').textContent=c.finalRate.toFixed(3)+'%';$('mgrRevRate').textContent=c.half.toFixed(3)+'%';$('mgrProfitRate').textContent=c.half.toFixed(3)+'%';
+    const rows=[
+      ['Insurance / PA',fmtPct(c.pa),c.pieces.pa.toFixed(3)],
+      ['Premium Loading',fmtPct(c.premium),c.pieces.premium.toFixed(3)],
+      ['Next Up',fmtPct(c.nu),c.pieces.nu.toFixed(3)],
+      ['ACC / OPP',fmtMoney(c.acc),c.pieces.acc.toFixed(3)],
+      ['AIA Close × 1.5',fmtPct(c.aia),c.pieces.aia.toFixed(3)]
+    ];
+    $('mgrCompMath').innerHTML=rows.map(x=>`<div class="managerMathRow"><span class="source">${esc(x[0])}</span><span class="raw">${esc(x[1])}</span><span class="points">+${esc(x[2])}</span></div>`).join('')+`<div class="managerMathTotal"><span>BASE RATE</span><span>${c.base.toFixed(3)}%</span></div><div class="managerMathBonus">HTP ${fmtPct(c.htp)} + CSAT ${c.csat>=90?fmtPct(c.csat/10):'0% (needs 90% CSAT)'} = ${(c.bonus*100).toFixed(2).replace(/0+$/,'').replace(/\.$/,'')}% bonus on the base rate.</div><div class="managerMathTotal"><span>FINAL RATE</span><span>${c.finalRate.toFixed(3)}%</span></div>`;
+    updateManagerEstimate();
+  }
+  function updateManagerEstimate(){
+    const c=managerCompData(),rev=num($('mgrRevenue')?.value),costRaw=$('mgrCost')?.value,hasCost=costRaw!==''&&costRaw!=null,cost=hasCost?num(costRaw):0;
+    if(!hasCost){$('mgrCompTotal').textContent='RATE ONLY';$('mgrCompGate').textContent=`At ${fmtMoney0(rev)} revenue: ${c.half.toFixed(3)}% revenue share + ${c.half.toFixed(3)}% of net profit. Enter store cost to confirm profitability.`;return;}
+    const profit=rev-cost;
+    if(profit<=0){$('mgrCompTotal').textContent='$0.00';$('mgrCompGate').innerHTML='<span class="profitWarning">Store is not profitable — manager payout is $0.</span>';return;}
+    const revPay=rev*c.half/100,profitPay=profit*c.half/100,total=revPay+profitPay;
+    $('mgrCompTotal').textContent=fmtMoney(total);$('mgrCompGate').textContent=`${fmtMoney(revPay)} from revenue + ${fmtMoney(profitPay)} from ${fmtMoney(profit)} net profit.`;
+  }
+  function renderStore(){
+    $('storeKicker').textContent=(S.monthRow?.display_name||'October 2026').toUpperCase()+' • TEAM BOARD';
+    $('storeWhen').textContent=S.monthRow?.snapshot_date?`EOD ${Number(S.monthRow.snapshot_date.slice(5,7))}/${Number(S.monthRow.snapshot_date.slice(8,10))}`:'NO SNAPSHOT DATE';
+    const active=S.reps.filter(r=>r.active),headers=[{id:'store',name:'STORE'},...active.map(r=>({id:r.rep_id,name:r.display_name}))];
+    const head=`<thead><tr><th>METRIC</th>${headers.map(h=>`<th>${esc(h.name)}</th>`).join('')}</tr></thead>`;
+    const body=teamFullKeys.map(key=>{
+      const cells=headers.map(h=>{const m=h.id==='store'?S.store:repMetric(h.id),scope=h.id==='store'?'store':'rep',goal=metricGoal(key,scope,h.id==='store'?null:h.id),tone=metricTone(key,m,scope,h.id==='store'?null:h.id);let gt='';if(goal!==null)gt=metricDefs[key]?.unit==='pct'?fmtPct(goal):metricDefs[key]?.unit?.startsWith('money')?fmtMoney(goal):fmtNum(goal);return`<td><div class="matrixValue ${tone}">${esc(displayValue(key,m))}</div>${gt?`<div class="matrixGoal">goal ${esc(gt)}</div>`:''}</td>`}).join('');
+      return `<tr><td class="metricName">${esc(metricLabel(key))}</td>${cells}</tr>`;
     }).join('');
+    $('teamFullTable').innerHTML=`<table class="teamFullMatrix">${head}<tbody>${body}</tbody></table>`;
+    renderManagerComp();
   }
   function repMetric(id){return S.repMetrics.find(x=>x.rep_id===id)||{rep_id:id,month:S.month}}
   function openRep(id){S.currentRep=id;renderRep();showPage('rep')}
@@ -607,18 +687,9 @@ body.classic #landingBoard .snapshotHeader{position:relative;width:auto;height:a
   function updateThemeButton(){const classic=document.body.classList.contains('classic');$('modeBtn').classList.toggle('active',classic);$('modeBtn').innerHTML=classic?'✎ <span class="modeText">WHITEBOARD</span>':'▦ <span class="modeText">CLASSIC</span>';}
 
   function resetStickyPositions(){
-    const zone=$('coachStickyZone');if(!zone)return;const notes=qsa('#coachStickyZone .coachSticky');if(!notes.length)return;const mobile=window.innerWidth<=600;notes.forEach((el,i)=>{const pos=mobile?[{x:3,y:10},{x:52,y:16},{x:4,y:166},{x:51,y:172}][i%4]:[{x:2,y:22},{x:26,y:13},{x:51,y:25},{x:75,y:16}][i%4];el.style.left=pos.x+'%';el.style.top=pos.y+'px';el.classList.remove('dragging')});
+    qsa('#coachStickyZone .coachSticky').forEach(el=>{el.style.left='';el.style.top='';el.classList.remove('dragging')});
   }
-
-  function setupStickies(){
-    const board=$('landingBoard');
-    qsa('[data-sticky]').forEach(el=>{
-      if(el.dataset.dragReady==='1')return;el.dataset.dragReady='1';let drag=null;
-      el.addEventListener('pointerdown',e=>{if(document.body.classList.contains('classic'))return;e.preventDefault();const er=el.getBoundingClientRect();drag={dx:e.clientX-er.left,dy:e.clientY-er.top};el.setPointerCapture(e.pointerId);el.classList.add('dragging')});
-      el.addEventListener('pointermove',e=>{if(!drag)return;const br=board.getBoundingClientRect();let x=e.clientX-br.left-drag.dx,y=e.clientY-br.top-drag.dy;x=Math.max(5,Math.min(br.width-el.offsetWidth-5,x));y=Math.max(5,Math.min(br.height-el.offsetHeight-5,y));el.style.left=(x/br.width*100)+'%';el.style.top=y+'px'});
-      const end=()=>{if(!drag)return;drag=null;el.classList.remove('dragging')};el.addEventListener('pointerup',end);el.addEventListener('pointercancel',end);
-    });
-  }
+  function setupStickies(){ /* Focus notes are intentionally frozen at the bottom of Home. */ }
 
   const calcDefs={
     ppv:{label:'PPV',unit:'count'},
@@ -662,7 +733,7 @@ body.classic #landingBoard .snapshotHeader{position:relative;width:auto;height:a
     setCalcMode('live');$('calcBack').classList.remove('hidden');
     requestAnimationFrame(()=>document.querySelector('#calcModeSandbox')?.focus());
   }
-  function fieldHTML(id,label,value,unit,disabled=false){const step=unit==='count'?'1':unit==='money'?'1':'.1';return `<div class="field"><label for="${id}">${esc(label)}</label><input id="${id}" data-key="${id.replace(/^calc_|^mgr_store_|^mgr_rep_/,'')}" type="number" min="0" step="${step}" value="${value==null?'':esc(value)}" ${disabled?'disabled':''}></div>`;}
+  function fieldHTML(id,label,value,unit,disabled=false){const step=unit==='count'?'1':unit==='money'?'1':'.1',cls=id.startsWith('calc_')?'tiInputKey':'field';return `<div class="${cls}"><label for="${id}">${esc(label)}</label><input id="${id}" data-key="${id.replace(/^calc_|^mgr_store_|^mgr_rep_/,'')}" type="number" min="0" step="${step}" value="${value==null?'':esc(value)}" ${disabled?'disabled':''}></div>`;}
   function setCalcMode(mode){
     S.calcMode=['live','pace','sandbox'].includes(mode)?mode:'live';
     ['Live','Pace','Sandbox'].forEach(x=>$('calcMode'+x).classList.toggle('active',S.calcMode===x.toLowerCase()));
@@ -679,10 +750,10 @@ body.classic #landingBoard .snapshotHeader{position:relative;width:auto;height:a
   function renderCalc(){
     const liveMetrics=calcBase(repMetric(S.currentRep)),live=comp(liveMetrics),paceMetrics=paceScenario(),pace=comp(paceMetrics),sandboxMetrics=S.calcSandbox||liveMetrics,sandbox=comp(sandboxMetrics),p=paceInfo();
     let scenario=live,metrics=liveMetrics;
-    if(S.calcMode==='pace'){scenario=pace;metrics=paceMetrics;$('calcLabel1').textContent='Live estimate';$('calcLabel2').textContent='Pace estimate';$('calcLabel3').textContent='Projected gain';$('calcModeNote').textContent=p.ok?`${p.elapsed} of ${p.days} days on the snapshot • PPV, AIA Posted, accessory revenue, Upgrades and Data projected ×${p.factor.toFixed(2)} • Insurance, Premium Plan Loading, Next Up, AIA Close, ACC/OPP, HTP Close and CSAT held at current rates.`:'Pace needs a valid snapshot date for this month. Add one in Manager Mode.';}
-    else if(S.calcMode==='sandbox'){scenario=sandbox;metrics=sandboxMetrics;$('calcLabel1').textContent='Live estimate';$('calcLabel2').textContent='Sandbox estimate';$('calcLabel3').textContent='Difference';$('calcModeNote').textContent='Change the paycheck inputs directly. Sandbox never saves back to Store Pulse.';}
-    else{$('calcLabel1').textContent='Live estimate';$('calcLabel2').textContent='Production';$('calcLabel3').textContent='Bonus';$('calcModeNote').textContent='Live is auto-filled from the current Store Pulse snapshot. Green Checks stay behind the scenes; the calculator uses the resulting AIA close rate.';}
-    $('calcLive').textContent=fmtMoney(live.total);const derivedLoading=premiumLoading(metrics);if(derivedLoading!==null)$('calcModeNote').textContent += ` • Premium loading: ${fmtPct(derivedLoading)} (${fmtNum(metrics.premium_ppv)} Premium PPV / ${fmtNum(metrics.ppv)} PPV).`;
+    if(S.calcMode==='pace'){scenario=pace;metrics=paceMetrics;$('tiModeReadout').textContent='PACE';$('calcLabel1').textContent='ESTIMATED COMP';$('calcLabel2').textContent='PACE TOTAL';$('calcLabel3').textContent='GAIN';$('calcModeNote').textContent=p.ok?`${p.elapsed} of ${p.days} days on the snapshot • PPV, AIA Posted, accessory revenue, Upgrades and Data projected ×${p.factor.toFixed(2)} • Insurance, Premium Plan Loading, Next Up, AIA Close, ACC/OPP, HTP Close and CSAT held at current rates.`:'Pace needs a valid snapshot date for this month. Add one in Manager Mode.';}
+    else if(S.calcMode==='sandbox'){scenario=sandbox;metrics=sandboxMetrics;$('tiModeReadout').textContent='SANDBOX';$('calcLabel1').textContent='ESTIMATED COMP';$('calcLabel2').textContent='SANDBOX';$('calcLabel3').textContent='VS LIVE';$('calcModeNote').textContent='Change the paycheck inputs directly. Sandbox never saves back to Store Pulse.';}
+    else{$('tiModeReadout').textContent='LIVE';$('calcLabel1').textContent='ESTIMATED COMP';$('calcLabel2').textContent='PRODUCTION';$('calcLabel3').textContent='BONUS';$('calcModeNote').textContent='Live is auto-filled from the current Store Pulse snapshot. Green Checks stay behind the scenes; the calculator uses the resulting AIA close rate.';}
+    $('calcLive').textContent=fmtMoney(S.calcMode==='pace'?pace.total:S.calcMode==='sandbox'?sandbox.total:live.total);const derivedLoading=premiumLoading(metrics);if(derivedLoading!==null)$('calcModeNote').textContent += ` • Premium loading: ${fmtPct(derivedLoading)} (${fmtNum(metrics.premium_ppv)} Premium PPV / ${fmtNum(metrics.ppv)} PPV).`;
     if(S.calcMode==='live'){$('calcScenario').textContent=fmtMoney(live.production);$('calcDiff').textContent=fmtMoney(live.bonus);$('calcDiff').style.color='#167c4b';}
     else{const diff=scenario.total-live.total;$('calcScenario').textContent=fmtMoney(scenario.total);$('calcDiff').textContent=(diff>=0?'+':'')+fmtMoney(diff);$('calcDiff').style.color=diff<0?'#b42318':'#167c4b';}
     const accPct=num(metrics.acc_per_opp)/10;
@@ -693,7 +764,7 @@ body.classic #landingBoard .snapshotHeader{position:relative;width:auto;height:a
       ['Connected',scenario.dataPay,`${fmtNum(metrics.upgrades)} upgrades → ${fmtMoney(scenario.dataEach)}/Data • ${fmtNum(metrics.data)} Data`],
       ['Bonus',scenario.bonus,`HTP ${fmtPct(scenario.htpPct)} + CSAT ${fmtPct(scenario.csatPct)} = ${fmtPct(scenario.bonusPct)}`]
     ];
-    $('calcBreakdown').innerHTML=rows.map(x=>`<div class="break"><div class="k">${x[0]}</div><div class="v">${fmtMoney(x[1])}</div><div class="sub">${esc(x[2])}</div></div>`).join('');
+    $('calcBreakdown').innerHTML=rows.map(x=>`<div class="tiMathRow"><div class="mathName">${esc(x[0])}</div><div class="mathMoney">${fmtMoney(x[1])}</div><div class="mathExplain">${esc(x[2])}</div></div>`).join('')+`<div class="tiMathTotal"><span>TOTAL COMP</span><span>${fmtMoney(scenario.total)}</span></div>`;
   }
   function closeCalc(){$('calcBack').classList.add('hidden')}
 
@@ -756,6 +827,7 @@ body.classic #landingBoard .snapshotHeader{position:relative;width:auto;height:a
     }catch(e){$('homeSnapshotGrid').innerHTML=`<div class="errorBox" style="grid-column:1/-1"><b>Store Pulse could not load.</b><br>${esc(e.message)}<br><br><button id="retryLoad" class="btn" type="button">Retry</button></div>`;$('homeStatus').textContent='Connection error';setTimeout(()=>$('retryLoad')?.addEventListener('click',()=>loadData(true)),0);}
   }
 
+  $('mgrRevenue')?.addEventListener('input',updateManagerEstimate);$('mgrCost')?.addEventListener('input',updateManagerEstimate);
   $('homeBtn').addEventListener('click',()=>showPage('landing'));
   $('storeBtn').addEventListener('click',()=>{renderStore();showPage('store')});
   $('repSelect').addEventListener('change',e=>openRep(e.target.value));
