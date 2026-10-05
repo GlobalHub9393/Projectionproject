@@ -429,6 +429,61 @@ body.classic .ti84Machine{background:#fff;border:1px solid #d0d5dd;border-radius
   #calcBack .tiFooterKeys{position:sticky;bottom:0;background:#20262b;padding:8px 0 calc(4px + env(safe-area-inset-bottom));margin-top:8px}
 }
 
+
+/* ===== Phone home-team readability pass ===== */
+@media (max-width:700px){
+  body:not(.classic) #landingBoard .teamBoard{
+    display:grid!important;grid-template-columns:1fr 1fr!important;
+    gap:7px!important;padding:1px 0 0!important;
+  }
+  body:not(.classic) #landingBoard .teamHeader{display:none!important}
+  body:not(.classic) #landingBoard .teamRow{
+    display:grid!important;grid-template-columns:1fr 1fr!important;
+    grid-template-rows:auto auto auto!important;gap:0!important;
+    min-height:112px!important;padding:5px 6px 6px!important;
+    border:2px solid rgba(28,36,42,.58)!important;border-radius:7px!important;
+    background:rgba(246,242,226,.76)!important;
+    box-shadow:0 1px 0 rgba(255,255,255,.38),inset 0 0 14px rgba(255,255,255,.16)!important;
+    align-content:start!important;overflow:hidden!important;
+  }
+  body:not(.classic) #landingBoard .teamRow:nth-child(odd){transform:rotate(-.22deg)}
+  body:not(.classic) #landingBoard .teamRow:nth-child(even){transform:rotate(.18deg)}
+  body:not(.classic) #landingBoard .teamRow .teamCell{display:none!important}
+  body:not(.classic) #landingBoard .teamRow .teamName,
+  body:not(.classic) #landingBoard .teamRow .teamCell:nth-child(2),
+  body:not(.classic) #landingBoard .teamRow .teamCell:nth-child(3),
+  body:not(.classic) #landingBoard .teamRow .teamCell:nth-child(5),
+  body:not(.classic) #landingBoard .teamRow .teamCell:nth-child(8){display:flex!important}
+  body:not(.classic) #landingBoard .teamRow .teamName{
+    grid-column:1/-1!important;min-height:25px!important;padding:0 2px 3px!important;
+    justify-content:flex-start!important;align-items:center!important;text-align:left!important;
+    font-size:19px!important;line-height:1!important;
+    border-bottom:1.5px solid rgba(28,36,42,.34)!important;
+  }
+  body:not(.classic) #landingBoard .teamRow .teamName:after{
+    content:' ›'!important;margin-left:4px!important;color:#145ca8!important;font-size:19px!important;
+  }
+  body:not(.classic) #landingBoard .teamRow .teamCell:not(.teamName){
+    min-height:38px!important;padding:3px 2px 1px!important;
+    flex-direction:column!important;justify-content:center!important;align-items:center!important;
+  }
+  body:not(.classic) #landingBoard .teamCell[data-label]:before{
+    font-size:8px!important;line-height:1!important;font-weight:900!important;
+    color:#313942!important;margin:0 0 2px!important;white-space:nowrap!important;
+  }
+  body:not(.classic) #landingBoard .teamActual{
+    font-size:19px!important;line-height:1!important;font-weight:950!important;
+    text-shadow:0 .25px 0 currentColor!important;
+  }
+  body:not(.classic) #landingBoard .teamGoal{
+    font-size:9px!important;line-height:1.05!important;margin-top:2px!important;
+    color:#145ca8!important;font-weight:900!important;
+  }
+  body:not(.classic) #landingBoard #teamBoard{position:relative;z-index:6}
+  body:not(.classic) #landingBoard .coachLabel{margin-top:7px!important}
+  body:not(.classic) #landingBoard .stickyZone{position:relative;z-index:6}
+}
+
 </style>
 </head>
 <body>
