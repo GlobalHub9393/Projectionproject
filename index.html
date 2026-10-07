@@ -484,6 +484,27 @@ body.classic .ti84Machine{background:#fff;border:1px solid #d0d5dd;border-radius
   body:not(.classic) #landingBoard .stickyZone{position:relative;z-index:6}
 }
 
+
+/* ===== Whiteboard contrast pass — EOD 10/6 ===== */
+body:not(.classic) #landingBoard .snapMetric .smLabel,
+body:not(.classic) #landingBoard .teamCell[data-label]:before,
+body:not(.classic) .repStatsGrid .stat .label{color:#20262d!important;font-weight:950!important;text-shadow:0 .35px 0 rgba(0,0,0,.28)!important}
+body:not(.classic) #landingBoard .snapMetric .smValue,
+body:not(.classic) #landingBoard .teamActual,
+body:not(.classic) .repStatsGrid .stat .value{filter:contrast(1.18) saturate(1.12);text-shadow:0 .45px 0 currentColor!important}
+body:not(.classic) #landingBoard .teamActual{color:#a8241f!important}
+body:not(.classic) #landingBoard .teamActual.good{color:#08673d!important}
+body:not(.classic) #landingBoard .teamActual.warn{color:#944800!important}
+body:not(.classic) #landingBoard .teamGoal,
+body:not(.classic) #landingBoard .snapMetric .smGoal,
+body:not(.classic) #landingBoard .snapMetric .smPace,
+body:not(.classic) .repStatsGrid .stat .goal{color:#074f98!important;font-weight:950!important;text-shadow:0 .25px 0 rgba(7,79,152,.25)!important}
+@media(max-width:700px){
+  body:not(.classic) #landingBoard .teamRow{background:rgba(250,247,235,.86)!important}
+  body:not(.classic) #landingBoard .teamActual{font-size:20px!important}
+  body:not(.classic) #landingBoard .teamGoal{font-size:10px!important}
+}
+
 </style>
 </head>
 <body>
@@ -694,7 +715,7 @@ body.classic .ti84Machine{background:#fff;border:1px solid #d0d5dd;border-radius
     ppv:{label:'PPV',unit:'count',rep:true,store:true,goal:true},
     ppv_close:{label:'PPV Close',unit:'pct',rep:false,store:true},
     aia_posted:{label:'AIA Posted',unit:'count',rep:true,store:true,goal:true},
-    aia_submits:{label:'AIA Submits',unit:'count',rep:true,store:true,goal:true},
+    aia_submits:{label:'AIA Submit',unit:'count',rep:true,store:true,goal:true},
     aia_green_checks:{label:'AIA Green Checks',unit:'count',rep:true,store:true},
     aia_close:{label:'AIA Close',unit:'pct',rep:true,store:true,goal:true,derived:true},
     upgrades:{label:'Upgrades',unit:'count',rep:true,store:true,goal:true},
@@ -703,24 +724,24 @@ body.classic .ti84Machine{background:#fff;border:1px solid #d0d5dd;border-radius
     acc_per_opp:{label:'ACC / OPP',unit:'money2',rep:true,store:true,goal:true},
     protectadvantage_rate:{label:'Insurance',unit:'pct',rep:true,store:true,goal:true},
     premium_ppv:{label:'Premium PPV',unit:'count',rep:true,store:true},
-    premium_loading_rate:{label:'Premium Plan Loading',unit:'pct',rep:true,store:true,goal:true,derived:true},
+    premium_loading_rate:{label:'Premium Plan Loading',unit:'pct',rep:true,store:true,goal:true},
     nextup_rate:{label:'Next Up',unit:'pct',rep:true,store:true,goal:true},
     htp:{label:'HTP',unit:'count',rep:true,store:true},
     htp_eligible_opps:{label:'HTP Eligible',unit:'count',rep:true,store:true},
     htp_close:{label:'HTP Close',unit:'pct',rep:true,store:true,goal:true,derived:true},
     csat:{label:'CSAT',unit:'pct',rep:true,store:true,goal:true},
     trade_rate:{label:'Trade In',unit:'pct',rep:true,store:true},
-    opps:{label:'OPPs',unit:'count',rep:true,store:true,goal:true},
+    opps:{label:'OPP',unit:'count',rep:true,store:true,goal:true},
     traffic:{label:'Traffic',unit:'count',rep:false,store:true,goal:true},
     pre_to_post:{label:'Pre → Post',unit:'count',rep:true,store:true},
     prepaid:{label:'Prepaid',unit:'count',rep:true,store:true},
     pa4:{label:'PA4',unit:'count',rep:true,store:true},
     cru:{label:'CRU',unit:'count',rep:true,store:true}
   };
-  const repStatOrder=['ppv','aia_submits','aia_posted','aia_close','upgrades','data','accessory_revenue','acc_per_opp','protectadvantage_rate','premium_ppv','nextup_rate','htp_close','csat','opps','aia_green_checks','trade_rate'];
-  const storeStatOrder=['ppv','ppv_close','aia_submits','aia_posted','aia_close','upgrades','data','accessory_revenue','acc_per_opp','protectadvantage_rate','premium_ppv','nextup_rate','htp_close','csat','opps','traffic','aia_green_checks','trade_rate'];
-  const managerRepOrder=['ppv','aia_posted','aia_submits','aia_green_checks','upgrades','data','accessory_revenue','acc_per_opp','protectadvantage_rate','premium_ppv','nextup_rate','htp','htp_eligible_opps','csat','trade_rate','opps','pre_to_post','prepaid','pa4','cru'];
-  const managerStoreOrder=['ppv','ppv_close','aia_posted','aia_submits','aia_green_checks','upgrades','data','accessory_revenue','acc_per_opp','protectadvantage_rate','premium_ppv','nextup_rate','htp','htp_eligible_opps','csat','trade_rate','opps','traffic','pre_to_post','prepaid','pa4','cru'];
+  const repStatOrder=['ppv','protectadvantage_rate','accessory_revenue','acc_per_opp','nextup_rate','premium_loading_rate','aia_posted','aia_submits','aia_close','upgrades','data','htp','htp_close','csat','opps','aia_green_checks','trade_rate'];
+  const storeStatOrder=['ppv','ppv_close','protectadvantage_rate','accessory_revenue','acc_per_opp','nextup_rate','premium_loading_rate','aia_posted','aia_submits','aia_close','upgrades','data','htp','htp_close','csat','opps','traffic','aia_green_checks','trade_rate'];
+  const managerRepOrder=['ppv','protectadvantage_rate','accessory_revenue','acc_per_opp','nextup_rate','premium_loading_rate','aia_posted','aia_submits','aia_green_checks','upgrades','data','htp','htp_eligible_opps','csat','opps','trade_rate','pre_to_post','prepaid','pa4','cru'];
+  const managerStoreOrder=['ppv','ppv_close','protectadvantage_rate','accessory_revenue','acc_per_opp','nextup_rate','premium_loading_rate','aia_posted','aia_submits','aia_green_checks','upgrades','data','htp','htp_eligible_opps','csat','opps','traffic','trade_rate','pre_to_post','prepaid','pa4','cru'];
   const goalOrder=[...Object.keys(metricDefs).filter(k=>metricDefs[k].goal && metricDefs[k].store),'trade_rate'];
   const repGoalOrder=Object.keys(metricDefs).filter(k=>metricDefs[k].goal && metricDefs[k].rep);
 
@@ -738,7 +759,7 @@ body.classic .ti84Machine{background:#fff;border:1px solid #d0d5dd;border-radius
   }
   function aiaClose(m){return num(m?.aia_green_checks)>0 ? num(m.aia_submits)/num(m.aia_green_checks)*100 : 0}
   function htpClose(m){return num(m?.htp_eligible_opps)>0 ? num(m.htp)/num(m.htp_eligible_opps)*100 : 0}
-  function premiumLoading(m){if(m?.premium_ppv!==null&&m?.premium_ppv!==undefined&&m?.premium_ppv!==''&&num(m?.ppv)>0)return num(m.premium_ppv)/num(m.ppv)*100;if(m?.premium_loading_rate!==null&&m?.premium_loading_rate!==undefined&&m?.premium_loading_rate!=='')return num(m.premium_loading_rate);return null}
+  function premiumLoading(m){if(m?.premium_loading_rate!==null&&m?.premium_loading_rate!==undefined&&m?.premium_loading_rate!=='')return num(m.premium_loading_rate);return null}
   function displayValue(key,m){
     let v=m?.[key];
     if(key==='aia_close') return fmtPct(aiaClose(m));
@@ -822,7 +843,7 @@ body.classic .ti84Machine{background:#fff;border:1px solid #d0d5dd;border-radius
   function showPage(id){ qsa('.page').forEach(p=>p.classList.remove('active'));$(id).classList.add('active');$('homeBtn').classList.toggle('active',id==='landing');$('storeBtn').classList.toggle('active',id==='store');if(id==='landing')resetStickyPositions();window.scrollTo({top:0,behavior:'smooth'}); }
   const homeStoreKeys=['ppv','aia_posted','aia_close','htp_close','data','acc_per_opp','protectadvantage_rate','csat'];
   const homeRepKeys=['ppv','aia_posted','aia_close','htp_close','upgrades','data','acc_per_opp','protectadvantage_rate','csat'];
-  const teamFullKeys=['ppv','ppv_close','aia_submits','aia_posted','aia_close','upgrades','data','accessory_revenue','acc_per_opp','protectadvantage_rate','premium_ppv','premium_loading_rate','nextup_rate','htp','htp_close','csat','opps','traffic','aia_green_checks','trade_rate'];
+  const teamFullKeys=['ppv','ppv_close','protectadvantage_rate','accessory_revenue','acc_per_opp','nextup_rate','premium_loading_rate','aia_posted','aia_submits','aia_close','upgrades','data','htp','htp_close','csat','opps','traffic','aia_green_checks','trade_rate'];
   function metricRaw(key,m){if(key==='aia_close')return aiaClose(m);if(key==='htp_close')return htpClose(m);if(key==='premium_loading_rate')return premiumLoading(m);return m?.[key]===null||m?.[key]===undefined?null:num(m[key])}
   function snapshotRows(scope,repId=null){return(S.history||[]).filter(x=>x.scope===scope&&(scope!=='rep'||x.rep_id===repId)).sort((a,b)=>String(b.snapshot_date).localeCompare(String(a.snapshot_date)))}
   function previousSnapshot(scope,repId=null){const current=String(S.monthRow?.snapshot_date||'');return snapshotRows(scope,repId).find(x=>String(x.snapshot_date)<current)||null}
@@ -923,7 +944,7 @@ body.classic .ti84Machine{background:#fff;border:1px solid #d0d5dd;border-radius
     htp_close_input:{label:'HTP Close %',unit:'pct'},
     csat:{label:'CSAT %',unit:'pct'}
   };
-  const calcOrder=['ppv','protectadvantage_rate','premium_ppv','nextup_rate','aia_posted','aia_close_input','accessory_revenue','acc_per_opp','upgrades','data','htp_close_input','csat'];
+  const calcOrder=['ppv','protectadvantage_rate','premium_loading_rate','nextup_rate','aia_posted','aia_close_input','accessory_revenue','acc_per_opp','upgrades','data','htp_close_input','csat'];
   const paceVolumeKeys=new Set(['ppv','aia_posted','accessory_revenue','data','upgrades']);
   function calcBase(m){return {...m,premium_loading_rate:premiumLoading(m),aia_close_input:aiaClose(m),htp_close_input:htpClose(m)}}
   function paceInfo(){
@@ -961,7 +982,7 @@ body.classic .ti84Machine{background:#fff;border:1px solid #d0d5dd;border-radius
     const data=S.calcMode==='pace'?pace:S.calcMode==='sandbox'?(S.calcSandbox||live):live;
     const disabled=S.calcMode!=='sandbox';
     $('calcFields').innerHTML=calcOrder.map(k=>fieldHTML('calc_'+k,calcDefs[k].label,data[k],calcDefs[k].unit,disabled)).join('');
-    if(!disabled){qsa('#calcFields input').forEach(i=>i.addEventListener('input',()=>{S.calcSandbox[i.dataset.key]=i.value===''?null:num(i.value);S.calcSandbox.premium_loading_rate=premiumLoading(S.calcSandbox);renderCalc();}));}
+    if(!disabled){qsa('#calcFields input').forEach(i=>i.addEventListener('input',()=>{S.calcSandbox[i.dataset.key]=i.value===''?null:num(i.value);renderCalc();}));}
     $('resetCalc').classList.toggle('hidden',S.calcMode!=='sandbox');
   }
   function renderCalc(){
@@ -970,7 +991,7 @@ body.classic .ti84Machine{background:#fff;border:1px solid #d0d5dd;border-radius
     if(S.calcMode==='pace'){scenario=pace;metrics=paceMetrics;$('tiModeReadout').textContent='PACE';$('calcLabel1').textContent='ESTIMATED COMP';$('calcLabel2').textContent='PACE TOTAL';$('calcLabel3').textContent='GAIN';$('calcModeNote').textContent=p.ok?`${p.elapsed} of ${p.days} days on the snapshot • PPV, AIA Posted, accessory revenue, Upgrades and Data projected ×${p.factor.toFixed(2)} • Insurance, Premium Plan Loading, Next Up, AIA Close, ACC/OPP, HTP Close and CSAT held at current rates.`:'Pace needs a valid snapshot date for this month. Add one in Manager Mode.';}
     else if(S.calcMode==='sandbox'){scenario=sandbox;metrics=sandboxMetrics;$('tiModeReadout').textContent='SANDBOX';$('calcLabel1').textContent='ESTIMATED COMP';$('calcLabel2').textContent='SANDBOX';$('calcLabel3').textContent='VS LIVE';$('calcModeNote').textContent='Change the paycheck inputs directly. Sandbox never saves back to Store Pulse.';}
     else{$('tiModeReadout').textContent='LIVE';$('calcLabel1').textContent='ESTIMATED COMP';$('calcLabel2').textContent='PRODUCTION';$('calcLabel3').textContent='BONUS';$('calcModeNote').textContent='Live is auto-filled from the current Store Pulse snapshot. Green Checks stay behind the scenes; the calculator uses the resulting AIA close rate.';}
-    $('calcLive').textContent=fmtMoney(S.calcMode==='pace'?pace.total:S.calcMode==='sandbox'?sandbox.total:live.total);const derivedLoading=premiumLoading(metrics);if(derivedLoading!==null)$('calcModeNote').textContent += ` • Premium loading: ${fmtPct(derivedLoading)} (${fmtNum(metrics.premium_ppv)} Premium PPV / ${fmtNum(metrics.ppv)} PPV).`;
+    $('calcLive').textContent=fmtMoney(S.calcMode==='pace'?pace.total:S.calcMode==='sandbox'?sandbox.total:live.total);const reportedLoading=premiumLoading(metrics);if(reportedLoading!==null)$('calcModeNote').textContent += ` • Premium Plan Loading: ${fmtPct(reportedLoading)} reported KPI.`;
     if(S.calcMode==='live'){$('calcScenario').textContent=fmtMoney(live.production);$('calcDiff').textContent=fmtMoney(live.bonus);$('calcDiff').style.color='#167c4b';}
     else{const diff=scenario.total-live.total;$('calcScenario').textContent=fmtMoney(scenario.total);$('calcDiff').textContent=(diff>=0?'+':'')+fmtMoney(diff);$('calcDiff').style.color=diff<0?'#b42318':'#167c4b';}
     const accPct=num(metrics.acc_per_opp)/10;
