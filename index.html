@@ -505,6 +505,27 @@ body:not(.classic) .repStatsGrid .stat .goal{color:#074f98!important;font-weight
   body:not(.classic) #landingBoard .teamGoal{font-size:10px!important}
 }
 
+
+/* October coaching and store-only board: preserve existing whiteboard artwork. */
+.teamFullMatrix{min-width:0;width:100%;table-layout:fixed}
+.teamFullMatrix .metricCol,.teamFullMatrix .metricName{width:58%;text-align:left}
+.teamFullMatrix th:last-child,.teamFullMatrix td:last-child{width:42%}
+.coachHistory{margin:18px 0 8px;padding:13px 16px;background:rgba(255,255,255,.65);border-left:5px solid #145ca8;font-family:var(--plain);color:#243442;line-height:1.55;border-radius:3px}
+.coachHistory h3{font-family:var(--marker);font-size:20px;color:#145ca8;margin:0 0 6px}
+.coachHistory p{margin:5px 0;font-size:13px}
+.coachHistory .muted{color:#596571}
+.managerCoachGrid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.managerCoachGrid .note{min-height:135px}
+.moneyMoves .move .why{line-height:1.45}
+.moneyMoves .move .assumption{font-size:11px;color:#4b5965;margin-top:5px;line-height:1.45}
+@media(max-width:700px){
+ .teamMobileTabs{display:none!important}
+ .teamFullMatrix th,.teamFullMatrix td{display:table-cell!important}
+ .teamFullMatrix th.metricCol,.teamFullMatrix td.metricName{width:58%}
+ .teamFullMatrix th:last-child,.teamFullMatrix td:last-child{width:42%}
+ .managerCoachGrid{grid-template-columns:1fr}
+ .coachHistory{padding:11px}
+}
 </style>
 </head>
 <body>
@@ -541,11 +562,11 @@ body:not(.classic) .repStatsGrid .stat .goal{color:#074f98!important;font-weight
   <section id="store" class="page">
     <div class="board teamWhiteboard">
       <div class="teamPageHead">
-        <div><div class="kicker" id="storeKicker">TEAM BOARD</div><h1 class="markerTitle teamPageTitle">CINNAMINSON</h1><div class="markerSub">FULL SCOREBOARD</div></div>
+        <div><div class="kicker" id="storeKicker">TEAM BOARD</div><h1 class="markerTitle teamPageTitle">CINNAMINSON</h1><div class="markerSub">STORE SCOREBOARD</div></div>
         <div class="when" id="storeWhen">—</div>
       </div>
       <div class="markerLine"></div>
-      <div class="teamPageNote">THE WHOLE BOARD <span>•</span> STORE + EVERY REP <span>•</span> MONTH TO DATE</div>
+      <div class="teamPageNote">CINNAMINSON ONLY <span>•</span> 19 KPIS <span>•</span> MONTH TO DATE</div>
       <div id="teamFullTable" class="teamFullWrap"></div>
 
       <section class="managerCompBoard" aria-labelledby="managerCompHeading">
@@ -588,7 +609,7 @@ body:not(.classic) .repStatsGrid .stat .goal{color:#074f98!important;font-weight
       </nav>
 
       <div id="repStatsPanel" class="repSectionPanel active"><div class="whiteboardLabel">STATS</div><div id="repStats" class="statsGrid repStatsGrid"></div></div>
-      <div id="repCoachPanel" class="repSectionPanel"><div class="whiteboardLabel">COACHING</div><div id="coachGrid" class="coachGrid repCoachGrid"></div></div>
+      <div id="repCoachPanel" class="repSectionPanel"><div class="whiteboardLabel">COACHING</div><div id="coachGrid" class="coachGrid repCoachGrid"></div><div id="coachHistory" class="coachHistory"></div></div>
       <div id="repCalcPanel" class="repSectionPanel">
         <div class="whiteboardLabel">PAYCHECK LAB</div>
         <div class="calcLaunch calcLaunchBoard">
@@ -608,6 +629,7 @@ body:not(.classic) .repStatsGrid .stat .goal{color:#074f98!important;font-weight
         <button type="button" data-manager-section="goalsEdit">Store Goals</button>
         <button type="button" data-manager-section="repEdit">Rep Stats</button>
         <button type="button" data-manager-section="repGoalsEdit">Rep Goals</button>
+        <button type="button" data-manager-section="coachReview">Coaching Review</button>
       </nav>
       <div class="managerPanel">
         <div id="storeEdit" class="managerSection active">
@@ -628,6 +650,12 @@ body:not(.classic) .repStatsGrid .stat .goal{color:#074f98!important;font-weight
           <h2>Rep Goals</h2><p>Pick a rep and set only the goals you want shown on their Stats board. Leave any goal blank to hide that target.</p>
           <div class="field" style="max-width:260px;margin-bottom:12px"><label>Rep</label><select id="mgrRepGoalSelect"></select></div>
           <div id="mgrRepGoalFields" class="goalGrid"></div>
+        </div>
+        <div id="coachReview" class="managerSection">
+          <h2>Manager Coaching Review</h2><p>Private assessment of tracked reps, regardless of which location they worked in. Based on each rep's own totals and goals.</p>
+          <div class="field" style="max-width:280px;margin-bottom:12px"><label>Tracked rep</label><select id="mgrCoachRepSelect"></select></div>
+          <div id="managerCoachGrid" class="coachGrid managerCoachGrid"></div>
+          <div id="managerCoachHistory" class="coachHistory"></div>
         </div>
         <div class="managerFooter"><span id="managerSaveStatus">Changes stay local until you publish.</span><button id="publishBtn" class="btn green" type="button">PUBLISH TO STORE PULSE</button></div>
       </div>
@@ -814,30 +842,118 @@ body:not(.classic) .repStatsGrid .stat .goal{color:#074f98!important;font-weight
     }
     return {target,delta:Math.max(0,target-hc),action};
   }
-  function moveCandidates(m){
-    const c=comp(m),mult=1+c.bonusPct/100,moves=[];
-    const ac=aiaClose(m),hc=htpClose(m),cs=num(m.csat),ap=aiaPlan(m),hp=htpPlan(m);
-    if(ap){const perAia=ap.delta*4;moves.push({title:`AIA → ${ap.target}%`,impact:num(m.aia_posted)*perAia*mult,score:Math.max(perAia,num(m.aia_posted)*perAia*mult),impactLabel:`+${fmtMoney(perAia)}/AIA`,why:`${ap.action} At ${ap.target}% close, each posted AIA pays ${fmtMoney(ap.target*4)}.`});}
-    if(hp){const impact=c.production*hp.delta/100;moves.push({title:`HTP → ${hp.target}%`,impact,score:Math.max(hp.delta,impact),impactLabel:c.production>0?`+${fmtMoney(impact)}`:`+${hp.target}% BONUS`,why:`${hp.action} HTP bonus applies to the entire production payout, capped at 15%.`});}
-    if(cs>0 && cs<90 && c.production>0) moves.push({title:'Get CSAT to 90%',impact:c.production*.09,score:c.production*.09,why:`CSAT below 90 earns no CSAT bonus. Hitting 90% turns on a 9% bonus.`});
-    else if(cs>=90 && cs<100 && c.production>0) moves.push({title:'CSAT +1 point',impact:c.production*.001,score:c.production*.001,why:`Once eligible, +1 CSAT point adds 0.1% to the whole production payout.`});
-    if(num(m.ppv)>0){const rates=[['Insurance','protectadvantage_rate'],['Premium Plan Loading','premium_loading_rate'],['Next Up','nextup_rate']].sort((a,b)=>num(m[a[1]])-num(m[b[1]]));moves.push({title:`${rates[0][0]} +10 pts`,impact:num(m.ppv)*1*mult,score:num(m.ppv)*1*mult,why:`Ten more points adds $1 to every PPV before HTP/CSAT bonuses.`});}
-    if(num(m.accessory_revenue)>0) moves.push({title:'ACC / OPP +$10',impact:num(m.accessory_revenue)*.01*mult,score:num(m.accessory_revenue)*.01*mult,why:`Every +$10/OPP raises accessory payout by 1% of accessory revenue.`});
-    if(num(m.data)>0) moves.push({title:'5 more upgrades',impact:num(m.data)*1.25*mult,score:num(m.data)*1.25*mult,why:`Five upgrades raises every Data unit by $1.25.`});
-    if(num(m.upgrades)>0) moves.push({title:'1 more Data',impact:num(m.upgrades)*.25*mult,score:num(m.upgrades)*.25*mult,why:`At ${fmtNum(m.upgrades)} upgrades, one additional Data is worth ${fmtMoney(num(m.upgrades)*.25)} before bonus.`});
-    return moves.filter(x=>x.impactLabel||x.impact>0).sort((a,b)=>(b.score??b.impact)-(a.score??a.impact));
+  // All coaching uses the rep's own month-to-date figures. Store metrics are never summed from reps.
+  const coachMetrics=[
+    {key:'protectadvantage_rate',name:'Insurance',action:'Offer protection during every eligible activation and explain the value clearly.'},
+    {key:'premium_loading_rate',name:'Premium Plan',action:'Explain the Premium benefits and confirm the best-fit plan before closing.'},
+    {key:'nextup_rate',name:'Next Up',action:'Explain upgrade flexibility on every eligible activation; ask for the attachment.'},
+    {key:'aia_close',name:'AIA Close',action:'Qualify internet needs early and make an AIA offer on eligible opportunities.'},
+    {key:'htp_close',name:'HTP Close',action:'Ask about the household technology needs and explain HTP when eligible.'},
+    {key:'acc_per_opp',name:'Accessories / Opp',action:'Demonstrate a practical accessory bundle before completing the sale.'},
+    {key:'trade_rate',name:'Trade-In',action:'Check trade-in eligibility on each applicable upgrade.'},
+    {key:'csat',name:'CSAT',action:'Set clear expectations, verify setup and invite feedback at the end.'},
+    {key:'ppv',name:'PPV',action:'Qualify every opportunity for a relevant additional line.'},
+    {key:'aia_posted',name:'AIA Posted',action:'Convert eligible internet conversations into submitted and posted AIA sales.'},
+    {key:'upgrades',name:'Upgrades',action:'Ask about upgrade eligibility and help customers compare their options.'},
+    {key:'data',name:'Data',action:'Check whether a connected device would be genuinely useful to the customer.'}
+  ];
+  const coachVolumeKeys=['ppv','aia_posted','aia_submits','upgrades','data','accessory_revenue','htp','opps','aia_green_checks'];
+  function coachAvailable(key,m){
+    if(key==='aia_close')return m?.aia_green_checks!=null&&num(m.aia_green_checks)>0&&m?.aia_submits!=null;
+    if(key==='htp_close')return m?.htp_eligible_opps!=null&&num(m.htp_eligible_opps)>0&&m?.htp!=null;
+    return m?.[key]!==null&&m?.[key]!==undefined&&m?.[key]!=='';
   }
-
-  function coaching(m){
-    const c=comp(m),moves=moveCandidates(m),cards=[];
-    if(moves[0]) cards.push({title:'BEST MONEY MOVE',body:`${moves[0].title}. About ${fmtMoney(moves[0].impact)} of incremental pay at today's other rates. ${moves[0].why}`});
-    if(num(m.csat)>=90) cards.push({title:'PROTECT THIS',body:`CSAT is ${fmtPct(m.csat)}, currently adding ${fmtPct(c.csatPct)} to the entire production payout. Keep it above 90%.`});
-    else if(htpClose(m)>0) cards.push({title:'PROTECT THIS',body:`HTP is ${fmtPct(htpClose(m))}, currently adding ${fmtPct(c.htpPct)} to the entire production payout.`});
-    else if(num(m.ppv)>0) cards.push({title:'PROTECT THIS',body:`Each PPV is currently worth ${fmtMoney(c.ppvEach)} before the HTP/CSAT bonus. Keep the full attach conversation on every activation.`});
-    const next=moves[1]||moves[0];
-    if(next) cards.push({title:'NEXT FOCUS',body:`${next.title}: roughly ${fmtMoney(next.impact)} of upside using today's production as the baseline. ${next.why}`});
-    while(cards.length<3) cards.push({title:'BUILD THE BASE',body:'Keep adding PPV, AIA Posted, accessory revenue and Data. October pays on every unit — there is no minimum before the production dollars start counting.'});
-    return cards.slice(0,3);
+  function coachHistory(repId,m){
+    const prev=previousSnapshot('rep',repId);
+    if(!prev)return {prev:null,changes:[],summary:'No earlier snapshot is available for comparison.'};
+    const old=prev.metrics||{},changes=[];
+    for(const key of ['ppv','aia_posted','upgrades','data','accessory_revenue','protectadvantage_rate','premium_loading_rate','nextup_rate','aia_close','htp_close','csat','acc_per_opp']){
+      if(!coachAvailable(key,m)||!coachAvailable(key,old))continue;
+      const before=metricRaw(key,old),now=metricRaw(key,m),diff=now-before;
+      if(!Number.isFinite(diff)||Math.abs(diff)<.005)continue;
+      const volume=coachVolumeKeys.includes(key),money=['accessory_revenue','acc_per_opp'].includes(key);
+      const unit=volume?(money?fmtMoney0(Math.abs(diff)):fmtNum(Math.abs(diff))):(money?fmtMoney(Math.abs(diff)):`${Math.abs(diff).toFixed(1).replace(/\.0$/,'')} pts`);
+      changes.push({key,name:metricLabel(key),diff,volume,text:volume&&diff<0?`${metricLabel(key)} revised down ${unit}`:`${metricLabel(key)} ${diff>0?'+':'−'}${unit}${volume?' since last update':''}`});
+    }
+    return {prev,changes,summary:changes.length?'Changes are based on the prior month-to-date report.':'No meaningful changes since the prior snapshot.'};
+  }
+  function coachDate(d){return d?`${Number(String(d).slice(5,7))}/${Number(String(d).slice(8,10))}`:'—'}
+  function coachHistoryMarkup(repId,m,manager=false){
+    const h=coachHistory(repId,m),now=S.monthRow?.snapshot_date;
+    if(!h.prev)return `<h3>SINCE LAST UPDATE</h3><p class="muted">${esc(h.summary)}</p>`;
+    const shown=h.changes.slice().sort((a,b)=>Math.abs(b.diff)-Math.abs(a.diff)).slice(0,5);
+    return `<h3>${manager?'MANAGER TREND REVIEW':'SINCE LAST UPDATE'} · ${esc(coachDate(h.prev.snapshot_date))} → ${esc(coachDate(now))}</h3>`+
+      (shown.length?shown.map(x=>`<p>${esc(x.text)}</p>`).join(''):`<p class="muted">${esc(h.summary)}</p>`)+
+      '<p class="muted">Volume changes are differences between cumulative reports; rate changes are percentage-point changes. A downward volume revision may reflect reporting corrections.</p>';
+  }
+  function moveCandidates(m){
+    const c=comp(m),mult=1+c.bonusPct/100,moves=[],ppv=num(m.ppv),posted=num(m.aia_posted);
+    const valid=(key)=>coachAvailable(key,m);
+    const add=(title,impact,why,assumption,action)=>{
+      if(Number.isFinite(impact)&&impact>0.005)moves.push({title,impact,why,assumption,action});
+    };
+    // Each PPV attachment rate scenario holds the number of PPV and all other rates constant.
+    for(const [key,name] of [['protectadvantage_rate','Insurance'],['premium_loading_rate','Premium Plan'],['nextup_rate','Next Up']]){
+      if(!ppv||!valid(key))continue;
+      const current=num(m[key]),target=metricGoal(key,'rep',m.rep_id);
+      const step=Math.min(10,Math.max(0,(target!==null?Math.max(current+0.01,target):current+10)-current));
+      if(step<0.1)continue;
+      const impact=ppv*(step/10)*mult;
+      add(`${name} +${fmtNum(step)} pts`,impact,`${fmtNum(step)} additional percentage points would add ${fmtMoney(impact)} to the payout on ${fmtNum(ppv)} existing PPV.`,`Illustrative rate change; existing PPV count and bonus rates held constant.`,coachMetrics.find(x=>x.key===key)?.action);
+    }
+    if(posted>0&&valid('aia_close')){
+      const current=aiaClose(m),target=Math.min(15,current<10?10:15),step=target-Math.min(15,current);
+      if(step>0.01)add(`AIA Close → ${fmtNum(target)}%`,posted*step*4*mult,`At ${fmtNum(target)}% close, each existing posted AIA would pay ${fmtMoney(target*4)} before bonuses.`,`Illustrative rate-only comparison on existing posted units; additional submissions may also change the posted count. AIA rate is capped at 15%.`,coachMetrics.find(x=>x.key==='aia_close').action);
+    }
+    if(c.production>0&&valid('htp_close')){
+      const current=Math.min(htpClose(m),15),target=Math.min(15,current<5?5:current<10?10:15);
+      if(target>current)add(`HTP Close → ${fmtNum(target)}%`,c.production*(target-current)/100,`HTP increases the bonus on current production pay.`,`Assumes the same production and CSAT rate; HTP bonus is capped at 15%.`,coachMetrics.find(x=>x.key==='htp_close').action);
+    }
+    if(c.production>0&&valid('csat')){
+      const cs=num(m.csat);
+      if(cs<90)add('CSAT → 90%',c.production*.09,`Reaching 90% enables a 9% CSAT bonus on current production.`,`Threshold scenario, not a prediction; existing production and other rates held constant.`,coachMetrics.find(x=>x.key==='csat').action);
+      else if(cs<100)add('CSAT +1 point',c.production*.001,`One CSAT point adds 0.1% of current production payout.`,`Only applies while CSAT is eligible and below 100%.`,coachMetrics.find(x=>x.key==='csat').action);
+    }
+    if(num(m.accessory_revenue)>0&&valid('acc_per_opp'))add('Accessories / Opp +$10',num(m.accessory_revenue)*.01*mult,'Improving the accessory-per-opportunity KPI by $10 raises the rate used on current accessory revenue.','Illustrative rate-only scenario with accessory revenue held constant; real sales can change both figures.',coachMetrics.find(x=>x.key==='acc_per_opp').action);
+    if(num(m.upgrades)>0)add('One additional Data',num(m.upgrades)*.25*mult,`At ${fmtNum(m.upgrades)} upgrades, one extra Data adds ${fmtMoney(num(m.upgrades)*.25)} before bonuses.`,`Assumes the same upgrade count and bonus rates.`,coachMetrics.find(x=>x.key==='data').action);
+    if(num(m.data)>0)add('Five additional upgrades',num(m.data)*1.25*mult,`Five more upgrades increase the rate applied to ${fmtNum(m.data)} existing Data.`,`Upgrades do not pay directly; this models their effect on existing Data compensation.`,coachMetrics.find(x=>x.key==='upgrades').action);
+    return moves.sort((a,b)=>b.impact-a.impact);
+  }
+  function coaching(m,repId,manager=false){
+    const history=coachHistory(repId,m),moves=moveCandidates(m),assessments=[];
+    for(const cfg of coachMetrics){
+      if(!coachAvailable(cfg.key,m))continue;
+      const current=metricRaw(cfg.key,m),goal=metricGoal(cfg.key,'rep',repId);
+      const trend=history.changes.find(x=>x.key===cfg.key);
+      const pace=coachVolumeKeys.includes(cfg.key)?paceAt(m,cfg.key,S.monthRow?.snapshot_date):null;
+      const comparison=pace!==null?pace:current;
+      const ratio=goal>0?comparison/goal:null;
+      const money=moves.find(x=>x.title.toLowerCase().includes(cfg.name.toLowerCase().split(' ')[0]));
+      const risk=ratio===null?null:Math.max(0,1-ratio);
+      const score=(risk===null?0:risk*100)+(trend&&trend.diff<0&&!trend.volume?10:0)+Math.min(12,(money?.impact||0)/3);
+      assessments.push({...cfg,current,goal,pace,ratio,risk,score,trend});
+    }
+    const withGoals=assessments.filter(x=>x.ratio!==null);
+    const strength=(withGoals.filter(x=>x.ratio>=1).sort((a,b)=>b.ratio-a.ratio)[0])||
+      (assessments.filter(x=>x.trend?.diff>0&&!x.trend.volume).sort((a,b)=>b.trend.diff-a.trend.diff)[0])||
+      assessments.find(x=>x.key==='csat'&&x.current>=90)||assessments[0];
+    const weakness=withGoals.filter(x=>x.risk>0).sort((a,b)=>b.score-a.score)[0]||
+      assessments.filter(x=>x.key!==strength?.key&&['nextup_rate','premium_loading_rate','aia_close','acc_per_opp','protectadvantage_rate'].includes(x.key)).sort((a,b)=>a.current-b.current)[0];
+    const metricStatus=(x)=>x?`${x.name} is ${displayValue(x.key,m)}${x.goal!==null?` against a ${metricDefs[x.key]?.unit==='pct'?fmtPct(x.goal):metricDefs[x.key]?.unit?.startsWith('money')?fmtMoney(x.goal):fmtNum(x.goal)} goal`:''}${x.pace!==null?` (month-end pace ${fmtNum(x.pace)})`:''}.`:'';
+    const action=weakness?.action||'Qualify each customer, present the most relevant options and record the result.';
+    const money=moves[0];
+    if(!manager)return [
+      {title:'WHAT YOU\'RE DOING WELL',body:strength?`${metricStatus(strength)} Keep that habit consistent.`:'Keep building your sales conversations; more reported results will unlock personalized coaching.'},
+      {title:'BIGGEST PERFORMANCE OPPORTUNITY',body:weakness?`${metricStatus(weakness)} ${action}`:'Your tracked goals are holding up. Keep the same consistent sales process.'},
+      {title:'BIGGEST MONEY OPPORTUNITY',body:money?`${money.title}: an estimated ${fmtMoney(money.impact)} on existing production in the modeled scenario. ${money.assumption}`:'No reliable incremental commission scenario is available from the reported figures.'},
+      {title:'NEXT SHIFT CHALLENGE',body:action}
+    ];
+    return [
+      {title:'PERFORMANCE ASSESSMENT',body:weakness?`${metricStatus(weakness)} ${weakness.ratio!==null?`Current performance is ${fmtPct(weakness.ratio*100)} of the goal${weakness.pace!==null?' on month-end pace':''}. `:''}Prioritize a specific improvement and review the next snapshot.`:'No clear goal-based shortfall in the available metrics. Review execution and maintain consistency.'},
+      {title:'RECOGNIZE / RETAIN',body:strength?`${metricStatus(strength)} Reinforce the behaviors that produced this result.`:'Insufficient reported data to identify a reliable strength.'},
+      {title:'COMMISSION LEVER',body:money?`${money.title}: modeled upside ${fmtMoney(money.impact)}. ${money.assumption}`:'Not enough supported data to estimate incremental pay.'},
+      {title:'MANAGER FOLLOW-UP',body:`Ask for the rep’s plan to: ${action} Review results at the next snapshot; avoid judging cumulative totals as one day of production.`}
+    ];
   }
 
   function showPage(id){ qsa('.page').forEach(p=>p.classList.remove('active'));$(id).classList.add('active');$('homeBtn').classList.toggle('active',id==='landing');$('storeBtn').classList.toggle('active',id==='store');if(id==='landing')resetStickyPositions();window.scrollTo({top:0,behavior:'smooth'}); }
@@ -857,7 +973,7 @@ body:not(.classic) .repStatsGrid .stat .goal{color:#074f98!important;font-weight
   function renderTeamRow(r){const m=repMetric(r.rep_id);const cells=homeRepKeys.map(key=>{const g=metricGoal(key,'rep',r.rep_id),tone=metricTone(key,m,'rep',r.rep_id);let gt='';if(g!==null)gt=metricDefs[key]?.unit==='pct'?fmtPct(g):metricDefs[key]?.unit?.startsWith('money')?fmtMoney(g):fmtNum(g);return`<div class="teamCell" data-label="${esc(metricLabel(key))}"><div class="teamActual ${tone}">${esc(compactValue(key,m))}</div><div class="teamGoal">${gt?'/ '+esc(gt):''}</div></div>`}).join('');return`<button class="teamRow" type="button" data-rep="${esc(r.rep_id)}"><div class="teamCell teamName">${esc(r.display_name)}</div>${cells}<div class="teamCell teamChange">${repChangeLine(r.rep_id,m)}</div></button>`}
   function shortCoach(r,i){const m=repMetric(r.rep_id),ap=aiaPlan(m),hp=htpPlan(m),moves=moveCandidates(m);let body='';if(i%2===0&&ap)body=ap.action;else if(hp)body=hp.action;else if(moves[0])body=`${moves[0].title}: ${moves[0].why}`;else body='Keep building the base — every PPV, AIA, accessory dollar and Data unit counts.';if(body.length>150)body=body.slice(0,147)+'…';return`<button class="coachSticky" data-sticky="coach_${esc(r.rep_id)}" type="button"><strong>${esc(r.display_name)}</strong><small>${esc(body)}</small></button>`}
   function renderHome(){
-    $('landingKicker').textContent=(S.monthRow?.display_name||'October 2026').toUpperCase()+' • STORE PULSE';const date=S.monthRow?.snapshot_date;$('homeSnapshotDate').textContent=date?`EOD ${Number(date.slice(5,7))}/${Number(date.slice(8,10))}`:'EOD —';$('backgroundDateInk').textContent=date?`${Number(date.slice(5,7))}/${Number(date.slice(8,10))}`:'—';$('homeStatus').textContent=date?`Updated through ${date}`:'Waiting for snapshot';$('homeSnapshotGrid').innerHTML=homeStoreKeys.map(renderSnapshotMetric).join('');
+    $('landingKicker').textContent=(S.monthRow?.display_name||'October 2026').toUpperCase()+' • STORE PULSE';const date=S.monthRow?.snapshot_date;$('homeSnapshotDate').textContent=date?`Updated ${Number(date.slice(5,7))}/${Number(date.slice(8,10))}`:'Not updated';$('backgroundDateInk').textContent=date?`${Number(date.slice(5,7))}/${Number(date.slice(8,10))}`:'—';$('homeStatus').textContent=date?`Updated through ${date}`:'Waiting for snapshot';$('homeSnapshotGrid').innerHTML=homeStoreKeys.map(renderSnapshotMetric).join('');
     const active=S.reps.filter(r=>r.active);$('teamBoard').innerHTML=`<div class="teamHeader"><div></div>${homeRepKeys.map(k=>`<div>${esc(metricLabel(k).replace('Accessory / OPP','ACC/OPP').replace('Insurance','INS'))}</div>`).join('')}<div>SINCE LAST</div></div>`+active.map(renderTeamRow).join('');qsa('#teamBoard [data-rep]').forEach(b=>b.addEventListener('click',()=>openRep(b.dataset.rep)));
     $('coachStickyZone').innerHTML=active.map(shortCoach).join('');resetStickyPositions();setupStickies();
   }
@@ -894,17 +1010,17 @@ body:not(.classic) .repStatsGrid .stat .goal{color:#074f98!important;font-weight
     $('mgrCompTotal').textContent=fmtMoney(total);$('mgrCompGate').textContent=`${fmtMoney(revPay)} from revenue + ${fmtMoney(profitPay)} from ${fmtMoney(profit)} net profit.`;
   }
   function renderStore(){
-    $('storeKicker').textContent=(S.monthRow?.display_name||'October 2026').toUpperCase()+' • TEAM BOARD';
-    $('storeWhen').textContent=S.monthRow?.snapshot_date?`EOD ${Number(S.monthRow.snapshot_date.slice(5,7))}/${Number(S.monthRow.snapshot_date.slice(8,10))}`:'NO SNAPSHOT DATE';
-    const active=S.reps.filter(r=>r.active),headers=[{id:'store',name:'STORE'},...active.map(r=>({id:r.rep_id,name:r.display_name}))];
-    const tabs=`<div class="teamMobileTabs" aria-label="Choose team column">${headers.map((h,i)=>`<button type="button" class="teamMobileTab ${i===0?'active':''}" data-team-col="${i+1}">${esc(h.name)}</button>`).join('')}</div>`;
-    const head=`<thead><tr><th class="metricCol">METRIC</th>${headers.map((h,i)=>`<th data-col-index="${i+1}" class="${i===0?'mobile-show':''}">${esc(h.name)}</th>`).join('')}</tr></thead>`;
+    $('storeKicker').textContent=(S.monthRow?.display_name||'October 2026').toUpperCase()+' • CINNAMINSON STORE';
+    $('storeWhen').textContent=S.monthRow?.snapshot_date?`UPDATED ${Number(S.monthRow.snapshot_date.slice(5,7))}/${Number(S.monthRow.snapshot_date.slice(8,10))}`:'NO SNAPSHOT DATE';
+    const m=S.store||{};
+    const head='<thead><tr><th class="metricCol">METRIC</th><th>STORE</th></tr></thead>';
     const body=teamFullKeys.map(key=>{
-      const cells=headers.map((h,i)=>{const m=h.id==='store'?S.store:repMetric(h.id),scope=h.id==='store'?'store':'rep',goal=metricGoal(key,scope,h.id==='store'?null:h.id),tone=metricTone(key,m,scope,h.id==='store'?null:h.id);let gt='';if(goal!==null)gt=metricDefs[key]?.unit==='pct'?fmtPct(goal):metricDefs[key]?.unit?.startsWith('money')?fmtMoney(goal):fmtNum(goal);return`<td data-col-index="${i+1}" class="${i===0?'mobile-show':''}"><div class="matrixValue ${tone}">${esc(displayValue(key,m))}</div>${gt?`<div class="matrixGoal">goal ${esc(gt)}</div>`:''}</td>`}).join('');
-      return `<tr><td class="metricName">${esc(metricLabel(key))}</td>${cells}</tr>`;
+      const goal=metricGoal(key,'store'),tone=metricTone(key,m,'store');
+      const gt=goal!==null?(metricDefs[key]?.unit==='pct'?fmtPct(goal):metricDefs[key]?.unit?.startsWith('money')?fmtMoney(goal):fmtNum(goal)):'';
+      const pace=paceAt(m,key,S.monthRow?.snapshot_date),delta=changeSummary(key,m,'store');
+      return `<tr><td class="metricName">${esc(metricLabel(key))}</td><td><div class="matrixValue ${tone}">${esc(displayValue(key,m))}</div>${gt?`<div class="matrixGoal">goal ${esc(gt)}</div>`:''}${pace!==null?`<div class="matrixGoal">pace ${esc(fmtNum(pace))}</div>`:''}${delta?`<div class="matrixGoal">${esc(delta)}</div>`:''}</td></tr>`;
     }).join('');
-    $('teamFullTable').innerHTML=tabs+`<table class="teamFullMatrix">${head}<tbody>${body}</tbody></table>`;
-    qsa('.teamMobileTab').forEach(btn=>btn.addEventListener('click',()=>{const col=btn.dataset.teamCol;qsa('.teamMobileTab').forEach(x=>x.classList.toggle('active',x===btn));qsa('#teamFullTable [data-col-index]').forEach(x=>x.classList.toggle('mobile-show',x.dataset.colIndex===col));}));
+    $('teamFullTable').innerHTML=`<table class="teamFullMatrix">${head}<tbody>${body}</tbody></table>`;
     renderManagerComp();
   }
   function repMetric(id){return S.repMetrics.find(x=>x.rep_id===id)||{rep_id:id,month:S.month}}
@@ -914,8 +1030,9 @@ body:not(.classic) .repStatsGrid .stat .goal{color:#074f98!important;font-weight
     $('repTitle').textContent=r.display_name;$('repKicker').textContent=(S.monthRow?.display_name||'October 2026').toUpperCase()+' • REP';
     $('repSelect').innerHTML=S.reps.filter(x=>x.active).map(x=>`<option value="${esc(x.rep_id)}" ${x.rep_id===r.rep_id?'selected':''}>${esc(x.display_name)}</option>`).join('');
     $('repStats').innerHTML=repStatOrder.map(key=>`<div class="stat"><div class="label">${esc(metricLabel(key))}</div><div class="value">${esc(displayValue(key,m))}</div>${goalMarkup(key,m,'rep',r.rep_id)}</div>`).join('');
-    $('coachGrid').innerHTML=coaching(m).map(x=>`<div class="note"><h3>${x.title}</h3><p>${x.body}</p></div>`).join('');
-    const moves=moveCandidates(m).slice(0,4);$('moneyMoves').innerHTML=moves.length?moves.map((x,i)=>`<div class="move"><div class="rank">${i+1}</div><div><div class="what">${esc(x.title)}</div><div class="why">${esc(x.why)}</div></div><div class="money">${esc(x.impactLabel||('+'+fmtMoney(x.impact)))}</div></div>`).join(''):`<div class="errorBox" style="border-color:#d0d5dd;background:#fff">Add some October production and Store Pulse will rank the biggest money moves here.</div>`;
+    $('coachGrid').innerHTML=coaching(m,r.rep_id).map(x=>`<div class="note"><h3>${esc(x.title)}</h3><p>${esc(x.body)}</p></div>`).join('');
+    $('coachHistory').innerHTML=coachHistoryMarkup(r.rep_id,m);
+    const moves=moveCandidates(m).slice(0,4);$('moneyMoves').innerHTML=moves.length?moves.map((x,i)=>`<div class="move"><div class="rank">${i+1}</div><div><div class="what">${esc(x.title)}</div><div class="why">${esc(x.why)}</div><div class="assumption">${esc(x.assumption)}</div></div><div class="money">${esc(x.impactLabel||('+'+fmtMoney(x.impact)))}</div></div>`).join(''):`<div class="errorBox" style="border-color:#d0d5dd;background:#fff">Add some October production and Store Pulse will rank the biggest money moves here.</div>`;
   }
 
   function setupTheme(){
@@ -1013,6 +1130,17 @@ body:not(.classic) .repStatsGrid .stat .goal{color:#074f98!important;font-weight
     catch(e){$('loginError').textContent=e.message||'Incorrect password';}
     finally{$('loginBtn').disabled=false;$('loginBtn').textContent='ENTER MANAGER MODE';}
   }
+  function renderManagerCoaching(){
+    const sel=$('mgrCoachRepSelect');if(!sel)return;
+    const reps=S.reps.filter(x=>x.active);
+    const prior=sel.value||S.currentRep;
+    sel.innerHTML=reps.map(x=>`<option value="${esc(x.rep_id)}">${esc(x.display_name)}</option>`).join('');
+    if(reps.some(x=>x.rep_id===prior))sel.value=prior;
+    const id=sel.value;if(!id)return;
+    const m=repMetric(id);
+    $('managerCoachGrid').innerHTML=coaching(m,id,true).map(x=>`<div class="note"><h3>${esc(x.title)}</h3><p>${esc(x.body)}</p></div>`).join('');
+    $('managerCoachHistory').innerHTML=coachHistoryMarkup(id,m,true);
+  }
   function renderManager(){
     $('mgrSnapshot').value=S.monthRow?.snapshot_date||new Date().toISOString().slice(0,10);
     $('mgrStoreFields').innerHTML=managerStoreOrder.map(k=>fieldHTML('mgr_store_'+k,metricDefs[k].label,S.store?.[k],metricDefs[k].unit)).join('');
@@ -1020,7 +1148,8 @@ body:not(.classic) .repStatsGrid .stat .goal{color:#074f98!important;font-weight
     const repOpts=S.reps.filter(r=>r.active).map(r=>`<option value="${esc(r.rep_id)}">${esc(r.display_name)}</option>`).join('');
     $('mgrRepSelect').innerHTML=repOpts;$('mgrRepGoalSelect').innerHTML=repOpts;
     $('mgrRepSelect').value=S.currentRep||S.reps[0]?.rep_id||'';$('mgrRepGoalSelect').value=S.currentRep||S.reps[0]?.rep_id||'';
-    renderManagerRepFields();renderManagerRepGoalFields();
+    renderManagerRepFields();renderManagerRepGoalFields();renderManagerCoaching();
+    $('mgrCoachRepSelect').onchange=renderManagerCoaching;
     $('mgrRepSelect').onchange=renderManagerRepFields;$('mgrRepGoalSelect').onchange=renderManagerRepGoalFields;
   }
   function renderManagerRepFields(){const id=$('mgrRepSelect').value,m=repMetric(id);$('mgrRepFields').innerHTML=managerRepOrder.map(k=>fieldHTML('mgr_rep_'+k,metricDefs[k].label,m?.[k],metricDefs[k].unit)).join('');}
