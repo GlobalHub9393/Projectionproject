@@ -715,6 +715,92 @@ body.pulseV2{background:#e9ecea;color:#172331;font-family:var(--plain)}
 
 @media(min-width:761px){.funTicker{position:absolute;left:0;right:0;bottom:158px;margin:0 auto}}
 @media(max-width:760px){.funTicker{bottom:46px}.funControls{bottom:8px}}
+
+/* Store Pulse 2.1 — slower grouped Fun Mode whiteboard */
+.funScoreboard{width:min(910px,92%);margin-top:clamp(48px,7vw,100px);padding:16px 22px 14px}
+.funScoreHead{align-items:center;gap:10px}
+.funGroupHeader{display:grid;grid-template-columns: minmax(86px,1.05fr) minmax(0,3.8fr);gap:10px;padding:10px 2px 8px;border-bottom:2px solid #214a66;color:#234e6a}
+.funGroupColumns,.funValues{display:grid;grid-template-columns:repeat(var(--cols),minmax(0,1fr));gap:8px;align-items:center}
+.funGroupColumns span{font:850 clamp(10px,1.1vw,13px)/1.15 var(--plain);text-align:center;white-space:normal;overflow-wrap:anywhere;color:#305c78}
+.funGroupColumns span:only-child{text-align:right}
+.funRow{display:grid;grid-template-columns:minmax(86px,1.05fr) minmax(0,3.8fr);gap:10px;min-height:62px;padding:10px 2px}
+.funRow.storeRow{background:rgba(184,220,239,.22);border-bottom:3px solid #9fb9c9}
+.funRow.storeRow .funName{color:#0d5c83}
+.funName{max-width:100%;font-size:clamp(19px,2.7vw,29px);animation:none}
+.funValues{min-width:0;transform-origin:right center}
+.funMetricValue{display:block;min-width:0;font-family:var(--marker);font-size:clamp(18px,2.4vw,27px);font-weight:950;color:#14629c;text-align:center;white-space:nowrap;font-variant-numeric:tabular-nums}
+.funMetricValue:only-child{text-align:right}
+.funMetricValue.isBlank{color:#8b9da8}
+.funValues.funErasing{animation:funDryErase .62s ease-in forwards}
+.funValues.funRewriting{animation:funMarkerRewrite 1.4s steps(20,end) both}
+@keyframes funDryErase{0%{opacity:1;filter:blur(0);clip-path:inset(0 0 0 0)}55%{opacity:.5;filter:blur(1.5px)}100%{opacity:.05;filter:blur(3px);clip-path:inset(0 100% 0 0)}}
+@keyframes funMarkerRewrite{0%{opacity:.08;clip-path:inset(0 100% 0 0)}15%{opacity:.45}100%{opacity:1;clip-path:inset(0 0 0 0)}}
+.funCycleHint{align-self:center;font-family:var(--plain);font-size:10px;letter-spacing:.02em;color:#5a6d7d;white-space:nowrap}
+@media(max-width:760px){
+ .funScoreboard{width:97%;margin-top:clamp(145px,28vh,225px);padding:10px 8px 10px}
+ .funGroupHeader,.funRow{grid-template-columns:minmax(62px,.85fr) minmax(0,3.7fr);gap:4px}
+ .funGroupHeader{padding:7px 1px}
+ .funGroupColumns,.funValues{gap:2px}
+ .funGroupColumns span{font-size:clamp(8px,2.3vw,10px);line-height:1.08}
+ .funRow{min-height:50px;padding:8px 1px}
+ .funName{font-size:clamp(16px,4.6vw,21px)}
+ .funMetricValue{font-size:clamp(13px,3.6vw,18px);letter-spacing:-.025em}
+ .funScoreHead,.funBottomLine{font-size:10px}
+ .funCycleHint{font-size:9px}
+}
+@media(max-width:390px){.funMetricValue{font-size:12px}.funGroupColumns span{font-size:8px}}
+@media(prefers-reduced-motion:reduce){.funValues.funErasing,.funValues.funRewriting{animation:none!important}}
+
+/* 2.2: real whiteboard writing, quiet progress timer, persistent manager corner */
+.funScoreboard{background:rgba(255,255,255,.09);border:0;border-radius:0;box-shadow:none;backdrop-filter:none;padding:8px 10px 12px;width:min(960px,91%);margin-top:clamp(48px,6vw,90px)}
+.funScoreHead{border-bottom:2px solid #284b65;padding-bottom:7px}
+.funGroupHeader{border-bottom:1px solid rgba(24,63,94,.65)}
+.funRow{border-bottom:1px dashed rgba(38,78,105,.36)}
+.funRow.storeRow{background:rgba(196,224,237,.17);border-bottom:2px solid rgba(20,79,120,.68);border-radius:3px}
+.funMetricValue{color:#125a92;text-shadow:0 0 .25px #17578d}
+.funCycleTrack{position:relative;width:100%;height:7px;border-bottom:2px solid rgba(26,81,116,.48);margin-top:11px;overflow:hidden}
+.funCycleFill{height:5px;width:0%;background:#1e73b5;transform-origin:left center;border-radius:2px 7px 3px 2px;box-shadow:0 0 1px #1e73b5;will-change:width}
+.funCycleText{font:800 10px var(--plain);color:#476b84;text-align:right;padding-top:3px;letter-spacing:.025em}
+.funTicker{margin:clamp(18px,4vw,38px) auto 12px;min-height:38px;max-width:85%;font-family:var(--marker);font-size:clamp(18px,2.1vw,25px);font-style:italic;font-weight:900;color:#1b5e8a;transform:rotate(-1deg);opacity:1!important;visibility:visible!important}
+.funManagerCorner{position:relative;z-index:6;align-self:stretch;max-width:820px;width:85%;margin:22px auto 0;padding:9px 12px 12px;border-top:2px solid rgba(26,84,122,.7);color:#1b5d8e;transform:rotate(-.4deg)}
+.funManagerCornerTitle{font:900 clamp(14px,1.6vw,19px) var(--marker);letter-spacing:.02em}
+.funManagerCornerText{font:900 clamp(17px,2vw,24px)/1.4 var(--marker);white-space:pre-wrap;overflow-wrap:anywhere;min-height:28px;margin-top:5px}
+.funManagerCorner.empty{display:none}
+.funControls{margin-top:12px;flex-wrap:wrap}
+.funSurface{padding-bottom:32px}
+.managerNoteEditor{border:1px solid #b7c6cd;border-radius:12px;background:#f5f7f4;padding:14px;margin-top:14px}
+.managerNoteEditor textarea{width:100%;min-height:115px;resize:vertical;padding:12px;border:1px solid #a8c1d0;border-radius:8px;background:#fff;color:#1b5d8e;font:900 20px/1.4 var(--marker)}
+.managerNoteEditor .noteHelp{font:500 12px/1.4 var(--plain);color:#607485;margin:5px 0 11px}
+.managerNoteEditor .noteActions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.managerNoteEditor .noteStatus{font:700 12px var(--plain);color:#526d7b}
+@media(max-width:760px){
+ .funScoreboard{width:99%;margin-top:clamp(140px,25vh,210px);padding:5px 3px 9px}
+ .funSurface{padding:24px 14px 28px}
+ .funTicker{margin:34px auto 12px;max-width:88%;font-size:19px;min-height:45px}
+ .funManagerCorner{width:95%;margin:16px auto 4px;padding:8px 4px 12px}
+ .funManagerCornerText{font-size:19px}
+ .funCycleText{font-size:9px}
+ .funCycleTrack{margin-top:7px}
+ .funControls{margin-top:8px}
+ .funSticky{width:clamp(60px,16vw,82px);min-height:42px;padding:7px 4px;font-size:clamp(10px,2.7vw,12px)}
+}
+@media(prefers-reduced-motion:reduce){.funCycleFill{transition:none!important}}
+
+/* 2.2 final visual QA: older absolute positioning must not overlay notes. */
+.funTicker{position:relative;left:auto;right:auto;bottom:auto;z-index:4;margin:24px auto 10px}
+.funControls{position:relative;left:auto;right:auto;bottom:auto;z-index:8;margin:14px auto 0}
+.funManagerCorner{position:relative;flex-shrink:0;margin-top:12px}
+@media(max-width:760px){
+ .funTop{position:absolute;top:195px;left:10%;right:10%;z-index:4}
+ .funScoreboard{margin-top:clamp(145px,25vh,205px)}
+ .funTicker{position:relative;bottom:auto;left:auto;right:auto;margin:25px auto 8px}
+ .funControls{position:relative;bottom:auto;left:auto;right:auto;margin:12px auto 0}
+ .funManagerCorner{margin-top:10px}
+}
+
+/* Leave scroll room beneath fixed navigation so handwritten notes are reachable. */
+.funSurface{padding-bottom:125px}
+@media(max-width:760px){.funSurface{padding-bottom:145px}}
 </style>
 </head>
 <body>
@@ -749,13 +835,17 @@ body.pulseV2{background:#e9ecea;color:#172331;font-family:var(--plain)}
       <div class="funSurface">
         <div class="funTop"><div class="funTopTitle">THE MONEY BOARD <span>✎</span></div><div class="funDate" id="funDate">LOADING…</div></div>
         <div class="funScoreboard">
-          <div class="funScoreHead"><span>OUR CREW</span><span id="funColumnLabel">EST. COMP · MTD</span></div>
+          <div class="funScoreHead"><span>STORE + CREW</span><span id="funColumnLabel">PPV · MONTH TO DATE</span></div>
+          <div class="funGroupHeader"><span>NAME</span><div class="funGroupColumns" id="funGroupColumns" style="--cols:1"><span>PPV</span></div></div>
           <div id="funRows" class="funRows" aria-live="off"><div class="funLoading">Connecting to live numbers…</div></div>
-          <div class="funBottomLine"><span id="funViewLabel">CURRENT PAYCHECK ESTIMATES</span><span>✦</span></div>
+          <div class="funBottomLine"><span id="funViewLabel">VOICE ACTIVATIONS</span><span>✦</span></div>
+          <div class="funCycleTrack" role="progressbar" aria-label="Time until next scoreboard view" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="funCycleTrack"><div class="funCycleFill" id="funCycleFill"></div></div>
+          <div class="funCycleText" id="funCycleText">NEXT VIEW IN 15s</div>
         </div>
         <div class="funTicker" id="funTicker">Every number counts. Every little win adds up.</div>
+        <section class="funManagerCorner empty" id="funManagerCorner" aria-label="Manager handwritten note"><div class="funManagerCornerTitle">MANAGER’S CORNER ✎</div><div class="funManagerCornerText" id="funManagerCornerText"></div></section>
         <div id="funStickies" class="funStickies" aria-label="Moveable sticky notes"></div>
-        <div class="funControls"><button id="funNext" type="button">NEXT VIEW ↻</button><button id="funPause" type="button">PAUSE ANIMATION</button></div>
+        <div class="funControls"><button id="funNext" type="button">NEXT VIEW ↻</button><span class="funCycleHint" aria-label="Rotates every 15 seconds">15s / view</span><button id="funPause" type="button">PAUSE ANIMATION</button></div>
       </div>
     </div>
   </section>
@@ -831,6 +921,7 @@ body.pulseV2{background:#e9ecea;color:#172331;font-family:var(--plain)}
         <button type="button" data-manager-section="repEdit">Rep Stats</button>
         <button type="button" data-manager-section="repGoalsEdit">Rep Goals</button>
         <button type="button" data-manager-section="coachReview">Coaching Review</button>
+        <button type="button" data-manager-section="funNoteEdit">Fun Mode Note</button>
       </nav>
       <div class="managerPanel">
         <div id="storeEdit" class="managerSection active">
@@ -857,6 +948,13 @@ body.pulseV2{background:#e9ecea;color:#172331;font-family:var(--plain)}
           <div class="field" style="max-width:280px;margin-bottom:12px"><label>Tracked rep</label><select id="mgrCoachRepSelect"></select></div>
           <div id="managerCoachGrid" class="coachGrid managerCoachGrid"></div>
           <div id="managerCoachHistory" class="coachHistory"></div>
+        </div>
+        <div id="funNoteEdit" class="managerSection">
+          <h2>Fun Mode — Manager’s Corner</h2><p>Write a note that looks handwritten at the bottom of the whiteboard. Saved notes appear for everyone after refresh.</p>
+          <div class="managerNoteEditor"><label for="mgrFunNote">Your handwritten message</label><textarea id="mgrFunNote" maxlength="500" placeholder="Remember to ask about Internet!\n— TJ"></textarea>
+            <div class="noteHelp">Up to 500 characters. Clear the text and save to remove the note. This saves separately from the KPI Publish button.</div>
+            <div class="noteActions"><button id="saveFunNote" type="button" class="btn green">SAVE WHITEBOARD NOTE</button><span class="noteStatus" id="mgrFunNoteStatus">Only Manager Mode can edit this.</span></div>
+          </div>
         </div>
         <div class="managerFooter"><span id="managerSaveStatus">Changes stay local until you publish.</span><button id="publishBtn" class="btn green" type="button">PUBLISH TO STORE PULSE</button></div>
       </div>
@@ -922,6 +1020,7 @@ body.pulseV2{background:#e9ecea;color:#172331;font-family:var(--plain)}
   const MANAGER_URL = SUPABASE_URL + '/functions/v1/store-pulse-manager';
   const SNAPSHOT_URL = SUPABASE_URL + '/functions/v1/store-pulse-snapshot';
   const REP_GOALS_URL = SUPABASE_URL + '/functions/v1/store-pulse-rep-goals';
+  const FUN_NOTE_URL = SUPABASE_URL + '/functions/v1/store-pulse-note';
   const $ = id => document.getElementById(id);
   const qs = (s,root=document) => root.querySelector(s);
   const qsa = (s,root=document) => [...root.querySelectorAll(s)];
@@ -1170,21 +1269,110 @@ body.pulseV2{background:#e9ecea;color:#172331;font-family:var(--plain)}
     const active=visibleReps();$('teamBoard').innerHTML=`<div class="teamHeader"><div></div>${homeRepKeys.map(k=>`<div>${esc(metricLabel(k).replace('Accessory / OPP','ACC/OPP').replace('Insurance','INS'))}</div>`).join('')}<div>SINCE LAST</div></div>`+active.map(renderTeamRow).join('');qsa('#teamBoard [data-rep]').forEach(b=>b.addEventListener('click',()=>openRep(b.dataset.rep)));
     $('coachStickyZone').innerHTML=active.map(shortCoach).join('');resetStickyPositions();setupStickies();renderFunBoard();
   }
-  let funView=0,funPaused=false,funDragging=false,funNotesReady=false,funCycleTimer=null;
-  const funViews=[{label:'EST. COMP · MTD',hint:'CURRENT PAYCHECK ESTIMATES',key:'comp'}, {label:'PPV · MTD',hint:'VOICE ACTIVATIONS',key:'ppv'}, {label:'AIA · POSTED',hint:'INTERNET WINS',key:'aia_posted'}, {label:'ACCESSORY SALES',hint:'ACCESSORY REVENUE',key:'accessory_revenue'}, {label:'EST. COMP · MTD',hint:'INCLUDING HTP + CSAT BONUSES',key:'comp'}];
+  let funView=0,funPaused=false,funDragging=false,funNotesReady=false,funCycleTimer=null,funTransitioning=false;
+  // Keep related KPIs visible together, for fifteen seconds per board view.
+  const funViews=[
+    {label:'PPV · MONTH TO DATE',hint:'VOICE ACTIVATIONS',fields:[['PPV','ppv']]},
+    {label:'ATTACHMENT + ACCESSORIES',hint:'INSURANCE · ACCESSORIES · NEXT UP · PREMIUM',fields:[['Insurance','protectadvantage_rate'],['ACC / OPP','acc_per_opp'],['Next Up','nextup_rate'],['Premium','premium_loading_rate']]},
+    {label:'AIA · INTERNET',hint:'POSTED + CLOSE RATE',fields:[['AIA Posted','aia_posted'],['AIA Close','aia_close']]},
+    {label:'DATA + UPGRADES',hint:'CONNECTED DEVICES + UPGRADES',fields:[['Data','data'],['Upgrades','upgrades']]},
+    {label:'ESTIMATED COMMISSION',hint:'MONTH TO DATE + MONTH-END PACE · INCLUDES BONUSES',fields:[['Comp MTD','comp_mtd'],['Comp Pace','comp_pace']]}
+  ];
   const funMessages=['Small steps. Big paychecks.','Sell an AIA. Your future self says thanks.','Is that a Next Up opportunity? 👀','Hello? Anyone making money today?','Protect the phone. Protect the paycheck.','If the marker squeaks, it counts as motivation.'];
+  function renderFunManagerNote(){
+    const text=typeof S.ui?.fun_manager_note==='string'?S.ui.fun_manager_note:'';
+    $('funManagerCornerText').textContent=text;
+    $('funManagerCorner').classList.toggle('empty',!text.trim());
+  }
+  async function saveFunManagerNote(){
+    if(!S.managerPassword){openManagerLogin();return;}
+    const text=$('mgrFunNote').value.slice(0,500);
+    const btn=$('saveFunNote');btn.disabled=true;btn.textContent='SAVING…';$('mgrFunNoteStatus').textContent='Saving for all devices…';
+    try{
+      const response=await protectedCall(FUN_NOTE_URL,{password:S.managerPassword,note:text});
+      S.ui={...(S.ui||{}),fun_manager_note:typeof response.note==='string'?response.note:text};
+      renderFunManagerNote();$('mgrFunNoteStatus').textContent='Saved for all devices.';showToast('Whiteboard note saved');
+    }catch(e){$('mgrFunNoteStatus').textContent='Save failed: '+e.message;showToast('Note not saved');}
+    finally{btn.disabled=false;btn.textContent='SAVE WHITEBOARD NOTE';}
+  }
   const funNoteDefs=[{id:'hello',text:'Hello?',x:4,y:31,c:'yellow'},{id:'aia',text:'ASK ABOUT\nINTERNET',x:86,y:42,c:'blue'},{id:'coffee',text:'WHO OWES\nCOFFEE?',x:6,y:77,c:'pink'},{id:'pace',text:'CHECK\nYOUR PACE',x:86,y:76,c:'yellow'}];
   function setupFunNotes(){if(funNotesReady)return;funNotesReady=true;const holder=$('funStickies');holder.innerHTML=funNoteDefs.map(n=>`<div class="funSticky ${n.c}" data-note="${n.id}" role="button" tabindex="0" aria-label="Move sticky note ${esc(n.text.replace('\n',' '))}" style="left:${window.matchMedia('(max-width:760px)').matches&&n.id==='aia'?76:n.x}%;top:${window.matchMedia('(max-width:760px)').matches&&n.id==='aia'?25:n.y}%">${esc(n.text).replace(/\n/g,'<br>')}</div>`).join('');
     qsa('.funSticky',holder).forEach(note=>{let drag=null;note.addEventListener('pointerdown',e=>{if(e.button!==0)return;const rect=holder.getBoundingClientRect(),r=note.getBoundingClientRect();drag={dx:e.clientX-r.left,dy:e.clientY-r.top,rect};note.setPointerCapture(e.pointerId);note.classList.add('dragging');funDragging=true;});note.addEventListener('pointermove',e=>{if(!drag)return;const {rect,dx,dy}=drag;const x=Math.max(0,Math.min(rect.width-note.offsetWidth,e.clientX-rect.left-dx));const y=Math.max(0,Math.min(rect.height-note.offsetHeight,e.clientY-rect.top-dy));note.style.left=(x/rect.width*100)+'%';note.style.top=(y/rect.height*100)+'%';});const done=()=>{drag=null;note.classList.remove('dragging');funDragging=false};note.addEventListener('pointerup',done);note.addEventListener('pointercancel',done);});
   }
-  function renderFunBoard(){const holder=$('funRows');if(!holder)return;setupFunNotes();const reps=visibleReps(),view=funViews[funView%funViews.length];$('funColumnLabel').textContent=view.label;$('funViewLabel').textContent=view.hint;const date=S.monthRow?.snapshot_date;$('funDate').textContent=date?'EOD '+date+' · MONTH TO DATE':'WAITING FOR LIVE DATA';
-    const previousIds=qsa('.funRow',holder).map(x=>x.dataset.id).join(',');const currentIds=reps.map(r=>r.rep_id).join(',');if(previousIds!==currentIds){holder.innerHTML=reps.map((r,i)=>`<button type="button" class="funRow" data-id="${esc(r.rep_id)}" style="--row:${i}"><span class="funName">${esc(r.display_name)}</span><span class="funValue">—</span></button>`).join('');qsa('.funRow',holder).forEach(row=>row.addEventListener('click',()=>openRep(row.dataset.id)));}
-    reps.forEach(r=>{const row=qsa('.funRow',holder).find(x=>x.dataset.id===r.rep_id);if(!row)return;const m=repMetric(r.rep_id);const value=view.key==='comp'?fmtMoney(comp(calcBase(m)).total):view.key==='accessory_revenue'?fmtMoney0(m.accessory_revenue):displayValue(view.key,m);const cell=qs('.funValue',row);if(cell.textContent!==value){cell.textContent=value;cell.classList.remove('funInk');void cell.offsetWidth;cell.classList.add('funInk');}});
-    $('funTicker').textContent=funMessages[funView%funMessages.length];
+  function funPaceComp(m){
+    const scenario=calcBase(m),p=paceInfo();
+    if(p.ok)paceVolumeKeys.forEach(k=>{if(scenario[k]!=null)scenario[k]=Math.round(num(scenario[k])*p.factor)});
+    return comp(scenario).total;
   }
-  function advanceFunView(){funView=(funView+1)%funViews.length;renderFunBoard();}
-  function updateFunPause(){$('funPause').textContent=funPaused?'RESUME ANIMATION':'PAUSE ANIMATION';}
-  funCycleTimer=setInterval(()=>{if(!funPaused&&!funDragging&&$('fun')?.classList.contains('active'))advanceFunView()},5000);
+  function funFieldValue(key,m,isStore){
+    if(isStore&&(key==='comp_mtd'||key==='comp_pace'))return '';
+    if(key==='comp_mtd')return fmtMoney(comp(calcBase(m)).total);
+    if(key==='comp_pace')return fmtMoney(funPaceComp(m));
+    if(key==='acc_per_opp')return m?.acc_per_opp==null?'—':fmtMoney(m.acc_per_opp);
+    return displayValue(key,m);
+  }
+  function renderFunBoard(){
+    const holder=$('funRows');if(!holder)return;setupFunNotes();
+    const view=funViews[funView%funViews.length],reps=visibleReps();
+    const entries=[{id:'store',name:'STORE',metrics:S.store||{},store:true},...reps.map(r=>({id:r.rep_id,name:r.display_name,metrics:repMetric(r.rep_id),store:false}))];
+    $('funColumnLabel').textContent=view.label;
+    $('funViewLabel').textContent=view.hint;
+    const date=S.monthRow?.snapshot_date;
+    $('funDate').textContent=date?'EOD '+date+' · MONTH TO DATE':'WAITING FOR LIVE DATA';
+    const previousIds=qsa('.funRow',holder).map(x=>x.dataset.id).join(',');
+    const currentIds=entries.map(x=>x.id).join(',');
+    if(previousIds!==currentIds){
+      holder.innerHTML=entries.map((r,i)=>`<button type="button" class="funRow ${r.store?'storeRow':''}" data-id="${esc(r.id)}" style="--row:${i}"><span class="funName">${esc(r.name)}</span><span class="funValues"></span></button>`).join('');
+      qsa('.funRow',holder).forEach(row=>row.addEventListener('click',()=>{
+        if(row.dataset.id==='store'){showPage('store');syncDock('store')}
+        else openRep(row.dataset.id);
+      }));
+    }
+    const cols=view.fields.length;
+    $('funGroupColumns').style.setProperty('--cols',cols);
+    $('funGroupColumns').innerHTML=view.fields.map(([label])=>`<span>${esc(label)}</span>`).join('');
+    entries.forEach(entry=>{
+      const row=qsa('.funRow',holder).find(x=>x.dataset.id===entry.id);if(!row)return;
+      const cell=qs('.funValues',row);cell.style.setProperty('--cols',cols);
+      cell.innerHTML=view.fields.map(([,key])=>{
+        const value=funFieldValue(key,entry.metrics,entry.store);
+        return `<span class="funMetricValue ${value===''?'isBlank':''}">${value===''?'&nbsp;':esc(value)}</span>`;
+      }).join('');
+    });
+    $('funTicker').textContent=funMessages[funView%funMessages.length];
+    renderFunManagerNote();
+  }
+  function advanceFunView(){
+    if(funTransitioning||funDragging)return;
+    const cells=qsa('#funRows .funValues');
+    if(!cells.length){funView=(funView+1)%funViews.length;renderFunBoard();return;}
+    funTransitioning=true;
+    cells.forEach(c=>{c.classList.remove('funRewriting');c.classList.add('funErasing')});
+    setTimeout(()=>{
+      funView=(funView+1)%funViews.length;
+      renderFunBoard();
+      qsa('#funRows .funValues').forEach(c=>{c.classList.remove('funErasing');void c.offsetWidth;c.classList.add('funRewriting')});
+      setTimeout(()=>{qsa('#funRows .funValues').forEach(c=>c.classList.remove('funRewriting'));funTransitioning=false},1450);
+    },650);
+  }
+  const FUN_CYCLE_MS=15000;
+  let funElapsedMs=0,funClockLast=performance.now();
+  function resetFunClock(){funElapsedMs=0;funClockLast=performance.now();paintFunClock();}
+  function paintFunClock(){
+    const progress=Math.min(100,Math.max(0,funElapsedMs/FUN_CYCLE_MS*100));
+    $('funCycleFill').style.width=progress.toFixed(2)+'%';
+    $('funCycleTrack').setAttribute('aria-valuenow',String(Math.round(progress)));
+    $('funCycleText').textContent=funPaused?'PAUSED':`NEXT VIEW IN ${Math.max(0,Math.ceil((FUN_CYCLE_MS-funElapsedMs)/1000))}s`;
+  }
+  function updateFunPause(){$('funPause').textContent=funPaused?'RESUME ANIMATION':'PAUSE ANIMATION';funClockLast=performance.now();paintFunClock();}
+  funCycleTimer=setInterval(()=>{
+    const now=performance.now(),delta=Math.min(250,now-funClockLast);funClockLast=now;
+    if(!funPaused&&!funDragging&&!funTransitioning&&!document.hidden&&$('fun')?.classList.contains('active')){
+      funElapsedMs+=delta;
+      if(funElapsedMs>=FUN_CYCLE_MS){resetFunClock();advanceFunView();}
+    }
+    paintFunClock();
+  },80);
 
   function managerCompData(){
     const m=S.store||{};
@@ -1353,6 +1541,7 @@ body.pulseV2{background:#e9ecea;color:#172331;font-family:var(--plain)}
     $('managerCoachHistory').innerHTML=coachHistoryMarkup(id,m,true);
   }
   function renderManager(){
+    $('mgrFunNote').value=typeof S.ui?.fun_manager_note==='string'?S.ui.fun_manager_note:'';
     $('mgrSnapshot').value=S.monthRow?.snapshot_date||new Date().toISOString().slice(0,10);
     $('mgrStoreFields').innerHTML=managerStoreOrder.map(k=>fieldHTML('mgr_store_'+k,metricDefs[k].label,S.store?.[k],metricDefs[k].unit)).join('');
     $('mgrGoalFields').innerHTML=goalOrder.map(k=>{const g=goalFor(k,'store');return fieldHTML('goal_'+k,metricDefs[k].label,g?.target,metricDefs[k].unit)}).join('');
@@ -1399,14 +1588,15 @@ body.pulseV2{background:#e9ecea;color:#172331;font-family:var(--plain)}
         api('huddle_comp_config?month=eq.'+encodeURIComponent(S.month)+'&select=*'),
         api('huddle_app_config?config_key=eq.store_pulse_ui&select=config_value')
       ]);
-      S.monthRow=months[0]||null;S.reps=reps||[];S.store=store[0]||{};S.repMetrics=repMetrics||[];S.goals=goals||[];S.history=history||[];S.comp=compCfg[0]||null;S.ui=uiCfg[0]?.config_value||{};
+      S.monthRow=months[0]||null;S.reps=reps||[];S.store=store[0]||{};S.repMetrics=repMetrics||[];S.goals=goals||[];S.history=history||[];S.comp=compCfg[0]||null;S.ui=uiCfg[0]?.config_value||{};renderFunManagerNote();
       syncActiveRep();
       renderHome();renderStore();if(S.currentRep)renderRep();
     }catch(e){$('homeSnapshotGrid').innerHTML=`<div class="errorBox" style="grid-column:1/-1"><b>Store Pulse could not load.</b><br>${esc(e.message)}<br><br><button id="retryLoad" class="btn" type="button">Retry</button></div>`;$('homeStatus').textContent='Connection error';setTimeout(()=>$('retryLoad')?.addEventListener('click',()=>loadData(true)),0);}
   }
 
+  $('saveFunNote').addEventListener('click',saveFunManagerNote);
   $('mgrRevenue')?.addEventListener('input',updateManagerEstimate);$('mgrCost')?.addEventListener('input',updateManagerEstimate);
-  $('homeBtn').addEventListener('click',()=>{showPage('landing');syncDock('landing')});$('enterClassic').addEventListener('click',()=>{showPage('store');syncDock('store')});$('enterFun').addEventListener('click',()=>{showPage('fun');syncDock('fun')});$('funNext').addEventListener('click',()=>{funPaused=false;advanceFunView();updateFunPause()});$('funPause').addEventListener('click',()=>{funPaused=!funPaused;updateFunPause()});
+  $('homeBtn').addEventListener('click',()=>{showPage('landing');syncDock('landing')});$('enterClassic').addEventListener('click',()=>{showPage('store');syncDock('store')});$('enterFun').addEventListener('click',()=>{showPage('fun');syncDock('fun')});$('funNext').addEventListener('click',()=>{funPaused=false;resetFunClock();advanceFunView();updateFunPause()});$('funPause').addEventListener('click',()=>{funPaused=!funPaused;updateFunPause()});
   $('storeBtn').addEventListener('click',()=>{renderStore();showPage('store')});
   $('repSelect').addEventListener('change',e=>openRep(e.target.value));
   $('openCalc').addEventListener('click',openCalculator);$('closeCalc').addEventListener('click',closeCalc);$('doneCalc').addEventListener('click',closeCalc);
