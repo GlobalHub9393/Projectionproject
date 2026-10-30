@@ -858,6 +858,41 @@ body.pulseV2{background:#e9ecea;color:#172331;font-family:var(--plain)}
  .funNoteEditRow button{padding:8px 5px}
 }
 @media(prefers-reduced-motion:reduce){.funSticky.wiggle{animation:none!important}}
+
+/* Store Pulse 2.4 seasonal layer: strictly scoped to Fun Mode. */
+#fun .halloweenDecor{display:none;position:absolute;inset:0;pointer-events:none;z-index:2;overflow:hidden}
+#fun .halloweenEdition{display:none}
+#fun .funBoard.halloween-on .halloweenDecor{display:block}
+#fun .funBoard.halloween-on .halloweenEdition{display:block;margin-top:3px;font:900 clamp(10px,1.05vw,13px)/1.2 var(--marker);letter-spacing:.09em;color:#b96925;transform:rotate(1deg)}
+#fun .funBoard.halloween-on .funTopTitle span{color:#c5762a!important}
+#fun .funBoard.halloween-on .funCycleFill{background:#e28a30;box-shadow:0 0 2px #bc6c24}
+#fun .funBoard.halloween-on .funCycleTrack{border-bottom-color:rgba(177,110,44,.48)}
+#fun .funBoard.halloween-on .funTicker{color:#a45c26!important}
+#fun .funBoard.halloween-on .funScoreHead{border-bottom-color:#986239}
+#fun .funBoard.halloween-on .funBottomLine{border-top-color:#986239}
+#fun .funBoard.halloween-on .funMetricValue.moneyValue{color:#237a4d!important}
+#fun .halloweenWeb{position:absolute;right:1.8%;top:2.2%;width:clamp(65px,9vw,116px);height:auto;color:#6b7479;opacity:.38}
+#fun .halloweenBat{position:absolute;color:#3d4854;opacity:.75;width:clamp(37px,5.5vw,72px);height:auto;transform-origin:50% 20%}
+#fun .batOne{left:36%;top:2.4%;transform:rotate(-8deg);animation:batSway 6s ease-in-out infinite}
+#fun .batTwo{left:48%;top:5.7%;width:clamp(22px,3.2vw,41px);opacity:.48;transform:rotate(10deg);animation:batSway 8s ease-in-out infinite reverse}
+#fun .halloweenGhost{position:absolute;right:2.6%;top:54%;width:clamp(38px,5.5vw,70px);height:clamp(46px,6.5vw,81px);background:#fffdf6;border:2px solid #9eabb2;border-radius:46% 46% 10% 10%;box-shadow:0 4px 12px #3544512b;opacity:.88;clip-path:polygon(0 0,100% 0,100% 100%,83% 88%,65% 100%,48% 89%,30% 100%,15% 89%,0 100%);animation:ghostDrift 8s ease-in-out infinite}
+#fun .ghostEyes{display:flex;gap:clamp(7px,1vw,12px);position:absolute;left:50%;top:35%;transform:translateX(-50%)}
+#fun .ghostEyes i{display:block;width:clamp(4px,.65vw,7px);height:clamp(7px,1vw,11px);border-radius:50%;background:#263747}
+#fun .ghostMouth{position:absolute;left:48%;top:58%;width:8px;height:10px;background:#263747;border-radius:50%}
+#fun .halloweenPumpkin{position:absolute;left:2.5%;bottom:13%;width:clamp(44px,7vw,83px);opacity:.93;transform:rotate(-7deg)}
+#fun .halloweenBoo{position:absolute;right:2.8%;bottom:12%;font:900 clamp(17px,2.6vw,30px) var(--marker);color:#b46b2a;transform:rotate(9deg);opacity:.72;animation:booPeek 14s ease-in-out infinite}
+@keyframes ghostDrift{0%,100%{transform:translateY(0) rotate(-4deg)}50%{transform:translateY(-13px) rotate(4deg)}}
+@keyframes batSway{0%,100%{rotate:-4deg}50%{rotate:5deg}}
+@keyframes booPeek{0%,20%,95%,100%{opacity:0;transform:translateY(8px) rotate(9deg)}26%,70%{opacity:.72;transform:translateY(0) rotate(9deg)}}
+@media(max-width:760px){
+ #fun .halloweenWeb{right:3%;top:3%;width:57px;opacity:.22}
+ #fun .batOne{left:24%;top:5%;width:38px}
+ #fun .batTwo,#fun .halloweenPumpkin,#fun .halloweenBoo{display:none}
+ #fun .halloweenGhost{right:2%;top:24%;width:30px;height:39px;opacity:.68}
+ #fun .ghostEyes{gap:5px}#fun .ghostEyes i{width:3px;height:6px}#fun .ghostMouth{width:5px;height:7px}
+ #fun .funBoard.halloween-on .halloweenEdition{display:none}
+}
+@media(prefers-reduced-motion:reduce){#fun .halloweenGhost,#fun .halloweenBat,#fun .halloweenBoo{animation:none!important}}
 </style>
 </head>
 <body>
@@ -889,8 +924,21 @@ body.pulseV2{background:#e9ecea;color:#172331;font-family:var(--plain)}
 
   <section id="fun" class="page">
     <div class="funBoard" id="funBoard">
+      <!-- October 30-31 only: playful seasonal decorations. Hidden automatically November 1 (America/New_York). -->
+      <div class="halloweenDecor" aria-hidden="true">
+        <svg class="halloweenWeb" viewBox="0 0 140 140" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+          <path d="M139 0H0M139 0V139M139 0 23 116M139 0 67 136M139 0 4 48"/>
+          <path d="M106 0Q111 19 139 29M74 0Q86 47 139 59M43 0Q56 78 139 91M17 0Q33 110 139 120"/>
+          <path d="M139 27Q118 24 108 12M139 58Q99 56 88 33M139 89Q82 85 66 55M139 120Q65 115 45 75" opacity=".7"/>
+        </svg>
+        <svg class="halloweenBat batOne" viewBox="0 0 110 54" fill="currentColor"><path d="M55 20C49 12 44 8 39 13L35 3L30 14C18 6 8 11 1 20C8 18 11 25 13 34C18 28 24 30 29 37C35 29 40 34 46 41L55 34L64 41C70 34 75 29 81 37C86 30 92 28 97 34C99 25 102 18 109 20C102 11 92 6 80 14L75 3L71 13C66 8 61 12 55 20Z"/></svg>
+        <svg class="halloweenBat batTwo" viewBox="0 0 110 54" fill="currentColor"><path d="M55 20C49 12 44 8 39 13L35 3L30 14C18 6 8 11 1 20C8 18 11 25 13 34C18 28 24 30 29 37C35 29 40 34 46 41L55 34L64 41C70 34 75 29 81 37C86 30 92 28 97 34C99 25 102 18 109 20C102 11 92 6 80 14L75 3L71 13C66 8 61 12 55 20Z"/></svg>
+        <div class="halloweenGhost"><div class="ghostEyes"><i></i><i></i></div><div class="ghostMouth"></div></div>
+        <svg class="halloweenPumpkin" viewBox="0 0 110 110" aria-hidden="true"><path d="M54 32Q50 19 59 13" stroke="#367446" stroke-width="8" stroke-linecap="round" fill="none"/><path d="M49 32Q27 18 17 40Q1 72 31 90Q53 104 78 90Q110 72 94 40Q83 18 60 32Z" fill="#ed8a27" stroke="#a95419" stroke-width="3"/><path d="M49 33Q23 62 44 94M61 33Q87 62 65 94" stroke="#bd631c" stroke-width="3" fill="none" opacity=".65"/><path d="M30 54l13-8-3 17zM81 54l-13-8 3 17z" fill="#513221"/><path d="M40 74Q55 86 71 74" fill="none" stroke="#513221" stroke-width="4" stroke-linecap="round"/></svg>
+        <div class="halloweenBoo">BOO!</div>
+      </div>
       <div class="funSurface">
-        <div class="funTop"><div class="funTopTitle">THE MONEY BOARD <span>✎</span></div><div class="funDate" id="funDate">LOADING…</div></div>
+        <div class="funTop"><div class="funTopTitle">THE MONEY BOARD <span>✎</span><small class="halloweenEdition">🎃 HALLOWEEN EDITION</small></div><div class="funDate" id="funDate">LOADING…</div></div>
         <div class="funScoreboard" id="funScoreboard">
           <div class="funScoreHead"><span>STORE + CREW</span><span id="funColumnLabel">PPV · MONTH TO DATE</span></div>
           <div class="funGroupHeader"><span>NAME</span><div class="funGroupColumns" id="funGroupColumns" style="--cols:1"><span>PPV</span></div></div>
@@ -1311,7 +1359,7 @@ body.pulseV2{background:#e9ecea;color:#172331;font-family:var(--plain)}
     ];
   }
 
-  function showPage(id){ qsa('.page').forEach(p=>p.classList.remove('active'));$(id).classList.add('active');$('homeBtn').classList.toggle('active',id==='landing');$('storeBtn').classList.toggle('active',id==='store');if(id==='fun')renderFunBoard();window.scrollTo({top:0,behavior:'smooth'}); }
+  function showPage(id){ qsa('.page').forEach(p=>p.classList.remove('active'));$(id).classList.add('active');$('homeBtn').classList.toggle('active',id==='landing');$('storeBtn').classList.toggle('active',id==='store');if(id==='fun'){if(typeof syncHalloweenFunTheme==='function')syncHalloweenFunTheme();renderFunBoard();}window.scrollTo({top:0,behavior:'smooth'}); }
   const homeStoreKeys=['ppv','aia_posted','aia_close','htp_close','data','acc_per_opp','protectadvantage_rate','csat'];
   const homeRepKeys=['ppv','aia_posted','aia_close','htp_close','upgrades','data','acc_per_opp','protectadvantage_rate','csat'];
   const teamFullKeys=['ppv','ppv_close','protectadvantage_rate','accessory_revenue','acc_per_opp','nextup_rate','premium_loading_rate','aia_posted','aia_submits','aia_close','upgrades','data','htp','htp_close','csat','opps','traffic','aia_green_checks','trade_rate'];
@@ -1463,6 +1511,34 @@ body.pulseV2{background:#e9ecea;color:#172331;font-family:var(--plain)}
     if(key==='acc_per_opp')return m?.acc_per_opp==null?'—':fmtMoney(m.acc_per_opp);
     return displayValue(key,m);
   }
+
+  // The store is in New Jersey: use its calendar date, not a viewer's device timezone.
+  // Decorations are present only October 30-31, 2026 and turn off automatically on November 1.
+  const halloweenFunMessages=[
+    'Scary good sales. 🎃',
+    'Don’t ghost your leads. 👻',
+    'Boo-st those accessories!',
+    'The only scary thing is a missed AIA.',
+    'Trick or treat? How about a new line?'
+  ];
+  let halloweenActive=false;
+  function halloweenInStoreTime(now=new Date()){
+    const parts=new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(now);
+    const values=Object.fromEntries(parts.filter(p=>p.type!=='literal').map(p=>[p.type,p.value]));
+    return values.year==='2026' && values.month==='10' && (values.day==='30'||values.day==='31');
+  }
+  function syncHalloweenFunTheme(){
+    const active=halloweenInStoreTime();
+    $('funBoard').classList.toggle('halloween-on',active);
+    if(active!==halloweenActive){
+      halloweenActive=active;
+      const text=active?halloweenFunMessages[funView%halloweenFunMessages.length]:funMessages[0];
+      $('funTicker').textContent=text;
+    }
+  }
+  syncHalloweenFunTheme();
+  setInterval(syncHalloweenFunTheme,30000);
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden)syncHalloweenFunTheme()});
   function renderFunBoard(){
     const holder=$('funRows');if(!holder)return;if(!funNotesReady)setupFunNotes();
     const view=funViews[funView%funViews.length],reps=visibleReps();
@@ -1502,6 +1578,7 @@ body.pulseV2{background:#e9ecea;color:#172331;font-family:var(--plain)}
     cells.forEach(c=>{c.classList.remove('funRewriting');c.classList.add('funErasing')});
     setTimeout(()=>{
       funView=(funView+1)%funViews.length;
+      if(halloweenActive) $('funTicker').textContent=halloweenFunMessages[funView%halloweenFunMessages.length];
       renderFunBoard();
       qsa('#funRows .funValues').forEach(c=>{c.classList.remove('funErasing');void c.offsetWidth;c.classList.add('funRewriting')});
       setTimeout(()=>{qsa('#funRows .funValues').forEach(c=>c.classList.remove('funRewriting'));funTransitioning=false},1450);
