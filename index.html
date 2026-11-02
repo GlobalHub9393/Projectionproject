@@ -985,7 +985,7 @@ body{background:linear-gradient(135deg,#ead3b3 0%,#f4e8d5 46%,#dfc5a5 100%);back
       <div class="historyKpis" id="historyKpis"></div>
       <div class="historyTools"><label>METRIC<select id="historyMetric"><option value="ppv">Voice activations</option><option value="aia_posted">AIA posted</option><option value="aia_submits">AIA submits</option><option value="aia_green_checks">Green checks</option><option value="accessory_revenue">Accessory revenue</option><option value="acc_per_opp">Official ACC / OPP</option><option value="protectadvantage_rate">Insurance %</option><option value="premium_loading_rate">Premium loading %</option><option value="nextup_rate">Next Up %</option><option value="upgrades">Upgrades</option><option value="data">Data</option><option value="trade_rate">Trade-in %</option><option value="csat">CSAT %</option><option value="traffic">Traffic</option></select></label><button id="historyExport" class="btn" type="button">EXPORT SNAPSHOTS CSV</button></div>
       <div class="historyChartWrap"><div class="historyChartTitle" id="historyChartTitle">Performance over time</div><div id="historyChart" class="historyChart"></div></div>
-      <div class="historyAsk"><h2>Ask your history</h2><p>Ask complex questions about rep performance, comparisons, trends, and coaching opportunities. Gemini analysis uses the available historical data.</p><div class="historyAskRow"><input id="historyQuestion" type="search" placeholder="Try: Compare Gage and Gio AIA in October"/><button class="btn" id="historyAskBtn" type="button">SEARCH</button></div><div class="historyExamples"><button type="button" data-history-question="Who had the most accessories in October?">Top accessories</button><button type="button" data-history-question="How many PPV did Gio have in October?">Gio's PPV</button><button type="button" data-history-question="What was store AIA close in October?">Store AIA close</button></div><div id="historyAnswer" class="historyAnswer" aria-live="polite">Try “Compare Gage and Gio AIA in October” or “Who led accessories?”</div></div>
+      <div class="historyAsk"><h2>Ask Gemini about your history</h2><p>Compare reps, investigate trends, and find coaching opportunities using real archived Store Pulse figures. Sign into Manager Mode first to use Gemini.</p><div class="historyAskRow"><input id="historyQuestion" type="search" placeholder="Try: Compare Gage and Gio AIA in October"/><button class="btn" id="historyAskBtn" type="button">ASK GEMINI</button></div><div class="historyExamples"><button type="button" data-history-question="Who had the most accessories in October?">Top accessories</button><button type="button" data-history-question="How many PPV did Gio have in October?">Gio's PPV</button><button type="button" data-history-question="What was store AIA close in October?">Store AIA close</button></div><div id="historyAnswer" class="historyAnswer" aria-live="polite">Try “Compare Gage and Gio AIA in October” or “Who led accessories?”</div></div>
       <div class="historyArchive"><h2>Snapshot timeline</h2><div id="historyTable" class="historyTable"></div></div>
       <p class="historyFootnote">Monthly totals are official stored totals. The chart uses uploaded cumulative snapshots, not individual transactions. Official ACC / OPP is never recalculated from adjusted opportunities. October remains read-only.</p>
     </div>
@@ -1913,38 +1913,32 @@ body{background:linear-gradient(135deg,#ead3b3 0%,#f4e8d5 46%,#dfc5a5 100%);back
     const question=$('historyQuestion').value.trim();
     if(!question)return;
     const output=$('historyAnswer');
-    output.textContent='Analyzing historical performance…';
+    if(!S.managerPassword){
+      output.textContent='Gemini historical analysis is available to Store Pulse managers. Sign into Manager Mode, then return here and ask your question.';
+      openManagerLogin();
+      return;
+    }
+    output.textContent='Gemini is reviewing the archived numbers…';
     $('historyAskBtn').disabled=true;
     try{
-      // Build a scoped, explicit evidence package from the same tables that power History.
-      // All cumulative snapshots are preserved as observations, not summed as daily transactions.
-      const selectedMonth=H.month;
-      const context={
-        selected_month:selectedMonth,
-        definitions:{
-          ppv:'Voice activations',aia_posted:'Posted AIA',aia_submits:'AIA submissions',
-          aia_green_checks:'AIA green checks',acc_per_opp:'Official mySUCCESS accessory revenue per opportunity, never recalculate using adjusted OPP',
-          protectadvantage_rate:'Insurance percentage',premium_loading_rate:'Premium plan loading percentage',
-          snapshot:'Cumulative month-to-date observation, not a daily sales total',
-          rates:'Stored rates are percentages; compare using percentage points'
-        },
-        store:H.store,reps:H.reps,people:H.people,
-        snapshots:H.snapshots.map(x=>({date:x.snapshot_date,scope:x.scope,rep_id:x.rep_id,metrics:x.metrics})),
-        month:H.months
-      };
+      // The server loads its own authoritative Store Pulse records. Client-provided data
+      // never replaces historical database facts, and the Gemini key stays server-side.
       const response=await fetch(SUPABASE_URL+'/functions/v1/store-pulse-ai',{
         method:'POST',headers:{'Content-Type':'application/json',apikey:SUPABASE_KEY},
-        body:JSON.stringify({question,month:selectedMonth,context,history:historyAIConversation.slice(-6)})
+        body:JSON.stringify({password:S.managerPassword,question,month:H.month,history:historyAIConversation.slice(-6)})
       });
       const data=await response.json();
-      if(!response.ok||!data.answer)throw new Error(data.error||'AI service not yet available');
+      if(!response.ok||!data.answer)throw new Error(data.error||'Gemini analysis unavailable');
       const evidence=Array.isArray(data.evidence)?data.evidence.filter(Boolean):[];
-      output.textContent=data.answer+(evidence.length?'\n\nSupporting figures:\n• '+evidence.join('\n• '):'')+(data.caveat?'\n\n'+data.caveat:'');
+      output.textContent=data.answer+
+        (evidence.length?'\n\nSupporting figures:\n• '+evidence.join('\n• '):'')+
+        (data.caveat?'\n\n'+data.caveat:'')+
+        (data.suggested_followup?'\n\nExplore next: '+data.suggested_followup:'');
       historyAIConversation.push({role:'user',text:question},{role:'assistant',text:data.answer});
       if(historyAIConversation.length>12)historyAIConversation.splice(0,historyAIConversation.length-12);
     }catch(err){
-      output.textContent='Gemini historical analysis is not connected yet. '+(err.message||'')+
-        '\nThe charts and archived numbers above remain available. No historical figures have been changed.';
+      output.textContent='Gemini could not complete that analysis. '+(err.message||'Please try again.')+
+        '\nThe archived tables and charts above are still available.';
     }finally{$('historyAskBtn').disabled=false;}
   }
   $('historyBtn').addEventListener('click',()=>{showPage('historical');loadHistorical()});
