@@ -787,10 +787,31 @@ body{background:linear-gradient(135deg,#ead3b3 0%,#f4e8d5 46%,#dfc5a5 100%);back
 @keyframes holidayShiver{0%,100%{transform:translateX(0)}25%{transform:translateX(-1.6px)}75%{transform:translateX(1.6px)}}
 @media(max-width:400px){.funHolidayLights i:nth-child(2n){display:none}.funHolidayControls{margin-bottom:16px}}
 @media(prefers-reduced-motion:reduce){.funHolidayLights i,.funFrosty,.holidayOn .funRepName button.funFrozen{animation:none}.holidayOn .funHolidaySnow{display:none}}
+
+.holidayHeader{position:relative;display:flex;justify-content:flex-end;padding:4px clamp(10px,3vw,32px);border-top:1px solid #ffffff30}
+#globalHolidayToggle{position:relative;z-index:1;border:1px solid #ffffff88;border-radius:16px;padding:3px 10px;background:#fff;color:#234c38;font-weight:750;cursor:pointer;white-space:nowrap}
+#globalHolidayToggle[aria-pressed=true]{background:#a02135;color:white}
+body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df);background-attachment:fixed}
+.holidayGlobal .topbar{background:linear-gradient(100deg,#163f33,#245f45 58%,#1d4235);border-bottom-color:#ba2c43}
+.holidayGlobal .topbar:after{content:none}
+.holidayGlobal .markerDock{background:#194435;border-top:2px solid #b52d42}
+.holidayGlobal #globalHolidayLights{display:flex;position:absolute;top:-2px;left:0;right:9.5em;justify-content:space-around;border-top:2px solid #112b22;pointer-events:none}
+.holidayGlobal .funHolidaySnow{display:block;position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:81}
+.funSnowExtra{display:none}
+.holidayGlobal:has(#fun.active) .funSnowExtra{display:block}
+#fun.holidayOn .funWhiteboard{box-shadow:0 0 0 2px #1b6342,0 0 22px #9b243e4d}
+.holidayOn .funHolidayScene{display:grid;grid-template-columns:1fr;align-items:end;background:linear-gradient(0deg,#e2f0f7aa,transparent 45%)}
+.funSanta{grid-row:1;justify-self:end;animation:santaJingle 3.2s ease-in-out infinite}
+@keyframes santaJingle{0%,84%,100%{transform:rotate(0)}90%{transform:rotate(4deg)}95%{transform:rotate(-4deg)}}
+.frostyTrack{position:relative;width:100%;min-height:clamp(78px,13vw,116px);overflow:hidden;container-type:inline-size}
+.frostyTraveler{position:absolute;bottom:0;left:0;width:clamp(56px,12vw,105px);text-align:center;animation:frostyRoam 13s ease-in-out infinite alternate}
+@keyframes frostyRoam{0%,5%{transform:translateX(0)}91%,100%{transform:translateX(calc(100cqw - 100%))}}
+@media(prefers-reduced-motion:reduce){.holidayGlobal .funHolidaySnow{display:none}.frostyTraveler,.funSanta{animation:none}}
 </style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kalam:wght@700&amp;display=swap">
 </head>
 <body>
+<div class="funHolidaySnow" id="funHolidaySnow" aria-hidden="true"></div>
 <div id="autumnGusts" aria-hidden="true"></div>
 <div class="topbar">
   <div class="topin">
@@ -801,6 +822,7 @@ body{background:linear-gradient(135deg,#ead3b3 0%,#f4e8d5 46%,#dfc5a5 100%);back
     <button id="modeBtn" class="modebtn" type="button">✎ <span class="modeText">FUN MODE</span></button>
     <button id="managerBtn" class="navbtn managerBtn" type="button">MANAGER</button>
   </div>
+  <div class="holidayHeader"><div id="globalHolidayLights" class="funHolidayLights" aria-hidden="true"></div><button type="button" id="globalHolidayToggle" aria-pressed="true">🎄 Holiday Mode</button></div>
 </div>
 
 <main>
@@ -840,11 +862,10 @@ body{background:linear-gradient(135deg,#ead3b3 0%,#f4e8d5 46%,#dfc5a5 100%);back
         <div class="funManagerCornerText" id="funManagerCornerText"></div>
       </section>
       <div class="funHolidayScene">
-        <span class="funFrosty" role="img" aria-label="Frosty dancing">⛄</span>
+        <div class="frostyTrack"><div class="frostyTraveler"><span class="funFrosty" role="img" aria-label="Frosty dancing across the board">⛄</span></div></div>
         <div class="funSanta"><span role="img" aria-label="Santa">🎅</span><span class="funSantaBag" role="img" aria-label="A huge bag of money">💰</span><div class="funSantaList">(s)hit list<small>Naughty / Nice</small></div></div>
       </div>
     </div>
-    <div class="funHolidaySnow" id="funHolidaySnow" aria-hidden="true"></div>
     <button class="funPopup" id="funPopup" type="button" hidden></button>
   </section>
 
@@ -1413,12 +1434,16 @@ body{background:linear-gradient(135deg,#ead3b3 0%,#f4e8d5 46%,#dfc5a5 100%);back
   const holidayPalette=['#f04751','#45c975','#ffca4f','#69b8ff','#e567aa'];
   let holidayOn=true;
   try{holidayOn=localStorage.getItem(holidayKey)!=='off'}catch{}
-  for(let i=0;i<32;i++){
+  for(let i=0;i<58;i++){
     const bulb=document.createElement('i');
     bulb.style.setProperty('--bulb',holidayPalette[i%holidayPalette.length]);
     bulb.style.setProperty('--delay',-(i%7)*.31+'s');
-    $('funHolidayLights').append(bulb);
+    if(i<32){
+      $('funHolidayLights').append(bulb);
+      $('globalHolidayLights').append(bulb.cloneNode());
+    }
     const flake=document.createElement('i');
+    if(i>=32)flake.classList.add('funSnowExtra');
     flake.textContent=i%3===0?'❅':'❄';
     flake.style.setProperty('--x',Math.random()*100+'%');
     flake.style.setProperty('--size',9+Math.random()*13+'px');
@@ -1429,14 +1454,17 @@ body{background:linear-gradient(135deg,#ead3b3 0%,#f4e8d5 46%,#dfc5a5 100%);back
   }
   function paintFunHoliday(){
     holidayBoard.classList.toggle('holidayOn',holidayOn);
+    document.body.classList.toggle('holidayGlobal',holidayOn);
+    $('globalHolidayToggle').setAttribute('aria-pressed',String(holidayOn));
+    if(holidayOn)$('autumnGusts').replaceChildren();
     holidayToggle.setAttribute('aria-pressed',String(holidayOn));
   }
   paintFunHoliday();
-  holidayToggle.addEventListener('click',()=>{
+  [holidayToggle,$('globalHolidayToggle')].forEach(button=>button.addEventListener('click',()=>{
     holidayOn=!holidayOn;
     paintFunHoliday();
     try{localStorage.setItem(holidayKey,holidayOn?'on':'off')}catch{}
-  });
+  }));
   setInterval(()=>{
     if(!holidayOn||document.hidden||!holidayBoard.classList.contains('active'))return;
     const names=qsa('#funRows .funRepName button');
@@ -1847,7 +1875,7 @@ body{background:linear-gradient(135deg,#ead3b3 0%,#f4e8d5 46%,#dfc5a5 100%);back
   $('historyMonth').addEventListener('change',e=>{H.month=e.target.value;loadHistorical()});$('historyScope').addEventListener('change',e=>{H.scope=e.target.value;renderHistorical()});$('historyMetric').addEventListener('change',e=>{H.metric=e.target.value;historyChart()});$('historyAskBtn').addEventListener('click',historyAnswer);$('historyQuestion').addEventListener('keydown',e=>{if(e.key==='Enter')historyAnswer()});qsa('[data-history-question]').forEach(b=>b.addEventListener('click',()=>{$('historyQuestion').value=b.dataset.historyQuestion;historyAnswer()}));
   $('historyExport').addEventListener('click',()=>{const rows=historyRows();const keys=['snapshot_date','scope','rep_id',...Object.keys(rows[0]?.metrics||{})];const csv=[keys.join(','),...rows.map(x=>keys.map(k=>JSON.stringify(k in x?x[k]:x.metrics?.[k]??'')).join(','))].join('\r\n');const blob=new Blob([csv],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='store-pulse-'+H.month+'-'+H.scope+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)});
   // Gusts occur occasionally and never alter Fun Mode's own animation timers.
-  const autumnEnabled=()=>new Date().getMonth()===10&&!matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const autumnEnabled=()=>!holidayOn&&new Date().getMonth()===10&&!matchMedia('(prefers-reduced-motion: reduce)').matches;
   function autumnGust(){if(document.hidden||$('fun').classList.contains('active')||!autumnEnabled())return;const holder=$('autumnGusts');const leaves=['🍂','🍁','🍃'];for(let i=0;i<13;i++){const leaf=document.createElement('span');leaf.className='autumnLeaf';leaf.textContent=leaves[Math.floor(Math.random()*leaves.length)];leaf.style.setProperty('--leaf-y',(10+Math.random()*75)+'vh');leaf.style.setProperty('--leaf-size',(22+Math.random()*23)+'px');leaf.style.setProperty('--leaf-duration',(8+Math.random()*5)+'s');leaf.style.setProperty('--leaf-drift',(-90+Math.random()*180)+'px');leaf.style.setProperty('--leaf-turn',(400+Math.random()*600)+'deg');leaf.style.animationDelay=(i*.27)+'s';holder.appendChild(leaf);leaf.addEventListener('animationend',()=>leaf.remove(),{once:true});}}
   // A visible opening gust, then a relaxed rhythm; keep all leaves noninteractive.
   setTimeout(autumnGust,1800);
