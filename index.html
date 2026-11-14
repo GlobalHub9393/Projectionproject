@@ -807,6 +807,22 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
 .frostyTraveler{position:absolute;bottom:0;left:0;width:clamp(56px,12vw,105px);text-align:center;animation:frostyRoam 13s ease-in-out infinite alternate}
 @keyframes frostyRoam{0%,5%{transform:translateX(0)}91%,100%{transform:translateX(calc(100cqw - 100%))}}
 @media(prefers-reduced-motion:reduce){.holidayGlobal .funHolidaySnow{display:none}.frostyTraveler,.funSanta{animation:none}}
+
+#landing .pulseWelcome{position:relative}
+#landing .welcomeTop{padding-right:70px}
+.brownsMillsSticky{position:absolute;top:18px;right:20px;z-index:2;min-width:64px;min-height:48px;border:0;border-radius:2px;background:#fff08f;color:#283e58;box-shadow:2px 4px 8px #26355340;transform:rotate(7deg);font:700 20px "Kalam",var(--marker);cursor:pointer}
+.brownsMillsSticky:hover,.brownsMillsSticky:focus-visible{transform:rotate(0)}
+@media(max-width:500px){.brownsMillsSticky{right:12px;top:14px;min-width:56px;font-size:17px}#landing .welcomeTop{padding-right:0}#landing .welcomeEyebrow{padding-right:60px}}
+#brownsMillsCodeDialog{width:min(90vw,360px);border:1px solid #cbd5de;border-radius:12px;background:#fff;padding:23px;color:#22384d}
+#brownsMillsCodeDialog::backdrop{background:#102334ad}
+#brownsMillsCodeDialog h2{margin:0 0 10px}
+#brownsMillsCodeDialog input{display:block;width:100%;margin-top:6px;padding:10px;border:1px solid #8298ad;border-radius:6px;font:inherit;text-transform:uppercase}
+#brownsMillsCodeError{min-height:1.5em;margin:5px 0;color:#a42024}
+.brownsMillsActions{display:flex;justify-content:flex-end;gap:8px}
+.brownsMillsGrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(122px,1fr));gap:10px;margin-top:18px}
+.brownsMillsMetric{padding:12px;border:1px solid #cbd6df;border-radius:8px;background:#fff}
+.brownsMillsMetric span,.brownsMillsMetric strong{display:block}
+.brownsMillsMetric strong{margin-top:5px;font-size:23px;color:#31587a}
 </style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kalam:wght@700&amp;display=swap">
 </head>
@@ -828,6 +844,7 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
 <main>
   <section id="landing" class="page active">
     <div class="pulseWelcome board">
+      <button class="brownsMillsSticky" id="brownsMillsDoor" type="button" aria-haspopup="dialog">hello?</button>
       <div class="welcomeTop"><div class="welcomeEyebrow">CINNAMINSON • STORE PULSE</div><h1>Choose your board<span class="welcomePeriod">.</span></h1><p>Same live numbers. Two very different ways to see them.</p><div class="welcomeFresh" id="welcomeFresh">Connecting to Store Pulse…</div></div>
       <div class="welcomeChoices">
         <button class="welcomeChoice" id="enterClassic" type="button"><span class="welcomeIcon">▦</span><span class="welcomeChoiceName">Classic Mode</span><span class="welcomeChoiceDesc">Store scoreboard, rep stats, coaching and the comp worksheet.</span><span class="welcomeArrow">OPEN CLASSIC →</span></button>
@@ -1001,7 +1018,31 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
       </div>
     </div>
   </section>
+  <section id="brownsMills" class="page" aria-labelledby="brownsMillsTitle">
+    <div class="board historyBoard">
+      <div class="historyHead">
+        <div><div class="welcomeEyebrow">BROWNS MILLS • STORE PULSE</div>
+          <h1 id="brownsMillsTitle" tabindex="-1">Browns Mills</h1>
+          <p>Waiting for the first Browns Mills numbers.</p>
+        </div>
+        <button id="brownsMillsHome" class="btn" type="button">Back to home</button>
+      </div>
+      <div id="brownsMillsMetrics" class="brownsMillsGrid" aria-label="Browns Mills store metrics"></div>
+    </div>
+  </section>
 </main>
+<dialog id="brownsMillsCodeDialog" aria-labelledby="brownsMillsCodeTitle">
+  <form id="brownsMillsCodeForm">
+    <h2 id="brownsMillsCodeTitle">Enter the code</h2>
+    <label for="brownsMillsCode">Code</label>
+    <input id="brownsMillsCode" type="password" autocapitalize="characters" autocomplete="off" spellcheck="false" required aria-describedby="brownsMillsCodeError">
+    <p id="brownsMillsCodeError" role="status"></p>
+    <div class="brownsMillsActions">
+      <button class="btn" id="brownsMillsCancel" type="button">Cancel</button>
+      <button class="btn green" type="submit">Open</button>
+    </div>
+  </form>
+</dialog>
 <nav id="markerDock" class="markerDock" aria-label="Store Pulse tabs">
   <button type="button" data-dock="landing" class="dockTab active"><span>⌂</span> SNAPSHOT</button>
   <button type="button" data-dock="store" class="dockTab"><span>▦</span> TEAM</button>
@@ -1773,6 +1814,40 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
     if(page==='rep'&&repId){ document.querySelector(`#markerDock [data-dock-rep="${repId}"]`)?.classList.add('active'); if(['gage','tj'].includes(repId)) $('moreDockBtn')?.classList.add('active'); }
     else document.querySelector(`[data-dock="${page}"]`)?.classList.add('active');
   }
+  // This code hides an unlisted board in the UI. It is not an authentication boundary.
+  const brownsMillsCode='OYZV';
+  const brownsMillsDialog=$('brownsMillsCodeDialog');
+  const brownsMillsInput=$('brownsMillsCode');
+  $('brownsMillsDoor').addEventListener('click',()=>{
+    $('brownsMillsCodeForm').reset();
+    $('brownsMillsCodeError').textContent='';
+    brownsMillsInput.removeAttribute('aria-invalid');
+    brownsMillsDialog.showModal();
+    brownsMillsInput.focus();
+  });
+  $('brownsMillsCancel').addEventListener('click',()=>brownsMillsDialog.close());
+  $('brownsMillsCodeForm').addEventListener('submit',event=>{
+    event.preventDefault();
+    if(brownsMillsInput.value.trim().toUpperCase()!==brownsMillsCode){
+      $('brownsMillsCodeError').textContent='That code didn’t open the board.';
+      brownsMillsInput.setAttribute('aria-invalid','true');
+      brownsMillsInput.select();
+      return;
+    }
+    brownsMillsDialog.close();
+    showPage('brownsMills');
+    syncDock('brownsMills');
+    $('brownsMillsTitle').focus({preventScroll:true});
+  });
+  $('brownsMillsHome').addEventListener('click',()=>{
+    showPage('landing');
+    syncDock('landing');
+    $('brownsMillsDoor').focus({preventScroll:true});
+  });
+  const brownsMillsKeys=['ppv','protectadvantage_rate','nextup_rate','premium_loading_rate','aia_posted','aia_close','accessory_revenue','acc_per_opp','htp_close','csat'];
+  $('brownsMillsMetrics').innerHTML=brownsMillsKeys.map(key=>
+    `<div class="brownsMillsMetric"><span>${esc(metricLabel(key))}</span><strong aria-label="Awaiting data">—</strong></div>`
+  ).join('');
   qsa('[data-dock]').forEach(b=>b.addEventListener('click',()=>{showPage(b.dataset.dock);syncDock(b.dataset.dock)}));
   qsa('[data-dock-rep]').forEach(b=>b.addEventListener('click',()=>{openRep(b.dataset.dockRep);syncDock('rep',b.dataset.dockRep);$('dockMoreMenu')?.classList.remove('open')}));
   $('moreDockBtn')?.addEventListener('click',()=>{$('dockMoreMenu')?.classList.toggle('open')});
