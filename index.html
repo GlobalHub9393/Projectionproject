@@ -1051,7 +1051,29 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
         <option value="kayla">Kayla</option>
       </select>
       <p id="brownsMillsSource"></p>
+      <button id="brownsMillsComp" class="btn" type="button">Open rep comp calculator</button>
       <div id="brownsMillsMetrics" aria-label="Browns Mills store metrics"></div>
+      <section class="managerCompBoard" aria-labelledby="brownsMillsManagerCompHeading">
+        <div class="managerCompHeadingRow">
+          <div><div class="kicker">MANAGER COMP</div><h2 id="brownsMillsManagerCompHeading">PROFIT SHARE CALCULATOR</h2></div>
+          <div class="andyNote">LET'S MAKE ANDY<br>SPEND MORE MONEY.<br><b>EARN COMP.</b></div>
+        </div>
+        <div class="managerCompLayout">
+          <div class="managerCalcDevice">
+            <div class="tiBrand"><b>STORE PULSE</b><span>MANAGER EDITION</span></div>
+            <div class="managerLcd">
+              <span>FINAL RATE</span><strong id="brownsMillsmgrCompRate">—</strong>
+              <div><b id="brownsMillsmgrRevRate">—</b> REV + <b id="brownsMillsmgrProfitRate">—</b> PROFIT</div>
+            </div>
+            <div class="managerCalcInputs">
+              <label>EXPECTED REVENUE <input id="brownsMillsmgrRevenue" type="number" min="0" step="100" value="23000" inputmode="decimal"></label>
+              <label>EXPECTED PROFIT <input id="brownsMillsmgrCost" type="number" step="100" value="5000" inputmode="decimal"></label>
+            </div>
+            <div class="managerCalcResult"><span>EST. MANAGER COMP</span><strong id="brownsMillsmgrCompTotal">RATE ONLY</strong><small id="brownsMillsmgrCompGate">Enter expected net profit to estimate payout.</small></div>
+          </div>
+          <div class="managerCompMath" id="brownsMillsmgrCompMath"></div>
+        </div>
+      </section>
     </div>
   </section>
 </main>
@@ -1602,9 +1624,9 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
   document.addEventListener('visibilitychange',()=>scheduleFunPopup(FUN_NOTE_GAP));
   window.addEventListener('resize',()=>{if(!funPopup.hidden)positionFunPopup()});
 
-  function managerCompData(){
-    const m=S.store||{};
-    const pa=num(m.protectadvantage_rate),premium=num(premiumLoading(m)),nu=num(m.nextup_rate),acc=num(m.acc_per_opp),aia=aiaClose(m),htp=Math.min(htpClose(m),15),csat=num(m.csat);
+  function managerCompData(browns=false){
+    const m=browns?Object.fromEntries(brownsMillsReported):S.store||{};
+    const pa=num(m.protectadvantage_rate),premium=num(premiumLoading(m)),nu=num(m.nextup_rate),acc=num(m.acc_per_opp),aia=browns?num(m.aia_close):aiaClose(m),htp=Math.min(browns?num(m.htp_close):htpClose(m),15),csat=num(m.csat);
     // Andy's example treats 6% AIA close as .90 after the 1.5x weighting: (6 / 10) * 1.5.
     const pieces={pa:pa/100,premium:premium/100,nu:nu/100,acc:acc/100,aia:(aia/10)*1.5};
     const base=pieces.pa+pieces.premium+pieces.nu+pieces.acc+pieces.aia;
@@ -1613,9 +1635,10 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
     const finalRate=base*(1+bonus),half=finalRate/2;
     return {pa,premium,nu,acc,aia,htp,csat,pieces,base,csatBonus,bonus,finalRate,half};
   }
-  function renderManagerComp(){
-    const c=managerCompData();
-    $('mgrCompRate').textContent=c.finalRate.toFixed(3)+'%';$('mgrRevRate').textContent=c.half.toFixed(3)+'%';$('mgrProfitRate').textContent=c.half.toFixed(3)+'%';
+  function renderManagerComp(browns=false){
+    const field=id=>$(browns?'brownsMills'+id:id);
+    const c=managerCompData(browns);
+    field('mgrCompRate').textContent=c.finalRate.toFixed(3)+'%';field('mgrRevRate').textContent=c.half.toFixed(3)+'%';field('mgrProfitRate').textContent=c.half.toFixed(3)+'%';
     const rows=[
       ['Insurance / PA',fmtPct(c.pa),c.pieces.pa.toFixed(3)],
       ['Premium Loading',fmtPct(c.premium),c.pieces.premium.toFixed(3)],
@@ -1623,16 +1646,17 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
       ['ACC / OPP',fmtMoney(c.acc),c.pieces.acc.toFixed(3)],
       ['AIA Close × 1.5',fmtPct(c.aia),c.pieces.aia.toFixed(3)]
     ];
-    $('mgrCompMath').innerHTML=rows.map(x=>`<div class="managerMathRow"><span class="source">${esc(x[0])}</span><span class="raw">${esc(x[1])}</span><span class="points">+${esc(x[2])}</span></div>`).join('')+`<div class="managerMathTotal"><span>BASE RATE</span><span>${c.base.toFixed(3)}%</span></div><div class="managerMathBonus">HTP ${fmtPct(c.htp)} + CSAT ${c.csat>=90?fmtPct(c.csat/10):'0% (needs 90% CSAT)'} = ${(c.bonus*100).toFixed(2).replace(/0+$/,'').replace(/\.$/,'')}% bonus on the base rate.</div><div class="managerMathTotal"><span>FINAL RATE</span><span>${c.finalRate.toFixed(3)}%</span></div>`;
-    updateManagerEstimate();
+    field('mgrCompMath').innerHTML=rows.map(x=>`<div class="managerMathRow"><span class="source">${esc(x[0])}</span><span class="raw">${esc(x[1])}</span><span class="points">+${esc(x[2])}</span></div>`).join('')+`<div class="managerMathTotal"><span>BASE RATE</span><span>${c.base.toFixed(3)}%</span></div><div class="managerMathBonus">HTP ${fmtPct(c.htp)} + CSAT ${c.csat>=90?fmtPct(c.csat/10):'0% (needs 90% CSAT)'} = ${(c.bonus*100).toFixed(2).replace(/0+$/,'').replace(/\.$/,'')}% bonus on the base rate.</div><div class="managerMathTotal"><span>FINAL RATE</span><span>${c.finalRate.toFixed(3)}%</span></div>`;
+    updateManagerEstimate(browns);
   }
-  function updateManagerEstimate(){
-    const c=managerCompData(),rev=num($('mgrRevenue')?.value),costRaw=$('mgrCost')?.value,hasCost=costRaw!==''&&costRaw!=null,cost=hasCost?num(costRaw):0;
-    if(!hasCost){$('mgrCompTotal').textContent='RATE ONLY';$('mgrCompGate').textContent=`At ${fmtMoney0(rev)} revenue: ${c.half.toFixed(3)}% revenue share + ${c.half.toFixed(3)}% of net profit. Enter store cost to confirm profitability.`;return;}
-    const profit=rev-cost;
-    if(profit<=0){$('mgrCompTotal').textContent='$0.00';$('mgrCompGate').innerHTML='<span class="profitWarning">Store is not profitable — manager payout is $0.</span>';return;}
+  function updateManagerEstimate(browns=false){
+    const field=id=>$(browns?'brownsMills'+id:id);
+    const c=managerCompData(browns),rev=num(field('mgrRevenue')?.value),costRaw=field('mgrCost')?.value,hasCost=costRaw!==''&&costRaw!=null,cost=hasCost?num(costRaw):0;
+    if(!hasCost){field('mgrCompTotal').textContent='RATE ONLY';field('mgrCompGate').textContent=`At ${fmtMoney0(rev)} revenue: ${c.half.toFixed(3)}% revenue share + ${c.half.toFixed(3)}% of net profit. ${browns?'Enter expected net profit.':'Enter store cost to confirm profitability.'}`;return;}
+    const profit=browns?Number(costRaw):rev-cost;
+    if(profit<=0){field('mgrCompTotal').textContent='$0.00';field('mgrCompGate').innerHTML='<span class="profitWarning">Store is not profitable — manager payout is $0.</span>';return;}
     const revPay=rev*c.half/100,profitPay=profit*c.half/100,total=revPay+profitPay;
-    $('mgrCompTotal').textContent=fmtMoney(total);$('mgrCompGate').textContent=`${fmtMoney(revPay)} from revenue + ${fmtMoney(profitPay)} from ${fmtMoney(profit)} net profit.`;
+    field('mgrCompTotal').textContent=fmtMoney(total);field('mgrCompGate').textContent=`${fmtMoney(revPay)} from revenue + ${fmtMoney(profitPay)} from ${fmtMoney(profit)} net profit.`;
   }
   function renderStore(){
     $('storeKicker').textContent=(S.monthRow?.display_name||'October 2026').toUpperCase()+' • CINNAMINSON STORE';
@@ -1688,16 +1712,22 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
   const calcOrder=['ppv','protectadvantage_rate','premium_loading_rate','nextup_rate','aia_posted','aia_close_input','accessory_revenue','acc_per_opp','upgrades','data','htp_close_input','csat'];
   const paceVolumeKeys=new Set(['ppv','aia_posted','accessory_revenue','data','upgrades']);
   function calcBase(m){return {...m,premium_loading_rate:premiumLoading(m),aia_close_input:aiaClose(m),htp_close_input:htpClose(m)}}
+  let brownsMillsCalcRep=null;
+  function calculatorLiveMetrics(){
+    return brownsMillsCalcRep?brownsMillsCalcMetrics(brownsMillsCalcRep):calcBase(repMetric(S.currentRep));
+  }
   function paceInfo(){
-    const days=Number(S.monthRow?.days_in_month)||31,date=S.monthRow?.snapshot_date;
+    const days=brownsMillsCalcRep?30:Number(S.monthRow?.days_in_month)||31;
+    const date=brownsMillsCalcRep?'2026-11-13':S.monthRow?.snapshot_date;
+    const month=brownsMillsCalcRep?'2026-11':S.month;
     if(!date)return {ok:false,days,elapsed:0,factor:1};
-    const parts=String(date).split('-').map(Number),monthParts=String(S.month).split('-').map(Number);
+    const parts=String(date).split('-').map(Number),monthParts=String(month).split('-').map(Number);
     if(parts.length!==3||monthParts.length!==2||parts[0]!==monthParts[0]||parts[1]!==monthParts[1])return {ok:false,days,elapsed:0,factor:1};
     const elapsed=Math.max(1,Math.min(days,parts[2]||1));
     return {ok:true,days,elapsed,factor:days/elapsed};
   }
   function paceScenario(){
-    const live=calcBase(repMetric(S.currentRep)),p=paceInfo(),out={...live};
+    const live=calculatorLiveMetrics(),p=paceInfo(),out={...live};
     if(!p.ok)return out;
     calcOrder.forEach(k=>{
       if(!paceVolumeKeys.has(k))return;
@@ -1707,8 +1737,9 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
     });
     return out;
   }
-  function openCalculator(){
-    S.calcSandbox=calcBase(repMetric(S.currentRep));
+  function openCalculator(repId=null){
+    brownsMillsCalcRep=typeof repId==='string'?repId:null;
+    S.calcSandbox=calculatorLiveMetrics();
     setCalcMode('live');$('calcBack').classList.remove('hidden');
     requestAnimationFrame(()=>document.querySelector('#calcModeSandbox')?.focus());
   }
@@ -1719,7 +1750,7 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
     renderCalcFields();renderCalc();
   }
   function renderCalcFields(){
-    const live=calcBase(repMetric(S.currentRep)),pace=paceScenario();
+    const live=calculatorLiveMetrics(),pace=paceScenario();
     const data=S.calcMode==='pace'?pace:S.calcMode==='sandbox'?(S.calcSandbox||live):live;
     const disabled=S.calcMode!=='sandbox';
     const sections=[['VOICE + ATTACHMENTS',['ppv','protectadvantage_rate','premium_loading_rate','nextup_rate']],['INTERNET',['aia_posted','aia_close_input']],['ACCESSORIES + CONNECTED',['accessory_revenue','acc_per_opp','upgrades','data']],['BONUSES',['htp_close_input','csat']]];
@@ -1727,10 +1758,14 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
     if(!disabled){qsa('#calcFields input').forEach(i=>i.addEventListener('input',()=>{S.calcSandbox[i.dataset.key]=i.value===''?null:num(i.value);renderCalc();}));}
     $('resetCalc').classList.toggle('hidden',S.calcMode!=='sandbox');
     $('sandboxFromPace').classList.toggle('hidden',S.calcMode!=='sandbox');
-    const rep=S.reps.find(r=>r.rep_id===S.currentRep);$('worksheetRep').textContent=(rep?.display_name||'REP').toUpperCase()+' · '+(S.monthRow?.display_name||S.month)+' · EOD '+(S.monthRow?.snapshot_date||'—');
+    const rep=S.reps.find(r=>r.rep_id===S.currentRep);
+    const brownsRep=[...$('brownsMillsScope').options].find(option=>option.value===brownsMillsCalcRep);
+    $('worksheetRep').textContent=brownsRep
+      ? brownsRep.textContent.toUpperCase()+' · BROWNS MILLS · EOD 2026-11-13'
+      : (rep?.display_name||'REP').toUpperCase()+' · '+(S.monthRow?.display_name||S.month)+' · EOD '+(S.monthRow?.snapshot_date||'—');
   }
   function renderCalc(){
-    const liveMetrics=calcBase(repMetric(S.currentRep)),live=comp(liveMetrics),paceMetrics=paceScenario(),pace=comp(paceMetrics),sandboxMetrics=S.calcSandbox||liveMetrics,sandbox=comp(sandboxMetrics),p=paceInfo();
+    const liveMetrics=calculatorLiveMetrics(),live=comp(liveMetrics),paceMetrics=paceScenario(),pace=comp(paceMetrics),sandboxMetrics=S.calcSandbox||liveMetrics,sandbox=comp(sandboxMetrics),p=paceInfo();
     let scenario=live,metrics=liveMetrics;
     if(S.calcMode==='pace'){scenario=pace;metrics=paceMetrics;$('tiModeReadout').textContent='PACE';$('calcLabel1').textContent='ESTIMATED COMP';$('calcLabel2').textContent='PACE TOTAL';$('calcLabel3').textContent='GAIN';$('calcModeNote').textContent=p.ok?`${p.elapsed} of ${p.days} days on the snapshot • PPV, AIA Posted, accessory revenue, Upgrades and Data projected ×${p.factor.toFixed(2)} • Insurance, Premium Plan Loading, Next Up, AIA Close, ACC/OPP, HTP Close and CSAT held at current rates.`:'Pace needs a valid snapshot date for this month. Add one in Manager Mode.';}
     else if(S.calcMode==='sandbox'){scenario=sandbox;metrics=sandboxMetrics;$('tiModeReadout').textContent='SANDBOX';$('calcLabel1').textContent='ESTIMATED COMP';$('calcLabel2').textContent='SANDBOX';$('calcLabel3').textContent='VS LIVE';$('calcModeNote').textContent='Change the paycheck inputs directly. Sandbox never saves back to Store Pulse.';}
@@ -1826,13 +1861,13 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
   $('saveFunNote').addEventListener('click',saveFunManagerNote);
   $('mgrAddSticky').addEventListener('click',()=>{if(funNoteDraft.length>=3)return;funNoteDraft.push({id:'custom-'+Date.now().toString(36),text:'NEW NOTE',x:2,y:70,c:'yellow'});renderFunNoteEditor()});
   $('mgrSaveStickies').addEventListener('click',saveFunStickies);
-  $('mgrRevenue')?.addEventListener('input',updateManagerEstimate);$('mgrCost')?.addEventListener('input',updateManagerEstimate);
+  $('mgrRevenue')?.addEventListener('input',()=>updateManagerEstimate());$('mgrCost')?.addEventListener('input',()=>updateManagerEstimate());
   $('homeBtn').addEventListener('click',()=>{showPage('landing');syncDock('landing')});$('enterClassic').addEventListener('click',()=>{showPage('store');syncDock('store')});$('enterFun').addEventListener('click',()=>{showPage('fun');syncDock('fun')});
   $('storeBtn').addEventListener('click',()=>{renderStore();showPage('store')});
   $('repSelect').addEventListener('change',e=>openRep(e.target.value));
   $('openCalc').addEventListener('click',openCalculator);$('closeCalc').addEventListener('click',closeCalc);$('doneCalc').addEventListener('click',closeCalc);
   $('calcModeLive').addEventListener('click',()=>setCalcMode('live'));$('calcModePace').addEventListener('click',()=>setCalcMode('pace'));$('calcModeSandbox').addEventListener('click',()=>setCalcMode('sandbox'));
-  $('resetCalc').addEventListener('click',()=>{S.calcSandbox=calcBase(repMetric(S.currentRep));renderCalcFields();renderCalc();});$('sandboxFromPace').addEventListener('click',()=>{S.calcSandbox=paceScenario();renderCalcFields();renderCalc();});$('calcBack').addEventListener('click',e=>{if(e.target===$('calcBack'))closeCalc()});
+  $('resetCalc').addEventListener('click',()=>{S.calcSandbox=calculatorLiveMetrics();renderCalcFields();renderCalc();});$('sandboxFromPace').addEventListener('click',()=>{S.calcSandbox=paceScenario();renderCalcFields();renderCalc();});$('calcBack').addEventListener('click',e=>{if(e.target===$('calcBack'))closeCalc()});
   $('managerBtn').addEventListener('click',openManagerLogin);$('closeLogin').addEventListener('click',()=>$('loginBack').classList.add('hidden'));$('loginBtn').addEventListener('click',verifyManager);$('managerPassword').addEventListener('keydown',e=>{if(e.key==='Enter')verifyManager()});
   $('loginBack').addEventListener('click',e=>{if(e.target===$('loginBack'))$('loginBack').classList.add('hidden')});
   qsa('[data-manager-section]').forEach(b=>b.addEventListener('click',()=>{qsa('[data-manager-section]').forEach(x=>x.classList.toggle('active',x===b));qsa('.managerSection').forEach(x=>x.classList.toggle('active',x.id===b.dataset.managerSection));}));
@@ -1892,7 +1927,7 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
     .filter(key=>key!=='ppv_close'&&key!=='traffic');
   const brownsMillsRepActuals={
     kayla:[3,71.43,418,41.77,40,30,1,1,7.1,7,1,2,20,100,11,14,66.7],
-    sophia:[4,66.67,175,17.5,87.5,14.3,null,null,0,6,1,1,11.11,100,11,11,40],
+    sophia:[4,66.67,175,17.5,87.5,14.3,0,0,0,6,1,1,11.11,100,11,11,40],
     vikash:[1,50,573,63.64,77.78,0,2,2,15.4,8,2,null,0,100,13,13,33.3]
   };
   const brownsMillsNumber=(key,value)=>{
@@ -1906,6 +1941,10 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
   function brownsMillsMetricsFor(repId){
     return Object.fromEntries(brownsMillsRepKeys.map((key,i)=>[key,brownsMillsRepActuals[repId][i]]));
   }
+  function brownsMillsCalcMetrics(repId){
+    const metrics=brownsMillsMetricsFor(repId);
+    return {...metrics,aia_close_input:metrics.aia_close,htp_close_input:metrics.htp_close};
+  }
   function renderBrownsMillsFun(){
     $('funDate').textContent='As of Nov 13 EOD · Month to date';
     $('funManagerCorner').classList.add('empty');
@@ -1913,7 +1952,7 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
       `<th id="fun-col-${key}" scope="col" class="${start?'funGroupStart':''}">${key==='aia_posted'?'AIA Gross Adds':label}</th>`).join('');
     $('funRows').innerHTML=[...$('brownsMillsScope').options].slice(1).map(option=>{
       const id=option.value, metrics=brownsMillsMetricsFor(id);
-      const estimatedComp=metrics.aia_posted==null?null:comp({...metrics,aia_close_input:metrics.aia_close,htp_close_input:metrics.htp_close}).total;
+      const estimatedComp=metrics.aia_posted==null?null:comp(brownsMillsCalcMetrics(id)).total;
       const cells=funFields.map(({key,label,start})=>{
         const value=key==='comp_mtd'?(estimatedComp==null?'—':fmtMoney(estimatedComp)):brownsMillsNumber(key,metrics[key]);
         const heading=key==='aia_posted'?'AIA Gross Adds':label;
@@ -1925,6 +1964,7 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
   function renderBrownsMills(){
     const scope=$('brownsMillsScope').value;
     const isStore=scope==='store';
+    $('brownsMillsComp').textContent=isStore?'Open comp calculator':'Open '+$('brownsMillsScope').selectedOptions[0].textContent+'’s comp calculator';
     const rows=isStore?brownsMillsReported:brownsMillsRepKeys.map((key,i)=>[key,brownsMillsRepActuals[scope][i]]);
     $('brownsMillsSource').textContent=isStore?'mySUCCESS location report':'mySUCCESS individual report · may include sales outside Browns Mills';
     const body=rows.map(([key,actual,projected,goal])=>{
@@ -1935,6 +1975,11 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
     $('brownsMillsMetrics').innerHTML=`<div class="teamFullWrap"><table class="teamFullMatrix" aria-label="Browns Mills results"><thead><tr><th>Metric</th><th>Actual</th><th>Projected</th><th>Goal</th></tr></thead><tbody>${body}</tbody></table></div>`;
   }
   $('brownsMillsScope').addEventListener('change',renderBrownsMills);
+  $('brownsMillsComp').addEventListener('click',()=>{
+    const scope=$('brownsMillsScope');
+    if(scope.value==='store'){scope.value=scope.options[1].value;renderBrownsMills();}
+    openCalculator(scope.value);
+  });
   qsa('[data-browns-page]').forEach(button=>button.addEventListener('click',()=>{
     const page=button.dataset.brownsPage;
     if(page==='brownsMillsClassic'&&$('brownsMills').classList.contains('active')){
@@ -1945,6 +1990,10 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
     syncDock('brownsMills');
   }));
   renderBrownsMills();
+  for(const id of ['brownsMillsmgrRevenue','brownsMillsmgrCost']){
+    $(id).addEventListener('input',()=>updateManagerEstimate(true));
+  }
+  renderManagerComp(true);
   qsa('[data-dock]').forEach(b=>b.addEventListener('click',()=>{showPage(b.dataset.dock);syncDock(b.dataset.dock)}));
   qsa('[data-dock-rep]').forEach(b=>b.addEventListener('click',()=>{openRep(b.dataset.dockRep);syncDock('rep',b.dataset.dockRep);$('dockMoreMenu')?.classList.remove('open')}));
   $('moreDockBtn')?.addEventListener('click',()=>{$('dockMoreMenu')?.classList.toggle('open')});
