@@ -662,28 +662,10 @@ body.pulseV2{background:#e9ecea;color:#172331;font-family:var(--plain)}
  .funNoteEditRow input,.funNoteEditRow select{padding:8px 4px;font-size:13px}
  .funNoteEditRow button{padding:8px 5px}
 }
-/* November autumn overlay: independent of whiteboard rendering and controls */
-#autumnGusts{position:fixed;inset:0;pointer-events:none;z-index:70;overflow:hidden}
-.autumnLeaf{position:absolute;left:-8vw;top:var(--leaf-y);font-size:var(--leaf-size);opacity:0;filter:drop-shadow(0 1px 1px #482c1426);animation:autumnFly var(--leaf-duration) linear forwards;will-change:transform,opacity}
-@keyframes autumnFly{0%{transform:translate3d(-8vw,0,0) rotate(0deg);opacity:0}8%{opacity:.94}85%{opacity:.88}100%{transform:translate3d(115vw,var(--leaf-drift),0) rotate(var(--leaf-turn));opacity:0}}
-@media(prefers-reduced-motion:reduce){#autumnGusts{display:none}}
-.historyBoard{padding:clamp(18px,3vw,34px);max-width:1200px;margin:auto}.historyHead{display:flex;justify-content:space-between;align-items:flex-end;gap:18px;flex-wrap:wrap}.historyHead h1{font-size:clamp(30px,4vw,50px);margin:8px 0}.historyHead p{color:#69717c;max-width:600px}.historySelectors,.historyTools{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap}.historySelectors label,.historyTools label{display:grid;gap:5px;font-size:11px;font-weight:800;letter-spacing:.09em;color:#85643e}.historySelectors select,.historyTools select,.historyAsk input{border:1px solid #d9c9b6;border-radius:10px;padding:11px 12px;background:#fffdf9;color:#29313b;min-width:150px}.historyKpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px;margin:24px 0}.historyKpi{padding:16px;border:1px solid #e7d7c4;background:#fffaf3;border-radius:13px}.historyKpi span{display:block;color:#776959;font-size:12px}.historyKpi strong{display:block;font-size:26px;margin-top:7px;font-variant-numeric:tabular-nums}.historyTools{margin:20px 0}.historyChartWrap,.historyAsk,.historyArchive{border:1px solid #e4d9cd;background:#fffdf9;border-radius:16px;padding:18px;margin:16px 0}.historyChartTitle{font-weight:800;margin-bottom:10px}.historyChart svg{display:block;width:100%;height:auto;max-height:260px}.historyAsk h2,.historyArchive h2{margin:0 0 8px}.historyAsk p,.historyFootnote{font-size:13px;color:#6d7278}.historyAskRow{display:flex;gap:8px}.historyAskRow input{flex:1;min-width:0}.historyExamples{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}.historyExamples button{border:1px solid #e4d5c3;border-radius:99px;background:#f8f1e7;padding:7px 10px;font-size:12px;cursor:pointer}.historyAnswer{background:#f8f3ec;border-radius:12px;padding:14px;line-height:1.65;min-height:70px;white-space:pre-wrap;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}.historyTable{overflow:auto;max-height:430px}.historyTable table{border-collapse:collapse;width:100%;font-size:13px}.historyTable th,.historyTable td{padding:10px;text-align:left;border-bottom:1px solid #eee2d4;white-space:nowrap}.historyTable th{position:sticky;top:0;background:#fff8ed}.historyFootnote{margin-top:20px}@media(max-width:600px){.historyAskRow{flex-direction:column}.historySelectors select{min-width:125px}.historyBoard{padding:14px}}
-
-/* November autumn edition: warm framing, without changing whiteboard internals */
-:root{--paper:#fffaf2;--paper2:#f6ead7;--soft:#eedac0;--amber:#aa5d20}
-body{background:linear-gradient(135deg,#ead3b3 0%,#f4e8d5 46%,#dfc5a5 100%);background-attachment:fixed}
-.topbar{background:linear-gradient(90deg,#392f2c,#704229 58%,#8b4d29);border-bottom:3px solid #d69a50}
-.topbar:after{content:'🍁  🍂  🍁';position:absolute;right:14px;bottom:-19px;font-size:15px;letter-spacing:14px;opacity:.88;pointer-events:none}
-.historyBoard .historyHead h1,.historyBoard .historyAsk h2{color:#743b1e}
-.historyBoard .historyAsk,.historyBoard .historyPanel,.historyBoard .historyChartCard{border-color:#dfbd91}
-.historyBoard .historyAsk{background:linear-gradient(135deg,#fffaf3,#fbf0df)}
-#autumnGusts{z-index:75}
-.autumnLeaf{filter:drop-shadow(0 3px 3px #47280e48)}
-@media(prefers-reduced-motion:reduce){.topbar:after{content:'🍁  🍂'}}
-
+.historyBoard{padding:clamp(18px,3vw,34px);max-width:1200px;margin:auto}.historyHead{display:flex;justify-content:space-between;align-items:flex-end;gap:18px;flex-wrap:wrap}.historyHead h1{font-size:clamp(30px,4vw,50px);margin:8px 0}.historyHead p{color:#69717c;max-width:600px}.historySelectors,.historyTools{display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap}.historySelectors label,.historyTools label{display:grid;gap:5px;font-size:11px;font-weight:800;letter-spacing:.09em;color:#4d6075}.historySelectors select,.historyTools select,.historyAsk input{border:1px solid #cbd7e2;border-radius:10px;padding:11px 12px;background:#fbfdff;color:#29313b;min-width:150px}.historyKpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px;margin:24px 0}.historyKpi{padding:16px;border:1px solid #dce5ee;background:#f4f8fc;border-radius:13px}.historyKpi span{display:block;color:#58687a;font-size:12px}.historyKpi strong{display:block;font-size:26px;margin-top:7px;font-variant-numeric:tabular-nums}.historyTools{margin:20px 0}.historyChartWrap,.historyAsk,.historyArchive{border:1px solid #dce5ee;background:#fbfdff;border-radius:16px;padding:18px;margin:16px 0}.historyChartTitle{font-weight:800;margin-bottom:10px}.historyChart svg{display:block;width:100%;height:auto;max-height:260px}.historyAsk h2,.historyArchive h2{margin:0 0 8px}.historyAsk p,.historyFootnote{font-size:13px;color:#6d7278}.historyAskRow{display:flex;gap:8px}.historyAskRow input{flex:1;min-width:0}.historyExamples{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}.historyExamples button{border:1px solid #d5e0eb;border-radius:99px;background:#edf3f9;padding:7px 10px;font-size:12px;cursor:pointer}.historyAnswer{background:#eef4fa;border-radius:12px;padding:14px;line-height:1.65;min-height:70px;white-space:pre-wrap;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}.historyTable{overflow:auto;max-height:430px}.historyTable table{border-collapse:collapse;width:100%;font-size:13px}.historyTable th,.historyTable td{padding:10px;text-align:left;border-bottom:1px solid #e3ebf2;white-space:nowrap}.historyTable th{position:sticky;top:0;background:#edf4fa}.historyFootnote{margin-top:20px}@media(max-width:600px){.historyAskRow{flex-direction:column}.historySelectors select{min-width:125px}.historyBoard{padding:14px}}
 
 /* Search-first Store Pulse Intelligence — responsive and self-contained. */
-.intelligenceBoard{max-width:1200px}.intelligenceTop{margin:10px 0 24px}.intelligenceTop h1{font-size:clamp(36px,5vw,64px);margin:6px 0;color:#723d22;letter-spacing:-.04em}.intelligenceTop p{font-size:15px;line-height:1.55;color:#675e55;max-width:780px}.intelligenceTitleRow{display:flex;align-items:center;justify-content:space-between;gap:18px}.intelligenceSourcePill{padding:9px 12px;border-radius:40px;border:1px solid #d6b489;font-weight:800;color:#5f4c39;white-space:nowrap;font-size:11px;background:#fff7ec}.intelligencePulseDot{display:inline-block;width:7px;height:7px;background:#4b9d74;border-radius:50%;margin-right:7px}.intelligenceAsk{padding:clamp(17px,3vw,30px);background:linear-gradient(145deg,#fffaf3,#f8ead5);border:1px solid #dfbd91;box-shadow:0 12px 30px #5a391016}.intelligencePromptLabel{font-size:11px;font-weight:900;letter-spacing:.14em;color:#835538;display:block;margin-bottom:9px}.intelligenceAskRow input{font-size:17px;border:1px solid #d5b690;border-radius:12px;min-height:55px;box-shadow:0 2px 6px #7953230c}.intelligenceAskRow .btn{padding:0 23px;border-radius:11px;min-height:55px}.intelligenceSettings{display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;margin:16px 0 7px}.intelligenceSettings label{display:grid;gap:5px;color:#6c513c;font-size:10px;font-weight:900;letter-spacing:.1em}.intelligenceSettings select{background:#fffaf2;border:1px solid #cfb393;padding:10px 12px;border-radius:8px;color:#283f51;font-weight:750;min-width:150px}.intelligenceMiniNote{font-size:12px;color:#755d49;line-height:1.5;max-width:340px}.intelligenceExamples{display:flex;flex-wrap:wrap;gap:7px;margin:17px 0}.intelligenceExamples button{border:1px solid #d9b88f;border-radius:20px;background:#fff5e7;padding:9px 12px;color:#6c402a;font-size:11px;font-weight:800;cursor:pointer}.intelligenceExamples button:hover{background:#f4e2c5}.intelligenceResult{border-radius:14px;border:1px solid #e5d0b5;background:#fffdfa;padding:clamp(13px,2.2vw,23px);margin-top:15px}.intelligenceAnswerTop{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}.intelligenceStatus{font-weight:900;letter-spacing:.08em;font-size:10px;color:#57765f}.intelligenceSourceType{font-size:11px;color:#947a61}.intelligenceAnswer{background:none;padding:14px 0 3px;min-height:50px;font-size:15px;line-height:1.75;color:#253244}.intelligenceVisual{margin-top:14px}.intelligenceVisual:empty,.intelligenceCaveat:empty,.intelligenceSource:empty{display:none}.intelligenceGraph{border-top:1px solid #efddc7;padding-top:18px}.intelligenceGraph h3{margin:0 0 13px;font-size:15px}.intelligenceGraph svg{display:block;width:100%;max-height:300px}.intelligenceBarRows{display:grid;gap:10px}.intelligenceBarRow{display:grid;grid-template-columns:minmax(95px,1fr) minmax(95px,4fr) auto;gap:9px;align-items:center;font-size:12px}.intelligenceBarLabel{overflow-wrap:anywhere}.intelligenceBarTrack{height:18px;background:#f1e5d8;border-radius:6px;position:relative;overflow:hidden}.intelligenceBarFill{position:absolute;inset:0 auto 0 0;border-radius:6px;background:linear-gradient(90deg,#8f6641,#c68a47)}.intelligenceBarValue{font-weight:850;font-variant-numeric:tabular-nums}.intelligenceChartCaption{color:#756859;font-size:11px;margin-top:8px}.intelligenceCaveat{padding:12px;background:#fff4df;border-left:3px solid #bf8a44;border-radius:4px;color:#725c40;font-size:12px;line-height:1.65;margin-top:16px}.intelligenceSource{margin-top:12px;color:#6b737c;font-size:11px}.intelligenceArchive{margin:30px 0 20px;padding:20px;border:1px solid #e2c7a8;background:#fffaf2;border-radius:16px}.intelligenceArchiveTop{display:flex;justify-content:space-between;gap:15px;align-items:center}.intelligenceArchiveTop h2{font-size:24px;margin:6px 0}.intelligenceArchiveTop p{max-width:650px;color:#6b6864;line-height:1.5;font-size:13px;margin:0 0 8px}.intelligenceArchiveMonths{display:flex;flex-wrap:wrap;gap:9px;padding:18px 0}.intelligenceMonth{display:flex;gap:6px;align-items:center;padding:10px 12px;background:#fff;border:1px solid #e5d3be;border-radius:11px;cursor:pointer;color:#394151;font-size:12px;font-weight:700}.intelligenceMonth small{font-size:9px;color:#887767}.intelligenceMonth.active{border:2px solid #a06b40;background:#fff2df}.intelligenceOfficial{background:#ecf5e8;color:#4c7041;padding:3px 5px;border-radius:4px;font-size:9px;font-weight:850}.intelligenceArchiveDetails{border-top:1px solid #e4cdae;margin-top:8px;padding-top:12px}.intelligenceArchiveDetails summary{cursor:pointer;font-size:13px;font-weight:850;color:#7b5036;padding:9px 2px}.intelligenceArchivePreview{margin:12px 0}.intelligenceArchivePreview table{width:100%;border-collapse:collapse;font-size:12px}.intelligenceArchivePreview th,.intelligenceArchivePreview td{border-bottom:1px solid #ecdfd0;padding:10px 7px;text-align:left}.intelligenceArchivePreview th{background:#f9ead7}.intelligenceArchivePreview .intelligenceNoStore{background:#f9f0e4;border-left:3px solid #b89163;padding:12px;font-size:12px;color:#735f47}.intelligenceArchiveChartHead{margin-top:22px}.intelligenceArchiveChartHead h3{font-size:20px;margin:5px 0}.intelligenceArchiveChartHead p{font-size:12px;color:#776b60}.intelligenceArchive .historyArchive{margin:13px 0}.intelligenceBoard .historyHead h1{font-size:30px}@media(max-width:650px){.intelligenceTitleRow{display:block}.intelligenceSourcePill{display:inline-block;margin:6px 0}.intelligenceAskRow{flex-direction:column}.intelligenceAskRow input,.intelligenceAskRow .btn{width:100%}.intelligenceSettings{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.intelligenceSettings select{min-width:0;width:100%}.intelligenceMiniNote{grid-column:span 2}.intelligenceArchiveTop{align-items:flex-start}.intelligenceArchiveTop .btn{font-size:10px;padding:10px 9px}.intelligenceBarRow{grid-template-columns:minmax(78px,1fr) minmax(70px,2fr) auto}.intelligenceBoard{padding:12px}.intelligenceAsk{padding:17px}.intelligenceArchive{padding:13px}}
+.intelligenceBoard{max-width:1200px}.intelligenceTop{margin:10px 0 24px}.intelligenceTop h1{font-size:clamp(36px,5vw,64px);margin:6px 0;color:#244766;letter-spacing:-.04em}.intelligenceTop p{font-size:15px;line-height:1.55;color:#675e55;max-width:780px}.intelligenceTitleRow{display:flex;align-items:center;justify-content:space-between;gap:18px}.intelligenceSourcePill{padding:9px 12px;border-radius:40px;border:1px solid #d6b489;font-weight:800;color:#425d76;white-space:nowrap;font-size:11px;background:#eef4fa}.intelligencePulseDot{display:inline-block;width:7px;height:7px;background:#4b9d74;border-radius:50%;margin-right:7px}.intelligenceAsk{padding:clamp(17px,3vw,30px);background:linear-gradient(145deg,#f4f8fc,#e8f0f8);border:1px solid #ccdcea;box-shadow:0 12px 30px #5a391016}.intelligencePromptLabel{font-size:11px;font-weight:900;letter-spacing:.14em;color:#476079;display:block;margin-bottom:9px}.intelligenceAskRow input{font-size:17px;border:1px solid #bdcddd;border-radius:12px;min-height:55px;box-shadow:0 2px 6px #7953230c}.intelligenceAskRow .btn{padding:0 23px;border-radius:11px;min-height:55px}.intelligenceSettings{display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap;margin:16px 0 7px}.intelligenceSettings label{display:grid;gap:5px;color:#476079;font-size:10px;font-weight:900;letter-spacing:.1em}.intelligenceSettings select{background:#f4f8fc;border:1px solid #becddd;padding:10px 12px;border-radius:8px;color:#283f51;font-weight:750;min-width:150px}.intelligenceMiniNote{font-size:12px;color:#53687d;line-height:1.5;max-width:340px}.intelligenceExamples{display:flex;flex-wrap:wrap;gap:7px;margin:17px 0}.intelligenceExamples button{border:1px solid #c6d6e5;border-radius:20px;background:#edf4fa;padding:9px 12px;color:#33536e;font-size:11px;font-weight:800;cursor:pointer}.intelligenceExamples button:hover{background:#dce9f4}.intelligenceResult{border-radius:14px;border:1px solid #d4e1ed;background:#fbfdff;padding:clamp(13px,2.2vw,23px);margin-top:15px}.intelligenceAnswerTop{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}.intelligenceStatus{font-weight:900;letter-spacing:.08em;font-size:10px;color:#57765f}.intelligenceSourceType{font-size:11px;color:#60768a}.intelligenceAnswer{background:none;padding:14px 0 3px;min-height:50px;font-size:15px;line-height:1.75;color:#253244}.intelligenceVisual{margin-top:14px}.intelligenceVisual:empty,.intelligenceCaveat:empty,.intelligenceSource:empty{display:none}.intelligenceGraph{border-top:1px solid #d8e4ee;padding-top:18px}.intelligenceGraph h3{margin:0 0 13px;font-size:15px}.intelligenceGraph svg{display:block;width:100%;max-height:300px}.intelligenceBarRows{display:grid;gap:10px}.intelligenceBarRow{display:grid;grid-template-columns:minmax(95px,1fr) minmax(95px,4fr) auto;gap:9px;align-items:center;font-size:12px}.intelligenceBarLabel{overflow-wrap:anywhere}.intelligenceBarTrack{height:18px;background:#e1eaf3;border-radius:6px;position:relative;overflow:hidden}.intelligenceBarFill{position:absolute;inset:0 auto 0 0;border-radius:6px;background:linear-gradient(90deg,#375e83,#6599bf)}.intelligenceBarValue{font-weight:850;font-variant-numeric:tabular-nums}.intelligenceChartCaption{color:#756859;font-size:11px;margin-top:8px}.intelligenceCaveat{padding:12px;background:#fff4df;border-left:3px solid #bf8a44;border-radius:4px;color:#725c40;font-size:12px;line-height:1.65;margin-top:16px}.intelligenceSource{margin-top:12px;color:#6b737c;font-size:11px}.intelligenceArchive{margin:30px 0 20px;padding:20px;border:1px solid #cdddeb;background:#f4f8fc;border-radius:16px}.intelligenceArchiveTop{display:flex;justify-content:space-between;gap:15px;align-items:center}.intelligenceArchiveTop h2{font-size:24px;margin:6px 0}.intelligenceArchiveTop p{max-width:650px;color:#6b6864;line-height:1.5;font-size:13px;margin:0 0 8px}.intelligenceArchiveMonths{display:flex;flex-wrap:wrap;gap:9px;padding:18px 0}.intelligenceMonth{display:flex;gap:6px;align-items:center;padding:10px 12px;background:#fff;border:1px solid #e5d3be;border-radius:11px;cursor:pointer;color:#394151;font-size:12px;font-weight:700}.intelligenceMonth small{font-size:9px;color:#586d81}.intelligenceMonth.active{border:2px solid #537b9d;background:#e7f1f9}.intelligenceOfficial{background:#ecf5e8;color:#4c7041;padding:3px 5px;border-radius:4px;font-size:9px;font-weight:850}.intelligenceArchiveDetails{border-top:1px solid #d8e4ee;margin-top:8px;padding-top:12px}.intelligenceArchiveDetails summary{cursor:pointer;font-size:13px;font-weight:850;color:#7b5036;padding:9px 2px}.intelligenceArchivePreview{margin:12px 0}.intelligenceArchivePreview table{width:100%;border-collapse:collapse;font-size:12px}.intelligenceArchivePreview th,.intelligenceArchivePreview td{border-bottom:1px solid #e2ebf3;padding:10px 7px;text-align:left}.intelligenceArchivePreview th{background:#edf4fa}.intelligenceArchivePreview .intelligenceNoStore{background:#f9f0e4;border-left:3px solid #b89163;padding:12px;font-size:12px;color:#735f47}.intelligenceArchiveChartHead{margin-top:22px}.intelligenceArchiveChartHead h3{font-size:20px;margin:5px 0}.intelligenceArchiveChartHead p{font-size:12px;color:#776b60}.intelligenceArchive .historyArchive{margin:13px 0}.intelligenceBoard .historyHead h1{font-size:30px}@media(max-width:650px){.intelligenceTitleRow{display:block}.intelligenceSourcePill{display:inline-block;margin:6px 0}.intelligenceAskRow{flex-direction:column}.intelligenceAskRow input,.intelligenceAskRow .btn{width:100%}.intelligenceSettings{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.intelligenceSettings select{min-width:0;width:100%}.intelligenceMiniNote{grid-column:span 2}.intelligenceArchiveTop{align-items:flex-start}.intelligenceArchiveTop .btn{font-size:10px;padding:10px 9px}.intelligenceBarRow{grid-template-columns:minmax(78px,1fr) minmax(70px,2fr) auto}.intelligenceBoard{padding:12px}.intelligenceAsk{padding:17px}.intelligenceArchive{padding:13px}}
 
 /* November 2026: actual-goal status. All red/amber/green has ONE source of truth.
    Never infer status from arbitrary card positions, or use month-end pace to tint an actual. */
@@ -779,8 +761,8 @@ body{background:linear-gradient(135deg,#ead3b3 0%,#f4e8d5 46%,#dfc5a5 100%);back
 .funSantaList{background:#fff9dd;border:1px solid #caa981;border-radius:3px;padding:6px 9px;color:#8e202b;font:700 clamp(12px,2.5vw,19px)/1.16 "Kalam",cursive;transform:rotate(-5deg);text-align:center;white-space:nowrap}
 .funSantaList small{display:block;color:#264f3d}
 .holidayOn .funHolidaySnow{display:block;position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:80}
-.funHolidaySnow i{position:absolute;top:-2em;left:var(--x);font-size:var(--size);color:#fff;text-shadow:0 0 3px #5f8ab0;animation:snowDrift var(--speed) linear infinite;animation-delay:var(--delay);font-style:normal}
-@keyframes snowDrift{to{transform:translate(var(--drift),calc(100dvh + 3em)) rotate(190deg)}}
+.funHolidaySnow i{position:absolute;top:-2em;left:var(--x);font-size:var(--size);color:#fff;text-shadow:0 0 3px #5f8ab0;animation:snowDrift 75s linear infinite backwards;animation-delay:var(--delay);font-style:normal}
+@keyframes snowDrift{0%{transform:translate(0,0)} 16%,100%{transform:translate(var(--drift),calc(100dvh + 3em)) rotate(190deg)}}
 .holidayOn .funRepName button{position:relative}
 .holidayOn .funRepName button.funFrozen{animation:holidayShiver .13s linear 10}
 .holidayOn .funFrozen::after{content:"";position:absolute;top:95%;left:0;right:0;height:12px;background:linear-gradient(#99e4ff,#e8faff);clip-path:polygon(0 0,100% 0,91% 60%,81% 16%,69% 100%,59% 18%,44% 72%,32% 24%,16% 90%,10% 10%);pointer-events:none}
@@ -793,7 +775,6 @@ body{background:linear-gradient(135deg,#ead3b3 0%,#f4e8d5 46%,#dfc5a5 100%);back
 #globalHolidayToggle[aria-pressed=true]{background:#a02135;color:white}
 body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df);background-attachment:fixed}
 .holidayGlobal .topbar{background:linear-gradient(100deg,#163f33,#245f45 58%,#1d4235);border-bottom-color:#ba2c43}
-.holidayGlobal .topbar:after{content:none}
 .holidayGlobal .markerDock{background:#194435;border-top:2px solid #b52d42}
 .holidayGlobal #globalHolidayLights{display:flex;position:absolute;top:-2px;left:0;right:9.5em;justify-content:space-around;border-top:2px solid #112b22;pointer-events:none}
 .holidayGlobal .funHolidaySnow{display:block;position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:81}
@@ -828,20 +809,28 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
 #brownsMillsFunNav{margin:0 0 12px;text-align:center}
 #brownsMillsClassic .teamFullMatrix{width:100%}
 #brownsMillsClassic .historyHead{margin-bottom:14px}
+#brownsMillsHeader[hidden],#cinnaminsonHeader[hidden],#markerDock[hidden],#brownsMillsDock[hidden],#dockMoreMenu[hidden]{display:none!important}
+#brownsMillsHeader .brand{display:block}
+#brownsMillsHome{white-space:nowrap;font-size:clamp(10px,2vw,13px)}
+.brownsRepLinks{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+#brownsMillsDock .dockTab[aria-current="page"]{background:#16557d;color:#fff}
 </style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kalam:wght@700&amp;display=swap">
 </head>
 <body>
 <div class="funHolidaySnow" id="funHolidaySnow" aria-hidden="true"></div>
-<div id="autumnGusts" aria-hidden="true"></div>
 <div class="topbar">
-  <div class="topin">
+  <div class="topin" id="cinnaminsonHeader">
     <button id="homeBtn" class="navbtn active" type="button">⌂</button>
     <div class="brand">CINNAMINSON • STORE PULSE</div>
     <button id="storeBtn" class="navbtn" type="button">TEAM</button>
     <button id="historyBtn" class="navbtn" type="button">HISTORY</button>
     <button id="modeBtn" class="modebtn" type="button">✎ <span class="modeText">FUN MODE</span></button>
     <button id="managerBtn" class="navbtn managerBtn" type="button">MANAGER</button>
+  </div>
+  <div class="topin" id="brownsMillsHeader" hidden>
+    <div class="brand">BROWNS MILLS • STORE PULSE</div>
+    <button id="brownsMillsHome" class="navbtn" type="button">Back to Cinnaminson</button>
   </div>
   <div class="holidayHeader"><div id="globalHolidayLights" class="funHolidayLights" aria-hidden="true"></div><button type="button" id="globalHolidayToggle" aria-pressed="true">🎄 Holiday Mode</button></div>
 </div>
@@ -1031,27 +1020,19 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
         <button class="welcomeChoice" data-browns-page="brownsMillsClassic" type="button"><span class="welcomeIcon">▦</span><span class="welcomeChoiceName">Classic Mode</span><span class="welcomeChoiceDesc">Store totals and individual rep results.</span><span class="welcomeArrow">OPEN CLASSIC →</span></button>
         <button class="welcomeChoice funChoice" data-browns-page="fun" type="button"><span class="welcomeIcon">✎</span><span class="welcomeChoiceName">Fun Mode</span><span class="welcomeChoiceDesc">The whiteboard, pop-up reminders and holiday antics.</span><span class="welcomeArrow">OPEN WHITEBOARD →</span></button>
       </div>
-      <button id="brownsMillsHome" class="btn" type="button">Back to Cinnaminson</button>
     </div>
   </section>
   <section id="brownsMillsClassic" class="page" aria-labelledby="brownsMillsClassicTitle">
     <div class="board historyBoard">
       <div class="historyHead">
         <div><div class="welcomeEyebrow">BROWNS MILLS • STORE PULSE</div>
-          <h1 id="brownsMillsClassicTitle">Browns Mills</h1>
+          <h1 id="brownsMillsClassicTitle" tabindex="-1">Team</h1>
           <p>November 2026 month to date · As of Nov 13 EOD</p>
         </div>
         <div><button class="btn" data-browns-page="brownsMills" type="button">Browns Mills home</button> <button class="btn" data-browns-page="fun" type="button">Fun Mode</button></div>
       </div>
-      <label for="brownsMillsScope">View</label>
-      <select id="brownsMillsScope">
-        <option value="store">Store totals</option>
-        <option value="vikash">Kash</option>
-        <option value="sophia">Sophia</option>
-        <option value="kayla">Kayla</option>
-      </select>
-      <p id="brownsMillsSource"></p>
-      <button id="brownsMillsComp" class="btn" type="button">Open rep comp calculator</button>
+      <div id="brownsMillsTeamQuick" class="storeQuick"></div>
+      <nav id="brownsMillsTeamReps" class="brownsRepLinks" aria-label="Browns Mills rep pages"></nav>
       <div id="brownsMillsMetrics" aria-label="Browns Mills store metrics"></div>
       <section class="managerCompBoard" aria-labelledby="brownsMillsManagerCompHeading">
         <div class="managerCompHeadingRow">
@@ -1076,6 +1057,7 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
       </section>
     </div>
   </section>
+  <div id="brownsMillsRepPages"></div>
 </main>
 <dialog id="brownsMillsCodeDialog" aria-labelledby="brownsMillsCodeTitle">
   <form id="brownsMillsCodeForm">
@@ -1097,6 +1079,7 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
   <button type="button" data-dock-rep="tj" class="dockTab repDock">TJ</button>
   <button type="button" id="moreDockBtn" class="dockTab mobileOnly">MORE</button>
 </nav>
+<nav id="brownsMillsDock" class="markerDock" aria-label="Browns Mills tabs" hidden></nav>
 <div id="dockMoreMenu" class="dockMoreMenu" aria-label="More Store Pulse options">
   <button type="button" data-dock-rep="gio">GIO</button>
   <button type="button" data-dock-rep="gage">GAGE</button>
@@ -1380,7 +1363,20 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
     ];
   }
 
-  function showPage(id,brownsFun=false){ $('fun').classList.toggle('brownsMillsFun',id==='fun'&&brownsFun);const wasFun=$('fun').classList.contains('active');qsa('.page').forEach(p=>p.classList.remove('active'));$(id).classList.add('active');$('homeBtn').classList.toggle('active',id==='landing');$('storeBtn').classList.toggle('active',id==='store');if(id==='fun'){$('autumnGusts').replaceChildren();renderFunBoard();if(!wasFun)scheduleFunPopup(2400);}else if(wasFun)clearFunPopup();window.scrollTo({top:0,behavior:'smooth'}); }
+  function showPage(id,brownsFun=false){
+    const browns=id.startsWith('brownsMills')||(id==='fun'&&brownsFun);
+    $('cinnaminsonHeader').hidden=browns;
+    $('markerDock').hidden=browns;
+    $('dockMoreMenu').hidden=browns;
+    $('dockMoreMenu').classList.remove('open');
+    $('brownsMillsHeader').hidden=!browns;
+    $('brownsMillsDock').hidden=!browns;
+    qsa('#brownsMillsDock [data-browns-page]').forEach(button=>{
+      if(browns&&button.dataset.brownsPage===id)button.setAttribute('aria-current','page');
+      else button.removeAttribute('aria-current');
+    });
+    document.title='Store Pulse • '+(browns?'Browns Mills':'Cinnaminson');
+    $('fun').classList.toggle('brownsMillsFun',id==='fun'&&brownsFun);const wasFun=$('fun').classList.contains('active');qsa('.page').forEach(p=>p.classList.remove('active'));$(id).classList.add('active');$('homeBtn').classList.toggle('active',id==='landing');$('storeBtn').classList.toggle('active',id==='store');if(id==='fun'){renderFunBoard();if(!wasFun)scheduleFunPopup(2400);}else if(wasFun)clearFunPopup();window.scrollTo({top:0,behavior:'smooth'}); }
   const homeStoreKeys=['ppv','aia_posted','aia_close','htp_close','data','acc_per_opp','protectadvantage_rate','csat'];
   const homeRepKeys=['ppv','aia_posted','aia_close','htp_close','upgrades','data','acc_per_opp','protectadvantage_rate','csat'];
   const teamFullKeys=['ppv','ppv_close','protectadvantage_rate','accessory_revenue','acc_per_opp','nextup_rate','premium_loading_rate','aia_posted','aia_submits','aia_close','upgrades','data','htp','htp_close','csat','opps','traffic','aia_green_checks','trade_rate'];
@@ -1519,10 +1515,7 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
     const button=event.target.closest('[data-fun-rep]');
     if(!button)return;
     if($('fun').classList.contains('brownsMillsFun')){
-      $('brownsMillsScope').value=button.dataset.funRep;
-      renderBrownsMills();
-      showPage('brownsMillsClassic');
-      syncDock('brownsMillsClassic');
+      openBrownsMillsPage(brownsMillsRepPage(button.dataset.funRep));
     }else openRep(button.dataset.funRep);
   });
 
@@ -1545,16 +1538,14 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
     flake.textContent=i%3===0?'❅':'❄';
     flake.style.setProperty('--x',Math.random()*100+'%');
     flake.style.setProperty('--size',9+Math.random()*13+'px');
-    flake.style.setProperty('--speed',9+Math.random()*10+'s');
-    flake.style.setProperty('--delay',-Math.random()*16+'s');
+    flake.style.setProperty('--delay',Math.random()*2+'s');
     flake.style.setProperty('--drift',Math.random()*90-45+'px');
-    $('funHolidaySnow').append(flake);
+    if(i<8||i>=32&&i<38)$('funHolidaySnow').append(flake);
   }
   function paintFunHoliday(){
     holidayBoard.classList.toggle('holidayOn',holidayOn);
     document.body.classList.toggle('holidayGlobal',holidayOn);
     $('globalHolidayToggle').setAttribute('aria-pressed',String(holidayOn));
-    if(holidayOn)$('autumnGusts').replaceChildren();
     holidayToggle.setAttribute('aria-pressed',String(holidayOn));
   }
   paintFunHoliday();
@@ -1727,6 +1718,9 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
     return {ok:true,days,elapsed,factor:days/elapsed};
   }
   function paceScenario(){
+    if(brownsMillsCalcRep){
+      return {...calculatorLiveMetrics(),...brownsMillsRepProjections[brownsMillsCalcRep]};
+    }
     const live=calculatorLiveMetrics(),p=paceInfo(),out={...live};
     if(!p.ok)return out;
     calcOrder.forEach(k=>{
@@ -1759,15 +1753,15 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
     $('resetCalc').classList.toggle('hidden',S.calcMode!=='sandbox');
     $('sandboxFromPace').classList.toggle('hidden',S.calcMode!=='sandbox');
     const rep=S.reps.find(r=>r.rep_id===S.currentRep);
-    const brownsRep=[...$('brownsMillsScope').options].find(option=>option.value===brownsMillsCalcRep);
+    const brownsRep=brownsMillsReps.find(rep=>rep.id===brownsMillsCalcRep);
     $('worksheetRep').textContent=brownsRep
-      ? brownsRep.textContent.toUpperCase()+' · BROWNS MILLS · EOD 2026-11-13'
+      ? brownsRep.name.toUpperCase()+' · BROWNS MILLS · EOD 2026-11-13'
       : (rep?.display_name||'REP').toUpperCase()+' · '+(S.monthRow?.display_name||S.month)+' · EOD '+(S.monthRow?.snapshot_date||'—');
   }
   function renderCalc(){
     const liveMetrics=calculatorLiveMetrics(),live=comp(liveMetrics),paceMetrics=paceScenario(),pace=comp(paceMetrics),sandboxMetrics=S.calcSandbox||liveMetrics,sandbox=comp(sandboxMetrics),p=paceInfo();
     let scenario=live,metrics=liveMetrics;
-    if(S.calcMode==='pace'){scenario=pace;metrics=paceMetrics;$('tiModeReadout').textContent='PACE';$('calcLabel1').textContent='ESTIMATED COMP';$('calcLabel2').textContent='PACE TOTAL';$('calcLabel3').textContent='GAIN';$('calcModeNote').textContent=p.ok?`${p.elapsed} of ${p.days} days on the snapshot • PPV, AIA Posted, accessory revenue, Upgrades and Data projected ×${p.factor.toFixed(2)} • Insurance, Premium Plan Loading, Next Up, AIA Close, ACC/OPP, HTP Close and CSAT held at current rates.`:'Pace needs a valid snapshot date for this month. Add one in Manager Mode.';}
+    if(S.calcMode==='pace'){scenario=pace;metrics=paceMetrics;$('tiModeReadout').textContent='PACE';$('calcLabel1').textContent='ESTIMATED COMP';$('calcLabel2').textContent='PACE TOTAL';$('calcLabel3').textContent='GAIN';$('calcModeNote').textContent=brownsMillsCalcRep?'Month-end pace uses the Nov 13 mySUCCESS projections. Attachment and close rates use the reported rates.':p.ok?`${p.elapsed} of ${p.days} days on the snapshot • PPV, AIA Posted, accessory revenue, Upgrades and Data projected ×${p.factor.toFixed(2)} • Insurance, Premium Plan Loading, Next Up, AIA Close, ACC/OPP, HTP Close and CSAT held at current rates.`:'Pace needs a valid snapshot date for this month. Add one in Manager Mode.';}
     else if(S.calcMode==='sandbox'){scenario=sandbox;metrics=sandboxMetrics;$('tiModeReadout').textContent='SANDBOX';$('calcLabel1').textContent='ESTIMATED COMP';$('calcLabel2').textContent='SANDBOX';$('calcLabel3').textContent='VS LIVE';$('calcModeNote').textContent='Change the paycheck inputs directly. Sandbox never saves back to Store Pulse.';}
     else{$('tiModeReadout').textContent='LIVE';$('calcLabel1').textContent='ESTIMATED COMP';$('calcLabel2').textContent='PRODUCTION';$('calcLabel3').textContent='BONUS';$('calcModeNote').textContent='Live is auto-filled from the current Store Pulse snapshot. Green Checks stay behind the scenes; the calculator uses the resulting AIA close rate.';}
     $('calcLive').textContent=fmtMoney(S.calcMode==='pace'?pace.total:S.calcMode==='sandbox'?sandbox.total:live.total);const reportedLoading=premiumLoading(metrics);if(reportedLoading!==null)$('calcModeNote').textContent += ` • Premium Plan Loading: ${fmtPct(reportedLoading)} reported KPI.`;
@@ -1905,15 +1899,14 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
       return;
     }
     brownsMillsDialog.close();
-    showPage('brownsMills');
-    syncDock('brownsMills');
-    $('brownsMillsTitle').focus({preventScroll:true});
+    openBrownsMillsPage('brownsMills');
   });
   $('brownsMillsHome').addEventListener('click',()=>{
     showPage('landing');
     syncDock('landing');
     $('brownsMillsDoor').focus({preventScroll:true});
   });
+  const brownsMillsReps=[{id:'vikash',name:'Kash'},{id:'sophia',name:'Sophia'},{id:'kayla',name:'Kayla'}];
   const brownsMillsReported=[
     ['ppv',8,18,32],['ppv_close',2.05,2.05],['protectadvantage_rate',61.90,61.90,73],
     ['accessory_revenue',1165,2689,5595],['acc_per_opp',43.16,43.16],
@@ -1929,6 +1922,11 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
     kayla:[3,71.43,418,41.77,40,30,1,1,7.1,7,1,2,20,100,11,14,66.7],
     sophia:[4,66.67,175,17.5,87.5,14.3,0,0,0,6,1,1,11.11,100,11,11,40],
     vikash:[1,50,573,63.64,77.78,0,2,2,15.4,8,2,null,0,100,13,13,33.3]
+  };
+  const brownsMillsRepProjections={
+    kayla:{ppv:7,accessory_revenue:964,aia_posted:2,aia_submits:2,upgrades:16,data:2,htp:5,opps:25,aia_green_checks:32},
+    sophia:{ppv:9,accessory_revenue:404,aia_posted:0,aia_submits:0,upgrades:14,data:2,htp:2,opps:25,aia_green_checks:25},
+    vikash:{ppv:2,accessory_revenue:1322,aia_posted:5,aia_submits:5,upgrades:18,data:5,opps:30,aia_green_checks:30}
   };
   const brownsMillsNumber=(key,value)=>{
     if(value==null)return '—';
@@ -1950,46 +1948,67 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
     $('funManagerCorner').classList.add('empty');
     $('funColumns').innerHTML='<th scope="col">Rep</th>'+funFields.map(({key,label,start})=>
       `<th id="fun-col-${key}" scope="col" class="${start?'funGroupStart':''}">${key==='aia_posted'?'AIA Gross Adds':label}</th>`).join('');
-    $('funRows').innerHTML=[...$('brownsMillsScope').options].slice(1).map(option=>{
-      const id=option.value, metrics=brownsMillsMetricsFor(id);
+    $('funRows').innerHTML=brownsMillsReps.map(({id,name})=>{
+      const metrics=brownsMillsMetricsFor(id);
       const estimatedComp=metrics.aia_posted==null?null:comp(brownsMillsCalcMetrics(id)).total;
       const cells=funFields.map(({key,label,start})=>{
         const value=key==='comp_mtd'?(estimatedComp==null?'—':fmtMoney(estimatedComp)):brownsMillsNumber(key,metrics[key]);
         const heading=key==='aia_posted'?'AIA Gross Adds':label;
         return `<td class="${start?'funGroupStart':''}" headers="fun-col-${key} fun-rep-${id}"><span class="funMobileLabel" aria-hidden="true">${heading}</span><span class="funFigure">${value}</span></td>`;
       }).join('');
-      return `<tr><th class="funRepName" id="fun-rep-${id}" scope="row"><button type="button" data-fun-rep="${id}">${esc(option.textContent)}</button></th>${cells}</tr>`;
+      return `<tr><th class="funRepName" id="fun-rep-${id}" scope="row"><button type="button" data-fun-rep="${id}">${esc(name)}</button></th>${cells}</tr>`;
     }).join('');
   }
-  function renderBrownsMills(){
-    const scope=$('brownsMillsScope').value;
-    const isStore=scope==='store';
-    $('brownsMillsComp').textContent=isStore?'Open comp calculator':'Open '+$('brownsMillsScope').selectedOptions[0].textContent+'’s comp calculator';
-    const rows=isStore?brownsMillsReported:brownsMillsRepKeys.map((key,i)=>[key,brownsMillsRepActuals[scope][i]]);
-    $('brownsMillsSource').textContent=isStore?'mySUCCESS location report':'mySUCCESS individual report · may include sales outside Browns Mills';
+  function brownsMillsRepPage(repId){return 'brownsMillsRep-'+repId;}
+  function openBrownsMillsPage(page){
+    showPage(page,true);
+    document.querySelector('#'+page+' h1')?.focus({preventScroll:true});
+  }
+  function brownsMillsStatsTable(rows,showGoals=false){
     const body=rows.map(([key,actual,projected,goal])=>{
       const label=key==='aia_posted'?'AIA Gross Adds':metricLabel(key);
       const tone=goal==null||actual==null?'':actual>=goal?'good':'bad';
-      return `<tr><th scope="row" class="metricName">${esc(label)}</th><td class="matrixValue ${tone}">${brownsMillsNumber(key,actual)}</td><td>${brownsMillsNumber(key,projected)}</td><td>${brownsMillsNumber(key,goal)}</td></tr>`;
+      return `<tr><th scope="row" class="metricName">${esc(label)}</th><td class="matrixValue ${tone}">${brownsMillsNumber(key,actual)}</td><td>${brownsMillsNumber(key,projected)}</td>${showGoals?`<td>${brownsMillsNumber(key,goal)}</td>`:''}</tr>`;
     }).join('');
-    $('brownsMillsMetrics').innerHTML=`<div class="teamFullWrap"><table class="teamFullMatrix" aria-label="Browns Mills results"><thead><tr><th>Metric</th><th>Actual</th><th>Projected</th><th>Goal</th></tr></thead><tbody>${body}</tbody></table></div>`;
+    return `<div class="teamFullWrap"><table class="teamFullMatrix" aria-label="Browns Mills results"><thead><tr><th>Metric</th><th>Actual</th><th>Projected</th>${showGoals?'<th>Goal</th>':''}</tr></thead><tbody>${body}</tbody></table></div>`;
   }
-  $('brownsMillsScope').addEventListener('change',renderBrownsMills);
-  $('brownsMillsComp').addEventListener('click',()=>{
-    const scope=$('brownsMillsScope');
-    if(scope.value==='store'){scope.value=scope.options[1].value;renderBrownsMills();}
-    openCalculator(scope.value);
-  });
-  qsa('[data-browns-page]').forEach(button=>button.addEventListener('click',()=>{
-    const page=button.dataset.brownsPage;
-    if(page==='brownsMillsClassic'&&$('brownsMills').classList.contains('active')){
-      $('brownsMillsScope').value='store';
-      renderBrownsMills();
-    }
-    showPage(page,true);
-    syncDock('brownsMills');
-  }));
-  renderBrownsMills();
+  function brownsMillsQuickCards(metrics){
+    return ['ppv','aia_posted','accessory_revenue','csat'].map(key=>
+      `<div class="pulseQuickCard"><small>${esc(key==='aia_posted'?'AIA Gross Adds':metricLabel(key))}</small><strong>${brownsMillsNumber(key,metrics[key])}</strong></div>`
+    ).join('');
+  }
+  function brownsMillsNavButton(page,label,css='btn'){
+    return `<button class="${css}" data-browns-page="${page}" type="button">${esc(label)}</button>`;
+  }
+  $('brownsMillsMetrics').innerHTML=brownsMillsStatsTable(brownsMillsReported,true);
+  $('brownsMillsTeamQuick').innerHTML=brownsMillsQuickCards(Object.fromEntries(brownsMillsReported));
+  $('brownsMillsTeamReps').innerHTML=brownsMillsReps.map(({id,name})=>brownsMillsNavButton(brownsMillsRepPage(id),name)).join('');
+  $('brownsMillsDock').innerHTML=[
+    ['brownsMills','Home'],['brownsMillsClassic','Team'],
+    ...brownsMillsReps.map(({id,name})=>[brownsMillsRepPage(id),name]),['fun','Fun']
+  ].map(([page,label])=>brownsMillsNavButton(page,label,'dockTab')).join('');
+  $('brownsMillsRepPages').innerHTML=brownsMillsReps.map(({id,name})=>{
+    const metrics=brownsMillsMetricsFor(id);
+    const rows=brownsMillsRepKeys.map(key=>{
+      const actual=metrics[key];
+      const projected=brownsMillsRepProjections[id][key]??(metricDefs[key]?.unit==='pct'||key==='acc_per_opp'?actual:null);
+      return [key,actual,projected];
+    });
+    return `<section class="page" id="${brownsMillsRepPage(id)}" aria-labelledby="brownsRepTitle-${id}">
+      <div class="board historyBoard">
+        <div class="historyHead"><div>
+          <div class="welcomeEyebrow">BROWNS MILLS • REP BOARD</div>
+          <h1 id="brownsRepTitle-${id}" tabindex="-1">${esc(name)}</h1>
+          <p>November 2026 month to date · As of Nov 13 EOD</p>
+        </div><button class="btn green" type="button" data-browns-calc="${id}">Open comp calculator</button></div>
+        <div class="repQuick">${brownsMillsQuickCards(metrics)}</div>
+        ${brownsMillsStatsTable(rows)}
+        <p class="historyFootnote">mySUCCESS individual report · may include sales outside Browns Mills</p>
+      </div>
+    </section>`;
+  }).join('');
+  qsa('[data-browns-page]').forEach(button=>button.addEventListener('click',()=>openBrownsMillsPage(button.dataset.brownsPage)));
+  qsa('[data-browns-calc]').forEach(button=>button.addEventListener('click',()=>openCalculator(button.dataset.brownsCalc)));
   for(const id of ['brownsMillsmgrRevenue','brownsMillsmgrCost']){
     $(id).addEventListener('input',()=>updateManagerEstimate(true));
   }
@@ -2095,13 +2114,6 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
   $('intelligenceReloadArchives').addEventListener('click',()=>loadIntelligenceArchives(true));
   $('historyMonth').addEventListener('change',e=>{H.month=e.target.value;loadHistorical()});$('historyScope').addEventListener('change',e=>{H.scope=e.target.value;renderHistorical()});$('historyMetric').addEventListener('change',e=>{H.metric=e.target.value;historyChart()});$('historyAskBtn').addEventListener('click',historyAnswer);$('historyQuestion').addEventListener('keydown',e=>{if(e.key==='Enter')historyAnswer()});qsa('[data-history-question]').forEach(b=>b.addEventListener('click',()=>{$('historyQuestion').value=b.dataset.historyQuestion;historyAnswer()}));
   $('historyExport').addEventListener('click',()=>{const rows=historyRows();const keys=['snapshot_date','scope','rep_id',...Object.keys(rows[0]?.metrics||{})];const csv=[keys.join(','),...rows.map(x=>keys.map(k=>JSON.stringify(k in x?x[k]:x.metrics?.[k]??'')).join(','))].join('\r\n');const blob=new Blob([csv],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='store-pulse-'+H.month+'-'+H.scope+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)});
-  // Gusts occur occasionally and never alter Fun Mode's own animation timers.
-  const autumnEnabled=()=>!holidayOn&&new Date().getMonth()===10&&!matchMedia('(prefers-reduced-motion: reduce)').matches;
-  function autumnGust(){if(document.hidden||$('fun').classList.contains('active')||!autumnEnabled())return;const holder=$('autumnGusts');const leaves=['🍂','🍁','🍃'];for(let i=0;i<13;i++){const leaf=document.createElement('span');leaf.className='autumnLeaf';leaf.textContent=leaves[Math.floor(Math.random()*leaves.length)];leaf.style.setProperty('--leaf-y',(10+Math.random()*75)+'vh');leaf.style.setProperty('--leaf-size',(22+Math.random()*23)+'px');leaf.style.setProperty('--leaf-duration',(8+Math.random()*5)+'s');leaf.style.setProperty('--leaf-drift',(-90+Math.random()*180)+'px');leaf.style.setProperty('--leaf-turn',(400+Math.random()*600)+'deg');leaf.style.animationDelay=(i*.27)+'s';holder.appendChild(leaf);leaf.addEventListener('animationend',()=>leaf.remove(),{once:true});}}
-  // A visible opening gust, then a relaxed rhythm; keep all leaves noninteractive.
-  setTimeout(autumnGust,1800);
-  setInterval(autumnGust,24000);
-
   setupTheme();loadData(true);
 })();
 </script>
