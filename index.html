@@ -814,6 +814,28 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
 #brownsMillsHome{white-space:nowrap;font-size:clamp(10px,2vw,13px)}
 .brownsRepLinks{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
 #brownsMillsDock .dockTab[aria-current="page"]{background:#16557d;color:#fff}
+
+.splitSummary{margin:22px 0;padding:18px;border:1px solid #c5d5df;border-radius:12px;background:#f7fafc;color:#24384a}
+.splitSummary h2{font-size:20px;margin:0 0 13px}
+.splitSummary p,#splitCalc p{font-size:13px;line-height:1.5;color:#526577}
+.splitTotals{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px;margin:12px 0}
+.splitTotals div{padding:12px;border:1px solid #cfdae3;border-radius:9px;background:white}
+.splitTotals span,.splitTotals strong{display:block}
+.splitTotals span{font-size:12px;color:#526577}
+.splitTotals strong{font-size:23px;color:#1c5d40;margin-top:7px}
+.splitTableWrap{overflow:auto;margin:14px 0}
+.splitTableWrap table{border-collapse:collapse;width:100%;font-size:14px;min-width:360px}
+.splitTableWrap th,.splitTableWrap td{padding:11px 8px;text-align:left;border-bottom:1px solid #d3dee7;white-space:nowrap}
+.splitTableWrap button{background:transparent;border:0;color:#135b91;cursor:pointer;padding:2px;font:inherit;text-decoration:underline}
+#splitCalc{color:#20374b;width:min(95vw,780px);max-height:90dvh;overflow:auto;padding:20px;border:1px solid #c4d2de;border-radius:15px}
+#splitCalc::backdrop{background:#132433bb}
+#splitCalc header{display:flex;gap:12px;justify-content:space-between;align-items:start}
+#splitCalc h2{margin:0;font-size:23px}
+#splitCalcFields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+#splitCalcFields label{font-size:13px;font-weight:650}
+#splitCalcFields input{display:block;width:100%;min-width:0;padding:11px 8px;margin-top:6px;border:1px solid #b7c9d7;border-radius:7px;background:white;color:#24384a;font-size:16px}
+#splitCalcFields input:focus{outline:2px solid #2a74a1}
+@media(max-width:550px){#splitCalcFields{grid-template-columns:repeat(2,minmax(0,1fr))}.splitSummary{padding:12px}.splitTotals{grid-template-columns:1fr}.splitTotals div{padding:9px}.splitTotals strong{font-size:21px}}
 </style>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kalam:wght@700&amp;display=swap">
 </head>
@@ -909,6 +931,7 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
       <div id="storeQuick" class="storeQuick"></div>
       <div id="teamFullTable" class="teamFullWrap"></div>
 
+      <div id="cinnSplitTeam"></div>
       <section class="managerCompBoard" aria-labelledby="managerCompHeading">
         <div class="managerCompHeadingRow">
           <div><div class="kicker">MANAGER COMP</div><h2 id="managerCompHeading">PROFIT SHARE CALCULATOR</h2></div>
@@ -940,6 +963,7 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
         <select id="repSelect" class="repSelect" aria-label="Choose rep"></select>
       </div>
       <div class="markerLine blueLine"></div>
+      <div id="cinnSplitRep"></div>
       <div id="repQuick" class="repQuick" aria-label="Rep performance highlights"></div>
 
       <nav class="repSectionTabs" aria-label="Rep sections">
@@ -1015,7 +1039,7 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
   </section>
   <section id="brownsMills" class="page" aria-labelledby="brownsMillsTitle">
     <div class="pulseWelcome board">
-      <div class="welcomeTop"><div class="welcomeEyebrow">BROWNS MILLS • STORE PULSE</div><h1 id="brownsMillsTitle" tabindex="-1">Choose your board<span class="welcomePeriod">.</span></h1><p>November 2026 · As of Nov 13 EOD</p></div>
+      <div class="welcomeTop"><div class="welcomeEyebrow">BROWNS MILLS • STORE PULSE</div><h1 id="brownsMillsTitle" tabindex="-1">Choose your board<span class="welcomePeriod">.</span></h1><p data-browns-date></p></div>
       <div class="welcomeChoices">
         <button class="welcomeChoice" data-browns-page="brownsMillsClassic" type="button"><span class="welcomeIcon">▦</span><span class="welcomeChoiceName">Classic Mode</span><span class="welcomeChoiceDesc">Store totals and individual rep results.</span><span class="welcomeArrow">OPEN CLASSIC →</span></button>
         <button class="welcomeChoice funChoice" data-browns-page="fun" type="button"><span class="welcomeIcon">✎</span><span class="welcomeChoiceName">Fun Mode</span><span class="welcomeChoiceDesc">The whiteboard, pop-up reminders and holiday antics.</span><span class="welcomeArrow">OPEN WHITEBOARD →</span></button>
@@ -1027,12 +1051,13 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
       <div class="historyHead">
         <div><div class="welcomeEyebrow">BROWNS MILLS • STORE PULSE</div>
           <h1 id="brownsMillsClassicTitle" tabindex="-1">Team</h1>
-          <p>November 2026 month to date · As of Nov 13 EOD</p>
+          <p data-browns-date></p>
         </div>
         <div><button class="btn" data-browns-page="brownsMills" type="button">Browns Mills home</button> <button class="btn" data-browns-page="fun" type="button">Fun Mode</button></div>
       </div>
       <div id="brownsMillsTeamQuick" class="storeQuick"></div>
       <nav id="brownsMillsTeamReps" class="brownsRepLinks" aria-label="Browns Mills rep pages"></nav>
+      <div id="bmSplitTeam"></div>
       <div id="brownsMillsMetrics" aria-label="Browns Mills store metrics"></div>
       <section class="managerCompBoard" aria-labelledby="brownsMillsManagerCompHeading">
         <div class="managerCompHeadingRow">
@@ -1088,6 +1113,13 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
   <button type="button" id="mobileThemeToggle">FUN MODE</button>
   <button type="button" id="mobileManagerMode">MANAGER MODE</button>
 </div>
+
+<dialog id="splitCalc" aria-labelledby="splitCalcTitle">
+<header><h2 id="splitCalcTitle">November comp</h2><button class="btn" type="button" id="splitCalcClose">Close</button></header>
+<p id="splitCalcFirst"></p><p>Part 2 · Nov 16–30 only. AIA pay caps at 10% close. HTP bonus caps at 10%. Insurance, Premium and Next Up below 40% receive half credit.</p>
+<div id="splitCalcFields"></div><div id="splitCalcResult" aria-live="polite"></div>
+<button type="button" class="btn" id="splitCalcReset">Reload Part 2 actuals</button> <button type="button" class="btn" id="splitCalcPace">Project Part 2 pace</button>
+</dialog>
 
 <div id="calcBack" class="modalBack hidden" role="dialog" aria-modal="true" aria-labelledby="calcTitle">
   <div class="modal worksheetModal">
@@ -1177,6 +1209,29 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
   const repGoalOrder=Object.keys(metricDefs).filter(k=>metricDefs[k].goal && metricDefs[k].rep);
 
   const S={month:'2026-11',monthRow:null,reps:[],repMetrics:[],store:{},goals:[],history:[],comp:null,ui:null,currentRep:null,managerPassword:'',managerDraft:{},calcMode:'live',calcSandbox:null};
+
+  let novemberSplit={"month":"2026-11","first_half":{"end":"2026-11-15","start":"2026-11-01","frozen":{"cinnaminson":{"tj":{"comp":{"bonus":60.05126877076412,"total":307.32,"accPay":20.709,"aiaPay":83.72093023255815,"ppvPay":135.84,"dataPay":7,"production":247.26993023255815},"metrics":{"htp":2,"ppv":8,"csat":100,"data":2,"opps":24,"source":"AT&T mySUCCESS Historical Analysis","upgrades":14,"asof_date":"2026-11-15","aia_posted":3,"trade_rate":42.9,"acc_per_opp":30.68,"aia_submits":3,"nextup_rate":33.33,"source_level":"National individual employee","reported_proj":{"htp":4,"ppv":16,"csat":100,"opps":48,"upgrades":28,"aia_close":7,"htp_close":14.29,"trade_rate":42.9,"acc_per_opp":30.68,"aia_submits":6,"nextup_rate":33.33,"aia_gross_adds":6,"aia_green_checks":86,"accessory_revenue":1350,"connected_devices":4,"premium_loading_rate":57.9,"protectadvantage_rate":28.57},"aia_gross_adds":3,"insurance_rate":28.57,"snapshot_label":"November 15, 2026 EOD (inferred from November 16 capture and 15-day projection basis)","aia_green_checks":43,"reported_missing":["traffic"],"source_asof_date":"2026-11-15","accessory_revenue":675,"aia_posted_caveat":"Reported AIA gross adds are mapped to the legacy AIA Posted field.","connected_devices":2,"htp_eligible_opps":14,"reported_aia_close":7,"reported_htp_close":14.29,"captured_date_local":"2026-11-16","premium_loading_rate":57.9,"protectadvantage_rate":28.57,"htp_eligible_opps_derivation":"Inferred from reported HTP adds and the rounded attachment rate."}},"gio":{"comp":{"bonus":31.813555555555553,"total":604.46,"accPay":23.997999999999998,"aiaPay":300,"ppvPay":246.39600000000002,"dataPay":2.25,"production":572.644},"metrics":{"htp":1,"ppv":12,"csat":88.89,"data":1,"opps":23,"source":"AT&T mySUCCESS Historical Analysis","upgrades":9,"asof_date":"2026-11-15","aia_posted":5,"trade_rate":35.3,"acc_per_opp":33.8,"aia_submits":5,"nextup_rate":23.53,"source_level":"National individual employee","reported_proj":{"htp":2,"ppv":24,"csat":88.89,"opps":46,"upgrades":18,"aia_close":18.5,"htp_close":5.56,"trade_rate":35.3,"acc_per_opp":33.8,"aia_submits":10,"nextup_rate":23.53,"aia_gross_adds":10,"aia_green_checks":54,"accessory_revenue":1420,"connected_devices":2,"premium_loading_rate":31.8,"protectadvantage_rate":100},"aia_gross_adds":5,"insurance_rate":100,"snapshot_label":"November 15, 2026 EOD (inferred from November 16 capture and 15-day projection basis)","aia_green_checks":27,"reported_missing":["traffic"],"source_asof_date":"2026-11-15","accessory_revenue":710,"aia_posted_caveat":"Reported AIA gross adds are mapped to the legacy AIA Posted field.","connected_devices":1,"htp_eligible_opps":18,"reported_aia_close":18.5,"reported_htp_close":5.56,"captured_date_local":"2026-11-16","premium_loading_rate":31.8,"protectadvantage_rate":100,"htp_eligible_opps_derivation":"Inferred from reported HTP adds and the rounded attachment rate."}},"gage":{"comp":{"bonus":47.94662444827586,"total":367.59,"accPay":64.23814,"aiaPay":91.95402298850574,"ppvPay":116.952,"dataPay":46.5,"production":319.64416298850574},"metrics":{"htp":9,"ppv":8,"csat":71.43,"data":6,"opps":45,"source":"AT&T mySUCCESS Historical Analysis","upgrades":31,"asof_date":"2026-11-15","aia_posted":4,"trade_rate":47.2,"acc_per_opp":40.58,"aia_submits":5,"nextup_rate":21.62,"source_level":"National individual employee","reported_proj":{"htp":18,"ppv":16,"csat":71.43,"opps":90,"upgrades":62,"aia_close":5.8,"htp_close":31.03,"trade_rate":47.2,"acc_per_opp":40.58,"aia_submits":10,"nextup_rate":21.62,"aia_gross_adds":8,"aia_green_checks":174,"accessory_revenue":3165,"connected_devices":12,"premium_loading_rate":32.9,"protectadvantage_rate":41.67},"aia_gross_adds":4,"insurance_rate":41.67,"snapshot_label":"November 15, 2026 EOD (inferred from November 16 capture and 15-day projection basis)","aia_green_checks":87,"reported_missing":["traffic"],"source_asof_date":"2026-11-15","accessory_revenue":1583,"aia_posted_caveat":"Reported AIA gross adds are mapped to the legacy AIA Posted field.","connected_devices":6,"htp_eligible_opps":29,"reported_aia_close":5.8,"reported_htp_close":31.03,"captured_date_local":"2026-11-16","premium_loading_rate":32.9,"protectadvantage_rate":41.67,"htp_eligible_opps_derivation":"Inferred from reported HTP adds and the rounded attachment rate."}}},"browns_mills":{"kayla":{"comp":{"bonus":26.259715,"total":131.3,"accPay":17.45986,"aiaPay":28.4,"ppvPay":57.429,"dataPay":1.75,"production":105.03886},"metrics":{"htp":2,"ppv":3,"csat":100,"data":1,"opps":11,"upgrades":7,"aia_close":7.1,"htp_close":20,"aia_posted":1,"trade_rate":66.7,"acc_per_opp":41.77,"aia_submits":1,"nextup_rate":40,"aia_close_input":7.1,"htp_close_input":20,"aia_green_checks":14,"accessory_revenue":418,"premium_loading_rate":30,"protectadvantage_rate":71.43}},"sophia":{"comp":{"bonus":23.901,"total":119.51,"accPay":3.402,"aiaPay":0,"ppvPay":90.952,"dataPay":1.25,"production":95.604},"metrics":{"htp":3,"ppv":4,"csat":100,"data":1,"opps":10,"upgrades":5,"aia_close":0,"htp_close":33.33,"aia_posted":0,"trade_rate":33.3,"acc_per_opp":19.44,"aia_submits":0,"nextup_rate":85.71,"aia_close_input":0,"htp_close_input":33.33,"aia_green_checks":9,"accessory_revenue":175,"premium_loading_rate":25,"protectadvantage_rate":66.67}},"vikash":{"comp":{"bonus":22.962941999999998,"total":252.59,"accPay":101.17342,"aiaPay":106.4,"ppvPay":17.556,"dataPay":4.5,"production":229.62941999999998},"metrics":{"htp":null,"ppv":1,"csat":100,"data":2,"opps":14,"upgrades":9,"aia_close":13.3,"htp_close":0,"aia_posted":2,"trade_rate":50,"acc_per_opp":100.57,"aia_submits":2,"nextup_rate":70,"aia_close_input":13.3,"htp_close_input":0,"aia_green_checks":15,"accessory_revenue":1006,"premium_loading_rate":0,"protectadvantage_rate":55.56}}}},"status":"frozen","source_note":"Store Pulse existing old formula. AIA gross adds use legacy posted field. Rounded published KPI rates and inferred HTP denominators retained.","store_metrics":{"cinnaminson":{"htp":12,"ppv":20,"csat":89.47,"data":9,"opps":86,"source":"AT&T mySUCCESS Historical Analysis","traffic":622,"upgrades":56,"asof_date":"2026-11-15","ppv_close":3.22,"aia_posted":12,"trade_rate":44.1,"acc_per_opp":35.59,"aia_submits":13,"nextup_rate":29.41,"source_level":"Cinnaminson location","reported_proj":{"htp":24,"ppv":40,"csat":89.47,"opps":172,"traffic":1244,"upgrades":112,"aia_close":8.3,"htp_close":21.43,"ppv_close":3.22,"trade_rate":44.1,"acc_per_opp":35.59,"aia_submits":26,"nextup_rate":29.41,"aia_gross_adds":24,"aia_green_checks":312,"accessory_revenue":5409,"connected_devices":18,"premium_loading_rate":37.8,"protectadvantage_rate":45.83},"aia_gross_adds":12,"insurance_rate":45.83,"snapshot_label":"November 15, 2026 EOD (inferred from November 16 capture and 15-day projection basis)","aia_green_checks":156,"reported_missing":[],"reported_targets":{"ppv":32,"csat":90,"opps":126,"htp_close":10,"trade_rate":55,"aia_submits":30,"nextup_rate":60,"aia_gross_adds":26,"accessory_revenue":6227,"connected_devices":14,"premium_loading_rate":57,"protectadvantage_rate":73},"source_asof_date":"2026-11-15","accessory_revenue":2705,"aia_posted_caveat":"Reported AIA gross adds are mapped to the legacy AIA Posted field.","connected_devices":9,"htp_eligible_opps":56,"reported_aia_close":8.3,"reported_htp_close":21.43,"captured_date_local":"2026-11-16","premium_loading_rate":37.8,"protectadvantage_rate":45.83,"htp_eligible_opps_derivation":"Inferred from reported HTP adds and the rounded attachment rate."},"browns_mills":{"ppv":8,"ppv_close":1.86,"protectadvantage_rate":63.64,"accessory_revenue":1598,"acc_per_opp":53.28,"nextup_rate":64.29,"premium_loading_rate":25,"aia_posted":3,"aia_submits":3,"aia_close":7.7,"upgrades":22,"data":4,"htp":5,"htp_close":17.24,"csat":100,"opps":36,"traffic":431,"aia_green_checks":39,"trade_rate":50}}},"second_half":{"end":"2026-11-30","rules":{"exactly_40":"full_credit_provisional","accessory_cap":75,"aia_close_cap":10,"htp_bonus_cap":10,"accessory_cap_period":"second_half_assumption","attachment_threshold":40,"attachment_below_threshold_credit":0.5,"accessory_cap_before_bonus":true},"start":"2026-11-16","status":"awaiting_period_data","rate_basis":"November 16–30 only; do not subtract cumulative percentages.","count_baseline_date":"2026-11-15"}};
+  const splitCountKeys=['ppv','aia_posted','aia_submits','accessory_revenue','upgrades','data','opps','aia_green_checks','htp'];
+  const splitInputFields=[
+    ['ppv','PPV'],['protectadvantage_rate','Insurance %'],['premium_loading_rate','Premium %'],['nextup_rate','Next Up %'],
+    ['aia_posted','AIA Posted'],['aia_close_input','AIA Close %'],['accessory_revenue','Accessory revenue $'],
+    ['acc_per_opp','Revenue / OPP $'],['upgrades','Upgrades'],['data','Connected devices'],['htp_close_input','HTP Close %'],['csat','CSAT %']
+  ];
+function newRulesComp(m){
+  const number=k=>Math.max(0,Number(m[k])||0);
+  const credit=k=>number(k)*(number(k)<40?.5:1);
+  const ppvEach=5+(credit('protectadvantage_rate')+credit('premium_loading_rate')+credit('nextup_rate'))/10;
+  const ppvPay=number('ppv')*ppvEach;
+  const aiaEach=Math.min(number('aia_close_input'),10)*4;
+  const aiaPay=number('aia_posted')*aiaEach;
+  const accessoryBeforeCap=number('accessory_revenue')*number('acc_per_opp')/1000;
+  const accPay=Math.min(accessoryBeforeCap,75);
+  const dataPay=number('data')*number('upgrades')*.25;
+  const production=ppvPay+aiaPay+accPay+dataPay;
+  const bonusPct=Math.min(number('htp_close_input'),10)+(number('csat')>=90?Math.min(number('csat'),100)/10:0);
+  const bonus=production*bonusPct/100;
+  return {ppvEach,ppvPay,aiaEach,aiaPay,accessoryBeforeCap,accPay,dataPay,production,bonusPct,bonus,total:production+bonus};
+}
 
   function showToast(msg){ const t=$('toast');t.textContent=msg;t.classList.remove('hidden');clearTimeout(showToast.t);showToast.t=setTimeout(()=>t.classList.add('hidden'),2600); }
   function api(path){ return fetch(SUPABASE_URL+'/rest/v1/'+path,{headers:{apikey:SUPABASE_KEY,Accept:'application/json'}}).then(async r=>{if(!r.ok)throw new Error((await r.text())||('HTTP '+r.status));return r.json();}); }
@@ -1479,7 +1534,7 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
     const compMetric=key==='comp_mtd';
     const reported=Boolean(snapshot)&&!snapshot.metrics?.reported_missing?.includes(key);
     const actual=reported
-      ? compMetric ? comp(calcBase(metrics)).total : metricRaw(key,metrics)
+      ? compMetric ? (S.month==='2026-11'?splitMonthTotal('cinnaminson',repId):comp(calcBase(metrics)).total) : metricRaw(key,metrics)
       : null;
     const target=metricGoal(key,'rep',repId);
     const value=actual===null?'—':compMetric?fmtMoney(actual):displayValue(key,metrics);
@@ -1616,7 +1671,7 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
   window.addEventListener('resize',()=>{if(!funPopup.hidden)positionFunPopup()});
 
   function managerCompData(browns=false){
-    const m=browns?Object.fromEntries(brownsMillsReported):S.store||{};
+    const m=browns?Object.fromEntries(brownsMillsSnapshot.store):S.store||{};
     const pa=num(m.protectadvantage_rate),premium=num(premiumLoading(m)),nu=num(m.nextup_rate),acc=num(m.acc_per_opp),aia=browns?num(m.aia_close):aiaClose(m),htp=Math.min(browns?num(m.htp_close):htpClose(m),15),csat=num(m.csat);
     // Andy's example treats 6% AIA close as .90 after the 1.5x weighting: (6 / 10) * 1.5.
     const pieces={pa:pa/100,premium:premium/100,nu:nu/100,acc:acc/100,aia:(aia/10)*1.5};
@@ -1666,10 +1721,11 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
   function visibleReps(){const afterNoelle=new Date()>=new Date('2026-10-25T00:00:00-04:00');return S.reps.filter(r=>r.active&&!(afterNoelle&&r.rep_id==='noelle'));}
   function syncActiveRep(){const active=visibleReps();if(!active.some(r=>r.rep_id===S.currentRep))S.currentRep=active[0]?.rep_id||null;qsa('[data-dock-rep]').forEach(b=>b.classList.toggle('hidden',!active.some(r=>r.rep_id===b.dataset.dockRep)));}
   function repMetric(id){return S.repMetrics.find(x=>x.rep_id===id)||{rep_id:id,month:S.month}}
-  function openRep(id){S.currentRep=id;renderRep();showPage('rep')}
+  function openRep(id){S.currentRep=id;renderRep();renderSplitPanels();showPage('rep')}
   function renderRep(){
     const r=visibleReps().find(x=>x.rep_id===S.currentRep)||visibleReps()[0];if(!r)return;S.currentRep=r.rep_id;const m=repMetric(r.rep_id);
-    $('repTitle').textContent=r.display_name;$('repQuick').innerHTML=[['PPV',displayValue('ppv',m)],['AIA',displayValue('aia_posted',m)],['ACCESSORIES',displayValue('accessory_revenue',m)],['EST. COMP',fmtMoney(comp(calcBase(m)).total)]].map(([a,b])=>`<div class="pulseQuickCard"><small>${a}</small><strong>${b}</strong></div>`).join('');$('repKicker').textContent=(S.monthRow?.display_name||'October 2026').toUpperCase()+' • REP';
+    $('repTitle').textContent=r.display_name;$('repQuick').innerHTML=[['PPV',displayValue('ppv',m)],['AIA',displayValue('aia_posted',m)],['ACCESSORIES',displayValue('accessory_revenue',m)],['NOV. COMP',S.month==='2026-11'?(splitMonthTotal('cinnaminson',r.rep_id)==null?'Pending Part 2':fmtMoney(splitMonthTotal('cinnaminson',r.rep_id))):fmtMoney(comp(calcBase(m)).total)]].map(([a,b])=>`<div class="pulseQuickCard"><small>${a}</small><strong>${b}</strong></div>`).join('');$('repKicker').textContent=(S.monthRow?.display_name||'October 2026').toUpperCase()+' • REP';
+    if($('cinnSplitRep'))$('cinnSplitRep').innerHTML=S.month==='2026-11'?splitRepSummary('cinnaminson',r.rep_id):'';
     $('repSelect').innerHTML=visibleReps().map(x=>`<option value="${esc(x.rep_id)}" ${x.rep_id===r.rep_id?'selected':''}>${esc(x.display_name)}</option>`).join('');
     $('repStats').innerHTML=repStatOrder.map(key=>`<div class="stat"><div class="label">${esc(metricLabel(key))}</div><div class="value ${metricTone(key,m,'rep',r.rep_id)}">${esc(displayValue(key,m))}</div>${goalMarkup(key,m,'rep',r.rep_id)}</div>`).join('');
     $('coachGrid').innerHTML=coaching(m,r.rep_id).map(x=>`<div class="note"><h3>${esc(x.title)}</h3><p>${esc(x.body)}</p></div>`).join('');
@@ -1708,9 +1764,9 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
     return brownsMillsCalcRep?brownsMillsCalcMetrics(brownsMillsCalcRep):calcBase(repMetric(S.currentRep));
   }
   function paceInfo(){
-    const days=brownsMillsCalcRep?30:Number(S.monthRow?.days_in_month)||31;
-    const date=brownsMillsCalcRep?'2026-11-13':S.monthRow?.snapshot_date;
-    const month=brownsMillsCalcRep?'2026-11':S.month;
+    const date=brownsMillsCalcRep?brownsMillsSnapshot.date:S.monthRow?.snapshot_date;
+    const month=brownsMillsCalcRep?brownsMillsSnapshot.date.slice(0,7):S.month;
+    const days=brownsMillsCalcRep?new Date(Date.UTC(Number(month.slice(0,4)),Number(month.slice(5,7)),0)).getUTCDate():Number(S.monthRow?.days_in_month)||31;
     if(!date)return {ok:false,days,elapsed:0,factor:1};
     const parts=String(date).split('-').map(Number),monthParts=String(month).split('-').map(Number);
     if(parts.length!==3||monthParts.length!==2||parts[0]!==monthParts[0]||parts[1]!==monthParts[1])return {ok:false,days,elapsed:0,factor:1};
@@ -1719,7 +1775,7 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
   }
   function paceScenario(){
     if(brownsMillsCalcRep){
-      return {...calculatorLiveMetrics(),...brownsMillsRepProjections[brownsMillsCalcRep]};
+      return {...calculatorLiveMetrics(),...brownsMillsSnapshot.projections[brownsMillsCalcRep]};
     }
     const live=calculatorLiveMetrics(),p=paceInfo(),out={...live};
     if(!p.ok)return out;
@@ -1732,6 +1788,9 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
     return out;
   }
   function openCalculator(repId=null){
+    if(typeof repId==='string'&&brownsMillsReps.some(rep=>rep.id===repId)){openSplitCalculator('browns_mills',repId);return;}
+    if(S.month==='2026-11'){openSplitCalculator('cinnaminson',S.currentRep);return;}
+
     brownsMillsCalcRep=typeof repId==='string'?repId:null;
     S.calcSandbox=calculatorLiveMetrics();
     setCalcMode('live');$('calcBack').classList.remove('hidden');
@@ -1755,13 +1814,13 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
     const rep=S.reps.find(r=>r.rep_id===S.currentRep);
     const brownsRep=brownsMillsReps.find(rep=>rep.id===brownsMillsCalcRep);
     $('worksheetRep').textContent=brownsRep
-      ? brownsRep.name.toUpperCase()+' · BROWNS MILLS · EOD 2026-11-13'
+      ? brownsRep.name.toUpperCase()+' · BROWNS MILLS · EOD '+brownsMillsSnapshot.date
       : (rep?.display_name||'REP').toUpperCase()+' · '+(S.monthRow?.display_name||S.month)+' · EOD '+(S.monthRow?.snapshot_date||'—');
   }
   function renderCalc(){
     const liveMetrics=calculatorLiveMetrics(),live=comp(liveMetrics),paceMetrics=paceScenario(),pace=comp(paceMetrics),sandboxMetrics=S.calcSandbox||liveMetrics,sandbox=comp(sandboxMetrics),p=paceInfo();
     let scenario=live,metrics=liveMetrics;
-    if(S.calcMode==='pace'){scenario=pace;metrics=paceMetrics;$('tiModeReadout').textContent='PACE';$('calcLabel1').textContent='ESTIMATED COMP';$('calcLabel2').textContent='PACE TOTAL';$('calcLabel3').textContent='GAIN';$('calcModeNote').textContent=brownsMillsCalcRep?'Month-end pace uses the Nov 13 mySUCCESS projections. Attachment and close rates use the reported rates.':p.ok?`${p.elapsed} of ${p.days} days on the snapshot • PPV, AIA Posted, accessory revenue, Upgrades and Data projected ×${p.factor.toFixed(2)} • Insurance, Premium Plan Loading, Next Up, AIA Close, ACC/OPP, HTP Close and CSAT held at current rates.`:'Pace needs a valid snapshot date for this month. Add one in Manager Mode.';}
+    if(S.calcMode==='pace'){scenario=pace;metrics=paceMetrics;$('tiModeReadout').textContent='PACE';$('calcLabel1').textContent='ESTIMATED COMP';$('calcLabel2').textContent='PACE TOTAL';$('calcLabel3').textContent='GAIN';$('calcModeNote').textContent=brownsMillsCalcRep?'Month-end pace uses the mySUCCESS projections from '+brownsMillsDateLabel()+' EOD.':p.ok?`${p.elapsed} of ${p.days} days on the snapshot • PPV, AIA Posted, accessory revenue, Upgrades and Data projected ×${p.factor.toFixed(2)} • Insurance, Premium Plan Loading, Next Up, AIA Close, ACC/OPP, HTP Close and CSAT held at current rates.`:'Pace needs a valid snapshot date for this month. Add one in Manager Mode.';}
     else if(S.calcMode==='sandbox'){scenario=sandbox;metrics=sandboxMetrics;$('tiModeReadout').textContent='SANDBOX';$('calcLabel1').textContent='ESTIMATED COMP';$('calcLabel2').textContent='SANDBOX';$('calcLabel3').textContent='VS LIVE';$('calcModeNote').textContent='Change the paycheck inputs directly. Sandbox never saves back to Store Pulse.';}
     else{$('tiModeReadout').textContent='LIVE';$('calcLabel1').textContent='ESTIMATED COMP';$('calcLabel2').textContent='PRODUCTION';$('calcLabel3').textContent='BONUS';$('calcModeNote').textContent='Live is auto-filled from the current Store Pulse snapshot. Green Checks stay behind the scenes; the calculator uses the resulting AIA close rate.';}
     $('calcLive').textContent=fmtMoney(S.calcMode==='pace'?pace.total:S.calcMode==='sandbox'?sandbox.total:live.total);const reportedLoading=premiumLoading(metrics);if(reportedLoading!==null)$('calcModeNote').textContent += ` • Premium Plan Loading: ${fmtPct(reportedLoading)} reported KPI.`;
@@ -1848,7 +1907,7 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
       ]);
       S.monthRow=months[0]||null;S.reps=reps||[];S.store=store[0]||{};S.repMetrics=repMetrics||[];S.goals=goals||[];S.history=history||[];S.comp=compCfg[0]||null;S.ui=uiCfg[0]?.config_value||{};
       syncActiveRep();
-      renderHome();renderStore();if(S.currentRep)renderRep();
+      renderHome();renderStore();if(S.currentRep)renderRep();renderSplitPanels();
     }catch(e){$('homeSnapshotGrid').innerHTML=`<div class="errorBox" style="grid-column:1/-1"><b>Store Pulse could not load.</b><br>${esc(e.message)}<br><br><button id="retryLoad" class="btn" type="button">Retry</button></div>`;$('homeStatus').textContent='Connection error';setTimeout(()=>$('retryLoad')?.addEventListener('click',()=>loadData(true)),0);}
   }
 
@@ -1900,6 +1959,7 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
     }
     brownsMillsDialog.close();
     openBrownsMillsPage('brownsMills');
+    refreshBrownsMillsSnapshot();
   });
   $('brownsMillsHome').addEventListener('click',()=>{
     showPage('landing');
@@ -1907,27 +1967,9 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
     $('brownsMillsDoor').focus({preventScroll:true});
   });
   const brownsMillsReps=[{id:'vikash',name:'Kash'},{id:'sophia',name:'Sophia'},{id:'kayla',name:'Kayla'}];
-  const brownsMillsReported=[
-    ['ppv',8,18,32],['ppv_close',2.05,2.05],['protectadvantage_rate',61.90,61.90,73],
-    ['accessory_revenue',1165,2689,5595],['acc_per_opp',43.16,43.16],
-    ['nextup_rate',64,64,60],['premium_loading_rate',22.2,22.2,57],
-    ['aia_posted',3,7,16],['aia_submits',3,7,18],['aia_close',8.1,8.1],
-    ['upgrades',19,44],['data',4,9,11],['htp',3,7],['htp_close',11.11,11.11,10],
-    ['csat',100,100,90],['opps',33,76,113],['traffic',391,902],
-    ['aia_green_checks',37,85],['trade_rate',47.8,47.8,55]
-  ];
-  const brownsMillsRepKeys=brownsMillsReported.map(([key])=>key)
+  let brownsMillsSnapshot={"date":"2026-11-15","captured_date":"2026-11-16","store":[["ppv",8,16,32],["ppv_close",1.86,1.86],["protectadvantage_rate",63.64,63.64,73],["accessory_revenue",1598,3197,5595],["acc_per_opp",53.28,53.28],["nextup_rate",64.29,64.29,60],["premium_loading_rate",25,25,57],["aia_posted",3,6,16],["aia_submits",3,6,18],["aia_close",7.7,7.7],["upgrades",22,44],["data",4,8,11],["htp",5,10],["htp_close",17.24,17.24,10],["csat",100,100,90],["opps",36,72,113],["traffic",431,862],["aia_green_checks",39,78],["trade_rate",50,50,55]],"actuals":{"kayla":[3,71.43,418,41.77,40,30,1,1,7.1,7,1,2,20,100,11,14,66.7],"sophia":[4,66.67,175,19.44,85.71,25,0,0,0,5,1,3,33.33,100,10,9,33.3],"vikash":[1,55.56,1006,100.57,70,0,2,2,13.3,9,2,null,0,100,14,15,50]},"projections":{"kayla":{"ppv":6,"accessory_revenue":835,"aia_posted":2,"aia_submits":2,"upgrades":14,"data":2,"htp":4,"opps":22,"aia_green_checks":28},"sophia":{"ppv":8,"accessory_revenue":350,"aia_posted":0,"aia_submits":0,"upgrades":10,"data":2,"htp":6,"opps":20,"aia_green_checks":18},"vikash":{"ppv":2,"accessory_revenue":2011,"aia_posted":4,"aia_submits":4,"upgrades":18,"data":4,"opps":28,"aia_green_checks":30}}};
+  const brownsMillsRepKeys=brownsMillsSnapshot.store.map(([key])=>key)
     .filter(key=>key!=='ppv_close'&&key!=='traffic');
-  const brownsMillsRepActuals={
-    kayla:[3,71.43,418,41.77,40,30,1,1,7.1,7,1,2,20,100,11,14,66.7],
-    sophia:[4,66.67,175,17.5,87.5,14.3,0,0,0,6,1,1,11.11,100,11,11,40],
-    vikash:[1,50,573,63.64,77.78,0,2,2,15.4,8,2,null,0,100,13,13,33.3]
-  };
-  const brownsMillsRepProjections={
-    kayla:{ppv:7,accessory_revenue:964,aia_posted:2,aia_submits:2,upgrades:16,data:2,htp:5,opps:25,aia_green_checks:32},
-    sophia:{ppv:9,accessory_revenue:404,aia_posted:0,aia_submits:0,upgrades:14,data:2,htp:2,opps:25,aia_green_checks:25},
-    vikash:{ppv:2,accessory_revenue:1322,aia_posted:5,aia_submits:5,upgrades:18,data:5,opps:30,aia_green_checks:30}
-  };
   const brownsMillsNumber=(key,value)=>{
     if(value==null)return '—';
     const unit=metricDefs[key]?.unit;
@@ -1937,20 +1979,20 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
     return fmtNum(value);
   };
   function brownsMillsMetricsFor(repId){
-    return Object.fromEntries(brownsMillsRepKeys.map((key,i)=>[key,brownsMillsRepActuals[repId][i]]));
+    return Object.fromEntries(brownsMillsRepKeys.map((key,i)=>[key,brownsMillsSnapshot.actuals[repId][i]]));
   }
   function brownsMillsCalcMetrics(repId){
     const metrics=brownsMillsMetricsFor(repId);
     return {...metrics,aia_close_input:metrics.aia_close,htp_close_input:metrics.htp_close};
   }
   function renderBrownsMillsFun(){
-    $('funDate').textContent='As of Nov 13 EOD · Month to date';
+    $('funDate').textContent=`As of ${brownsMillsDateLabel()} EOD · Month to date`;
     $('funManagerCorner').classList.add('empty');
     $('funColumns').innerHTML='<th scope="col">Rep</th>'+funFields.map(({key,label,start})=>
       `<th id="fun-col-${key}" scope="col" class="${start?'funGroupStart':''}">${key==='aia_posted'?'AIA Gross Adds':label}</th>`).join('');
     $('funRows').innerHTML=brownsMillsReps.map(({id,name})=>{
       const metrics=brownsMillsMetricsFor(id);
-      const estimatedComp=metrics.aia_posted==null?null:comp(brownsMillsCalcMetrics(id)).total;
+      const estimatedComp=splitMonthTotal('browns_mills',id);
       const cells=funFields.map(({key,label,start})=>{
         const value=key==='comp_mtd'?(estimatedComp==null?'—':fmtMoney(estimatedComp)):brownsMillsNumber(key,metrics[key]);
         const heading=key==='aia_posted'?'AIA Gross Adds':label;
@@ -1980,39 +2022,64 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
   function brownsMillsNavButton(page,label,css='btn'){
     return `<button class="${css}" data-browns-page="${page}" type="button">${esc(label)}</button>`;
   }
-  $('brownsMillsMetrics').innerHTML=brownsMillsStatsTable(brownsMillsReported,true);
-  $('brownsMillsTeamQuick').innerHTML=brownsMillsQuickCards(Object.fromEntries(brownsMillsReported));
   $('brownsMillsTeamReps').innerHTML=brownsMillsReps.map(({id,name})=>brownsMillsNavButton(brownsMillsRepPage(id),name)).join('');
   $('brownsMillsDock').innerHTML=[
     ['brownsMills','Home'],['brownsMillsClassic','Team'],
     ...brownsMillsReps.map(({id,name})=>[brownsMillsRepPage(id),name]),['fun','Fun']
   ].map(([page,label])=>brownsMillsNavButton(page,label,'dockTab')).join('');
-  $('brownsMillsRepPages').innerHTML=brownsMillsReps.map(({id,name})=>{
-    const metrics=brownsMillsMetricsFor(id);
-    const rows=brownsMillsRepKeys.map(key=>{
-      const actual=metrics[key];
-      const projected=brownsMillsRepProjections[id][key]??(metricDefs[key]?.unit==='pct'||key==='acc_per_opp'?actual:null);
-      return [key,actual,projected];
-    });
-    return `<section class="page" id="${brownsMillsRepPage(id)}" aria-labelledby="brownsRepTitle-${id}">
-      <div class="board historyBoard">
-        <div class="historyHead"><div>
-          <div class="welcomeEyebrow">BROWNS MILLS • REP BOARD</div>
-          <h1 id="brownsRepTitle-${id}" tabindex="-1">${esc(name)}</h1>
-          <p>November 2026 month to date · As of Nov 13 EOD</p>
-        </div><button class="btn green" type="button" data-browns-calc="${id}">Open comp calculator</button></div>
-        <div class="repQuick">${brownsMillsQuickCards(metrics)}</div>
-        ${brownsMillsStatsTable(rows)}
-        <p class="historyFootnote">mySUCCESS individual report · may include sales outside Browns Mills</p>
-      </div>
-    </section>`;
-  }).join('');
+  function brownsMillsDateLabel(){
+    return new Date(brownsMillsSnapshot.date+'T12:00:00Z').toLocaleDateString('en-US',{month:'short',day:'numeric',timeZone:'UTC'});
+  }
+  function renderBrownsMillsSnapshot(){
+    $('brownsMillsMetrics').innerHTML=brownsMillsStatsTable(brownsMillsSnapshot.store,true);
+    $('brownsMillsTeamQuick').innerHTML=brownsMillsQuickCards(Object.fromEntries(brownsMillsSnapshot.store));
+    const activeRepPage=qs('#brownsMillsRepPages .page.active')?.id;
+    $('brownsMillsRepPages').innerHTML=brownsMillsReps.map(({id,name})=>{
+      const metrics=brownsMillsMetricsFor(id);
+      const rows=brownsMillsRepKeys.map(key=>{
+        const actual=metrics[key];
+        const projected=brownsMillsSnapshot.projections[id][key]??(metricDefs[key]?.unit==='pct'||key==='acc_per_opp'?actual:null);
+        return [key,actual,projected];
+      });
+      return `<section class="page" id="${brownsMillsRepPage(id)}" aria-labelledby="brownsRepTitle-${id}">
+        <div class="board historyBoard">
+          <div class="historyHead"><div>
+            <div class="welcomeEyebrow">BROWNS MILLS • REP BOARD</div>
+            <h1 id="brownsRepTitle-${id}" tabindex="-1">${esc(name)}</h1>
+            <p data-browns-date></p>
+          </div><button class="btn green" type="button" data-browns-calc="${id}">Open comp calculator</button></div>
+          <div id="bmSplit-${id}"></div>
+          <div class="repQuick">${brownsMillsQuickCards(metrics)}</div>
+          ${brownsMillsStatsTable(rows)}
+          <p class="historyFootnote">mySUCCESS individual report · Browns Mills location filter</p>
+        </div>
+      </section>`;
+    }).join('');
+    if(activeRepPage)$(activeRepPage)?.classList.add('active');
+    qsa('[data-browns-date]').forEach(label=>label.textContent='Month to date · As of '+brownsMillsDateLabel()+' EOD');
+    renderManagerComp(true);
+  }
+  async function refreshBrownsMillsSnapshot(){
+    try{
+      const rows=await api('huddle_app_config?config_key=like.browns_mills_snapshot_*&select=config_key,config_value&order=config_key.desc&limit=1');
+      const snapshot=rows[0]?.config_value;
+      if(!snapshot||snapshot.date<=brownsMillsSnapshot.date)return;
+      if(!Array.isArray(snapshot.store)||!brownsMillsReps.every(({id})=>snapshot.actuals?.[id]?.length===brownsMillsRepKeys.length&&snapshot.projections?.[id]))return;
+      brownsMillsSnapshot=snapshot;
+      renderBrownsMillsSnapshot();
+      renderSplitPanels();
+      if($('fun').classList.contains('brownsMillsFun'))renderFunBoard();
+    }catch(error){console.warn('Browns Mills is using its bundled snapshot.',error);}
+  }
   qsa('[data-browns-page]').forEach(button=>button.addEventListener('click',()=>openBrownsMillsPage(button.dataset.brownsPage)));
-  qsa('[data-browns-calc]').forEach(button=>button.addEventListener('click',()=>openCalculator(button.dataset.brownsCalc)));
+  $('brownsMillsRepPages').addEventListener('click',event=>{
+    const button=event.target.closest('[data-browns-calc]');
+    if(button)openCalculator(button.dataset.brownsCalc);
+  });
   for(const id of ['brownsMillsmgrRevenue','brownsMillsmgrCost']){
     $(id).addEventListener('input',()=>updateManagerEstimate(true));
   }
-  renderManagerComp(true);
+  renderBrownsMillsSnapshot();
   qsa('[data-dock]').forEach(b=>b.addEventListener('click',()=>{showPage(b.dataset.dock);syncDock(b.dataset.dock)}));
   qsa('[data-dock-rep]').forEach(b=>b.addEventListener('click',()=>{openRep(b.dataset.dockRep);syncDock('rep',b.dataset.dockRep);$('dockMoreMenu')?.classList.remove('open')}));
   $('moreDockBtn')?.addEventListener('click',()=>{$('dockMoreMenu')?.classList.toggle('open')});
@@ -2114,6 +2181,150 @@ body.holidayGlobal{background:linear-gradient(145deg,#e9f4ec,#f9f0ed 56%,#d5e9df
   $('intelligenceReloadArchives').addEventListener('click',()=>loadIntelligenceArchives(true));
   $('historyMonth').addEventListener('change',e=>{H.month=e.target.value;loadHistorical()});$('historyScope').addEventListener('change',e=>{H.scope=e.target.value;renderHistorical()});$('historyMetric').addEventListener('change',e=>{H.metric=e.target.value;historyChart()});$('historyAskBtn').addEventListener('click',historyAnswer);$('historyQuestion').addEventListener('keydown',e=>{if(e.key==='Enter')historyAnswer()});qsa('[data-history-question]').forEach(b=>b.addEventListener('click',()=>{$('historyQuestion').value=b.dataset.historyQuestion;historyAnswer()}));
   $('historyExport').addEventListener('click',()=>{const rows=historyRows();const keys=['snapshot_date','scope','rep_id',...Object.keys(rows[0]?.metrics||{})];const csv=[keys.join(','),...rows.map(x=>keys.map(k=>JSON.stringify(k in x?x[k]:x.metrics?.[k]??'')).join(','))].join('\r\n');const blob=new Blob([csv],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='store-pulse-'+H.month+'-'+H.scope+'.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)});
+  function splitFrozen(store,id){return novemberSplit.first_half.frozen[store]?.[id];}
+  function splitPeriod(store,id){
+    const frozen=splitFrozen(store,id);
+    if(!frozen)return {counts:{},rates:{},ready:false,date:null,issues:[]};
+    const isBrowns=store==='browns_mills';
+    const date=isBrowns?brownsMillsSnapshot.date:S.monthRow?.snapshot_date;
+    const month=isBrowns?date?.slice(0,7):S.month;
+    const current=isBrowns?(id==='store'?Object.fromEntries(brownsMillsSnapshot.store):brownsMillsMetricsFor(id)):(id==='store'?S.store:repMetric(id));
+    const explicit=novemberSplit.second_half.actuals?.[store]?.[id];
+    const later=month==='2026-11'&&date>'2026-11-15';
+    const counts={},issues=[];
+    for(const key of splitCountKeys){
+      const before=frozen.metrics[key],after=current?.[key];
+      const value=explicit?.metrics?.[key];
+      if(value!=null)counts[key]=value;
+      else if(before==null||after==null)counts[key]=null;
+      else if(!later)counts[key]=0;
+      else if(after<before){counts[key]=null;issues.push(key);}
+      else counts[key]=after-before;
+    }
+    const rates=explicit?.metrics||{};
+    const fields=['protectadvantage_rate','premium_loading_rate','nextup_rate','aia_close_input','acc_per_opp','htp_close_input','csat'];
+    const rateReady=fields.every(key=>rates[key]!=null&&Number.isFinite(Number(rates[key])));
+    const ready=!later&&!explicit||rateReady&&splitCountKeys.filter(k=>['ppv','aia_posted','accessory_revenue','upgrades','data'].includes(k)).every(key=>counts[key]!=null);
+    return {counts,rates,ready,date:explicit?.asof_date||date,issues};
+  }
+  function splitMonthTotal(store,id){
+    const frozen=splitFrozen(store,id),part=splitPeriod(store,id);
+    if(!frozen||!part.ready)return null;
+    return frozen.comp.total+newRulesComp({...part.counts,...part.rates}).total;
+  }
+  function splitRepSummary(store,id){
+    const first=splitFrozen(store,id),second=splitPeriod(store,id);
+    if(!first)return '<p>First-half snapshot unavailable.</p>';
+    const secondPay=second.ready?newRulesComp({...second.counts,...second.rates}).total:null;
+    const total=secondPay==null?null:first.comp.total+secondPay;
+    const rows=splitCountKeys.slice(0,8).map(key=>{
+      const fmt=v=>v==null?'—':key==='accessory_revenue'?fmtMoney0(v):fmtNum(v);
+      return `<tr><th scope="row">${esc(metricLabel(key))}</th><td>${fmt(first.metrics[key])}</td><td>${fmt(second.counts[key])}</td></tr>`;
+    }).join('');
+    return `<section class="splitSummary"><h2>November · Two pay periods</h2>
+      <div class="splitTotals"><div><span>Nov 1–15 · Frozen</span><strong>${fmtMoney(first.comp.total)}</strong></div>
+      <div><span>Nov 16–30 · New rules</span><strong>${secondPay==null?'Awaiting rates':fmtMoney(secondPay)}</strong></div>
+      <div><span>November comp estimate</span><strong>${total==null?'Pending Part 2':fmtMoney(total)}</strong></div></div>
+      <p>Sales through ${esc(second.date||'Nov 15')}. Part 2 starts at zero. Its attachment and close rates use Nov 16–30 results.</p>
+      ${second.issues.length?'<p>Sales corrections need review before Part 2 can be calculated.</p>':''}
+      <div class="splitTableWrap"><table><thead><tr><th>Sales</th><th>Nov 1–15</th><th>Nov 16–30</th></tr></thead><tbody>${rows}</tbody></table></div>
+      <button type="button" class="btn" data-split-open="${store}|${id}">Open November comp calculator</button>
+    </section>`;
+  }
+  function renderSplitPanels(){
+    const cinn=S.month==='2026-11';
+    $('cinnSplitRep').hidden=!cinn;
+    $('cinnSplitTeam').hidden=!cinn;
+    if(cinn&&S.currentRep)$('cinnSplitRep').innerHTML=splitRepSummary('cinnaminson',S.currentRep);
+    $('cinnSplitTeam').innerHTML=splitTeam('cinnaminson',[['gio','Gio'],['gage','Gage'],['tj','TJ']]);
+    $('bmSplitTeam').innerHTML=splitTeam('browns_mills',brownsMillsReps.map(r=>[r.id,r.name]));
+    brownsMillsReps.forEach(({id})=>{
+      const holder=$('bmSplit-'+id);
+      if(holder)holder.innerHTML=splitRepSummary('browns_mills',id);
+    });
+  }
+  function splitStoreSales(store){
+    const first=novemberSplit.first_half.store_metrics?.[store];
+    if(!first)return '';
+    const browns=store==='browns_mills';
+    const current=browns?Object.fromEntries(brownsMillsSnapshot.store):S.store;
+    const date=browns?brownsMillsSnapshot.date:S.monthRow?.snapshot_date;
+    const keys=['ppv','aia_posted','aia_submits','accessory_revenue','upgrades','data'];
+    return '<section class="splitSummary"><h2>Team sales by half</h2><div class="splitTableWrap"><table><thead><tr><th>Sales</th><th>Nov 1–15</th><th>Nov 16–30</th></tr></thead><tbody>'+
+      keys.map(key=>{
+        const second=date&&date.slice(0,7)==='2026-11'&&date>'2026-11-15'?(current?.[key]!=null&&current[key]>=first[key]?current[key]-first[key]:null):0;
+        const fmt=value=>value==null?'—':key==='accessory_revenue'?fmtMoney0(value):fmtNum(value);
+        return `<tr><th scope="row">${esc(metricLabel(key))}</th><td>${fmt(first[key])}</td><td>${fmt(second)}</td></tr>`;
+      }).join('')+'</tbody></table></div></section>';
+  }
+  function splitTeam(store,reps){
+    return splitStoreSales(store)+'<section class="splitSummary"><h2>November comp · First half + second half</h2><div class="splitTableWrap"><table><thead><tr><th>Rep</th><th>Nov 1–15 frozen</th><th>Nov 16–30</th><th>November total</th></tr></thead><tbody>'+
+      reps.map(([id,name])=>{
+        const f=splitFrozen(store,id),p=splitPeriod(store,id);
+        const half=p.ready?newRulesComp({...p.counts,...p.rates}).total:null;
+        return `<tr><th scope="row"><button type="button" data-split-open="${store}|${id}">${esc(name)}</button></th><td>${f?fmtMoney(f.comp.total):'—'}</td><td>${half==null?'Pending':fmtMoney(half)}</td><td>${half==null||!f?'Pending':fmtMoney(f.comp.total+half)}</td></tr>`;
+      }).join('')+'</tbody></table></div><button class="btn" type="button" data-new-comp>New rules calculator</button></section>';
+  }
+  let splitCalculatorContext=null;
+  function openSplitCalculator(store,id){
+    splitCalculatorContext=store&&id?{store,id}:null;
+    const period=splitCalculatorContext?splitPeriod(store,id):null;
+    const first=splitCalculatorContext?splitFrozen(store,id):null;
+    $('splitCalcTitle').textContent=splitCalculatorContext?'November comp · '+(id==='vikash'?'Kash':id.toUpperCase()):'New rules comp calculator';
+    $('splitCalcFirst').textContent=first?'Nov 1–15 frozen · '+fmtMoney(first.comp.total):'Independent estimate using the new rules';
+    $('splitCalcFields').innerHTML=splitInputFields.map(([key,label])=>{
+      const v=period?(splitCountKeys.includes(key)?period.counts[key]:period.rates[key]):0;
+      return `<label>${label}<input data-split-input="${key}" type="number" min="0" ${['protectadvantage_rate','premium_loading_rate','nextup_rate','aia_close_input','htp_close_input','csat'].includes(key)?'max="100"':''} step="any" inputmode="decimal" value="${v==null?'':esc(v)}"></label>`;
+    }).join('');
+    $('splitCalcPace').hidden=!splitCalculatorContext;
+    $('splitCalcPace').disabled=!period?.ready||!period.date||period.date<='2026-11-15';
+    $('splitCalc').showModal();
+    updateSplitEstimate();
+  }
+  function updateSplitEstimate(){
+    const inputs=qsa('[data-split-input]'),complete=inputs.every(input=>input.value!==''&&input.validity.valid);
+    const m=Object.fromEntries(inputs.map(input=>[input.dataset.splitInput,Number(input.value)]));
+    const pay=newRulesComp(m);
+    const first=splitCalculatorContext?splitFrozen(splitCalculatorContext.store,splitCalculatorContext.id):null;
+    $('splitCalcResult').innerHTML=complete?`<div class="splitTotals"><div><span>Part 2 scenario</span><strong>${fmtMoney(pay.total)}</strong></div>${first?`<div><span>November scenario total</span><strong>${fmtMoney(first.comp.total+pay.total)}</strong></div>`:''}</div>
+      <p>PPV ${fmtMoney(pay.ppvPay)} + AIA ${fmtMoney(pay.aiaPay)} + accessories ${fmtMoney(pay.accPay)} + connected ${fmtMoney(pay.dataPay)} + bonus ${fmtMoney(pay.bonus)}</p>`:'Enter all sales and rates to calculate this scenario.';
+    $('splitCalcResult').innerHTML+='<p>Scenario edits stay in this calculator. $75 accessory cap applies to Part 2 before bonuses. Exactly 40% earns full credit provisionally.</p>';
+  }
+  document.addEventListener('click',event=>{
+    const split=event.target.closest('[data-split-open]');
+    if(split){const [store,id]=split.dataset.splitOpen.split('|');openSplitCalculator(store,id);}
+    if(event.target.closest('[data-new-comp]'))openSplitCalculator();
+  });
+  $('splitCalcFields').addEventListener('input',updateSplitEstimate);
+  $('splitCalcPace').addEventListener('click',()=>{
+    if(!splitCalculatorContext)return;
+    const {store,id}=splitCalculatorContext;
+    const period=splitPeriod(store,id);
+    if(!period.ready||!period.date||period.date<='2026-11-15')return;
+    const elapsed=Math.min(15,Math.max(1,Number(period.date.slice(8,10))-15));
+    qsa('[data-split-input]').forEach(input=>{
+      const key=input.dataset.splitInput;
+      if(['ppv','aia_posted','upgrades','data','accessory_revenue'].includes(key)){
+        input.value=Math.round(Number(period.counts[key])*15/elapsed);
+      }else input.value=period.rates[key]??period.counts[key]??'';
+    });
+    updateSplitEstimate();
+    $('splitCalcResult').insertAdjacentHTML('beforeend','<p>Part 2 pace projects '+elapsed+' reported days over 15 days. Rates stay at their Part 2 levels.</p>');
+  });
+  $('splitCalcClose').addEventListener('click',()=>$('splitCalc').close());
+  $('splitCalcReset').addEventListener('click',()=>{
+    if(splitCalculatorContext)openSplitCalculator(splitCalculatorContext.store,splitCalculatorContext.id);
+    else openSplitCalculator();
+  });
+  async function refreshSplitConfig(){
+    try{
+      const rows=await api('huddle_app_config?config_key=eq.november_2026_split_comp&select=config_value');
+      if(rows[0]?.config_value?.first_half?.frozen){novemberSplit=rows[0].config_value;renderSplitPanels();renderFunBoard();}
+    }catch(error){console.warn('Using saved November pay periods.',error);}
+  }
+
+  renderSplitPanels();
+  refreshSplitConfig();
   setupTheme();loadData(true);
 })();
 </script>
